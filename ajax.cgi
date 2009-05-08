@@ -53,12 +53,11 @@ if cgi.request_method  == 'POST'
         uri_parsed = URI.parse(config['root_url'])
         host, domain = uri_parsed.host.match(
           /^(.*?)\.?([^.]+\.[^.]+)$/).captures
-        path = uri_parsed.path
         result.each do |u|
           xm.entry {
             xm.author { xm.name(u['name']) }
             xm.title(u['title'])
-            xm.id("tag:#{domain},#{u['time'].strftime('%Y-%m-%d')}:#{host}#{path}#{u['id']}")
+            xm.id("tag:#{domain},#{u['time'].strftime('%Y-%m-%d')}:#{host}#{uri_parsed.path}#{u['id']}")
             xm.summary(u['title'])
             xm.updated(u['time'].xmlschema)
             xm.link(:href => u['url'])

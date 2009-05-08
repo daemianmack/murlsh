@@ -19,7 +19,7 @@ config = {
   'num_posts_feed' => 25,
   'num_posts_page' => 100,
   'page_title' => 'mmb url share',
-  'root_url ' => 'http://matthewm.boedicker.org/urlshare/',
+  'root_url' => 'http://matthewm.boedicker.org/urlshare/',
 }
 
 cgi = CGI.new

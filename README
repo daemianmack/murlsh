@@ -1,0 +1,10 @@
+Simple site for a small group of people to share urls.
+
+- looks up url titles
+- automatically adds thumbnails for YouTube, Vimeo, and Flickr urls
+- embeds Flash mp3 player for mp3 urls
+- supports Gravatar
+
+To set up run create_db.sh and edit configuration in ajax.cgi.
+
+See http://matthewm.boedicker.org/urlshare/ for example.

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sqlite3 murlshtest.db <<EOS
+sqlite3 murlsh.db <<EOS
 CREATE TABLE url (
   id INTEGER PRIMARY KEY,
   time TIMESTAMP,

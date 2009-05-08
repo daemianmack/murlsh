@@ -1,0 +1,60 @@
+body {
+  font-family : Georgia, serif;
+}
+
+img {
+  border : 0;
+}
+
+div#header {
+  border-bottom : 1px solid #ccc;
+}
+
+ul {
+  list-style-type : none;
+}
+
+li {
+  clear : both;
+  float : left;
+  padding : 0.5em 1em 0.5em 0.5em;
+  width : 640px;
+}
+
+li img {
+  border : 1px solid #bfbfbf;
+}
+
+li.even {
+  background-color : #e8e8de;
+  border : 1px solid #f2f2e8;
+}
+
+li.even img {
+  border : 1px solid #a8a8a1;
+}
+
+div.icon {
+  float : left;
+  height : 32px;
+  margin : 0 0.5em 0 0;
+}
+
+div.name {
+  float : left;
+  font-style : italic;
+  margin-right : 0.5em;
+}
+
+a:link, a:visited, a:active {
+  text-decoration : none;
+}
+
+a:hover {
+  text-decoration : underline;
+}
+
+img.thumb, li object {
+  float : left;
+  margin-right : 10px;
+}

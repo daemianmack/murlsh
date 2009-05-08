@@ -19,7 +19,7 @@ function format_li(d, prev) {
           alt : d['name'],
           width : 32,
           height : 32
-	  })));
+        })));
     }
   }
 
@@ -35,7 +35,7 @@ function add_extra() {
     var this_a = $(this);
     if (youtube_match = /http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=(.+?)(?:&|$)/.exec(
       $(this).attr('href'))) {
-	$(this).prepend($('<img />').addClass('thumb').attr('src',
+        $(this).prepend($('<img />').addClass('thumb').attr('src',
         'http://img.youtube.com/vi/' + youtube_match[1] + '/1.jpg'));
     } else if (flickr_match = /http:\/\/(?:www\.)?flickr\.com\/photos\/[^\/]+?\/([0-9]+)/.exec(
       $(this).attr('href'))) {
@@ -48,12 +48,12 @@ function add_extra() {
             title : d.photo.title._content
           }));
         }
-	$.getJSON('http://api.flickr.com/services/rest/?api_key=d04e574aaf11bf2e1c03cba4ee7e5725&method=flickr.photos.getinfo&format=json&photo_id=' +
+        $.getJSON('http://api.flickr.com/services/rest/?api_key=d04e574aaf11bf2e1c03cba4ee7e5725&method=flickr.photos.getinfo&format=json&photo_id=' +
           flickr_match[1] + '&jsoncallback=?', flickr_thumb_insert);
     } else if (vimeo_match = /^http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)$/.exec(
       $(this).attr('href'))) {
       function vimeo_thumb_insert(d) {
-	this_a.prepend($('<img />').addClass('thumb').attr({
+        this_a.prepend($('<img />').addClass('thumb').attr({
           alt : d[0].title,
           src : d[0].thumbnail_medium,
           title : d[0].title
@@ -93,7 +93,7 @@ $(document).ready(function() {
         $.each(d, function(i, v) {
           $('#urls').prepend(format_li(v, null));
         });
-	$('#url').val('');
+        $('#url').val('');
       }, 'json');
   });
 

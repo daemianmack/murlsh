@@ -87,8 +87,7 @@ $(document).ready(function() {
   $('#submit').click(function() {
     $.post('ajax.cgi', {
       url : $('#url').val(),
-      name : $('#name').val(),
-      email : $('#email').val()
+      auth : $('#auth').val()
       }, function(d) {
         $.each(d, function(i, v) {
           $('#urls').prepend(format_li(v, null));
@@ -97,10 +96,7 @@ $(document).ready(function() {
       }, 'json');
   });
 
-  if ($.cookie('name')) {
-    $('#name').val($.cookie('name'));
-  }
-  if ($.cookie('email')) {
-    $('#email').val($.cookie('email'));
+  if ($.cookie('auth')) {
+    $('#auth').val($.cookie('auth'));
   }
 });

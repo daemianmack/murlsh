@@ -1,8 +1,5 @@
 #!/usr/bin/ruby
-require 'titler'
-
 require 'cgi'
-require 'digest/md5'
 require 'json'
 require 'uri'
 
@@ -10,11 +7,8 @@ require 'rubygems'
 require 'builder'
 require 'sqlite3'
 
-def email_md5(s)
-  s.index('@', 1).nil? ? ((s.size == 32) ? s : '') : Digest::MD5.hexdigest(s)
-end
-
 config = {
+  'auth_file' => '/home/mm6/murlsh_users', # keep out of web root
   'feed_file' => 'atom.xml',
   'num_posts_feed' => 25,
   'num_posts_page' => 100,
@@ -27,14 +21,28 @@ cgi = CGI.new
 db = SQLite3::Database.new('murlsh.db')
 db.results_as_hash = true
 
-if cgi.request_method  == 'POST'
-  unless cgi['url'].empty?
+cookies = []
+
+if cgi.request_method == 'POST' and cgi['auth'] and cgi['url']
+  require 'bcrypt'
+  require 'csv'
+  user = nil
+  CSV::Reader.parse(File.open(config['auth_file'])) do |row|
+    if BCrypt::Password.new(row[0]) == cgi['auth']
+      user = { :name => row[1], :email => row[2] }
+      break
+    end
+  end
+
+  if user
     db.type_translation = true
     db.translator.add_translator('timestamp') { |t, v| Time.parse(v + ' gmt') }
+    require 'digest/md5'
+    require 'titler'
     db.execute(
       "INSERT INTO url (time, url, email, name, title) VALUES (DATETIME('NOW'), ?, ?, ?, ?)",
-        cgi['url'], email_md5(cgi['email']), cgi['name'],
-        Titler::get_title(cgi['url']))
+      cgi['url'], Digest::MD5.hexdigest(user[:email]), user[:name],
+      Titler::get_title(cgi['url']))
     result = db.execute('SELECT * FROM url ORDER BY id DESC LIMIT ?',
       config['num_posts_feed'])
 
@@ -69,8 +77,14 @@ if cgi.request_method  == 'POST'
     end
 
     result = result[0,1]
+
+    cookies.push(CGI::Cookie::new(
+      'expires' => Time.mktime(2015, 6, 22),
+      'name' => 'auth',
+      'path' => '/',
+      'value' => cgi['auth']))
   else
-    result = {}
+    result = []
   end
 else
   result = db.execute('SELECT * FROM url ORDER BY id DESC LIMIT ?',
@@ -78,21 +92,6 @@ else
 end
 
 result.collect! { |i| i.each_key { |k| i[k] = i[k].to_s.to_xs  }  }
-
-def bake_cookies(hash)
-  hash.each do |k,v|
-    yield CGI::Cookie::new(
-      'expires' => Time.mktime(2015, 6, 22),
-      'name' => k,
-      'path' => '/',
-      'value' => v) unless v.empty?
-  end
-end
-
-cookies = []
-bake_cookies('name' => cgi['name'], 'email' => cgi['email']) do |c|
-  cookies.push(c)
-end
 
 cgi.out('cookie' => cookies, 'type' => 'application/json') {
   JSON.generate(result)

@@ -35,8 +35,11 @@ function add_extra() {
     var this_a = $(this);
     if (youtube_match = /http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=(.+?)(?:&|$)/.exec(
       $(this).attr('href'))) {
-        $(this).prepend($('<img />').addClass('thumb').attr('src',
-        'http://img.youtube.com/vi/' + youtube_match[1] + '/1.jpg'));
+        $(this).before($('<img />').addClass('thumb youtube').attr({
+          alt : youtube_match[1],
+          src :'http://img.youtube.com/vi/' + youtube_match[1] + '/1.jpg',
+          title : 'click to watch'
+        }));
     } else if (flickr_match = /http:\/\/(?:www\.)?flickr\.com\/photos\/[^\/]+?\/([0-9]+)/.exec(
       $(this).attr('href'))) {
         function flickr_thumb_insert(d) {
@@ -69,6 +72,15 @@ function add_extra() {
         '<param name="movie" value="player_mp3_mini.swf" />' +
         '</object>'));
     }
+
+    $('img.youtube').click(function() {
+      var movie = 'http://www.youtube.com/v/' + $(this).attr('alt') +
+        '&hl=en&fs=1&showsearch=0';
+      $(this).replaceWith(    
+        '<object type="application/x-shockwave-flash" width="425" height="344" data="' + movie + '">' + 
+        '<param name="movie" value="' + movie + '" /></object>');
+    });
+
   });
 }
 

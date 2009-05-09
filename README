@@ -7,4 +7,16 @@ Simple site for a small group of people to share urls.
 
 To set up run create_db.sh and edit configuration in ajax.cgi.
 
+Auth file format:
+
+bcrypted password,username,email
+
+require 'rubygems'
+require 'bcrypt'
+puts BCrypt::Password.create('secret')
+
+Required gems:
+
+bcrypt-ruby builder csv hpricot sqlite3
+
 See http://matthewm.boedicker.org/urlshare/ for example.

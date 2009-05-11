@@ -26,6 +26,16 @@ function format_li(d, prev) {
   return li;
 }
 
+function object_tag(data, height, width, params) {
+  var result = '<object data="' + data + '" height="' + height +
+    '" type="application/x-shockwave-flash" width="' + width + '">';
+  jQuery.each(params, function(i, v) {
+    result += '<param name="' + v.name + '" value="' + v.value + '" />';
+  });
+  result += '</object>';
+  return result;
+}
+
 function add_extra() {
   var flickr_match;
   var mp3_match;
@@ -65,20 +75,19 @@ function add_extra() {
       $.getJSON('http://vimeo.com/api/clip/' + vimeo_match[1] +
         '.json?callback=?', vimeo_thumb_insert);
     } else if (mp3_match = /.*\.mp3$/.exec($(this).attr('href'))) {
-      $(this).before($(
-        '<object data="player_mp3_mini.swf" height="20" type="application/x-shockwave-flash" width="200">' +
-        '<param name="bgcolor" value="#000000" />' +
-        '<param name="FlashVars" value="mp3=' + mp3_match[0] + '" />' +
-        '<param name="movie" value="player_mp3_mini.swf" />' +
-        '</object>'));
+      $(this).before(object_tag('player_mp3_mini.swf', 20, 200, [
+        { name : 'bgcolor', value : '#000000' },
+        { name : 'FlashVars', value : 'mp3=' + mp3_match[0] },
+        { name : 'movie', value : 'player_mp3_mini.swf' }
+      ]));
     }
 
     $('img.youtube').click(function() {
       var movie = 'http://www.youtube.com/v/' + $(this).attr('alt') +
         '&hl=en&fs=1&showsearch=0';
-      $(this).replaceWith(    
-        '<object type="application/x-shockwave-flash" width="425" height="344" data="' + movie + '">' + 
-        '<param name="movie" value="' + movie + '" /></object>');
+      $(this).replaceWith(object_tag(movie, 344, 425, [
+        { name : 'movie', value : movie }
+      ]));
     });
 
   });

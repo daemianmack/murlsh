@@ -9,11 +9,14 @@ To set up run create_db.sh and edit configuration in ajax.cgi.
 
 Auth file format:
 
-bcrypted password,username,email
+username,md5 of email,bcrypted password
 
+require 'digest/md5'
 require 'rubygems'
 require 'bcrypt'
-puts BCrypt::Password.create('secret')
+user, email, password = 'mmb', 'matthewm@boedicker.org', 'secret'
+puts [user, Digest::MD5.hexdigest(email),
+  BCrypt::Password.create(password)].join(',')
 
 Required gems:
 

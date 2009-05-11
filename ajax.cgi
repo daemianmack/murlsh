@@ -28,8 +28,8 @@ if cgi.request_method == 'POST' and cgi['auth'] and cgi['url']
   require 'csv'
   user = nil
   CSV::Reader.parse(File.open(config['auth_file'])) do |row|
-    if BCrypt::Password.new(row[0]) == cgi['auth']
-      user = { :name => row[1], :email => row[2] }
+    if BCrypt::Password.new(row[2]) == cgi['auth']
+      user = { :name => row[0], :email => row[1] }
       break
     end
   end
@@ -37,12 +37,10 @@ if cgi.request_method == 'POST' and cgi['auth'] and cgi['url']
   if user
     db.type_translation = true
     db.translator.add_translator('timestamp') { |t, v| Time.parse(v + ' gmt') }
-    require 'digest/md5'
     require 'titler'
     db.execute(
       "INSERT INTO url (time, url, email, name, title) VALUES (DATETIME('NOW'), ?, ?, ?, ?)",
-      cgi['url'], Digest::MD5.hexdigest(user[:email]), user[:name],
-      Titler::get_title(cgi['url']))
+      cgi['url'], user[:email], user[:name], Titler::get_title(cgi['url']))
     result = db.execute('SELECT * FROM url ORDER BY id DESC LIMIT ?',
       config['num_posts_feed'])
 

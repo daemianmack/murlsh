@@ -53,7 +53,7 @@ function add_extra() {
     } else if (flickr_match = /http:\/\/(?:www\.)?flickr\.com\/photos\/[^\/]+?\/([0-9]+)/.exec(
       $(this).attr('href'))) {
         function flickr_thumb_insert(d) {
-          this_a.prepend($('<img />').addClass('thumb').attr({
+          this_a.prepend($('<img />').addClass('thumb flickr').attr({
             alt : d.photo.title._content,
             src : 'http://farm' + d.photo.farm + '.static.flickr.com/' +
               d.photo.server + '/' + d.photo.id + '_' + d.photo.secret +
@@ -66,7 +66,7 @@ function add_extra() {
     } else if (vimeo_match = /^http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)$/.exec(
       $(this).attr('href'))) {
       function vimeo_thumb_insert(d) {
-        this_a.prepend($('<img />').addClass('thumb').attr({
+        this_a.prepend($('<img />').addClass('thumb vimeo').attr({
           alt : d[0].title,
           src : d[0].thumbnail_medium,
           title : d[0].title

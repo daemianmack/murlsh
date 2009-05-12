@@ -21,17 +21,8 @@ li {
   width : 640px;
 }
 
-li img {
-  border : 1px solid #bfbfbf;
-}
-
 li.even {
-  background-color : #e8e8de;
-  border : 1px solid #f2f2e8;
-}
-
-li.even img {
-  border : 1px solid #a8a8a1;
+  background-color : #eee;
 }
 
 div.icon {
@@ -58,3 +49,16 @@ img.thumb, li object {
   float : left;
   margin-right : 10px;
 }
+
+img.flickr {
+  border-right : 4px solid #ff0084;
+}
+
+img.vimeo {
+  border-right : 4px solid #00abed;
+}
+
+img.youtube {
+  border-right : 4px solid #ff3232;
+}
+

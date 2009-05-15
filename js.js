@@ -94,16 +94,8 @@ function add_extra() {
 }
 
 $(document).ready(function() {
-  $('#urls li:first').html('loading');
-  $.get('ajax.cgi', {}, function(d) {
-    $('#urls').empty();
-    $.each(d, function(i, v) {
-      var prev = i > 0 ? d[i - 1] : null;
-      $('#urls').append(format_li(v, prev));
-    });
-    $('#urls li:even').addClass('even');
-    add_extra();
-  }, 'json');
+  add_extra();
+  $('#urls li:even').addClass('even');
 
   $('#submit').click(function() {
     $.post('ajax.cgi', {

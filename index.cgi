@@ -16,7 +16,7 @@ config = {
 cgi = CGI.new
 
 cgi.out {
-  xm = Builder::XmlMarkup.new
+  xm = Builder::XmlMarkup.new(:indent => 2)
   xm.instruct! :xml
   xm.declare! :DOCTYPE, :html, :PUBLIC, '-//W3C//DTD XHTML 1.1//EN',
     'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'
@@ -71,7 +71,7 @@ cgi.out {
               xm.div(u['name'], :class => 'name') if u['name']
             end
 
-            xm.a(u['title'], :href => u['url'])
+            xm.a(u['title'].strip.gsub(/\s+/, ' '), :href => u['url'])
             last = u
           }
         end

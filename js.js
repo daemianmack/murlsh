@@ -65,15 +65,20 @@ function add_extra() {
           flickr_match[1] + '&jsoncallback=?', flickr_thumb_insert);
     } else if (vimeo_match = /^http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)$/.exec(
       $(this).attr('href'))) {
-      function vimeo_thumb_insert(d) {
+      function vimeo_inject(d) {
         this_a.prepend($('<img />').addClass('thumb vimeo').attr({
           alt : d[0].title,
           src : d[0].thumbnail_medium,
           title : d[0].title
         }));
+	this_a.after($('<p />').append(
+          $('<a />').attr({
+            href : d[0].user_url,
+          }).append(
+            $('<img />').attr({ src : d[0].user_thumbnail_small}))));
       }
       $.getJSON('http://vimeo.com/api/clip/' + vimeo_match[1] +
-        '.json?callback=?', vimeo_thumb_insert);
+        '.json?callback=?', vimeo_inject);
     } else if (mp3_match = /.*\.mp3$/.exec($(this).attr('href'))) {
       $(this).before(object_tag('player_mp3_mini.swf', 20, 200, [
         { name : 'bgcolor', value : '#000000' },

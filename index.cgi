@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
 
+require 'hostrec'
+
 require 'cgi'
 
 require 'rubygems'
@@ -72,6 +74,9 @@ cgi.out {
             end
 
             xm.a(u['title'].strip.gsub(/\s+/, ' '), :href => u['url'])
+            HostRec::hostrec(u['url'], u['title']) do |hostrec|
+              xm.span("[#{hostrec}]", :class => 'host')
+            end
             last = u
           }
         end

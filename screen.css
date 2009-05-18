@@ -1,5 +1,5 @@
 body {
-  font-family : Georgia, serif;
+  font-family : sans-serif;
 }
 
 img {
@@ -62,3 +62,7 @@ img.youtube {
   border-right : 4px solid #ff3232;
 }
 
+span.host {
+  color : #808080;
+  font-family : monospace;
+}

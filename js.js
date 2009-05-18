@@ -71,7 +71,7 @@ function add_extra() {
           src : d[0].thumbnail_medium,
           title : d[0].title
         }));
-	this_a.after($('<span> by </span>').append(
+	this_a.after($('<p>by </p>').append(
           $('<a />').attr({
             alt : d[0].user_name,
             href : d[0].user_url,

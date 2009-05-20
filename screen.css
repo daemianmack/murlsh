@@ -50,18 +50,6 @@ img.thumb, li object {
   margin-right : 10px;
 }
 
-img.flickr {
-  border-right : 4px solid #ff0084;
-}
-
-img.vimeo {
-  border-right : 4px solid #00abed;
-}
-
-img.youtube {
-  border-right : 4px solid #ff3232;
-}
-
 span.host {
   color : #808080;
   font-family : monospace;

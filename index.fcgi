@@ -78,7 +78,7 @@ FCGI.each do |req|
 
             xm.a(u['title'].strip.gsub(/\s+/, ' '), :href => u['url'])
             HostRec::hostrec(u['url'], u['title']) do |hostrec|
-              xm.span("[#{hostrec}]", :class => 'host')
+              xm.span(hostrec, :class => 'host')
             end
             last = u
           }

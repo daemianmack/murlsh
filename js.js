@@ -57,7 +57,7 @@ function add_extra() {
             alt : d.photo.title._content,
             src : 'http://farm' + d.photo.farm + '.static.flickr.com/' +
               d.photo.server + '/' + d.photo.id + '_' + d.photo.secret +
-              '_t.jpg',
+              '_s.jpg',
             title : d.photo.title._content
           }));
         }
@@ -68,16 +68,9 @@ function add_extra() {
       function vimeo_inject(d) {
         this_a.prepend($('<img />').addClass('thumb vimeo').attr({
           alt : d[0].title,
-          src : d[0].thumbnail_medium,
+          src : d[0].thumbnail_small,
           title : d[0].title
         }));
-	this_a.after($('<p>by </p>').append(
-          $('<a />').attr({
-            alt : d[0].user_name,
-            href : d[0].user_url,
-            title : d[0].user_name
-          }).append(
-            $('<img />').attr({ src : d[0].user_thumbnail_small}))));
       }
       $.getJSON('http://vimeo.com/api/clip/' + vimeo_match[1] +
         '.json?callback=?', vimeo_inject);

@@ -91,7 +91,7 @@ function add_extra() {
 
     $('img.youtube').click(function() {
       var movie = 'http://www.youtube.com/v/' + $(this).attr('alt') +
-        '&hl=en&fs=1&showsearch=0';
+        '&amp;hl=en&amp;fs=1&amp;showsearch=0';
       $(this).replaceWith(object_tag(movie, 344, 425, [
         { name : 'movie', value : movie }
       ]));

@@ -40,25 +40,36 @@ FCGI.each do |req|
     }
     xm.body {
       xm.div(:id => 'header') {
-        xm.form(:action => 'ajax.cgi', :method => 'post') {
-          xm.p {
+        xm.p {
+          xm.form(:action => '', :method => 'get') {
             xm.a(:href => config['feed_file']) {
               xm.img(:src => 'feed-icon-14x14.png', :width => 14, :height => 14,
                 :alt => 'Atom feed', :title => 'Atom feed')
             }
-            xm.label('URL:', :for => 'url')
-            xm.input(:type => 'text', :id => 'url', :name => 'url', :size => 32)
-            xm.label('Auth:', :for => 'auth')
-            xm.input(:type => 'password', :id => 'auth', :name => 'auth',
-              :size => 16)
-            xm.input(:type => 'button', :id => 'submit', :value => 'Add')
+            xm.label('Search:', :for => 'q')
+            xm.input(:type => 'text', :id => 'q', :name => 'q', :size => 16,
+            :value => qs['q'].empty? ? '' : qs['q'].first)
           }
         }
       }
       xm.ul(:id => 'urls') {
         last = nil
-        db.execute('SELECT * FROM url ORDER BY id DESC LIMIT ?',
-          qs['n'].empty? ? config['num_posts_page'] : qs['n'].first.to_i).each do |u|
+        params = {}
+        if qs['n'].empty?
+          params['limit'] = config['num_posts_page']
+        else
+          params['limit'] = qs['n'].first.to_i
+        end
+        if qs['q'].empty?
+          where = ''
+        else
+          where = ' WHERE ' +
+            ['name', 'title', 'url'].collect { |x| "#{x} LIKE :q" }.join(' OR ')
+          params['q'] = "%#{qs['q'].first}%"
+        end
+
+        db.execute("SELECT * FROM url#{where} ORDER BY id DESC LIMIT :limit",
+          params).each do |u|
           xm.li {
             same_as_last = last and last['email'] and last['name'] and
               u['email'] and u['name'] and
@@ -85,6 +96,18 @@ FCGI.each do |req|
         end
       }
       xm.div(:style => 'clear : both')
+
+      xm.p {
+        xm.form(:action => 'ajax.cgi', :method => 'post') {
+          xm.label('Add URL:', :for => 'url')
+          xm.input(:type => 'text', :id => 'url', :name => 'url', :size => 32)
+          xm.label('Auth:', :for => 'auth')
+          xm.input(:type => 'password', :id => 'auth', :name => 'auth',
+            :size => 16)
+          xm.input(:type => 'button', :id => 'submit', :value => 'Add')
+        }
+      }
+
       xm.p {
         xm << 'built with '
         xm.a('murlsh', :href => 'http://github.com/mmb/murlsh/')

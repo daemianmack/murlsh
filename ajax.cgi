@@ -46,8 +46,8 @@ if cgi.request_method == 'POST'
       db.execute(
         "INSERT INTO url (time, url, email, name, title) VALUES (DATETIME('NOW'), ?, ?, ?, ?)",
         cgi['url'], user[:email], user[:name], Titler::get_title(cgi['url']))
-      result = db.execute(
-        'SELECT * FROM url ORDER BY id DESC LIMIT :num_posts_feed', config)
+      result = db.execute('SELECT * FROM url ORDER BY id DESC LIMIT ?',
+        config['num_posts_feed'])
 
       open(config['feed_file'], 'w') do |f|
         f.flock File::LOCK_EX
@@ -94,11 +94,11 @@ if cgi.request_method == 'POST'
 
       body = JSON.generate(result)
     else
-      headers['status'] = 'FORBIDDEN'
+      headers.update({ 'status' => 'FORBIDDEN', 'type' => 'text/plain' })
       body = 'Permission denied'
     end
   else
-    header['type'] = 'text/plain'
+    headers['type'] = 'text/plain'
     body = 'No url'
   end
 else

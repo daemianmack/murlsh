@@ -21,7 +21,12 @@ db.results_as_hash = true
 
 FCGI.each do |req|
   qs = CGI::parse(req.env['QUERY_STRING'])
-  req.out.print("Content-Type: application/xhtml+xml\n\n")
+  if req.env['HTTP_USER_AGENT'].downcase.index('msie')
+    content_type = 'text/html'
+  else
+    content_type = 'application/xhtml+xml'
+  end
+  req.out.print("Content-Type: #{content_type}\n\n")
 
   xm = Builder::XmlMarkup.new(:indent => 2, :target => req.out)
   xm.instruct! :xml
@@ -33,7 +38,8 @@ FCGI.each do |req|
     :'xsi:schemaLocation' => 'http://www.w3.org/MarkUp/SCHEMA/xhtml11.xsd',
     :'xml:lang' => 'en') {
     xm.head {
-      xm.title(config['page_title'])
+      xm.title(config['page_title'] +
+        (qs['q'].empty? ? '' : ' | grep ' + qs['q'].first))
       xm.link(:rel => 'stylesheet', :type => 'text/css', :href => 'screen.css')
       xm.link(:rel => 'alternate', :type => 'application/atom+xml',
         :href => config['feed_file'])

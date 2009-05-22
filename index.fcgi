@@ -55,9 +55,9 @@ FCGI.each do |req|
               xm.img(:src => 'feed-icon-14x14.png', :width => 14, :height => 14,
                 :alt => 'Atom feed', :title => 'Atom feed')
             }
-            xm.label('Search:', :for => 'q')
             xm.input(:type => 'text', :id => 'q', :name => 'q', :size => 16,
             :value => qs['q'].empty? ? '' : qs['q'].first)
+            xm.input(:type => 'submit', :value=> 'Search')
           }
         }
       }

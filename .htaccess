@@ -1,0 +1,3 @@
+DirectoryIndex index.fcgi
+
+AddOutputFilterByType DEFLATE application/javascript application/xhtml+xml application/xml text/html

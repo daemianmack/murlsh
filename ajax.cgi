@@ -18,12 +18,8 @@ config = {
 
 cgi = CGI.new
 
-db = SQLite3::Database.new('murlsh.db')
-db.results_as_hash = true
-
-cookies = []
-status = 'OK'
-result = []
+headers = { 'status' => 'SERVER_ERROR' }
+body = ''
 
 if cgi.request_method == 'POST'
   unless cgi['url'].empty?
@@ -40,6 +36,8 @@ if cgi.request_method == 'POST'
     end
 
     if user
+      db = SQLite3::Database.new('murlsh.db')
+      db.results_as_hash = true
       db.type_translation = true
       db.translator.add_translator('timestamp') do |t, v|
         Time.parse(v + ' gmt')
@@ -48,8 +46,8 @@ if cgi.request_method == 'POST'
       db.execute(
         "INSERT INTO url (time, url, email, name, title) VALUES (DATETIME('NOW'), ?, ?, ?, ?)",
         cgi['url'], user[:email], user[:name], Titler::get_title(cgi['url']))
-      result = db.execute('SELECT * FROM url ORDER BY id DESC LIMIT ?',
-        config['num_posts_feed'])
+      result = db.execute(
+        'SELECT * FROM url ORDER BY id DESC LIMIT :num_posts_feed', config)
 
       open(config['feed_file'], 'w') do |f|
         f.flock File::LOCK_EX
@@ -81,26 +79,30 @@ if cgi.request_method == 'POST'
         f.flock File::LOCK_UN
       end
 
+      headers.update(
+        'cookie' => [CGI::Cookie::new(
+          'expires' => Time.mktime(2015, 6, 22),
+          'name' => 'auth',
+          'path' => '/',
+          'value' => cgi['auth'])],
+        'status' => 'OK',
+        'type' => 'application/json')
+
       result = result[0,1]
 
       result.collect! { |i| i.each_key { |k| i[k] = i[k].to_s.to_xs  }  }
 
-      cookies.push(CGI::Cookie::new(
-        'expires' => Time.mktime(2015, 6, 22),
-        'name' => 'auth',
-        'path' => '/',
-        'value' => cgi['auth']))
+      body = JSON.generate(result)
     else
-      status = 'FORBIDDEN'
+      headers['status'] = 'FORBIDDEN'
+      body = 'Permission denied'
     end
   else
-    status = 'SERVER_ERROR'
+    header['type'] = 'text/plain'
+    body = 'No url'
   end
-
-  cgi.out('cookie' => cookies, 'status' => status,
-    'type' => 'application/json') {
-    JSON.generate(result)
-  }
 else
-  cgi.out('status' => 'MOVED', 'Location' => config['root_url']) { '' }
+  headers.update('status' => 'MOVED', 'Location' => config['root_url'])
 end
+
+cgi.out(headers) { body }

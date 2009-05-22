@@ -83,6 +83,8 @@ if cgi.request_method == 'POST'
 
       result = result[0,1]
 
+      result.collect! { |i| i.each_key { |k| i[k] = i[k].to_s.to_xs  }  }
+
       cookies.push(CGI::Cookie::new(
         'expires' => Time.mktime(2015, 6, 22),
         'name' => 'auth',
@@ -94,13 +96,11 @@ if cgi.request_method == 'POST'
   else
     status = 'SERVER_ERROR'
   end
+
+  cgi.out('cookie' => cookies, 'status' => status,
+    'type' => 'application/json') {
+    JSON.generate(result)
+  }
 else
-  result = db.execute('SELECT * FROM url ORDER BY id DESC LIMIT ?',
-    cgi['n'].empty? ? config['num_posts_page'] : cgi['n'].to_i)
+  cgi.out('status' => 'MOVED', 'Location' => config['root_url']) { '' }
 end
-
-result.collect! { |i| i.each_key { |k| i[k] = i[k].to_s.to_xs  }  }
-
-cgi.out('cookie' => cookies, 'status' => status, 'type' => 'application/json') {
-  JSON.generate(result)
-}

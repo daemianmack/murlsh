@@ -21,10 +21,13 @@ db.results_as_hash = true
 
 FCGI.each do |req|
   qs = CGI::parse(req.env['QUERY_STRING'])
-  if req.env['HTTP_USER_AGENT'].downcase.index('msie')
-    content_type = 'text/html'
-  else
+
+  if req.env['HTTP_ACCEPT'].match(
+    /((\*|application)\/\*|application\/xhtml\+xml)/i) and
+    !req.env['HTTP_USER_AGENT'].match(/ msie /i)
     content_type = 'application/xhtml+xml'
+  else
+    content_type = 'text/html'
   end
   req.out.print("Content-Type: #{content_type}\n\n")
 

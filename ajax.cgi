@@ -1,4 +1,6 @@
 #!/usr/bin/ruby
+require 'murlsh'
+
 require 'cgi'
 require 'json'
 require 'uri'
@@ -47,7 +49,7 @@ if cgi.request_method == 'POST'
         "INSERT INTO url (time, url, email, name, title) VALUES (DATETIME('NOW'), ?, ?, ?, ?)",
         cgi['url'], user[:email], user[:name], Titler::get_title(cgi['url']))
       result = db.execute('SELECT * FROM url ORDER BY id DESC LIMIT ?',
-        config['num_posts_feed'])
+        config['num_posts_feed']).collect { |u| Murlsh::Url.new(u) }
 
       open(config['feed_file'], 'w') do |f|
         f.flock File::LOCK_EX
@@ -60,18 +62,18 @@ if cgi.request_method == 'POST'
           xm.link(:href => "#{config['root_url']}#{config['feed_file']}",
             :rel => 'self')
           xm.title(config['page_title'])
-          xm.updated(result.collect { |u| u['time'] }.max.xmlschema)
+          xm.updated(result.collect { |mu| mu.time }.max.xmlschema)
           uri_parsed = URI.parse(config['root_url'])
           host, domain = uri_parsed.host.match(
             /^(.*?)\.?([^.]+\.[^.]+)$/).captures
-          result.each do |u|
+          result.each do |mu|
             xm.entry {
-              xm.author { xm.name(u['name']) }
-              xm.title(u['title'])
-              xm.id("tag:#{domain},#{u['time'].strftime('%Y-%m-%d')}:#{host}#{uri_parsed.path}#{u['id']}")
-              xm.summary(u['title'])
-              xm.updated(u['time'].xmlschema)
-              xm.link(:href => u['url'])
+              xm.author { xm.name(mu.name) }
+              xm.title(mu.title)
+              xm.id("tag:#{domain},#{mu.time.strftime('%Y-%m-%d')}:#{host}#{uri_parsed.path}#{mu.id}")
+              xm.summary(mu.title)
+              xm.updated(mu.time.xmlschema)
+              xm.link(:href => mu.url)
             }
           end
         }

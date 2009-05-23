@@ -12,8 +12,12 @@ module HostRec
     ]
 
   def hostrec
-    host = URI.parse(url).host.sub(/^(www)\./, '')
-    yield host unless (title.downcase.index(host.downcase) or
+    begin
+      host = URI.parse(url).host.sub(/^(www)\./, '')
+    rescue Exception => e
+      host = nil
+    end
+    yield host unless !host or (title.downcase.index(host.downcase) or
       WIDELY_KNOWN.include?(host))
   end
 

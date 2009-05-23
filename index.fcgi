@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-require 'hostrec'
+require 'murlsh'
 
 require 'cgi'
 require 'fcgi'
@@ -72,35 +72,35 @@ FCGI.each do |req|
         if qs['q'].empty?
           where = ''
         else
+          db.create_function('MATCH', 2) do |func,search_in,search_for|
+            func.result = search_in.to_s.match(/\b#{search_for}\b/i) ? 1 : nil
+          end
           where = ' WHERE ' +
-            ['name', 'title', 'url'].collect { |x| "#{x} LIKE :q" }.join(' OR ')
-          params['q'] = "%#{qs['q'].first}%"
+            ['name', 'title', 'url'].collect { |x| "MATCH(#{x}, :q)" }.join(
+              ' OR ')
+          params['q'] = qs['q'].first
         end
 
         db.execute("SELECT * FROM url#{where} ORDER BY id DESC LIMIT :limit",
           params).each do |u|
+          mu = Murlsh::Url.new(u)
           xm.li {
-            same_as_last = last and last['email'] and last['name'] and
-              u['email'] and u['name'] and
-              u['email'] == last['email'] and u['name'] == last['name']
-
-            unless same_as_last
+            unless mu.same_author?(last)
               xm.div(:class => 'icon') {
                 xm.img(
-                  :alt => u['name'],
+                  :alt => mu.name,
                   :height => config['gravatar_size'],
-                  :src => "http://www.gravatar.com/avatar/#{u['email']}?s=#{config['gravatar_size']}",
-                  :title => u['name'],
-                  :width => config['gravatar_size']) if u['email']
+                  :src => "http://www.gravatar.com/avatar/#{mu.email}?s=#{config['gravatar_size']}",
+                  :title => mu.name,
+                  :width => config['gravatar_size']) if mu.email
               }
-              xm.div(u['name'], :class => 'name') if u['name']
+              xm.div(mu.name, :class => 'name') if mu.name
             end
 
-            xm.a(u['title'].strip.gsub(/\s+/, ' '), :href => u['url'])
-            HostRec::hostrec(u['url'], u['title']) do |hostrec|
-              xm.span(hostrec, :class => 'host')
-            end
-            last = u
+            xm.a(mu.title.strip.gsub(/\s+/, ' '), :href => mu.url)
+
+            mu.hostrec { |hostrec| xm.span(hostrec, :class => 'host') }
+            last = mu
           }
         end
       }

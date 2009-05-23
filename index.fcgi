@@ -18,6 +18,9 @@ config = {
 
 db = SQLite3::Database.new('murlsh.db')
 db.results_as_hash = true
+db.create_function('MATCH', 2) do |func,search_in,search_for|
+  func.result = search_in.to_s.match(/#{search_for}/i) ? 1 : nil
+end
 
 FCGI.each do |req|
   qs = CGI::parse(req.env['QUERY_STRING'])
@@ -42,7 +45,7 @@ FCGI.each do |req|
     :'xml:lang' => 'en') {
     xm.head {
       xm.title(config['page_title'] +
-        (qs['q'].empty? ? '' : ' | grep ' + qs['q'].first))
+        (qs['q'].empty? ? '' : " /#{qs['q'].first}/"))
       xm.link(:rel => 'stylesheet', :type => 'text/css', :href => 'screen.css')
       xm.link(:rel => 'alternate', :type => 'application/atom+xml',
         :href => config['feed_file'])
@@ -56,8 +59,8 @@ FCGI.each do |req|
                 :alt => 'Atom feed', :title => 'Atom feed')
             }
             xm.input(:type => 'text', :id => 'q', :name => 'q', :size => 16,
-            :value => qs['q'].empty? ? '' : qs['q'].first)
-            xm.input(:type => 'submit', :value=> 'Search')
+              :value => qs['q'].empty? ? '' : qs['q'].first)
+            xm.input(:type => 'submit', :value=> 'Regex Search')
           }
         }
       }
@@ -72,9 +75,6 @@ FCGI.each do |req|
         if qs['q'].empty?
           where = ''
         else
-          db.create_function('MATCH', 2) do |func,search_in,search_for|
-            func.result = search_in.to_s.match(/\b#{search_for}\b/i) ? 1 : nil
-          end
           where = ' WHERE ' +
             ['name', 'title', 'url'].collect { |x| "MATCH(#{x}, :q)" }.join(
               ' OR ')

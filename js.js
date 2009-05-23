@@ -1,26 +1,20 @@
-function format_li(d, prev) {
+function format_li(d) {
   var li = $('<li />').append($('<a />').attr('href', d['url']).append(
     d['title']));
 
-  var same_as_last = prev &&
-    prev['email'] && prev['name'] && d['email'] && d['name'] &&
-    d['email'] == prev['email'] && d['name'] == prev['name'];
+  if (d['name']) {
+    li.prepend($('<div />').addClass('name').append(d['name']));
+  }
 
-  if (!same_as_last) {
-    if (d['name']) {
-      li.prepend($('<div />').addClass('name').append(d['name']));
-    }
-
-    if (d['email']) {
-      li.prepend($('<div />').addClass('icon').append(
-        $('<img />').attr({
-          src :  'http://www.gravatar.com/avatar/' + d['email'] + '?s=32',
-          title : d['name'],
-          alt : d['name'],
-          width : 32,
-          height : 32
-        })));
-    }
+  if (d['email']) {
+    li.prepend($('<div />').addClass('icon').append(
+      $('<img />').attr({
+        src :  'http://www.gravatar.com/avatar/' + d['email'] + '?s=32',
+        title : d['name'],
+        alt : d['name'],
+        width : 32,
+        height : 32
+      })));
   }
 
   return li;
@@ -102,7 +96,7 @@ $(document).ready(function() {
       auth : $('#auth').val()
       }, function(d) {
         $.each(d, function(i, v) {
-          $('#urls').prepend(format_li(v, null));
+          $('#urls').prepend(format_li(v));
         });
         $('#url').val('');
       }, 'json');

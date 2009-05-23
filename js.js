@@ -45,24 +45,23 @@ function add_extra() {
     var this_a = $(this);
     if (youtube_match = /http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=(.+?)(?:&|$)/.exec(
       $(this).attr('href'))) {
-        $(this).before($('<img />').addClass('thumb youtube').attr({
-          alt : youtube_match[1],
-          src :'http://img.youtube.com/vi/' + youtube_match[1] + '/1.jpg',
-          title : 'click to watch'
-        }));
+      $(this).before($('<img />').addClass('thumb youtube').attr({
+        alt : youtube_match[1],
+        src :'http://img.youtube.com/vi/' + youtube_match[1] + '/1.jpg',
+        title : 'click to watch'
+      }));
     } else if (flickr_match = /http:\/\/(?:www\.)?flickr\.com\/photos\/[^\/]+?\/([0-9]+)/.exec(
       $(this).attr('href'))) {
-        function flickr_thumb_insert(d) {
-          this_a.prepend($('<img />').addClass('thumb flickr').attr({
-            alt : d.photo.title._content,
-            src : 'http://farm' + d.photo.farm + '.static.flickr.com/' +
-              d.photo.server + '/' + d.photo.id + '_' + d.photo.secret +
-              '_s.jpg',
-            title : d.photo.title._content
-          }));
-        }
-        $.getJSON('http://api.flickr.com/services/rest/?api_key=d04e574aaf11bf2e1c03cba4ee7e5725&method=flickr.photos.getinfo&format=json&photo_id=' +
-          flickr_match[1] + '&jsoncallback=?', flickr_thumb_insert);
+      function flickr_thumb_insert(d) {
+        this_a.prepend($('<img />').addClass('thumb flickr').attr({
+          alt : d.photo.title._content,
+          src : 'http://farm' + d.photo.farm + '.static.flickr.com/' +
+            d.photo.server + '/' + d.photo.id + '_' + d.photo.secret + '_s.jpg',
+          title : d.photo.title._content
+        }));
+      }
+      $.getJSON('http://api.flickr.com/services/rest/?api_key=d04e574aaf11bf2e1c03cba4ee7e5725&method=flickr.photos.getinfo&format=json&photo_id=' +
+        flickr_match[1] + '&jsoncallback=?', flickr_thumb_insert);
     } else if (vimeo_match = /^http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)$/.exec(
       $(this).attr('href'))) {
       function vimeo_inject(d) {

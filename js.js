@@ -1,9 +1,9 @@
 function format_li(d) {
-  var li = $('<li />').append($('<a />').attr('href', d['url']).append(
+  var li = $('<li />').append($('<a />').attr('href', d['url']).text(
     d['title']));
 
   if (d['name']) {
-    li.prepend($('<div />').addClass('name').append(d['name']));
+    li.prepend($('<div />').addClass('name').text(d['name']));
   }
 
   if (d['email']) {

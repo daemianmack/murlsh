@@ -1,22 +1,17 @@
 #!/usr/bin/ruby
-
 require 'murlsh'
 
 require 'cgi'
 require 'fcgi'
+require 'yaml'
 
 require 'rubygems'
 require 'builder'
 require 'sqlite3'
 
-config = {
-  'feed_file' => 'atom.xml',
-  'gravatar_size' => 32,
-  'num_posts_page' => 100,
-  'page_title' => 'mmb url share'
-}
+config = YAML.load_file('config.yaml')
 
-db = SQLite3::Database.new('murlsh.db')
+db = SQLite3::Database.new(config['db_file'])
 db.results_as_hash = true
 db.create_function('MATCH', 2) do |func,search_in,search_for|
   func.result = search_in.to_s.match(/#{search_for}/i) ? 1 : nil

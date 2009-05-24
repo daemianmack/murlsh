@@ -4,19 +4,13 @@ require 'murlsh'
 require 'cgi'
 require 'json'
 require 'uri'
+require 'yaml'
 
 require 'rubygems'
 require 'builder'
 require 'sqlite3'
 
-config = {
-  'auth_file' => '/home/mm6/murlsh_users', # keep out of web root
-  'feed_file' => 'atom.xml',
-  'num_posts_feed' => 25,
-  'num_posts_page' => 100,
-  'page_title' => 'mmb url share',
-  'root_url' => 'http://matthewm.boedicker.org/urlshare/',
-}
+config = YAML.load_file('config.yaml')
 
 cgi = CGI.new
 
@@ -38,7 +32,7 @@ if cgi.request_method == 'POST'
     end
 
     if user
-      db = SQLite3::Database.new('murlsh.db')
+      db = SQLite3::Database.new(config['db_file'])
       db.results_as_hash = true
       db.type_translation = true
       db.translator.add_translator('timestamp') do |t, v|

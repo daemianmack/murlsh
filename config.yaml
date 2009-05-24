@@ -1,0 +1,9 @@
+--- 
+auth_file: /home/mm6/murlsh_users
+db_file: murlsh.db
+feed_file: atom.xml
+gravatar_size: 32
+num_posts_feed: 25
+num_posts_page: 100
+page_title: mmb url share
+root_url: http://matthewm.boedicker.org/urlshare/

@@ -1,5 +1,8 @@
 require 'hostrec'
 
+require 'rubygems'
+require 'json'
+
 module Murlsh
 
   class Url
@@ -12,6 +15,17 @@ module Murlsh
     def same_author?(other)
       other and other.email and other.name and
         email and name and email == other.email and name == other.name
+    end
+
+    def to_json(*a)
+      {
+        'id' => id,
+        'time' => time,
+        'url' => url,
+        'email' => email,
+        'name' => name,
+        'title' => title
+      }.to_json(*a)
     end
 
     attr_accessor :id

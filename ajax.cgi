@@ -92,8 +92,6 @@ if cgi.request_method == 'POST'
 
       result = result[0,1]
 
-      result.collect! { |i| i.each_key { |k| i[k] = i[k].to_s.to_xs  }  }
-
       body = JSON.generate(result)
     else
       headers.update({ 'status' => 'FORBIDDEN', 'type' => 'text/plain' })

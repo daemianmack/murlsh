@@ -65,13 +65,10 @@ FCGI.each do |req|
         }
       }
       xm.ul(:id => 'urls') {
-        last = nil
-        params = {}
-        if qs['n'].empty?
-          params['limit'] = config['num_posts_page']
-        else
-          params['limit'] = qs['n'].first.to_i
-        end
+        params = {
+          'limit' =>
+            qs['n'].empty? ? config['num_posts_page'] : qs['n'].first.to_i
+          }
         if qs['q'].empty?
           where = ''
         else
@@ -81,9 +78,9 @@ FCGI.each do |req|
           params['q'] = qs['q'].first
         end
 
+        last = nil
         db.execute("SELECT * FROM url#{where} ORDER BY id DESC LIMIT :limit",
-          params).each do |u|
-          mu = Murlsh::Url.new(u)
+          params).collect { |u| Murlsh::Url.new(u) }.each do |mu|
           xm.li {
             unless mu.same_author?(last)
               xm.div(:class => 'icon') {
@@ -121,9 +118,9 @@ FCGI.each do |req|
         xm << 'built with '
         xm.a('murlsh', :href => 'http://github.com/mmb/murlsh/')
       }
-      xm.script('', :type => 'text/javascript', :src => 'jquery-1.3.2.min.js')
-      xm.script('', :type => 'text/javascript', :src => 'jquery.cookie.js')
-      xm.script('', :type => 'text/javascript', :src => 'js.js')
+      ['jquery-1.3.2.min.js', 'jquery.cookie.js', 'js.js'].each do |x|
+        xm.script('', :type => 'text/javascript', :src => x)
+      end
     }
   }
 

@@ -47,6 +47,14 @@ FCGI.each do |req|
     }
     xm.body {
       xm.div(:id => 'header') {
+        Murlsh::Referrer.new(req.env['HTTP_REFERER']).search_query do |refq|
+          xm.p {
+            xm << 'search this site for '
+            re_parts = refq.split.collect { |x| Regexp.escape(x) }
+            re = "\\b(#{re_parts.join('|')})\\b"
+            xm.a(refq, :href => '?q=' + CGI::escape(re))
+          }
+        end
         xm.p {
           xm.form(:action => '', :method => 'get') {
             xm.a(:href => config['feed_file']) {

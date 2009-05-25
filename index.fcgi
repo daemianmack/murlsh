@@ -18,7 +18,7 @@ db.create_function('MATCH', 2) do |func,search_in,search_for|
 end
 
 FCGI.each do |req|
-  qs = CGI::parse(req.env['QUERY_STRING'])
+  qs = Murlsh.parse_query(req.env['QUERY_STRING'])
 
   if req.env['HTTP_ACCEPT'].match(
     /((\*|application)\/\*|application\/xhtml\+xml)/i) and
@@ -39,8 +39,7 @@ FCGI.each do |req|
     :'xsi:schemaLocation' => 'http://www.w3.org/MarkUp/SCHEMA/xhtml11.xsd',
     :'xml:lang' => 'en') {
     xm.head {
-      xm.title(config['page_title'] +
-        (qs['q'].empty? ? '' : " /#{qs['q'].first}/"))
+      xm.title(config['page_title'] + (qs['q'] ? " /#{qs['q']}" : ''))
       xm.link(:rel => 'stylesheet', :type => 'text/css', :href => 'screen.css')
       xm.link(:rel => 'alternate', :type => 'application/atom+xml',
         :href => config['feed_file'])
@@ -62,23 +61,22 @@ FCGI.each do |req|
                 :alt => 'Atom feed', :title => 'Atom feed')
             }
             xm.input(:type => 'text', :id => 'q', :name => 'q', :size => 16,
-              :value => qs['q'].empty? ? '' : qs['q'].first)
+              :value => qs['q'])
             xm.input(:type => 'submit', :value=> 'Regex Search')
           }
         }
       }
       xm.ul(:id => 'urls') {
         params = {
-          'limit' =>
-            qs['n'].empty? ? config['num_posts_page'] : qs['n'].first.to_i
+          'limit' => qs['n'] ? qs['n'].to_i : config['num_posts_page']
           }
-        if qs['q'].empty?
-          where = ''
-        else
+        if qs['q']
           where = ' WHERE ' +
             ['name', 'title', 'url'].collect { |x| "MATCH(#{x}, :q)" }.join(
               ' OR ')
-          params['q'] = qs['q'].first
+          params['q'] = qs['q']
+        else
+          where = ''
         end
 
         last = nil

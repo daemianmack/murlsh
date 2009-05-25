@@ -1,4 +1,6 @@
-#!/usr/bin/ruby
+require 'rubygems'
+require 'hpricot'
+require 'htmlentities'
 
 require 'iconv'
 require 'net/http'
@@ -6,11 +8,7 @@ require 'net/https'
 require 'open-uri'
 require 'uri'
 
-require 'rubygems'
-require 'hpricot'
-require 'htmlentities'
-
-module Titler
+module Murlsh
 
   def get_title(url)
     result = nil

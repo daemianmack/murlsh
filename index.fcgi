@@ -1,13 +1,15 @@
 #!/usr/bin/ruby
-require 'murlsh'
+$:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
-require 'cgi'
-require 'fcgi'
-require 'yaml'
+require 'murlsh'
 
 require 'rubygems'
 require 'builder'
 require 'sqlite3'
+
+require 'cgi'
+require 'fcgi'
+require 'yaml'
 
 config = YAML.load_file('config.yaml')
 

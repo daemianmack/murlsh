@@ -1,14 +1,16 @@
 #!/usr/bin/ruby
+$:.unshift(File.join(File.dirname(__FILE__), 'lib'))
+
 require 'murlsh'
+
+require 'rubygems'
+require 'builder'
+require 'sqlite3'
 
 require 'cgi'
 require 'json'
 require 'uri'
 require 'yaml'
-
-require 'rubygems'
-require 'builder'
-require 'sqlite3'
 
 config = YAML.load_file('config.yaml')
 
@@ -38,10 +40,9 @@ if cgi.request_method == 'POST'
       db.translator.add_translator('timestamp') do |t, v|
         Time.parse(v + ' gmt')
       end
-      require 'titler'
       db.execute(
         "INSERT INTO url (time, url, email, name, title) VALUES (DATETIME('NOW'), ?, ?, ?, ?)",
-        cgi['url'], user[:email], user[:name], Titler::get_title(cgi['url']))
+        cgi['url'], user[:email], user[:name], Murlsh.get_title(cgi['url']))
       result = db.execute('SELECT * FROM url ORDER BY id DESC LIMIT ?',
         config['num_posts_feed']).collect { |u| Murlsh::Url.new(u) }
 

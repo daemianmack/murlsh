@@ -4,6 +4,7 @@ $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 require 'murlsh'
 
 require 'rubygems'
+require 'active_record'
 require 'builder'
 require 'sqlite3'
 
@@ -13,8 +14,10 @@ require 'yaml'
 
 config = YAML.load_file('config.yaml')
 
-db = SQLite3::Database.new(config['db_file'])
-db.results_as_hash = true
+ActiveRecord::Base.establish_connection(
+  :adapter => 'sqlite3', :database => config['db_file'])
+
+db = ActiveRecord::Base.connection.instance_variable_get(:@connection)
 db.create_function('MATCH', 2) do |func,search_in,search_for|
   func.result = search_in.to_s.match(/#{search_for}/i) ? 1 : nil
 end
@@ -64,21 +67,20 @@ FCGI.each do |req|
         }
       }
       xm.ul(:id => 'urls') {
-        params = {
-          'limit' => qs['n'] ? qs['n'].to_i : config['num_posts_page']
-          }
         if qs['q']
-          where = ' WHERE ' +
-            ['name', 'title', 'url'].collect { |x| "MATCH(#{x}, :q)" }.join(
-              ' OR ')
-          params['q'] = qs['q']
+          conditions =  [
+            'MATCH(name, ?) OR MATCH(title, ?) OR MATCH(url, ?)',
+            qs['q'], qs['q'], qs['q']]
         else
-          where = ''
+          conditions = []
         end
 
         last = nil
-        db.execute("SELECT * FROM url#{where} ORDER BY id DESC LIMIT :limit",
-          params).collect { |u| Murlsh::Url.new(u) }.each do |mu|
+
+        Murlsh::Url.all(:conditions => conditions,
+          :order => 'id DESC',
+          :limit =>  qs['n'] ? qs['n'].to_i : config['num_posts_page']
+          ).each do |mu|
           xm.li {
             unless mu.same_author?(last)
               xm.div(:class => 'icon') {

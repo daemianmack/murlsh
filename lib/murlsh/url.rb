@@ -1,15 +1,12 @@
 require 'rubygems'
+require 'active_record'
 require 'json'
 
 require 'uri'
 
 module Murlsh
 
-  class Url
-
-    def initialize(d={})
-      d.each_pair { |k,v| send("#{k}=", v) if respond_to?("#{k}=") }
-    end
+  class Url < ActiveRecord::Base
 
     def same_author?(other)
       other and other.email and other.name and
@@ -46,12 +43,6 @@ module Murlsh
       }.to_json(*a)
     end
 
-    attr_accessor :id
-    attr_accessor :time
-    attr_accessor :url
-    attr_accessor :email
-    attr_accessor :name
-    attr_accessor :title
   end
 
 end

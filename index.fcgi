@@ -22,13 +22,8 @@ end
 FCGI.each do |req|
   qs = Murlsh.parse_query(req.env['QUERY_STRING'])
 
-  if req.env['HTTP_ACCEPT'].match(
-    /((\*|application)\/\*|application\/xhtml\+xml)/i) and
-    !req.env['HTTP_USER_AGENT'].match(/ msie /i)
-    content_type = 'application/xhtml+xml'
-  else
-    content_type = 'text/html'
-  end
+  content_type = Murlsh.xhtml_content_type(req.env['HTTP_ACCEPT'],
+    req.env['HTTP_USER_AGENT'])
   req.out.print("Content-Type: #{content_type}\n\n")
 
   xm = Builder::XmlMarkup.new(:indent => 2, :target => req.out)

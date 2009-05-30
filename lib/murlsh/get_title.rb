@@ -19,29 +19,24 @@ module Murlsh
       net_http.use_ssl = (uri_parsed.scheme == 'https')
 
       net_http.start do |http|
-        if http.request_head(uri_parsed.path)['content-type'].match(
-          /^text\/html/)
+        if http.request_head(uri_parsed.path)['content-type'][/^text\/html/]
           f = open(url, 'User-Agent' =>
             'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624')
 
           doc = Hpricot(f)
 
-          test_xpaths = ['//html/head/title', '//head/title', '//html/title',
-            '//title']
+          test_xpaths = %w{//html/head/title //head/title //html/title //title}
 
           test_xpaths.each { |xpath|
             unless (doc/xpath).first.nil?
               charset = f.charset
-              ['content-type', 'Content-Type'].each do |ct|
+              %w{content-type Content-Type}.each do |ct|
                 content_type = doc.at("meta[@http-equiv='#{ct}']")
                 unless content_type.nil?
                   content = content_type['content']
                   unless content.nil?
-                    match = content.match(/charset=([\w_.:-]+)/)
-                    unless match.nil?
-                      charset = match[1]
-                      break
-                    end
+                    charset = content[/charset=([\w_.:-]+)/, 1]
+                    break if charset
                   end
                 end
               end

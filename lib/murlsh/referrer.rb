@@ -22,7 +22,7 @@ module Murlsh
     def search_query(qmap=Qmap)
       if hostpath and query_string
         qmap.each_pair do |r,v|
-          if hostpath.match(r) and !query_string[v].empty?
+          if hostpath[r] and !query_string[v].empty?
             if block_given?
               yield query_string[v].first
             else

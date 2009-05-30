@@ -35,7 +35,7 @@ module Murlsh
     end
 
     Qmap = {
-      /^www\.google\.(com|dk)\/search$/ => 'q',
+      /^www\.google\.(com|dk)(\/m)?\/search$/ => 'q',
     }
 
     attr_accessor :url

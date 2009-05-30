@@ -67,12 +67,11 @@ FCGI.each do |req|
         }
       }
       xm.ul(:id => 'urls') {
+        conditions = []
         if qs['q']
-          conditions =  [
-            'MATCH(name, ?) OR MATCH(title, ?) OR MATCH(url, ?)',
-            qs['q'], qs['q'], qs['q']]
-        else
-          conditions = []
+          search_cols = %w{name title url}
+          conditions = [search_cols.collect { |x| "MATCH(#{x}, ?)" }.join(' OR ')].push(
+            *[qs['q']] * search_cols.size)
         end
 
         last = nil
@@ -118,7 +117,7 @@ FCGI.each do |req|
         xm << 'built with '
         xm.a('murlsh', :href => 'http://github.com/mmb/murlsh/')
       }
-      ['jquery-1.3.2.min.js', 'jquery.cookie.js', 'js.js'].each do |x|
+      %w{jquery-1.3.2.min.js jquery.cookie.js js.js}.each do |x|
         xm.script('', :type => 'text/javascript', :src => x)
       end
     }

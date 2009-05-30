@@ -4,11 +4,12 @@ $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 require 'murlsh'
 
 require 'rubygems'
+require 'active_record'
 require 'builder'
 require 'sqlite3'
 
 require 'cgi'
-require 'json'
+require 'time'
 require 'uri'
 require 'yaml'
 
@@ -34,17 +35,22 @@ if cgi.request_method == 'POST'
     end
 
     if user
-      db = SQLite3::Database.new(config['db_file'])
-      db.results_as_hash = true
-      db.type_translation = true
-      db.translator.add_translator('timestamp') do |t, v|
-        Time.parse(v + ' gmt')
+      ActiveRecord::Base.default_timezone = :utc
+      ActiveRecord::Base.establish_connection(
+        :adapter => 'sqlite3', :database => config['db_file'])
+
+      mu = Murlsh::Url.new do |u|
+        u.time = Time.now.gmtime
+        u.url = cgi['url']
+        u.email = user[:email]
+        u.name = user[:name]
+        u.title = Murlsh.get_title(cgi['url'])
       end
-      db.execute(
-        "INSERT INTO url (time, url, email, name, title) VALUES (DATETIME('NOW'), ?, ?, ?, ?)",
-        cgi['url'], user[:email], user[:name], Murlsh.get_title(cgi['url']))
-      result = db.execute('SELECT * FROM url ORDER BY id DESC LIMIT ?',
-        config['num_posts_feed']).collect { |u| Murlsh::Url.new(u) }
+
+      mu.save
+
+      result = Murlsh::Url.all(:order => 'id DESC',
+        :limit => config['num_posts_feed'])
 
       open(config['feed_file'], 'w') do |f|
         f.flock File::LOCK_EX
@@ -85,9 +91,7 @@ if cgi.request_method == 'POST'
         'status' => 'OK',
         'type' => 'application/json')
 
-      result = result[0,1]
-
-      body = JSON.generate(result)
+      body = result[0,1].to_json
     else
       headers.update({ 'status' => 'FORBIDDEN', 'type' => 'text/plain' })
       body = 'Permission denied'

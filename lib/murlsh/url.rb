@@ -12,14 +12,14 @@ module Murlsh
         email and name and email == other.email and name == other.name
     end
 
-    Widely_known = [
-      'en.wikipedia.org',
-      'flickr.com',
-      'github.com',
-      'twitter.com',
-      'vimeo.com',
-      'youtube.com',
-      ]
+    Widely_known = %w{
+      en.wikipedia.org
+      flickr.com
+      github.com
+      twitter.com
+      vimeo.com
+      youtube.com
+      }
 
     def hostrec
       begin

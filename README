@@ -4,8 +4,10 @@ Simple site for a small group of people to share urls.
 - automatically adds thumbnails for YouTube, Vimeo, and Flickr urls
 - embeds Flash mp3 player for mp3 urls
 - supports Gravatar
+- atom feed
+- regex search
 
-To set up run create_db.sh and edit configuration in ajax.cgi.
+To set up run create_db.sh and edit config.yaml
 
 Auth file format:
 
@@ -20,6 +22,6 @@ puts [user, Digest::MD5.hexdigest(email),
 
 Required gems:
 
-bcrypt-ruby builder csv hpricot sqlite3
+bcrypt-ruby builder csv hpricot rails (for active record) sqlite3
 
 See http://matthewm.boedicker.org/urlshare/ for example.

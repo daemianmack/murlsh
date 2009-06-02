@@ -19,6 +19,14 @@ class XhtmlContentTypeTest < Test::Unit::TestCase
     assert_equal('text/html', Murlsh.xhtml_content_type('*/*', Ie_ua))
   end
 
+  def test_star_star_empty
+    assert_equal('application/xhtml+xml', Murlsh.xhtml_content_type('*/*', ''))
+  end
+
+  def test_star_star_nil
+    assert_equal('application/xhtml+xml', Murlsh.xhtml_content_type('*/*', nil))
+  end
+
   def test_application_star
     assert_equal('application/xhtml+xml',
       Murlsh.xhtml_content_type('application/*', Non_ie_ua))
@@ -27,6 +35,16 @@ class XhtmlContentTypeTest < Test::Unit::TestCase
   def test_application_star_ie
     assert_equal('text/html',
       Murlsh.xhtml_content_type('application/*', Ie_ua))
+  end
+
+  def test_application_star_empty
+    assert_equal('application/xhtml+xml',
+      Murlsh.xhtml_content_type('application/*', ''))
+  end
+
+  def test_application_star_nil
+    assert_equal('application/xhtml+xml',
+      Murlsh.xhtml_content_type('application/*', nil))
   end
 
   def test_application_xhtml_xml
@@ -39,20 +57,63 @@ class XhtmlContentTypeTest < Test::Unit::TestCase
       Murlsh.xhtml_content_type('application/xhtml+xml', Ie_ua))
   end
 
+  def test_application_xhtml_xml_empty
+    assert_equal('application/xhtml+xml',
+      Murlsh.xhtml_content_type('application/xhtml+xml', ''))
+  end
+
+  def test_application_xhtml_xml_nil
+    assert_equal('application/xhtml+xml',
+      Murlsh.xhtml_content_type('application/xhtml+xml', nil))
+  end
+
   def test_text_html
-    assert_equal('text/html', Murlsh.xhtml_content_type('text/html', Non_ie_ua))
+    assert_equal('text/html',
+      Murlsh.xhtml_content_type('text/html', Non_ie_ua))
   end
 
   def test_text_html_ie
     assert_equal('text/html', Murlsh.xhtml_content_type('text/html', Ie_ua))
   end
 
-  def test_accept_none
+  def test_text_html_empty
+    assert_equal('text/html', Murlsh.xhtml_content_type('text/html', ''))
+  end
+
+  def test_text_html_nil
+    assert_equal('text/html', Murlsh.xhtml_content_type('text/html', nil))
+  end
+
+  def test_empty
     assert_equal('text/html', Murlsh.xhtml_content_type('', Non_ie_ua))
   end
 
-  def test_accept_none_ie
+  def test_empty_ie
     assert_equal('text/html', Murlsh.xhtml_content_type('', Ie_ua))
+  end
+
+  def test_empty_empty
+    assert_equal('text/html', Murlsh.xhtml_content_type('', ''))
+  end
+
+  def test_empty_nil
+    assert_equal('text/html', Murlsh.xhtml_content_type('', nil))
+  end
+
+  def test_nil
+    assert_equal('text/html', Murlsh.xhtml_content_type(nil, Non_ie_ua))
+  end
+
+  def test_nil_ie
+    assert_equal('text/html', Murlsh.xhtml_content_type(nil, Ie_ua))
+  end
+
+  def test_nil_empty
+    assert_equal('text/html', Murlsh.xhtml_content_type(nil, ''))
+  end
+
+  def test_nil_nil
+    assert_equal('text/html', Murlsh.xhtml_content_type(nil, nil))
   end
 
 end

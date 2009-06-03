@@ -45,28 +45,31 @@ FCGI.each do |req|
         :href => config['feed_file'])
     }
     xm.body {
-      xm.div(:id => 'header') {
-        Murlsh::Referrer.new(req.env['HTTP_REFERER']).search_query do |refq|
-          xm.p {
-            xm << 'search this site for '
-            re_parts = refq.split.collect { |x| Regexp.escape(x) }
-            re = "\\b(#{re_parts.join('|')})\\b"
-            xm.a(refq, :href => '?q=' + CGI::escape(re))
-          }
-        end
-        xm.p {
-          xm.form(:action => '', :method => 'get') {
+      xm.ul(:id => 'urls') {
+
+        xm.li {
+          xm.div(:class => 'icon') {
             xm.a(:href => config['feed_file']) {
-              xm.img(:src => 'feed-icon-14x14.png', :width => 14, :height => 14,
-                :alt => 'Atom feed', :title => 'Atom feed')
+              xm.img(
+                :alt => 'Atom feed',
+                :height => 28,
+                :src => 'feed-icon-28x28.png',
+                :title => 'Atom feed',
+                :width => 28)
             }
-            xm.input(:type => 'text', :id => 'q', :name => 'q', :size => 16,
-              :value => qs['q'])
+          }
+          xm.form(:action => '', :method => 'get') {
+            value = qs['q']
+            Murlsh::Referrer.new(req.env['HTTP_REFERER']).search_query do |refq|
+              re_parts = refq.split.collect { |x| Regexp.escape(x) }
+              value = "\\b(#{re_parts.join('|')})\\b"
+            end
+            xm.input(:type => 'text', :id => 'q', :name => 'q', :size => 32,
+              :value => value)
             xm.input(:type => 'submit', :value=> 'Regex Search')
           }
         }
-      }
-      xm.ul(:id => 'urls') {
+
         conditions = []
         if qs['q']
           search_cols = %w{name title url}

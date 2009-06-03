@@ -6,10 +6,6 @@ img {
   border : 0;
 }
 
-div#header {
-  border-bottom : 1px solid #ccc;
-}
-
 ul {
   list-style-type : none;
 }

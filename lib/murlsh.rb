@@ -1,3 +1,4 @@
+require 'murlsh/get_content_type'
 require 'murlsh/get_title'
 require 'murlsh/parse_query'
 require 'murlsh/referrer'

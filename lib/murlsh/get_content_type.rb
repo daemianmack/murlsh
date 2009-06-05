@@ -6,13 +6,13 @@ module Murlsh
 
   def get_content_type(url)
     begin
-      uri_parsed = URI.parse(url)
+      url = URI.parse(url) unless url.is_a?(URI::HTTP)
 
-      net_http = Net::HTTP.new(uri_parsed.host, uri_parsed.port)
-      net_http.use_ssl = (uri_parsed.scheme == 'https')
+      net_http = Net::HTTP.new(url.host, url.port)
+      net_http.use_ssl = (url.scheme == 'https')
 
       net_http.start do |http|
-        resp = http.request_head(uri_parsed.path)
+        resp = http.request_head(url.path)
         return resp['content-type'] if resp.code == '200'
       end
     rescue Exception => e

@@ -94,7 +94,7 @@ $(document).ready(function() {
       }, function(d) {
         $.each(d, function(i, v) {
           var li = format_li(v);
-          $('#urls').prepend(li);
+          $('#urls > li:first').after(li);
           $(li).children('a:first').map(add_extra);
         });
         $('#url').val('');

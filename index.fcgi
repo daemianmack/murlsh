@@ -109,7 +109,7 @@ FCGI.each do |req|
         xm.form(:action => 'ajax.cgi', :method => 'post') {
           xm.label('Add URL:', :for => 'url')
           xm.input(:type => 'text', :id => 'url', :name => 'url', :size => 32)
-          xm.label('Auth:', :for => 'auth')
+          xm.label('Password:', :for => 'auth')
           xm.input(:type => 'password', :id => 'auth', :name => 'auth',
             :size => 16)
           xm.input(:type => 'button', :id => 'submit', :value => 'Add')

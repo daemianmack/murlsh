@@ -28,7 +28,7 @@ module Murlsh
     result || url
   end
 
-  # Find the title in an Hpricot docuement.
+  # Find the title in an Hpricot document.
   def find_title(doc)
     %w{//html/head/title //head/title //html/title //title}.each do |xpath|
       return (doc/xpath).first.inner_html unless (doc/xpath).first.nil?

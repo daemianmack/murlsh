@@ -17,8 +17,8 @@ module Murlsh
       end
     rescue Exception => e
       # puts e.message
-      nil
     end
+    ''
   end
 
   module_function :get_content_type

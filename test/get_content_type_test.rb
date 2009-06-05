@@ -8,23 +8,23 @@ require 'uri'
 class GetContentTypeTest < Test::Unit::TestCase
 
   def test_nil
-    assert_nil(Murlsh.get_content_type(nil))
+    assert_equal('', Murlsh.get_content_type(nil))
   end
 
   def test_empty
-    assert_nil(Murlsh.get_content_type(''))
+    assert_equal('', Murlsh.get_content_type(''))
   end
 
   def test_bad_url
-    assert_nil(Murlsh.get_content_type('not a url'))
+    assert_equal('', Murlsh.get_content_type('not a url'))
   end
 
   def test_bad_host
-    assert_nil(Murlsh.get_content_type('http://a.b/test/'))
+    assert_equal('', Murlsh.get_content_type('http://a.b/test/'))
   end
 
   def test_bad_path
-    assert_nil(Murlsh.get_content_type(
+    assert_equal('', Murlsh.get_content_type(
       'http://matthewm.boedicker.org/does_not_exist/'))
   end
 

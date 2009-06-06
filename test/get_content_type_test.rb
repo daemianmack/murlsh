@@ -43,4 +43,10 @@ class GetContentTypeTest < Test::Unit::TestCase
       URI.parse('https://msp.f-secure.com/web-test/common/test.html')))
   end
 
+  def test_303
+    # youtube returns a 303
+    assert_match(/^text\/html/, Murlsh.get_content_type(
+      'http://www.youtube.com/watch?v=vfxCnZ4Dp3c'))
+  end
+
 end

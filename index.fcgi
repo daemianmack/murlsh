@@ -78,12 +78,19 @@ FCGI.each do |req|
         end
 
         last = nil
+        author_group = 1
 
         Murlsh::Url.all(:conditions => conditions,
           :order => 'id DESC',
           :limit =>  qs['n'] ? qs['n'].to_i : config['num_posts_page']
           ).each do |mu|
-          xm.li {
+          first_class = ''
+          unless mu.same_author?(last)
+            author_group = (author_group + 1) % 2
+            first_class = ' author_first' 
+          end
+
+          xm.li(:class => "author_group_#{author_group}#{first_class}") {
             unless mu.same_author?(last)
               xm.div(:class => 'icon') {
                 xm.img(

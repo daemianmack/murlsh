@@ -5,7 +5,6 @@ require 'murlsh'
 
 require 'rubygems'
 require 'active_record'
-require 'builder'
 require 'sqlite3'
 
 require 'cgi'
@@ -29,7 +28,7 @@ FCGI.each do |req|
     req.env['HTTP_USER_AGENT'])
   req.out.print("Content-Type: #{content_type}\n\n")
 
-  xm = Builder::XmlMarkup.new(:indent => 2, :target => req.out)
+  xm = Murlsh::Markup.new(:indent => 2, :target => req.out)
   xm.instruct! :xml
   xm.declare! :DOCTYPE, :html, :PUBLIC, '-//W3C//DTD XHTML 1.1//EN',
     'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'
@@ -127,9 +126,8 @@ FCGI.each do |req|
         xm << 'built with '
         xm.a('murlsh', :href => 'http://github.com/mmb/murlsh/')
       }
-      %w{jquery-1.3.2.min.js jquery.cookie.js js.js}.each do |x|
-        xm.script('', :type => 'text/javascript', :src => x)
-      end
+      xm.javascript(%w{jquery-1.3.2.min.js jquery.cookie.js js.js},
+        :prefix => 'js/')
     }
   }
 

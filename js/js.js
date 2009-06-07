@@ -75,10 +75,11 @@ function add_extra() {
     $.getJSON('http://vimeo.com/api/clip/' + vimeo_match[1] +
       '.json?callback=?', vimeo_inject);
   } else if (mp3_match = /.*\.mp3$/.exec($(this).attr('href'))) {
-    $(this).before(object_tag('player_mp3_mini.swf', 20, 200, [
+    var swf = 'swf/player_mp3_mini.swf';
+    $(this).before(object_tag(swf, 20, 200, [
       { name : 'bgcolor', value : '#000000' },
       { name : 'FlashVars', value : 'mp3=' + mp3_match[0] },
-      { name : 'movie', value : 'player_mp3_mini.swf' }
+      { name : 'movie', value : swf }
     ]));
   }
 }

@@ -49,12 +49,11 @@ FCGI.each do |req|
         xm.li {
           xm.div(:class => 'icon') {
             xm.a(:href => config['feed_file']) {
-              xm.img(
-                :alt => 'Atom feed',
-                :height => 28,
+              xm.murlsh_img(
+                :prefix => config['img_prefix'],
+                :size => 28,
                 :src => 'feed-icon-28x28.png',
-                :title => 'Atom feed',
-                :width => 28)
+                :text => 'Atom feed')
             }
           }
           xm.form(:action => '', :method => 'get') {
@@ -92,12 +91,10 @@ FCGI.each do |req|
           xm.li(:class => "author_group_#{author_group}#{first_class}") {
             unless mu.same_author?(last)
               xm.div(:class => 'icon') {
-                xm.img(
-                  :alt => mu.name,
-                  :height => config['gravatar_size'],
+                xm.murlsh_img(
+                  :size => config['gravatar_size'],
                   :src => "http://www.gravatar.com/avatar/#{mu.email}?s=#{config['gravatar_size']}",
-                  :title => mu.name,
-                  :width => config['gravatar_size']) if mu.email
+                  :text => mu.name) if mu.email
               }
               xm.div(mu.name, :class => 'name') if mu.name
             end
@@ -127,7 +124,7 @@ FCGI.each do |req|
         xm.a('murlsh', :href => 'http://github.com/mmb/murlsh/')
       }
       xm.javascript(%w{jquery-1.3.2.min.js jquery.cookie.js js.js},
-        :prefix => 'js/')
+        :prefix => config['js_prefix'])
     }
   }
 

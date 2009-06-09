@@ -61,9 +61,11 @@ FCGI.each do |req|
               re_parts = refq.split.collect { |x| Regexp.escape(x) }
               value = "\\b(#{re_parts.join('|')})\\b"
             end
-            xm.input(:type => 'text', :id => 'q', :name => 'q', :size => 32,
-              :value => value)
-            xm.input(:type => 'submit', :value=> 'Regex Search')
+            xm.fieldset {
+              xm.input(:type => 'text', :id => 'q', :name => 'q', :size => 32,
+                :value => value)
+              xm.input(:type => 'submit', :value=> 'Regex Search')
+            }
           }
         }
 
@@ -107,8 +109,8 @@ FCGI.each do |req|
       }
       xm.div(:style => 'clear : both')
 
-      xm.p {
-        xm.form(:action => 'ajax.cgi', :method => 'post') {
+      xm.form(:action => 'ajax.cgi', :method => 'post') {
+        xm.fieldset {
           xm.label('Add URL:', :for => 'url')
           xm.input(:type => 'text', :id => 'url', :name => 'url', :size => 32)
           xm.label('Password:', :for => 'auth')

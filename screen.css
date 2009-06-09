@@ -57,3 +57,7 @@ div#closer {
   top : 0px;
   width : 425px;
 }
+
+fieldset {
+  border : 0;
+}

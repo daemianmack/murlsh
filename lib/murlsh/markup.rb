@@ -27,6 +27,14 @@ module Murlsh
       }
     end
 
+    def atom(href)
+      link(:rel => 'alternate', :type => 'application/atom+xml', :href => href)
+    end
+
+    def css(href)
+      link(:rel => 'stylesheet', :type => 'text/css', :href => href)
+    end
+
     private
 
     def img_convert_prefix(options)

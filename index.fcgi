@@ -39,9 +39,8 @@ FCGI.each do |req|
     :'xml:lang' => 'en') {
     xm.head {
       xm.title(config['page_title'] + (qs['q'] ? " /#{qs['q']}" : ''))
-      xm.link(:rel => 'stylesheet', :type => 'text/css', :href => 'screen.css')
-      xm.link(:rel => 'alternate', :type => 'application/atom+xml',
-        :href => config['feed_file'])
+      xm.css('screen.css')
+      xm.atom(config['feed_file'])
     }
     xm.body {
       xm.div(:id => 'closer') { }

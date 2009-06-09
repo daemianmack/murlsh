@@ -44,6 +44,7 @@ FCGI.each do |req|
         :href => config['feed_file'])
     }
     xm.body {
+      xm.div(:id => 'closer') { }
       xm.ul(:id => 'urls') {
 
         xm.li {
@@ -120,7 +121,7 @@ FCGI.each do |req|
       }
 
       xm.p {
-        xm << 'built with '
+        xm.text! 'powered by '
         xm.a('murlsh', :href => 'http://github.com/mmb/murlsh/')
       }
       xm.javascript(%w{jquery-1.3.2.min.js jquery.cookie.js js.js},

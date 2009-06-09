@@ -20,6 +20,13 @@ module Murlsh
       img(options)
     end
 
+    def a_img(options={})
+      a(:href => options[:href]) {
+        options.delete(:href)
+        murlsh_img(options)
+      }
+    end
+
     private
 
     def img_convert_prefix(options)

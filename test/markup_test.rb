@@ -77,4 +77,10 @@ class MarkupTest < Test::Unit::TestCase
     ].each { |t| attr_check(*t.push(m.target!)) }
   end
 
+  def test_a_img
+    m = Murlsh::Markup.new()
+    m.a_img(:href => '/test/', :src => 'foo.png')
+    assert_equal('<a href="/test/"><img src="foo.png"/></a>', m.target!)
+  end
+
 end

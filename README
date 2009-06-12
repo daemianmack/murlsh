@@ -4,24 +4,11 @@ Simple site for a small group of people to share urls.
 - automatically adds thumbnails for YouTube, Vimeo, and Flickr urls
 - embeds Flash mp3 player for mp3 urls
 - supports Gravatar
-- atom feed
+- Atom feed
 - regex search
 
-To set up run create_db.sh and edit config.yaml
+To setup:
 
-Auth file format:
-
-username,md5 of email,bcrypted password
-
-require 'digest/md5'
-require 'rubygems'
-require 'bcrypt'
-user, email, password = 'mmb', 'matthewm@boedicker.org', 'secret'
-puts [user, Digest::MD5.hexdigest(email),
-  BCrypt::Password.create(password)].join(',')
-
-Required gems:
-
-bcrypt-ruby builder csv hpricot rails (for active record) sqlite3
+rake db:init user:add
 
 See http://matthewm.boedicker.org/urlshare/ for example.

@@ -63,3 +63,27 @@ namespace :user do
   end
 
 end
+
+desc "Validate XHTML."
+task :validate do
+  require 'cgi'
+  require 'net/http'
+
+  net_http = Net::HTTP.new('validator.w3.org', 80)
+  #net_http.set_debug_output(STDOUT)
+
+  check_url = config['root_url']
+
+  print "validating #{check_url} : "
+
+  net_http.start do |http|
+    resp = http.request_head(
+      "/check?uri=#{CGI::escape(check_url)}&charset=(detect+automatically)&doctype=Inline&group=0")
+    result = resp['X-W3C-Validator-Status']
+    errors = resp['X-W3C-Validator-Errors']
+    warnings = resp['X-W3C-Validator-Warnings']
+
+    puts "#{result} (#{errors} errors, #{warnings} warnings)"
+  end
+
+end

@@ -106,19 +106,29 @@ FCGI.each do |req|
             last = mu
           }
         end
-      }
-      xm.div(:style => 'clear : both')
 
-      xm.form(:action => 'ajax.cgi', :method => 'post') {
-        xm.fieldset {
-          xm.label('Add URL:', :for => 'url')
-          xm.input(:type => 'text', :id => 'url', :name => 'url', :size => 32)
-          xm.label('Password:', :for => 'auth')
-          xm.input(:type => 'password', :id => 'auth', :name => 'auth',
-            :size => 16)
-          xm.input(:type => 'button', :id => 'submit', :value => 'Add')
+        xm.li {
+          xm.form(:action => 'ajax.cgi', :method => 'post') {
+            xm.fieldset {
+              xm.p {
+                xm.label('Add URL:', :for => 'url')
+                xm.input(:type => 'text', :id => 'url', :name => 'url',
+                  :size => 32)
+              }
+              xm.p {
+                xm.label('Password:', :for => 'auth')
+                xm.input(:type => 'password', :id => 'auth', :name => 'auth',
+                  :size => 16)
+              }
+              xm.p {
+                xm.input(:type => 'button', :id => 'submit', :value => 'Add')
+              }
+            }
+          }
         }
       }
+
+      xm.div(:style => 'clear : both')
 
       xm.p {
         xm.text! 'powered by '

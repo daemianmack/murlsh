@@ -37,6 +37,20 @@ namespace :db do
       ")
   end
 
+  desc "Check for duplicate URLs."
+  task :dupcheck do
+    db = SQLite3::Database.new(config['db_file'])
+    db.results_as_hash = true
+    h = {}
+    db.execute("SELECT * FROM urls").each do |r|
+      h[r['url']] = h.fetch(r['url'], []).push([r['id'], r['time']])
+    end
+    h.select { |k,v| v.size > 1 }.each do |k,v|
+      puts k
+      v.each { |id,time| puts "  #{id} #{time}" }
+    end
+  end
+
 end
 
 def ask(prompt)

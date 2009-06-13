@@ -33,8 +33,13 @@ module Murlsh
 
     def css(hrefs, options={})
       hrefs.to_a.each do |href|
-        link(:rel => 'stylesheet', :type => 'text/css',
-          :href => "#{options[:prefix]}#{href}")
+        attrs = {
+          :href => "#{options[:prefix]}#{href}",
+          :rel => 'stylesheet',
+          :type => 'text/css',
+        }
+        attrs[:media] = options[:media] if options[:media]
+        link(attrs)
       end
     end
 

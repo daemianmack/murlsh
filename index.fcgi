@@ -39,8 +39,12 @@ FCGI.each do |req|
     :'xml:lang' => 'en') {
     xm.head {
       xm.title(config['page_title'] + (qs['q'] ? " /#{qs['q']}" : ''))
-      xm.css('screen.css', :prefix => 'css/')
+      xm.css('screen.css', :prefix => config['css_prefix'])
+      xm.css('phone.css', :media => 'only screen and (max-device-width: 480px)',
+        :prefix => config['css_prefix'])
       xm.atom(config['feed_file'])
+      xm.meta(:name => 'viewport',
+        :content => 'width=device-width,minimum-scale=1.0,maximum-scale=1.0')
     }
     xm.body {
       xm.div(:id => 'closer') { }

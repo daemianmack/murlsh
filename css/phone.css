@@ -1,0 +1,17 @@
+body {
+  margin : 0;
+  padding : 0;
+}
+
+ul#urls {
+  margin : 0;
+  padding-left : 0;
+}
+
+li {
+  width : 290px;
+}
+
+input#q {
+  width : 140px;
+}

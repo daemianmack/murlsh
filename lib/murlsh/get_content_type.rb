@@ -9,11 +9,7 @@ module Murlsh
       begin
         url = URI.parse(url) unless url.is_a?(URI::HTTP)
 
-        net_http = Net::HTTP.new(url.host, url.port)
-        net_http.use_ssl = (url.scheme == 'https')
-        # net_http.set_debug_output(STDOUT)
-
-        net_http.start do |http|
+        make_net_http(url).start do |http|
           resp = http.request_head(url.path)
           case resp
             when Net::HTTPSuccess then return resp['content-type']
@@ -28,6 +24,14 @@ module Murlsh
     ''
   end
 
+  def make_net_http(url, debug=nil)
+    net_http = Net::HTTP.new(url.host, url.port)
+    net_http.use_ssl = (url.scheme == 'https')
+    net_http.set_debug_output(debug) if debug
+    net_http
+  end
+
   module_function :get_content_type
+  module_function :make_net_http
 
 end

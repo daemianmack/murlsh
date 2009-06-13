@@ -39,7 +39,7 @@ FCGI.each do |req|
     :'xml:lang' => 'en') {
     xm.head {
       xm.title(config['page_title'] + (qs['q'] ? " /#{qs['q']}" : ''))
-      xm.css('screen.css')
+      xm.css('screen.css', :prefix => 'css/')
       xm.atom(config['feed_file'])
     }
     xm.body {

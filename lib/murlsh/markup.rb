@@ -6,7 +6,7 @@ module Murlsh
   class Markup < Builder::XmlMarkup
 
     def javascript(sources, options={})
-      (sources.respond_to?(:each) ? sources : [sources]).each do |src|
+      sources.to_a.each do |src|
         script('', :type => 'text/javascript',
           :src => "#{options[:prefix]}#{src}")
       end
@@ -31,8 +31,11 @@ module Murlsh
       link(:rel => 'alternate', :type => 'application/atom+xml', :href => href)
     end
 
-    def css(href)
-      link(:rel => 'stylesheet', :type => 'text/css', :href => href)
+    def css(hrefs, options={})
+      hrefs.to_a.each do |href|
+        link(:rel => 'stylesheet', :type => 'text/css',
+          :href => "#{options[:prefix]}#{href}")
+      end
     end
 
     private

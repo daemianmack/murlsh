@@ -92,9 +92,9 @@ function add_extra() {
 
 function orientation_changed() {
   if (window.orientation == 0 || window.orientation == 180) {
-    $('li').width(290);
+    $('#urls').width(290);
   } else {
-    $('li').width(450);
+    $('#urls').width(450);
   }
 }
 

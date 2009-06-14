@@ -6,15 +6,16 @@ img {
   border : 0;
 }
 
-ul {
+#urls {
   list-style-type : none;
+  width : 480px;
 }
 
 li {
   clear : both;
   float : left;
   padding : 10px 20px 10px 10px;
-  width : 480px;
+  width : 100%;
 }
 
 li.even {
@@ -51,7 +52,7 @@ span.host {
   font-family : monospace;
 }
 
-div#closer {
+#closer {
   position : fixed;
   right : 0px;
   top : 0px;

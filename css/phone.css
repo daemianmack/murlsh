@@ -3,12 +3,9 @@ body {
   padding : 0;
 }
 
-ul#urls {
+#urls {
   margin : 0;
   padding-left : 0;
-}
-
-li {
   width : 290px;
 }
 

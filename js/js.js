@@ -52,20 +52,30 @@ function add_extra() {
   var this_a = $(this);
   if (youtube_match = /http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=(.+?)(?:&|$)/.exec(
     $(this).attr('href'))) {
-    $(this).before($('<img />').addClass('thumb youtube').attr({
+    var img = $('<img />').addClass('thumb youtube').attr({
       alt : youtube_match[1],
       src :'http://img.youtube.com/vi/' + youtube_match[1] + '/1.jpg',
       title : 'click to watch'
-    }).click(youtube_click));
+    });
+    if (is_iphone()) {
+      $(this).prepend(img);
+    } else {
+      $(this).before(img.click(youtube_click));
+    }
   } else if (flickr_match = /http:\/\/(?:www\.)?flickr\.com\/photos\/[^\/]+?\/([0-9]+)/.exec(
     $(this).attr('href'))) {
     function flickr_thumb_insert(d) {
-      this_a.before($('<img />').addClass('thumb flickr').attr({
+      var img = $('<img />').addClass('thumb flickr').attr({
         alt : d.photo.title._content,
         src : 'http://farm' + d.photo.farm + '.static.flickr.com/' +
           d.photo.server + '/' + d.photo.id + '_' + d.photo.secret + '_s.jpg',
         title : d.photo.title._content
-      }).click(flickr_click));
+      });
+      if (is_iphone()) {
+        this_a.prepend(img);
+      } else {
+        this_a.before(img.click(flickr_click));
+      }
     }
     $.getJSON('http://api.flickr.com/services/rest/?api_key=d04e574aaf11bf2e1c03cba4ee7e5725&method=flickr.photos.getinfo&format=json&photo_id=' +
       flickr_match[1] + '&jsoncallback=?', flickr_thumb_insert);
@@ -99,6 +109,10 @@ function orientation_changed() {
 }
 
 window.onorientationchange = orientation_changed;
+
+function is_iphone() {
+  return navigator.userAgent.match(/i(phone|pod)/i);
+}
 
 $(document).ready(function() {
   orientation_changed();

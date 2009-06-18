@@ -14,7 +14,7 @@ require 'yaml'
 config = YAML.load_file('config.yaml')
 
 ActiveRecord::Base.establish_connection(
-  :adapter => 'sqlite3', :database => config['db_file'])
+  :adapter => 'sqlite3', :database => config.fetch('db_file'))
 
 db = ActiveRecord::Base.connection.instance_variable_get(:@connection)
 db.create_function('MATCH', 2) do |func,search_in,search_for|
@@ -38,11 +38,12 @@ FCGI.each do |req|
     :'xsi:schemaLocation' => 'http://www.w3.org/MarkUp/SCHEMA/xhtml11.xsd',
     :'xml:lang' => 'en') {
     xm.head {
-      xm.title(config['page_title'] + (qs['q'] ? " /#{qs['q']}" : ''))
-      xm.css('screen.css', :prefix => config['css_prefix'])
+      xm.title(config.fetch('page_title', '') + (qs['q'] ? " /#{qs['q']}" : ''))
+      xm.css(config.fetch('css_files', []),
+        :prefix => config.fetch('css_prefix', ''))
       xm.css('phone.css', :media => 'only screen and (max-device-width: 480px)',
-        :prefix => config['css_prefix'])
-      xm.atom(config['feed_file'])
+        :prefix => config.fetch('css_prefix', '')
+      xm.atom(config.fetch('feed_file'))
       xm.meta(:name => 'viewport',
         :content => 'width=device-width,minimum-scale=1.0,maximum-scale=1.0')
     }
@@ -53,8 +54,8 @@ FCGI.each do |req|
         xm.li {
           xm.div(:class => 'icon') {
             xm.a_img(
-              :href => config['feed_file'],
-              :prefix => config['img_prefix'],
+              :href => config.fetch('feed_file'),
+              :prefix => config.fetch('img_prefix', ''),
               :size => 28,
               :src => 'feed-icon-28x28.png',
               :text => 'Atom feed')
@@ -85,7 +86,8 @@ FCGI.each do |req|
 
         Murlsh::Url.all(:conditions => conditions,
           :order => 'id DESC',
-          :limit =>  qs['n'] ? qs['n'].to_i : config['num_posts_page']
+          :limit =>  qs['n'] ? qs['n'].to_i : config.fetch(
+            'num_posts_page', 100)
           ).each do |mu|
           first_class = ''
           unless mu.same_author?(last)
@@ -97,8 +99,8 @@ FCGI.each do |req|
             unless mu.same_author?(last)
               xm.div(:class => 'icon') {
                 xm.murlsh_img(
-                  :size => config['gravatar_size'],
-                  :src => "http://www.gravatar.com/avatar/#{mu.email}?s=#{config['gravatar_size']}",
+                  :size => config.fetch('gravatar_size', 32),
+                  :src => "http://www.gravatar.com/avatar/#{mu.email}?s=#{config.fetch('gravatar_size', 32)}",
                   :text => mu.name) if mu.email
               }
               xm.div(mu.name, :class => 'name') if mu.name
@@ -139,7 +141,7 @@ FCGI.each do |req|
         xm.a('murlsh', :href => 'http://github.com/mmb/murlsh/')
       }
       xm.javascript(%w{jquery-1.3.2.min.js jquery.cookie.js js.js},
-        :prefix => config['js_prefix'])
+        :prefix => config.fetch('js_prefix', ''))
     }
   }
 

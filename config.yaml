@@ -11,3 +11,5 @@ css_prefix: css/
 img_prefix: img/
 js_prefix: js/
 swf_prefix: swf/
+css_files:
+- screen.css

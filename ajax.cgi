@@ -26,7 +26,7 @@ if cgi.request_method == 'POST'
     unless cgi['auth'].empty?
       require 'bcrypt'
       require 'csv'
-      CSV::Reader.parse(File.open(config['auth_file'])) do |row|
+      CSV::Reader.parse(File.open(config.fetch('auth_file'))) do |row|
         if BCrypt::Password.new(row[2]) == cgi['auth']
           user = { :name => row[0], :email => row[1] }
           break
@@ -37,7 +37,7 @@ if cgi.request_method == 'POST'
     if user
       ActiveRecord::Base.default_timezone = :utc
       ActiveRecord::Base.establish_connection(
-        :adapter => 'sqlite3', :database => config['db_file'])
+        :adapter => 'sqlite3', :database => config.fetch('db_file'))
 
       mu = Murlsh::Url.new do |u|
         u.time = Time.now.gmtime
@@ -50,21 +50,22 @@ if cgi.request_method == 'POST'
       mu.save
 
       result = Murlsh::Url.all(:order => 'id DESC',
-        :limit => config['num_posts_feed'])
+        :limit => config.fetch('num_posts_feed', 25))
 
-      open(config['feed_file'], 'w') do |f|
+      open(config.fetch('feed_file'), 'w') do |f|
         f.flock File::LOCK_EX
 
         xm = Builder::XmlMarkup.new(:target => f)
         xm.instruct! :xml
 
         xm.feed(:xmlns => 'http://www.w3.org/2005/Atom') {
-          xm.id(config['root_url'])
-          xm.link(:href => "#{config['root_url']}#{config['feed_file']}",
+          xm.id(config.fetch('root_url'))
+          xm.link(:href =>
+            "#{config.fetch('root_url')}#{config.fetch('feed_file')}",
             :rel => 'self')
-          xm.title(config['page_title'])
+          xm.title(config.fetch('page_title', ''))
           xm.updated(result.collect { |mu| mu.time }.max.xmlschema)
-          uri_parsed = URI.parse(config['root_url'])
+          uri_parsed = URI.parse(config.fetch('root_url'))
           host, domain = uri_parsed.host.match(
             /^(.*?)\.?([^.]+\.[^.]+)$/).captures
           result.each do |mu|
@@ -101,7 +102,7 @@ if cgi.request_method == 'POST'
     body = 'No url'
   end
 else
-  headers.update('status' => 'MOVED', 'Location' => config['root_url'])
+  headers.update('status' => 'MOVED', 'Location' => config.fetch('root_url'))
 end
 
 cgi.out(headers) { body }

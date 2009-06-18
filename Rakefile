@@ -39,7 +39,7 @@ namespace :db do
 
   desc "Check for duplicate URLs."
   task :dupcheck do
-    db = SQLite3::Database.new(config['db_file'])
+    db = SQLite3::Database.new(config.fetch('db_file'))
     db.results_as_hash = true
     h = {}
     db.execute("SELECT * FROM urls").each do |r|
@@ -65,12 +65,12 @@ namespace :user do
     require 'bcrypt'
     require 'digest/md5'
 
-    puts "adding to #{config['auth_file']}"
+    puts "adding to #{config.fetch('auth_file')}"
     username = ask(:username)
     email = ask(:email)
     password = ask(:password)
 
-    open(config['auth_file'], 'a') do |f|
+    open(config.fetch('auth_file'), 'a') do |f|
       f.write("#{[username, Digest::MD5.hexdigest(email),
         BCrypt::Password.create(password)].join(',')}\n")
     end
@@ -86,7 +86,7 @@ task :validate do
   net_http = Net::HTTP.new('validator.w3.org', 80)
   #net_http.set_debug_output(STDOUT)
 
-  check_url = config['root_url']
+  check_url = config.fetch('root_url')
 
   print "validating #{check_url} : "
 

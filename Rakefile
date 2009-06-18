@@ -25,8 +25,8 @@ namespace :db do
 
   desc "Create an empty database."
   task :init do
-    puts "creating #{config['db_file']}"
-    db = SQLite3::Database.new(config['db_file'])
+    puts "creating #{config.fetch('db_file')}"
+    db = SQLite3::Database.new(config.fetch('db_file'))
     db.execute("CREATE TABLE urls (
       id INTEGER PRIMARY KEY,
       time TIMESTAMP,

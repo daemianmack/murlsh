@@ -67,3 +67,12 @@ fieldset {
   margin : 0;
   padding : 0;
 }
+
+fieldset#add p {
+  margin : 0.25em;
+}
+
+fieldset#add label {
+  float : left;
+  width : 100px;
+}

@@ -10,10 +10,10 @@ module Murlsh
 
   module_function
 
-  def get_title(url)
+  def get_title(url, failproof=true)
     result = nil
     begin
-      if get_content_type(url)[/^text\/html/]
+      if get_content_type(url, failproof)[/^text\/html/]
         f = open(url, 'User-Agent' =>
           'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624')
 
@@ -23,7 +23,7 @@ module Murlsh
           get_charset(doc) || f.charset, find_title(doc)))
       end
     rescue Exception => e
-      # puts e.message
+       raise unless failproof
     end
     result || url
   end

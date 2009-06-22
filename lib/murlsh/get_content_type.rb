@@ -4,7 +4,7 @@ require 'uri'
 
 module Murlsh
 
-  def get_content_type(url, redirects=0)
+  def get_content_type(url, failproof=true, redirects=0)
     unless redirects > 3
       begin
         url = URI.parse(url) unless url.is_a?(URI::HTTP)
@@ -14,11 +14,12 @@ module Murlsh
           case resp
             when Net::HTTPSuccess then return resp['content-type']
             when Net::HTTPRedirection then
-              return get_content_type(resp['location'], redirects + 1)
+              return get_content_type(resp['location'], failproof,
+                redirects + 1)
           end
         end
       rescue Exception => e
-        # puts e.message
+        raise unless failproof
       end
     end
     ''

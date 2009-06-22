@@ -1,3 +1,7 @@
+$:.unshift(File.join(File.dirname(__FILE__), 'lib'))
+
+require 'murlsh'
+
 require 'rubygems'
 require 'rake/testtask'
 require 'flog'
@@ -100,4 +104,14 @@ task :validate do
     puts "#{result} (#{errors} errors, #{warnings} warnings)"
   end
 
+end
+
+desc "Test remote title fetch for a URL and show errors."
+task :title, :url do |t, args|
+  puts Murlsh.get_title(args.url, failproof=false)
+end
+
+desc "Test remote content type fetch for a URL and show errors."
+task :content_type, :url do |t, args|
+  puts Murlsh.get_content_type(args.url, failproof=false)
 end

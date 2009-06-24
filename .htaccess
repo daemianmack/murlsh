@@ -1,3 +1,5 @@
+Options -Indexes
+
 DirectoryIndex index.fcgi
 
 AddOutputFilterByType DEFLATE application/javascript

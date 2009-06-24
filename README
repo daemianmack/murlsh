@@ -6,6 +6,7 @@ Simple site for a small group of people to share urls.
 - supports Gravatar
 - Atom feed
 - regex search
+- looks good on iPhone
 
 To setup:
 

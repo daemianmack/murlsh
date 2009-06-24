@@ -10,6 +10,7 @@ Simple site for a small group of people to share urls.
 
 To setup:
 
+edit config.yaml
 rake db:init user:add
 
 See http://matthewm.boedicker.org/urlshare/ for example.

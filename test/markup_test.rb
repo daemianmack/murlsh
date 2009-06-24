@@ -78,4 +78,10 @@ class MarkupTest < Test::Unit::TestCase
     assert_equal('<a href="/test/"><img src="foo.png"/></a>', @m.target!)
   end
 
+  def test_metas
+    @m.metas(:a => '1', :b => '2', :c => '3')
+    assert_equal('<meta name="a" content="1"/><meta name="b" content="2"/><meta name="c" content="3"/>',
+      @m.target!)
+  end
+
 end

@@ -1,5 +1,6 @@
 --- 
 auth_file: /home/mm6/murlsh_users
+description: URLs found interesting by Matthew M. Boedicker.
 db_file: murlsh.db
 feed_file: atom.xml
 gravatar_size: 32

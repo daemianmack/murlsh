@@ -43,6 +43,10 @@ module Murlsh
       end
     end
 
+    def metas(tags)
+      tags.each { |k,v| meta(:name => k, :content => v) }
+    end
+
     private
 
     def img_convert_prefix(options)

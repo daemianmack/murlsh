@@ -39,13 +39,14 @@ FCGI.each do |req|
     :'xml:lang' => 'en') {
     xm.head {
       xm.title(config.fetch('page_title', '') + (qs['q'] ? " /#{qs['q']}" : ''))
+      xm.metas(
+        :description => config.fetch('description', ''),
+        :viewport => 'width=device-width,minimum-scale=1.0,maximum-scale=1.0')
       xm.css(config.fetch('css_files', []),
         :prefix => config.fetch('css_prefix', ''))
       xm.css('phone.css', :media => 'only screen and (max-device-width: 480px)',
         :prefix => config.fetch('css_prefix', ''))
       xm.atom(config.fetch('feed_file'))
-      xm.meta(:name => 'viewport',
-        :content => 'width=device-width,minimum-scale=1.0,maximum-scale=1.0')
     }
     xm.body {
       xm.div(:id => 'closer') { }

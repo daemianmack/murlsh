@@ -54,12 +54,8 @@ FCGI.each do |req|
 
         xm.li {
           xm.div(:class => 'icon') {
-            xm.a_img(
-              :href => config.fetch('feed_file'),
-              :prefix => config.fetch('img_prefix', ''),
-              :size => 28,
-              :src => 'feed-icon-28x28.png',
-              :text => 'Atom feed')
+            xm.a('feed', :href => config.fetch('feed_file'),
+              :class => 'feed')
           }
           xm.form(:action => '', :method => 'get') {
             value = qs['q']

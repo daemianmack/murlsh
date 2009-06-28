@@ -60,11 +60,14 @@ span.host {
   top : 0px;
 }
 
-#closer p, input.close {
+div.closer_embed, input.close {
   background-color : black;
 }
 
-#closer p {
+div.closer_embed {
+  clear : both;
+  float : right;
+  margin : 5px 0px 5px 0px;
   padding : 15px 30px 15px 15px;
 }
 

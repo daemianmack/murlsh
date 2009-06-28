@@ -35,13 +35,13 @@ function close() {
 }
 
 function closer_add(x) {
-  var new_p = $('<p />');
-  $('#closer').prepend(new_p.append(x).append($('<input />').addClass(
+  var div = $('<div />').addClass('closer_embed');
+  $('#closer').prepend(div.append(x).append($('<input />').addClass(
     'close').attr({
     type : 'button',
     value : 'X'
   }).click(close)));
-  new_p.corner('round tl').corner('round bl');
+  div.corner('round tl').corner('round bl');
 }
 
 function flickr_click() {

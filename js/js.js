@@ -30,18 +30,22 @@ function object_tag(data, height, width, params) {
   return result;
 }
 
+function flickr_click() {
+  $('#closer').prepend($('<p />').append($('<img />').attr({
+    src : $(this).attr('src').replace(/s\.jpg/, 'm.jpg')
+  })));
+}
+
+function vimeo_click() {
+  $('#closer').prepend($(this).data('embed_html'));
+}
+
 function youtube_click() {
   var movie = 'http://www.youtube.com/v/' + $(this).attr('alt') +
     '&amp;hl=en&amp;fs=1&amp;showsearch=0';
   $('#closer').prepend($('<p />').append(object_tag(movie, 344, 425, [
     { name : 'movie', value : movie }
   ])));
-}
-
-function flickr_click() {
-  $('#closer').prepend($('<p />').append($('<img />').attr({
-    src : $(this).attr('src').replace(/s\.jpg/, 'm.jpg')
-  })));
 }
 
 function add_extra() {
@@ -82,14 +86,16 @@ function add_extra() {
   } else if (vimeo_match = /^http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)$/.exec(
     $(this).attr('href'))) {
     function vimeo_inject(d) {
-      this_a.prepend($('<img />').addClass('thumb vimeo').attr({
-        alt : d[0].title,
-        src : d[0].thumbnail_small,
-        title : d[0].title
-      }));
+      this_a.before($('<img />').addClass('thumb vimeo').attr({
+        alt : d.title,
+        src : d.thumbnail_url,
+        height : d.thumbnail_height,
+        width : d.thumbnail_width,
+        title : d.title
+      }).data('embed_html', d.html).click(vimeo_click));
     }
-    $.getJSON('http://vimeo.com/api/clip/' + vimeo_match[1] +
-      '.json?callback=?', vimeo_inject);
+    $.getJSON('http://vimeo.com/api/oembed.json?url=http%3A//vimeo.com/' +
+      vimeo_match[1] + '&callback=?', vimeo_inject);
   } else if (mp3_match = /.*\.mp3$/.exec($(this).attr('href'))) {
     var swf = 'swf/player_mp3_mini.swf';
     $(this).before(object_tag(swf, 20, 200, [

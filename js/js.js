@@ -30,22 +30,26 @@ function object_tag(data, height, width, params) {
   return result;
 }
 
+function closer_add(x) {
+  $('#closer').prepend($('<p />').append(x));
+}
+
 function flickr_click() {
-  $('#closer').prepend($('<p />').append($('<img />').attr({
+  closer_add($('<img />').attr({
     src : $(this).attr('src').replace(/s\.jpg/, 'm.jpg')
-  })));
+  }));
 }
 
 function vimeo_click() {
-  $('#closer').prepend($(this).data('embed_html'));
+  closer_add($(this).data('embed_html'));
 }
 
 function youtube_click() {
   var movie = 'http://www.youtube.com/v/' + $(this).attr('alt') +
     '&amp;hl=en&amp;fs=1&amp;showsearch=0';
-  $('#closer').prepend($('<p />').append(object_tag(movie, 344, 425, [
+  closer_add(object_tag(movie, 344, 425, [
     { name : 'movie', value : movie }
-  ])));
+  ]));
 }
 
 function add_extra() {

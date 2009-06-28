@@ -30,8 +30,18 @@ function object_tag(data, height, width, params) {
   return result;
 }
 
+function close() {
+  $(this).parent().remove();
+}
+
 function closer_add(x) {
-  $('#closer').prepend($('<p />').append(x));
+  var new_p = $('<p />');
+  $('#closer').prepend(new_p.append(x).append($('<input />').addClass(
+    'close').attr({
+    type : 'button',
+    value : 'X'
+  }).click(close)));
+  new_p.corner('round tl').corner('round bl');
 }
 
 function flickr_click() {

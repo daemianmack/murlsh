@@ -24,14 +24,7 @@ if cgi.request_method == 'POST'
   unless cgi['url'].empty?
     user = nil
     unless cgi['auth'].empty?
-      require 'bcrypt'
-      require 'csv'
-      CSV::Reader.parse(File.open(config.fetch('auth_file'))) do |row|
-        if BCrypt::Password.new(row[2]) == cgi['auth']
-          user = { :name => row[0], :email => row[1] }
-          break
-        end
-      end
+      user = Murlsh::Auth.new(config.fetch('auth_file')).auth(cgi['auth'])
     end
 
     if user

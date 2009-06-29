@@ -10,7 +10,7 @@ module Murlsh
         url = URI.parse(url) unless url.is_a?(URI::HTTP)
 
         make_net_http(url).start do |http|
-          resp = http.request_head(url.path)
+          resp = get_resp(http, url)
           case resp
             when Net::HTTPSuccess then return resp['content-type']
             when Net::HTTPRedirection then
@@ -32,7 +32,18 @@ module Murlsh
     net_http
   end
 
+  # Get the response to HTTP HEAD. If HEAD not allowed do GET.
+  def get_resp(http, url)
+    resp = http.request_head(url.path)
+    if Net::HTTPMethodNotAllowed === resp
+      http.request_get(url.path)
+    else
+      resp
+    end
+  end
+
   module_function :get_content_type
+  module_function :get_resp
   module_function :make_net_http
 
 end

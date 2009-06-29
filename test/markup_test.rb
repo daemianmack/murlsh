@@ -80,8 +80,11 @@ class MarkupTest < Test::Unit::TestCase
 
   def test_metas
     @m.metas(:a => '1', :b => '2', :c => '3')
-    assert_equal('<meta name="a" content="1"/><meta name="b" content="2"/><meta name="c" content="3"/>',
-      @m.target!)
+    [
+      '<meta name="a" content="1"/>',
+      '<meta name="b" content="2"/>',
+      '<meta name="c" content="3"/>',
+    ].each { |r| assert_match(/#{r}/, @m.target!) }
   end
 
 end

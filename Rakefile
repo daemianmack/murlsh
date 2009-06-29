@@ -66,18 +66,13 @@ namespace :user do
 
   desc "Add a new user."
   task :add do
-    require 'bcrypt'
-    require 'digest/md5'
-
     puts "adding to #{config.fetch('auth_file')}"
     username = ask(:username)
     email = ask(:email)
     password = ask(:password)
 
-    open(config.fetch('auth_file'), 'a') do |f|
-      f.write("#{[username, Digest::MD5.hexdigest(email),
-        BCrypt::Password.create(password)].join(',')}\n")
-    end
+    Murlsh::Auth.new(config.fetch('auth_file')).add_user(username, email,
+      password)
   end
 
 end

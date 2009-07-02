@@ -29,14 +29,13 @@ function vimeo_click() {
 
 function youtube_thumb(id) {
   return $('<img />').addClass('thumb youtube').attr({
-    alt : id,
     src :'http://img.youtube.com/vi/' + id + '/1.jpg',
     title : 'click to watch'
-  });
+  }).data('id', id);
 }
 
 function youtube_click() {
-  var movie = 'http://www.youtube.com/v/' + $(this).attr('alt') +
+  var movie = 'http://www.youtube.com/v/' + $(this).data('id') +
     '&amp;hl=en&amp;fs=1&amp;showsearch=0';
   closer_add(object_tag(movie, 344, 425, [
     { name : 'movie', value : movie }

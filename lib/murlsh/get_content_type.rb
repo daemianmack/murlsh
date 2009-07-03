@@ -4,11 +4,13 @@ require 'uri'
 
 module Murlsh
 
+  module_function
+
   def get_content_type(url, options={})
     options = { :failproof => true, :redirects => 0}.merge(options)
     unless options[:redirects] > 3
       begin
-        url = URI.parse(url) unless url.is_a?(URI::HTTP)
+        url = parse_uri(url)
 
         make_net_http(url, options).start do |http|
           resp = get_resp(http, url)
@@ -24,6 +26,11 @@ module Murlsh
       end
     end
     ''
+  end
+
+  # Parse a URI if it's not already parsed.
+  def parse_uri(uri)
+    uri.is_a?(URI::HTTP) ? uri : URI.parse(uri)
   end
 
   def make_net_http(url, options={})
@@ -42,9 +49,5 @@ module Murlsh
       resp
     end
   end
-
-  module_function :get_content_type
-  module_function :get_resp
-  module_function :make_net_http
 
 end

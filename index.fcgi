@@ -94,12 +94,13 @@ FCGI.each do |req|
 
           xm.li(:class => "author_group_#{author_group}#{first_class}") {
             unless mu.same_author?(last)
+              gravatar_size = config.fetch('gravatar_size', 0)
               xm.div(:class => 'icon') {
                 xm.murlsh_img(
-                  :size => config.fetch('gravatar_size', 32),
-                  :src => "http://www.gravatar.com/avatar/#{mu.email}?s=#{config.fetch('gravatar_size', 32)}",
-                  :text => mu.name) if mu.email
-              }
+                  :size => gravatar_size,
+                  :src => "http://www.gravatar.com/avatar/#{mu.email}?s=#{gravatar_size}",
+                  :text => mu.name)
+              } if mu.email and gravatar_size > 0
               xm.div(mu.name, :class => 'name') if mu.name
             end
 

@@ -42,8 +42,13 @@ function youtube_click() {
   ]));
 }
 
+function imageshack_click() {
+  closer_add($('<img />').attr({ src : $(this).data('href') }));
+}
+
 function add_extra() {
   var flickr_match;
+  var imageshack_match;
   var mp3_match;
   var vimeo_match;
   var youtube_match;
@@ -87,6 +92,12 @@ function add_extra() {
       { name : 'FlashVars', value : 'mp3=' + mp3_match[0] },
       { name : 'movie', value : swf }
     ]));
+  } else if (imageshack_match =
+    /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpg|gif|png)$/i.exec(
+    $(this).attr('href'))) {
+    this_a.replaceWith($('<img />').attr('src', imageshack_match[1] + 'th.' +
+      imageshack_match[2]).data('href', imageshack_match[0]).click(
+      imageshack_click));
   }
 }
 

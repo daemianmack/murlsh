@@ -32,12 +32,14 @@ if cgi.request_method == 'POST'
       ActiveRecord::Base.establish_connection(
         :adapter => 'sqlite3', :database => config.fetch('db_file'))
 
+      content_type = Murlsh.get_content_type(cgi['url'])
       mu = Murlsh::Url.new do |u|
         u.time = Time.now.gmtime
         u.url = cgi['url']
         u.email = user[:email]
         u.name = user[:name]
-        u.title = Murlsh.get_title(cgi['url'])
+        u.title = Murlsh.get_title(cgi['url'], :content_type => content_type)
+        u.content_type = content_type
       end
 
       mu.save

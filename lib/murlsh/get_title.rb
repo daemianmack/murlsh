@@ -10,10 +10,12 @@ module Murlsh
 
   module_function
 
-  def get_title(url, failproof=true)
+  def get_title(url, options={})
+    options = { :failproof => true }.merge(options)
     result = nil
     begin
-      if get_content_type(url, failproof)[/^text\/html/]
+      options[:content_type] ||= get_content_type(url, options)
+      if might_have_title(options[:content_type])
         f = open(url, 'User-Agent' =>
           'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624')
 
@@ -23,9 +25,13 @@ module Murlsh
           get_charset(doc) || f.charset, find_title(doc)))
       end
     rescue Exception => e
-       raise unless failproof
+       raise unless options[:failproof]
     end
     result || url
+  end
+
+  def might_have_title(content_type)
+    content_type[/^text\/html/]
   end
 
   # Find the title in an Hpricot document.

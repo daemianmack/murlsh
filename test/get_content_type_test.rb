@@ -49,4 +49,15 @@ class GetContentTypeTest < Test::Unit::TestCase
       'http://www.youtube.com/watch?v=vfxCnZ4Dp3c'))
   end
 
+  def test_failproof_true
+    assert_equal('', Murlsh.get_content_type('http://x.boedicker.org/',
+      :failproof => true))
+  end
+
+  def test_failproof_false
+    assert_raise SocketError do
+      Murlsh.get_content_type('http://x.boedicker.org/', :failproof => false)
+    end
+  end
+
 end

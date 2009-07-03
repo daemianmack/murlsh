@@ -37,7 +37,8 @@ namespace :db do
       url TEXT,
       email TEXT,
       name TEXT,
-      title TEXT);
+      title TEXT,
+      content_type TEXT);
       ")
   end
 

@@ -30,4 +30,14 @@ class GetTitleTest < Test::Unit::TestCase
     assert_equal('Google', Murlsh.get_title('http://www.google.com/'))
   end
 
+  def test_failproof_true
+    noop(Murlsh.get_title('http://x.boedicker.org/', :failproof => true))
+  end
+
+  def test_failproof_false
+    assert_raise SocketError do
+      Murlsh.get_title('http://x.boedicker.org/', :failproof => false)
+    end
+  end
+
 end

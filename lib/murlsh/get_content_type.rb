@@ -4,31 +4,32 @@ require 'uri'
 
 module Murlsh
 
-  def get_content_type(url, failproof=true, redirects=0)
-    unless redirects > 3
+  def get_content_type(url, options={})
+    options = { :failproof => true, :redirects => 0}.merge(options)
+    unless options[:redirects] > 3
       begin
         url = URI.parse(url) unless url.is_a?(URI::HTTP)
 
-        make_net_http(url).start do |http|
+        make_net_http(url, options).start do |http|
           resp = get_resp(http, url)
           case resp
             when Net::HTTPSuccess then return resp['content-type']
             when Net::HTTPRedirection then
-              return get_content_type(resp['location'], failproof,
-                redirects + 1)
+            options[:redirects] += 1
+            return get_content_type(resp['location'], options)
           end
         end
       rescue Exception => e
-        raise unless failproof
+        raise unless options[:failproof]
       end
     end
     ''
   end
 
-  def make_net_http(url, debug=nil)
+  def make_net_http(url, options={})
     net_http = Net::HTTP.new(url.host, url.port)
     net_http.use_ssl = (url.scheme == 'https')
-    net_http.set_debug_output(debug) if debug
+    net_http.set_debug_output(options[:debug]) if options[:debug]
     net_http
   end
 

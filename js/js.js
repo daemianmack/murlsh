@@ -95,9 +95,14 @@ function add_extra() {
   } else if (imageshack_match =
     /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpg|gif|png)$/i.exec(
     $(this).attr('href'))) {
-    this_a.replaceWith($('<img />').attr('src', imageshack_match[1] + 'th.' +
-      imageshack_match[2]).data('href', imageshack_match[0]).click(
-      imageshack_click));
+    var thumb = $('<img />').attr('src', imageshack_match[1] + 'th.' +
+      imageshack_match[2]);
+    if (is_iphone()) {
+      this_a.html(thumb);
+    } else {
+      this_a.replaceWith(thumb.data('href', imageshack_match[0]).click(
+        imageshack_click));
+    }
   }
 }
 

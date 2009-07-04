@@ -5,7 +5,6 @@ require 'murlsh'
 
 require 'rubygems'
 require 'active_record'
-require 'builder'
 require 'sqlite3'
 
 require 'cgi'
@@ -50,30 +49,11 @@ if cgi.request_method == 'POST'
       open(config.fetch('feed_file'), 'w') do |f|
         f.flock File::LOCK_EX
 
-        xm = Builder::XmlMarkup.new(:target => f)
-        xm.instruct! :xml
+        feed = Murlsh::AtomFeed.new(config.fetch('root_url'),
+          :filename => config.fetch('feed_file'),
+          :title => config.fetch('page_title', ''))
 
-        xm.feed(:xmlns => 'http://www.w3.org/2005/Atom') {
-          xm.id(config.fetch('root_url'))
-          xm.link(:href =>
-            "#{config.fetch('root_url')}#{config.fetch('feed_file')}",
-            :rel => 'self')
-          xm.title(config.fetch('page_title', ''))
-          xm.updated(result.collect { |mu| mu.time }.max.xmlschema)
-          uri_parsed = URI.parse(config.fetch('root_url'))
-          host, domain = uri_parsed.host.match(
-            /^(.*?)\.?([^.]+\.[^.]+)$/).captures
-          result.each do |mu|
-            xm.entry {
-              xm.author { xm.name(mu.name) }
-              xm.title(mu.title)
-              xm.id("tag:#{domain},#{mu.time.strftime('%Y-%m-%d')}:#{host}#{uri_parsed.path}#{mu.id}")
-              xm.summary(mu.title)
-              xm.updated(mu.time.xmlschema)
-              xm.link(:href => mu.url)
-            }
-          end
-        }
+        feed.make(result, :target => f)
 
         f.flock File::LOCK_UN
       end

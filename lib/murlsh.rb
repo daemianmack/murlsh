@@ -7,4 +7,5 @@ require 'murlsh/url'
 require 'murlsh/xhtml_content_type'
 
 # requiring builder before active_record blows up
+require 'murlsh/atom_feed'
 require 'murlsh/markup'

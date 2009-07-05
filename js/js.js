@@ -154,7 +154,11 @@ function close() {
 }
 
 function closer_add(x) {
-  var div = $('<div />').addClass('closer_embed');
+  var body_width = $('body').width();
+  if (x.css) {
+      x.css('max-width', body_width - 45);
+  }
+  var div = $('<div />').addClass('closer_embed').css('max-width', body_width);
   $('#closer').prepend(div.append(x).append($('<input />').addClass(
     'close').attr({
     type : 'button',

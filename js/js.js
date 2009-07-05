@@ -1,15 +1,23 @@
 function flickr_thumb(d) {
+  var zoom = 'http://farm' + d.photo.farm + '.static.flickr.com/' +
+      d.photo.server + '/' + d.photo.id + '_';
+  if (d.photo.originalsecret) {
+    zoom += d.photo.originalsecret + '_o.' + d.photo.originalformat;
+  } else {
+      zoom += d.photo.secret + '_m.jpg';
+  }
+
   return $('<img />').addClass('thumb flickr').attr({
     alt : d.photo.title._content,
     src : 'http://farm' + d.photo.farm + '.static.flickr.com/' +
       d.photo.server + '/' + d.photo.id + '_' + d.photo.secret + '_s.jpg',
     title : d.photo.title._content
-  });
+  }).data('zoom', zoom);
 }
 
 function flickr_click() {
   closer_add($('<img />').attr({
-    src : $(this).attr('src').replace(/s\.jpg/, 'm.jpg')
+    src : $(this).data('zoom')
   }));
 }
 

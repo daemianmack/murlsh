@@ -1,33 +1,34 @@
 function flickr_thumb(d) {
-  var zoom = 'http://farm' + d.photo.farm + '.static.flickr.com/' +
-      d.photo.server + '/' + d.photo.id + '_';
+  var base = 'http://farm' + d.photo.farm + '.static.flickr.com/' +
+    d.photo.server + '/' + d.photo.id + '_';
+  var zoom;
   if (d.photo.originalsecret) {
-    zoom += d.photo.originalsecret + '_o.' + d.photo.originalformat;
+    zoom = base + d.photo.originalsecret + '_o.' + d.photo.originalformat;
   } else {
-      zoom += d.photo.secret + '_m.jpg';
+    zoom = base + d.photo.secret + '_m.jpg';
   }
 
-  return $('<img />').addClass('thumb flickr').attr({
-    alt : d.photo.title._content,
-    src : 'http://farm' + d.photo.farm + '.static.flickr.com/' +
-      d.photo.server + '/' + d.photo.id + '_' + d.photo.secret + '_s.jpg',
-    title : d.photo.title._content
-  }).data('zoom', zoom);
+  return new_img(base + d.photo.secret + '_s.jpg',
+    d.photo.title._content).addClass(
+    'thumb flickr').data('zoom', zoom);
 }
 
 function flickr_click() {
-  closer_add($('<img />').attr({
-    src : $(this).data('zoom')
-  }));
+  closer_add(new_img($(this).data('zoom'), ''));
+}
+
+function imageshack_thumb(prefix, ext) {
+  return new_img(prefix + 'th.' + ext, '');
+}
+
+function imageshack_click() {
+  closer_add(new_img($(this).data('href'), ''));
 }
 
 function vimeo_thumb(d) {
-  return $('<img />').addClass('thumb vimeo').attr({
-    alt : d.title,
-    src : d.thumbnail_url,
+  return new_img(d.thumbnail_url, d.title).addClass('thumb vimeo').attr({
     height : d.thumbnail_height,
     width : d.thumbnail_width,
-    title : d.title
   });
 }
 
@@ -36,22 +37,14 @@ function vimeo_click() {
 }
 
 function youtube_thumb(id) {
-  return $('<img />').addClass('thumb youtube').attr({
-    src :'http://img.youtube.com/vi/' + id + '/1.jpg',
-    title : 'click to watch'
-  }).data('id', id);
+  return new_img('http://img.youtube.com/vi/' + id + '/1.jpg',
+    'click to watch').addClass('thumb youtube').data('id', id);
 }
 
 function youtube_click() {
   var movie = 'http://www.youtube.com/v/' + $(this).data('id') +
     '&amp;hl=en&amp;fs=1&amp;showsearch=0';
-  closer_add(object_tag(movie, 344, 425, [
-    { name : 'movie', value : movie }
-  ]));
-}
-
-function imageshack_click() {
-  closer_add($('<img />').attr({ src : $(this).data('href') }));
+  closer_add(object_tag(movie, 344, 425, [{ name : 'movie', value : movie }]));
 }
 
 function add_extra() {
@@ -61,7 +54,8 @@ function add_extra() {
   var vimeo_match;
   var youtube_match;
   var this_a = $(this);
-  if (youtube_match = /http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=(.+?)(?:&|$)/.exec(
+  if (youtube_match =
+    /http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=(.+?)(?:&|$)/.exec(
     $(this).attr('href'))) {
     var img = youtube_thumb(youtube_match[1]);
     if (is_iphone()) {
@@ -69,7 +63,8 @@ function add_extra() {
     } else {
       $(this).before(img.click(youtube_click));
     }
-  } else if (flickr_match = /http:\/\/(?:www\.)?flickr\.com\/photos\/[^\/]+?\/([0-9]+)/.exec(
+  } else if (flickr_match =
+    /http:\/\/(?:www\.)?flickr\.com\/photos\/[^\/]+?\/([0-9]+)/.exec(
     $(this).attr('href'))) {
     function flickr_thumb_insert(d) {
       var img = flickr_thumb(d);
@@ -103,8 +98,7 @@ function add_extra() {
   } else if (imageshack_match =
     /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpg|gif|png)$/i.exec(
     $(this).attr('href'))) {
-    var thumb = $('<img />').attr('src', imageshack_match[1] + 'th.' +
-      imageshack_match[2]);
+    var thumb = imageshack_thumb(imageshack_match[1], imageshack_match[2]);
     if (is_iphone()) {
       this_a.html(thumb);
     } else {
@@ -126,11 +120,9 @@ function format_li(d) {
 
   if (d['email']) {
     li.prepend($('<div />').addClass('icon').append(
-      $('<img />').attr({
-        src :  'http://www.gravatar.com/avatar/' + d['email'] + '?s=' +
-          icon_size,
-        title : d['name'],
-        alt : d['name'],
+      new_img(
+        'http://www.gravatar.com/avatar/' + d['email'] + '?s=' + icon_size,
+        d['name']).attr({
         width : icon_size,
         height : icon_size
       })));
@@ -147,6 +139,14 @@ function object_tag(data, height, width, params) {
   });
   result += '</object>';
   return result;
+}
+
+function new_img(src, text) {
+  return $('<img />').attr({
+    src : src,
+    alt : text,
+    title : text
+  });
 }
 
 function close() {

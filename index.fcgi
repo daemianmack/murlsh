@@ -25,7 +25,7 @@ FCGI.each do |req|
   headers = { 'Status' => '500 Internal Server Error' }
   body = ''
 
-  qs = Murlsh.parse_query(req.env['QUERY_STRING'])
+  qs = Murlsh.parse_query(req)
 
   if req.env['REQUEST_METHOD'] == 'GET'
     headers['Content-Type'] = Murlsh.xhtml_content_type(req.env['HTTP_ACCEPT'],

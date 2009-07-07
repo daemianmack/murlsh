@@ -149,9 +149,9 @@ FCGI.each do |req|
       headers['Status'] = '200 OK'
     }
   elsif req.env['REQUEST_METHOD'] == 'POST'
-    if qs['url']
+    unless qs['url'].empty?
       user = nil
-      if qs['auth']
+      unless qs['auth'].empty?
         user = Murlsh::Auth.new(config.fetch('auth_file')).auth(qs['auth'])
       end
 

@@ -14,6 +14,15 @@ module Murlsh
       @root_url = root_url
       @filename = options[:filename]
       @title = options[:title]
+
+      setup_id_fields
+    end
+
+    def setup_id_fields
+      uri_parsed = URI.parse(@root_url)
+      @host, @domain = uri_parsed.host.match(
+        /^(.*?)\.?([^.]+\.[^.]+)$/).captures
+      @path = uri_parsed.path
     end
 
     def make(entries, options={})
@@ -25,14 +34,11 @@ module Murlsh
         xm.link(:href => "#{@root_url}#{@filename}", :rel => 'self')
         xm.title(@title)
         xm.updated(entries.collect { |mu| mu.time }.max.xmlschema)
-        uri_parsed = URI.parse(@root_url)
-        host, domain = uri_parsed.host.match(
-          /^(.*?)\.?([^.]+\.[^.]+)$/).captures
         entries.each do |mu|
           xm.entry {
             xm.author { xm.name(mu.name) }
             xm.title(mu.title)
-            xm.id("tag:#{domain},#{mu.time.strftime('%Y-%m-%d')}:#{host}#{uri_parsed.path}#{mu.id}")
+            xm.id("tag:#{@domain},#{mu.time.strftime('%Y-%m-%d')}:#{@host}#{@path}#{mu.id}")
             xm.summary(mu.title)
             xm.updated(mu.time.xmlschema)
             xm.link(:href => mu.url)

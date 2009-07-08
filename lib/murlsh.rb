@@ -1,6 +1,7 @@
 require 'murlsh/auth'
 require 'murlsh/get_content_type'
 require 'murlsh/get_title'
+require 'murlsh/headers'
 require 'murlsh/parse_query'
 require 'murlsh/referrer'
 require 'murlsh/request'

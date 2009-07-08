@@ -7,7 +7,6 @@ require 'rubygems'
 require 'active_record'
 require 'sqlite3'
 
-require 'cgi'
 require 'fcgi'
 require 'yaml'
 
@@ -24,11 +23,12 @@ end
 FCGI.each do |req|
   req.extend(MurlshRequest)
 
-  headers = { 'Status' => '500 Internal Server Error' }
+  headers = Murlsh::Headers.new
+  headers.status('500 Internal Server Error')
   body = ''
 
   if req.is_get?
-    headers['Content-Type'] = req.response_content_type
+    headers.content_type(req.response_content_type)
 
     xm = Murlsh::Markup.new(:indent => 2)
     xm.instruct! :xml
@@ -146,7 +146,7 @@ FCGI.each do |req|
         xm.javascript(%w{jquery-1.3.2.min.js jquery.cookie.js jquery.corner.js
           js.js}, :prefix => config.fetch('js_prefix', ''))
       }
-      headers['Status'] = '200 OK'
+      headers.status('200 OK')
     }
   elsif req.is_post?
     unless req.query['url'].empty?
@@ -188,31 +188,25 @@ FCGI.each do |req|
           f.flock File::LOCK_UN
         end
 
-        headers.update(
-          'Set-Cookie' => [CGI::Cookie::new(
+        headers.content_type('application/json').cookie(
             'expires' => Time.mktime(2015, 6, 22),
             'name' => 'auth',
             'path' => '/',
-            'value' => req.query['auth'])],
-          'Status' => '200 OK',
-          'Content-Type' => 'application/json')
+            'value' => req.query['auth']).status('200 OK')
 
         body = result[0,1].to_json
       else
-        headers.update({'Status' => '403 Forbidden',
-          'Content-Type' => 'text/plain' })
+        headers.content_type('text/plain').status('403 Forbidden')
         body = 'Permission denied'
       end
     else
-      headers['Content-Type'] = 'text/plain'
+      headers.content_type('text/plain')
       body = 'No url'
     end
 
   end
 
-  headers.each { |k,v| req.out.print("#{k}: #{v}\n") }
-
-  req.out.print("\n#{body}")
+  req.out.print("#{headers.to_s}\n\n#{body}")
 
   req.finish
 end

@@ -3,6 +3,7 @@ require 'murlsh/get_content_type'
 require 'murlsh/get_title'
 require 'murlsh/parse_query'
 require 'murlsh/referrer'
+require 'murlsh/request'
 require 'murlsh/url'
 require 'murlsh/xhtml_content_type'
 

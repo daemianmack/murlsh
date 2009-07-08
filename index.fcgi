@@ -22,13 +22,13 @@ db.create_function('MATCH', 2) do |func,search_in,search_for|
 end
 
 FCGI.each do |req|
-  mreq = Murlsh::Request.new(req)
+  req.extend(MurlshRequest)
 
   headers = { 'Status' => '500 Internal Server Error' }
   body = ''
 
-  if mreq.is_get?
-    headers['Content-Type'] = mreq.response_content_type
+  if req.is_get?
+    headers['Content-Type'] = req.response_content_type
 
     xm = Murlsh::Markup.new(:indent => 2)
     xm.instruct! :xml
@@ -42,7 +42,7 @@ FCGI.each do |req|
       xm.head {
         xm.title(
           config.fetch('page_title', '') +
-            (mreq.query['q'] ? " /#{mreq.query['q']}" : ''))
+            (req.query['q'] ? " /#{req.query['q']}" : ''))
         xm.metas(
           :description => config.fetch('description', ''),
           :viewport =>
@@ -64,8 +64,8 @@ FCGI.each do |req|
                 :class => 'feed')
             }
             xm.form(:action => '', :method => 'get') {
-              value = mreq.query['q']
-              Murlsh::Referrer.new(mreq.referrer).search_query do |refq|
+              value = req.query['q']
+              Murlsh::Referrer.new(req.referrer).search_query do |refq|
                 re_parts = refq.split.collect { |x| Regexp.escape(x) }
                 value = "\\b(#{re_parts.join('|')})\\b"
               end
@@ -78,10 +78,10 @@ FCGI.each do |req|
           }
 
           conditions = []
-          if mreq.query['q']
+          if req.query['q']
             search_cols = %w{name title url}
             conditions = [search_cols.collect { |x| "MATCH(#{x}, ?)" }.join(
-              ' OR ')].push(*[mreq.query['q']] * search_cols.size)
+              ' OR ')].push(*[req.query['q']] * search_cols.size)
           end
 
           last = nil
@@ -89,7 +89,7 @@ FCGI.each do |req|
 
           Murlsh::Url.all(:conditions => conditions,
             :order => 'id DESC',
-            :limit =>  mreq.query['n'] ? mreq.query['n'].to_i : config.fetch(
+            :limit =>  req.query['n'] ? req.query['n'].to_i : config.fetch(
               'num_posts_page', 100)
             ).each do |mu|
             first_class = ''
@@ -148,11 +148,11 @@ FCGI.each do |req|
       }
       headers['Status'] = '200 OK'
     }
-  elsif mreq.is_post?
-    unless mreq.query['url'].empty?
+  elsif req.is_post?
+    unless req.query['url'].empty?
       user = nil
-      unless mreq.query['auth'].empty?
-        user = Murlsh::Auth.new(config.fetch('auth_file')).auth(mreq.query['auth'])
+      unless req.query['auth'].empty?
+        user = Murlsh::Auth.new(config.fetch('auth_file')).auth(req.query['auth'])
       end
 
       if user
@@ -160,13 +160,14 @@ FCGI.each do |req|
         ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
           :database => config.fetch('db_file'))
 
-        content_type = Murlsh.get_content_type(mreq.query['url'])
+        content_type = Murlsh.get_content_type(req.query['url'])
         mu = Murlsh::Url.new do |u|
           u.time = Time.now.gmtime
-          u.url = mreq.query['url']
+          u.url = req.query['url']
           u.email = user[:email]
           u.name = user[:name]
-          u.title = Murlsh.get_title(mreq.query['url'], :content_type => content_type)
+          u.title = Murlsh.get_title(req.query['url'],
+            :content_type => content_type)
           u.content_type = content_type
         end
 
@@ -192,7 +193,7 @@ FCGI.each do |req|
             'expires' => Time.mktime(2015, 6, 22),
             'name' => 'auth',
             'path' => '/',
-            'value' => mreq.query['auth'])],
+            'value' => req.query['auth'])],
           'Status' => '200 OK',
           'Content-Type' => 'application/json')
 

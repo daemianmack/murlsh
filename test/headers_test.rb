@@ -16,13 +16,13 @@ class HeadersTest < Test::Unit::TestCase
   end
 
   def test_cookie
-    assert_equal("Set-Cookie: a=b; path=/; expires=Mon, 22 Jun 2015 07:00:00 GMT\nSet-Cookie: c=d; path=/; expires=Mon, 22 Jun 2015 07:00:00 GMT",
+    assert_equal("Set-Cookie: a=b; path=/; expires=Mon, 22 Jun 2015 00:00:00 GMT\nSet-Cookie: c=d; path=/; expires=Mon, 22 Jun 2015 00:00:00 GMT",
       @h.cookie(
-        'expires' => Time.mktime(2015, 6, 22),
+        'expires' => Time.gm(2015, 6, 22),
         'name' => 'a',
         'path' => '/',
         'value' => 'b').cookie(
-          'expires' => Time.mktime(2015, 6, 22),
+          'expires' => Time.gm(2015, 6, 22),
           'name' => 'c',
           'path' => '/',
           'value' => 'd').to_s)

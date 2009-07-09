@@ -104,10 +104,10 @@ end
 
 desc "Test remote title fetch for a URL and show errors."
 task :title, :url do |t, args|
-  puts Murlsh.get_title(args.url, failproof=false)
+  puts Murlsh.get_title(args.url, :failproof => false)
 end
 
 desc "Test remote content type fetch for a URL and show errors."
 task :content_type, :url do |t, args|
-  puts Murlsh.get_content_type(args.url, failproof=false)
+  puts Murlsh.get_content_type(args.url, :failproof => false)
 end

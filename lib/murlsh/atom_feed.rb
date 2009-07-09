@@ -20,8 +20,11 @@ module Murlsh
 
     def setup_id_fields
       uri_parsed = URI.parse(@root_url)
-      @host, @domain = uri_parsed.host.match(
-        /^(.*?)\.?([^.]+\.[^.]+)$/).captures
+
+      m = uri_parsed.host.match(/^(.*?)\.?([^.]+\.[^.]+)$/)
+
+      @host, @domain = (m ? m.captures : [uri_parsed.host, ''])
+
       @path = uri_parsed.path
     end
 

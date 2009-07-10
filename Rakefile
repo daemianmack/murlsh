@@ -14,7 +14,7 @@ config = YAML.load_file('config.yaml')
 desc "Run flog on ruby and report on complexity."
 task :flog do
   flog = Flog.new
-  flog.flog_files('lib')
+  flog.flog('lib')
   flog.report
 end
 

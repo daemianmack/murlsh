@@ -2,10 +2,22 @@ require 'cgi'
 
 module Murlsh
 
+  HttpStatus = {
+    :ok => '200 OK',
+    :forbidden => '403 Forbidden',
+    :error => '500 Internal Server Error',
+  }
+
+  ContentType = {
+    :json => 'application/json',
+    :text => 'text/plain',
+  }
+
   class Headers < Hash
 
+
     def content_type(content_type)
-      self['Content-Type'] = content_type
+      self['Content-Type'] = ContentType[content_type] || content_type
       self
     end
 
@@ -16,7 +28,7 @@ module Murlsh
     end
 
     def status(status)
-      self['Status'] = status
+      self['Status'] = HttpStatus[status] || status
       self
     end
 

@@ -24,7 +24,7 @@ FCGI.each do |req|
   req.extend(MurlshRequest)
 
   headers = Murlsh::Headers.new
-  headers.status('500 Internal Server Error')
+  headers.status(:error)
   body = ''
 
   if req.is_get?
@@ -146,7 +146,7 @@ FCGI.each do |req|
         xm.javascript(%w{jquery-1.3.2.min.js jquery.cookie.js jquery.corner.js
           js.js}, :prefix => config.fetch('js_prefix', ''))
       }
-      headers.status('200 OK')
+      headers.status(:ok)
     }
   elsif req.is_post?
     unless req.query['url'].empty?
@@ -188,19 +188,19 @@ FCGI.each do |req|
           f.flock File::LOCK_UN
         end
 
-        headers.content_type('application/json').cookie(
+        headers.content_type(:json).cookie(
             'expires' => Time.mktime(2015, 6, 22),
             'name' => 'auth',
             'path' => '/',
-            'value' => req.query['auth']).status('200 OK')
+            'value' => req.query['auth']).status(:ok)
 
         body = result[0,1].to_json
       else
-        headers.content_type('text/plain').status('403 Forbidden')
+        headers.content_type(:text).status(:forbidden)
         body = 'Permission denied'
       end
     else
-      headers.content_type('text/plain')
+      headers.content_type(:text)
       body = 'No url'
     end
 

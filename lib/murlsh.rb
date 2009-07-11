@@ -1,10 +1,8 @@
 require 'murlsh/auth'
 require 'murlsh/get_content_type'
 require 'murlsh/get_title'
-require 'murlsh/headers'
-require 'murlsh/parse_query'
 require 'murlsh/referrer'
-require 'murlsh/request'
+require 'murlsh/server'
 require 'murlsh/url'
 require 'murlsh/xhtml_content_type'
 

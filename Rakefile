@@ -11,21 +11,26 @@ require 'sqlite3'
 
 config = YAML.load_file('config.yaml')
 
-desc "Run flog on ruby and report on complexity."
-task :flog do
-  flog = Flog.new
-  flog.flog('lib')
-  flog.report
-end
-
-desc "Run test suite."
-Rake::TestTask.new do |t|
-  t.pattern = 'test/*_test.rb'
-  t.verbose = true
-  t.warning = true
+desc "Test remote content type fetch for a URL and show errors."
+task :content_type, :url do |t, args|
+  puts Murlsh.get_content_type(args.url, :failproof => false)
 end
 
 namespace :db do
+
+  desc "Check for duplicate URLs."
+  task :dupcheck do
+    db = SQLite3::Database.new(config.fetch('db_file'))
+    db.results_as_hash = true
+    h = {}
+    db.execute("SELECT * FROM urls").each do |r|
+      h[r['url']] = h.fetch(r['url'], []).push([r['id'], r['time']])
+    end
+    h.select { |k,v| v.size > 1 }.each do |k,v|
+      puts k
+      v.each { |id,time| puts "  #{id} #{time}" }
+    end
+  end
 
   desc "Create an empty database."
   task :init do
@@ -42,25 +47,25 @@ namespace :db do
       ")
   end
 
-  desc "Check for duplicate URLs."
-  task :dupcheck do
-    db = SQLite3::Database.new(config.fetch('db_file'))
-    db.results_as_hash = true
-    h = {}
-    db.execute("SELECT * FROM urls").each do |r|
-      h[r['url']] = h.fetch(r['url'], []).push([r['id'], r['time']])
-    end
-    h.select { |k,v| v.size > 1 }.each do |k,v|
-      puts k
-      v.each { |id,time| puts "  #{id} #{time}" }
-    end
-  end
-
 end
 
-def ask(prompt)
-  print "#{prompt}: "
-  return STDIN.gets.chomp
+desc "Run flog on ruby and report on complexity."
+task :flog do
+  flog = Flog.new
+  flog.flog('lib')
+  flog.report
+end
+
+desc "Run test suite."
+Rake::TestTask.new do |t|
+  t.pattern = 'test/*_test.rb'
+  t.verbose = true
+  t.warning = true
+end
+
+desc "Test remote title fetch for a URL and show errors."
+task :title, :url do |t, args|
+  puts Murlsh.get_title(args.url, :failproof => false)
 end
 
 namespace :user do
@@ -102,12 +107,7 @@ task :validate do
 
 end
 
-desc "Test remote title fetch for a URL and show errors."
-task :title, :url do |t, args|
-  puts Murlsh.get_title(args.url, :failproof => false)
-end
-
-desc "Test remote content type fetch for a URL and show errors."
-task :content_type, :url do |t, args|
-  puts Murlsh.get_content_type(args.url, :failproof => false)
+def ask(prompt)
+  print "#{prompt}: "
+  return STDIN.gets.chomp
 end

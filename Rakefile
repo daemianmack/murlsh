@@ -49,6 +49,15 @@ namespace :db do
 
 end
 
+namespace :dreamhost do
+
+  desc "Restart Passenger."
+  task :restart do
+    open('tmp/restart.txt', 'w') { |f| }
+  end
+
+end
+
 desc "Run flog on ruby and report on complexity."
 task :flog do
   flog = Flog.new

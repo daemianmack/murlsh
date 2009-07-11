@@ -1,7 +1,5 @@
 Options -Indexes
 
-DirectoryIndex index.fcgi
-
 AddOutputFilterByType DEFLATE application/javascript
 AddOutputFilterByType DEFLATE application/xhtml+xml
 AddOutputFilterByType DEFLATE application/xml

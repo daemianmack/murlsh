@@ -7,7 +7,7 @@ gravatar_size: 32
 num_posts_feed: 25
 num_posts_page: 100
 page_title: mmb url share
-root_url: http://matthewm.boedicker.org/urlshare/
+root_url: http://urls.matthewm.boedicker.org/
 css_prefix: css/
 img_prefix: img/
 js_prefix: js/

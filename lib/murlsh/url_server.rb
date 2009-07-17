@@ -4,37 +4,15 @@ murlsh
 rubygems
 active_record
 rack
-sqlite3
-
-yaml
 }.each { |m| require m }
 
 module Murlsh
 
-  class Server
+  class UrlServer
 
-    def initialize
-      @config = YAML.load_file('config.yaml')
-
-      ActiveRecord::Base.establish_connection(
-        :adapter => 'sqlite3', :database => @config.fetch('db_file'))
-
-      @db = ActiveRecord::Base.connection.instance_variable_get(:@connection)
-      @db.create_function('MATCH', 2) do |func,search_in,search_for|
-        func.result = search_in.to_s.match(/#{search_for}/i) ? 1 : nil
-      end
-    end
-
-    def call(env)
-      req = Rack::Request.new(env)
-
-      meth = case req.request_method
-        when 'GET' then :get
-        when 'POST' then :post
-        else :method_not_supported
-      end
-
-      send(meth, req).finish
+    def initialize(config, db)
+      @config = config
+      @db = db
     end
 
     def get(req)
@@ -225,10 +203,6 @@ module Murlsh
       resp
     end
 
-    def method_not_supported(req)
-      Rack::Response.new('Method not supported', 500,
-        { 'Content-Type' => 'text/plain' })
-    end
   end
 
 end

@@ -1,8 +1,9 @@
 require 'murlsh/auth'
+require 'murlsh/dispatch'
 require 'murlsh/get_content_type'
 require 'murlsh/get_title'
 require 'murlsh/referrer'
-require 'murlsh/server'
+require 'murlsh/url_server'
 require 'murlsh/url'
 require 'murlsh/xhtml_content_type'
 

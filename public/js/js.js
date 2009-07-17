@@ -187,7 +187,7 @@ $(document).ready(function() {
   $('#urls li:even').addClass('even');
 
   $('#submit').click(function() {
-    $.post('index.fcgi', {
+    $.post('url', {
       url : $('#url').val(),
       auth : $('#auth').val()
       }, function(d) {

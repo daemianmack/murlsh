@@ -4,4 +4,4 @@ require 'murlsh'
 
 use Rack::Static, :urls => %w{/atom.xml /css /js /swf}
 # use Rack::ShowExceptions
-run Murlsh::Server.new
+run Murlsh::Dispatch.new

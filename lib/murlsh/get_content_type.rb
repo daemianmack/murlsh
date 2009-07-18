@@ -2,6 +2,14 @@ require 'net/http'
 require 'net/https'
 require 'uri'
 
+class URI::Generic
+
+  def path_query
+    path + (query ? "?#{query}" : '')
+  end
+
+end
+
 module Murlsh
 
   module_function
@@ -42,9 +50,9 @@ module Murlsh
 
   # Get the response to HTTP HEAD. If HEAD not allowed do GET.
   def get_resp(http, url)
-    resp = http.request_head(url.path)
+    resp = http.request_head(url.path_query)
     if Net::HTTPMethodNotAllowed === resp
-      http.request_get(url.path)
+      http.request_get(url.path_query)
     else
       resp
     end

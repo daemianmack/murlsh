@@ -16,6 +16,11 @@ task :content_type, :url do |t, args|
   puts Murlsh.get_content_type(args.url, :failproof => false)
 end
 
+desc 'Interact with the database.'
+task :db do
+  exec "sqlite3 #{config['db_file']}"
+end
+
 namespace :db do
 
   desc "Check for duplicate URLs."

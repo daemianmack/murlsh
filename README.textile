@@ -18,5 +18,4 @@ rake db:init user:add
 </code>
 </pre>
 
-See "http://urls.matthewm.boedicker.org/":http://urls.matthewm.boedicker.org/
-for example.
+See "http://urls.matthewm.boedicker.org/":http://urls.matthewm.boedicker.org/ for example.

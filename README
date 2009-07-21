@@ -2,7 +2,7 @@ Simple site for a small group of people to share urls.
 
 - looks up url titles
 - automatically adds thumbnails for and embeds Flickr, Imageshack, Vimeo and
-YouTube urls
+  YouTube urls
 - embeds Flash mp3 player for mp3 urls
 - supports Gravatar
 - Atom feed

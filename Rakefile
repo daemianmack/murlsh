@@ -82,6 +82,18 @@ task :title, :url do |t, args|
   puts Murlsh.get_title(args.url, :failproof => false)
 end
 
+desc 'Try to fetch the title for a url and update it in the database.'
+task :title_fetch, :url_id do |t, args|
+  ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
+    :database => config.fetch('db_file'))
+  url = Murlsh::Url.find(args.url_id)
+  puts "Url: #{url.url}"
+  puts "Previous title: #{url.title}"
+  url.title = Murlsh.get_title(url.url, :failproof => false)
+  url.save
+  puts "\nNew title: #{url.title}"
+end
+
 namespace :user do
 
   desc "Add a new user."

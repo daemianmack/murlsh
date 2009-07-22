@@ -35,7 +35,7 @@ module Murlsh
         ['GET', "#{@url_root}url"] => [@url_server, :get],
         ['POST', "#{@url_root}url"] => [@url_server, :post],
       }
-      dispatch.default = [self, :method_not_supported]
+      dispatch.default = [self, :not_found]
 
       req = Rack::Request.new(env)
 
@@ -44,9 +44,10 @@ module Murlsh
       obj.send(meth, req).finish
     end
 
-    def method_not_supported(req)
-      Rack::Response.new('Method not supported', 500,
-        { 'Content-Type' => 'text/plain' })
+    def not_found(req)
+      Rack::Response.new(
+        "<h1>Not found</h1><p><a href=\"#{@config['root_url']}\">home page<a></p>",
+        404, { 'Content-Type' => 'text/html' })
     end
   end
 

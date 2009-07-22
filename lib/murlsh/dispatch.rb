@@ -45,10 +45,13 @@ module Murlsh
     end
 
     def not_found(req)
-      Rack::Response.new(
-        "<h1>Not found</h1><p><a href=\"#{@config['root_url']}\">home page<a></p>",
+      Rack::Response.new("<p>#{req.url} not found</p>
+
+<p><a href=\"#{@config['root_url']}\">root<a></p>
+",
         404, { 'Content-Type' => 'text/html' })
     end
+
   end
 
 end

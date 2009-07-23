@@ -23,7 +23,7 @@ module Murlsh
 
     def hostrec
       begin
-        host = URI.parse(url).host.sub(/^(www)\./, '')
+        host = URI(url).host.sub(/^(www)\./, '')
       rescue Exception => e
         host = nil
       end

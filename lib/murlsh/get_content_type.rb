@@ -38,7 +38,7 @@ module Murlsh
 
   # Parse a URI if it's not already parsed.
   def parse_uri(uri)
-    uri.is_a?(URI::HTTP) ? uri : URI.parse(uri)
+    uri.is_a?(URI::HTTP) ? uri : URI(uri)
   end
 
   def make_net_http(url, options={})

@@ -19,7 +19,7 @@ module Murlsh
     end
 
     def setup_id_fields
-      uri_parsed = URI.parse(@root_url)
+      uri_parsed = URI(@root_url)
 
       m = uri_parsed.host.match(/^(.*?)\.?([^.]+\.[^.]+)$/)
 

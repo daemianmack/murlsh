@@ -35,12 +35,12 @@ class GetContentTypeTest < Test::Unit::TestCase
 
   def test_already_parsed
     assert_match(/^text\/html/, Murlsh.get_content_type(
-      URI.parse('http://www.google.com/')))
+      URI('http://www.google.com/')))
   end
 
   def test_already_parsed_https
     assert_match(/^text\/html/, Murlsh.get_content_type(
-      URI.parse('https://msp.f-secure.com/web-test/common/test.html')))
+      URI('https://msp.f-secure.com/web-test/common/test.html')))
   end
 
   def test_303

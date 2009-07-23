@@ -15,7 +15,7 @@ module Murlsh
 
     def initialize
       @config = YAML.load_file('config.yaml')
-      @url_root = URI.parse(@config.fetch('root_url')).path
+      @url_root = URI(@config.fetch('root_url')).path
 
       ActiveRecord::Base.establish_connection(
         :adapter => 'sqlite3', :database => @config.fetch('db_file'))

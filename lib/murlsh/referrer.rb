@@ -9,7 +9,7 @@ module Murlsh
       @url = url
 
       begin
-        url_parsed = URI.parse(url)
+        url_parsed = URI(url)
         @hostpath = url_parsed.host + url_parsed.path
         @query_string =
           url_parsed.query.nil? ? {} : CGI::parse(url_parsed.query)

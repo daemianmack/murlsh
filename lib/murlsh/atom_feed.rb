@@ -34,7 +34,7 @@ module Murlsh
 
       xm.feed(:xmlns => 'http://www.w3.org/2005/Atom') {
         xm.id(@root_url)
-        xm.link(:href => "#{@root_url}#{@filename}", :rel => 'self')
+        xm.link(:href => URI.join(@root_url, @filename), :rel => 'self')
         xm.title(@title)
         xm.updated(entries.collect { |mu| mu.time }.max.xmlschema)
         entries.each do |mu|

@@ -41,7 +41,7 @@ module Murlsh
           xm.entry {
             xm.author { xm.name(mu.name) }
             xm.title(mu.title)
-            xm.id("tag:#{@domain},#{mu.time.strftime('%Y-%m-%d')}:#{@host}#{@path}#{mu.id}")
+            xm.id(entry_id(mu))
             xm.summary(mu.title)
             xm.updated(mu.time.xmlschema)
             xm.link(:href => mu.url)
@@ -49,6 +49,10 @@ module Murlsh
         end
       }
       xm
+    end
+
+    def entry_id(url)
+      "tag:#{@domain},#{url.time.strftime('%Y-%m-%d')}:#{@host}#{@path}#{url.id}"
     end
 
   end

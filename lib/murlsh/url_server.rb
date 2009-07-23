@@ -37,6 +37,7 @@ module Murlsh
             :description => @config.fetch('description', ''),
             :viewport =>
               'width=device-width,minimum-scale=1.0,maximum-scale=1.0')
+          (gv = @config.fetch('google_verify')) and xm.metas('verify-v1' => gv)
           xm.css(@config.fetch('css_files', []),
             :prefix => @config.fetch('css_prefix', ''))
           xm.css('phone.css',

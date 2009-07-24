@@ -73,8 +73,8 @@ class MarkupTest < Test::Unit::TestCase
     ].each { |t| attr_check(*t.push(@m.target!)) }
   end
 
-  def test_a_img
-    @m.a_img(:href => '/test/', :src => 'foo.png')
+  def test_murlsh_img_href
+    @m.murlsh_img(:href => '/test/', :src => 'foo.png')
     assert_equal('<a href="/test/"><img src="foo.png"/></a>', @m.target!)
   end
 
@@ -85,6 +85,56 @@ class MarkupTest < Test::Unit::TestCase
       '<meta (name="b" content="2"|content="2" name="b")/>',
       '<meta (name="c" content="3"|content="3" name="c")/>',
     ].each { |r| assert_match(/#{r}/, @m.target!) }
+  end
+
+  def test_gravatar_none
+    @m.gravatar('xxx')
+    assert_equal('<img src="http://www.gravatar.com/avatar/xxx"/>', @m.target!)
+  end
+
+  def test_gravatar_valid_d
+    @m.gravatar('xxx', 'd' => 'identicon')
+    assert_equal('<img src="http://www.gravatar.com/avatar/xxx?d=identicon"/>',
+      @m.target!)
+  end
+
+  def test_gravatar_invalid_d
+    @m.gravatar('xxx', 'd' => 'bad')
+    assert_equal('<img src="http://www.gravatar.com/avatar/xxx"/>', @m.target!)
+  end
+
+  def test_gravatar_valid_r
+    @m.gravatar('xxx', 'r' => 'x')
+    assert_equal('<img src="http://www.gravatar.com/avatar/xxx?r=x"/>',
+      @m.target!)
+  end
+
+  def test_gravatar_invalid_r
+    @m.gravatar('xxx', 'r' => 'foo')
+    assert_equal('<img src="http://www.gravatar.com/avatar/xxx"/>', @m.target!)
+  end
+
+  def test_gravatar_valid_s
+    @m.gravatar('xxx', 's' => 100)
+    assert_equal('<img src="http://www.gravatar.com/avatar/xxx?s=100"/>',
+      @m.target!)
+  end
+
+  def test_gravatar_invalid_s
+    @m.gravatar('xxx', 's' => 1000)
+    assert_equal('<img src="http://www.gravatar.com/avatar/xxx"/>', @m.target!)
+  end
+
+  def test_gravatar_s_0
+    @m.gravatar('xxx', 's' => 0)
+    assert_equal('', @m.target!)
+  end
+
+  def test_gravatar_href
+    @m.gravatar('xxx', :href => '/test/')
+    assert_equal(
+      '<a href="/test/"><img src="http://www.gravatar.com/avatar/xxx"/></a>',
+      @m.target!)
   end
 
 end

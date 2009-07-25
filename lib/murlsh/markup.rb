@@ -57,8 +57,8 @@ module Murlsh
       return if query['s'] and query['s'] < 1
 
       options.reject! { |k,v| %w{d s r}.include?(k) }
-      options[:src] = URI.join('http://www.gravatar.com/avatar/', email_hash,
-        build_query(query))
+      options[:src] = URI.join('http://www.gravatar.com/avatar/',
+        email_hash + build_query(query))
 
       murlsh_img(options)
     end

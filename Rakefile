@@ -3,11 +3,12 @@ $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 require 'murlsh'
 
 require 'rubygems'
-require 'rake/testtask'
 require 'flog'
-
-require 'yaml'
+require 'rake/testtask'
 require 'sqlite3'
+
+require 'pp'
+require 'yaml'
 
 config = YAML.load_file('config.yaml')
 
@@ -16,12 +17,18 @@ task :content_type, :url do |t, args|
   puts Murlsh.get_content_type(args.url, :failproof => false)
 end
 
-desc 'Interact with the database.'
-task :db do
-  exec "sqlite3 #{config['db_file']}"
-end
-
 namespace :db do
+
+  desc 'Delete the last url added.'
+  task :delete_last_url do
+    ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
+      :database => config.fetch('db_file'))
+
+    last = Murlsh::Url.find(:last, :order => 'time')
+    pp last
+    response = ask('Delete this url', '?')
+    last.destroy if %w{y yes}.include?(response.downcase)
+  end
 
   desc "Check for duplicate URLs."
   task :dupcheck do
@@ -50,6 +57,11 @@ namespace :db do
       title TEXT,
       content_type TEXT);
       ")
+  end
+
+  desc 'Interact with the database.'
+  task :shell do
+    exec "sqlite3 #{config['db_file']}"
   end
 
 end
@@ -133,7 +145,7 @@ task :validate do
 
 end
 
-def ask(prompt)
-  print "#{prompt}: "
+def ask(prompt, sep=':')
+  print "#{prompt}#{sep} "
   return STDIN.gets.chomp
 end

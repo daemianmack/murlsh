@@ -92,7 +92,7 @@ module Murlsh
                 unless mu.same_author?(last)
                   gravatar_size = @config.fetch('gravatar_size', 0)
                   xm.div(:class => 'icon') {
-                    xm.gravatar(mu.email, :size => gravatar_size,
+                    xm.gravatar(mu.email, 's' => gravatar_size,
                       :text => mu.name)
                   } if mu.email and gravatar_size > 0
                   xm.div(mu.name, :class => 'name') if mu.name

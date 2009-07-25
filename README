@@ -16,3 +16,4 @@ edit config.yaml
 rake db:init user:add
 
 See http://urls.matthewm.boedicker.org/ for example.
+

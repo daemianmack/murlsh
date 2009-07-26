@@ -18,7 +18,7 @@ function flickr_click() {
 }
 
 function imageshack_thumb(prefix, ext) {
-  return new_img(prefix + 'th.' + ext, '');
+  return new_img(prefix + 'th.' + ext, '').addClass('thumb imgshack');
 }
 
 function imageshack_click() {
@@ -99,10 +99,11 @@ function add_extra() {
     /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpg|gif|png)$/i.exec(
     $(this).attr('href'))) {
     var thumb = imageshack_thumb(imageshack_match[1], imageshack_match[2]);
+    this_a.html('imageshack.us');
     if (is_iphone()) {
-      this_a.html(thumb);
+      this_a.prepend(thumb);
     } else {
-      this_a.replaceWith(thumb.data('href', imageshack_match[0]).click(
+      this_a.before(thumb.data('href', imageshack_match[0]).click(
         imageshack_click));
     }
   }

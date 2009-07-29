@@ -1,0 +1,7 @@
+Options -Indexes
+
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE text/html

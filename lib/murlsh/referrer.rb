@@ -35,7 +35,7 @@ module Murlsh
     end
 
     Qmap = {
-      /^www\.google\.(com|cz|dk|es|nl)(\/m)?\/search$/ => 'q',
+      /^www\.google\.(bs|com|cz|dk|es|nl)(\/m)?\/search$/ => 'q',
       /^www\.bing\.com\/search$/ => 'q',
     }
 

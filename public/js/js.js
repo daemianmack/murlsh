@@ -107,7 +107,7 @@ function add_extra() {
         imageshack_click));
     }
   } else if (s3_match =
-    /^(http:\/\/static\.mmb\.s3\.amazonaws.com\/\w+\.)(jpg|gif|png)$/i.exec(
+    /^(http:\/\/static\.mmb\.s3\.amazonaws.com\/[\w-]+\.)(jpg|gif|png)$/i.exec(
     $(this).attr('href'))) {
     var thumb = imageshack_thumb(s3_match[1], s3_match[2]);
     if (is_iphone()) {

@@ -76,19 +76,13 @@ module Murlsh
             end
 
             last = nil
-            author_group = 1
 
             Murlsh::Url.all(:conditions => conditions, :order => 'id DESC',
               :limit =>  req.params['n'] ? req.params['n'].to_i :
                 @config.fetch('num_posts_page', 100)
               ).each do |mu|
-              first_class = ''
-              unless mu.same_author?(last)
-                author_group = (author_group + 1) % 2
-                first_class = ' author_first' 
-              end
 
-              xm.li(:class => "author_group_#{author_group}#{first_class}") {
+              xm.li {
                 unless mu.same_author?(last)
                   gravatar_size = @config.fetch('gravatar_size', 0)
                   xm.div(:class => 'icon') {

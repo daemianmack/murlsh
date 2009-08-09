@@ -110,12 +110,8 @@ function add_extra() {
     /^(http:\/\/static\.mmb\.s3\.amazonaws.com\/[\w-]+\.)(jpg|gif|png)$/i.exec(
     $(this).attr('href'))) {
     var thumb = imageshack_thumb(s3_match[1], s3_match[2]);
-    if (is_iphone()) {
-      this_a.prepend(thumb);
-    } else {
-      this_a.replaceWith(thumb.data('href', s3_match[0]).click(
-        imageshack_click));
-    }
+    this_a.replaceWith(thumb.data('href', s3_match[0]).click(
+      imageshack_click));
   }
 }
 

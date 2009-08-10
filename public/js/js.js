@@ -113,8 +113,8 @@ function add_extra() {
     if (is_iphone()) {
       this_a.html(thumb);
     } else {
-      this_a.replaceWith(thumb.data('href', s3_match[0]).click(
-        imageshack_click));
+      this_a.html('link');
+      this_a.before(thumb.data('href', s3_match[0]).click(imageshack_click));
     }
   }
 }

@@ -31,6 +31,10 @@ module Murlsh
         Widely_known.include?(host))
     end
 
+    def is_image?
+      %w{image/gif image/jpeg image/png}.include?(content_type)
+    end
+
   end
 
 end

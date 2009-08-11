@@ -45,6 +45,7 @@ module Murlsh
             xm.summary(mu.title)
             xm.updated(mu.time.xmlschema)
             xm.link(:href => mu.url)
+            enclosure(xm, mu)
           }
         end
       }
@@ -53,6 +54,11 @@ module Murlsh
 
     def entry_id(url)
       "tag:#{@domain},#{url.time.strftime('%Y-%m-%d')}:#{@host}#{@path}#{url.id}"
+    end
+
+    def enclosure(xm, mu)
+      xm.link(:rel => 'enclosure', :type => mu.content_type, :href => mu.url,
+        :title => 'Full-size') if mu.is_image?
     end
 
   end

@@ -163,17 +163,11 @@ module Murlsh
           result = Murlsh::Url.all(:order => 'id DESC',
             :limit => @config.fetch('num_posts_feed', 25))
 
-          open(@config.fetch('feed_file'), 'w') do |f|
-            f.flock File::LOCK_EX
+          feed = Murlsh::AtomFeed.new(@config.fetch('root_url'),
+            :filename => @config.fetch('feed_file'),
+            :title => @config.fetch('page_title', ''))
 
-            feed = Murlsh::AtomFeed.new(@config.fetch('root_url'),
-              :filename => @config.fetch('feed_file'),
-              :title => @config.fetch('page_title', ''))
-
-            feed.make(result, :target => f)
-
-            f.flock File::LOCK_UN
-          end
+          feed.write(result, @config.fetch('feed_file'))
 
           resp['Content-Type'] = 'application/json'
 

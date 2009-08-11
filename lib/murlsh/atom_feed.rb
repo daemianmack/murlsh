@@ -28,6 +28,16 @@ module Murlsh
       @path = uri_parsed.path
     end
 
+    def write(entries, path)
+      open(path, 'w') do |f|
+        f.flock(File::LOCK_EX)
+
+        make(entries, :target => f)
+
+        f.flock(File::LOCK_UN)
+      end
+    end
+
     def make(entries, options={})
       xm = Builder::XmlMarkup.new(options)
       xm.instruct! :xml

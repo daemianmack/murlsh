@@ -145,6 +145,21 @@ task :validate do
 
 end
 
+desc 'Generate a shell script that will post a new url.'
+task :post_sh do
+  puts <<EOS
+#!/bin/sh
+
+URL="$1"
+AUTH="$2" # password can be passed as second parameter or hardcoded here
+
+curl \\
+  --data-urlencode "url=${URL}" \\
+  --data-urlencode "auth=${AUTH}" \\
+  #{config.fetch('root_url')}
+EOS
+end
+
 def ask(prompt, sep=':')
   print "#{prompt}#{sep} "
   return STDIN.gets.chomp

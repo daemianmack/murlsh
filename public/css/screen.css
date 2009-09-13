@@ -107,3 +107,8 @@ a.feed {
   font-size : 0.75em;
   padding : 2px 4px 2px 4px;
 }
+
+span.date {
+  color : #808080;
+  font-size : 0.75em;
+}

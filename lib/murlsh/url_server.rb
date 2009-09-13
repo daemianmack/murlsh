@@ -13,6 +13,7 @@ module Murlsh
     def initialize(config, db)
       @config = config
       @db = db
+      ActiveRecord::Base.default_timezone = :utc
     end
 
     def get(req)
@@ -145,7 +146,6 @@ module Murlsh
         end
 
         if user
-          ActiveRecord::Base.default_timezone = :utc
           ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
             :database => @config.fetch('db_file'))
 

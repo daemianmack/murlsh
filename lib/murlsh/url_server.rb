@@ -96,8 +96,8 @@ module Murlsh
                 xm.a(mu.title.strip.gsub(/\s+/, ' '), :href => mu.url)
 
                 mu.hostrec { |hostrec| xm.span(hostrec, :class => 'host') }
-                xm.span(mu.time.fuzzy, :class => 'date') if @config.fetch(
-                  'show_dates', true)
+                xm.span(", #{mu.time.fuzzy}", :class => 'date') if
+                  @config.fetch('show_dates', true)
                 last = mu
               }
             end

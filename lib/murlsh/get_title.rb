@@ -11,13 +11,15 @@ module Murlsh
   module_function
 
   def get_title(url, options={})
-    options = { :failproof => true }.merge(options)
+    options = {
+      :failproof => true,
+      :useragent => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624'
+      }.merge(options)
     result = nil
     begin
       options[:content_type] ||= get_content_type(url, options)
       if might_have_title(options[:content_type])
-        f = open(url, 'User-Agent' =>
-          'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624')
+        f = open(url, 'User-Agent' => options[:useragent])
 
         doc = Hpricot(f)
 

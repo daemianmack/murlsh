@@ -15,18 +15,22 @@ module Murlsh
   module_function
 
   def get_content_type(url, options={})
-    options = { :failproof => true, :redirects => 0}.merge(options)
+    options = {
+      :failproof => true,
+      :redirects => 0,
+      :useragent => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624'
+      }.merge(options)
     unless options[:redirects] > 3
       begin
         url = parse_uri(url)
 
         make_net_http(url, options).start do |http|
-          resp = get_resp(http, url)
+          resp = get_resp(http, url, { 'User-Agent' => options[:useragent] })
           case resp
             when Net::HTTPSuccess then return resp['content-type']
             when Net::HTTPRedirection then
-            options[:redirects] += 1
-            return get_content_type(resp['location'], options)
+              options[:redirects] += 1
+              return get_content_type(resp['location'], options)
           end
         end
       rescue Exception => e
@@ -49,10 +53,10 @@ module Murlsh
   end
 
   # Get the response to HTTP HEAD. If HEAD not allowed do GET.
-  def get_resp(http, url)
-    resp = http.request_head(url.path_query)
+  def get_resp(http, url, headers={})
+    resp = http.request_head(url.path_query, headers)
     if Net::HTTPMethodNotAllowed === resp
-      http.request_get(url.path_query)
+      http.request_get(url.path_query, headers)
     else
       resp
     end

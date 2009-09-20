@@ -15,15 +15,13 @@ module Murlsh
   module_function
 
   def get_content_type(url, options={})
+    options[:headers] = default_headers(url).merge(
+      options.fetch(:headers, {}))
+
     options = {
       :failproof => true,
-      :headers => {},
       :redirects => 0,
       }.merge(options)
-
-    options[:headers] = {
-      'User-Agent' => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624',
-      }.merge(options[:headers])
 
     unless options[:redirects] > 3
       begin
@@ -65,6 +63,22 @@ module Murlsh
     else
       resp
     end
+  end
+
+  def default_headers(url)
+    result = {
+      'User-Agent' =>
+        'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624',
+    }
+    begin
+      parsed_url = parse_uri(url)
+      if (parsed_url.host || '')[/^www\.nytimes\.com/]
+        result['Referer'] = 'http://news.google.com/'
+      end
+    rescue URI::InvalidURIError => e
+    end
+
+    result
   end
 
 end

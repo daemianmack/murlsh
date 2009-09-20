@@ -17,15 +17,20 @@ module Murlsh
   def get_content_type(url, options={})
     options = {
       :failproof => true,
+      :headers => {},
       :redirects => 0,
-      :useragent => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624'
       }.merge(options)
+
+    options[:headers] = {
+      'User-Agent' => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624',
+      }.merge(options[:headers])
+
     unless options[:redirects] > 3
       begin
         url = parse_uri(url)
 
         make_net_http(url, options).start do |http|
-          resp = get_resp(http, url, { 'User-Agent' => options[:useragent] })
+          resp = get_resp(http, url, options[:headers])
           case resp
             when Net::HTTPSuccess then return resp['content-type']
             when Net::HTTPRedirection then

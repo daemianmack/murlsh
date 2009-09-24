@@ -13,7 +13,9 @@ Murlsh.close = function() {
 };
 
 Murlsh.closer_add = function(x) {
-  $.jGrowl($('<div />').append(x).html(), {
+  var html = (typeof x == 'object') ? $('<div />').append(x).html() : x;
+
+  $.jGrowl(html, {
     closeTemplate : 'X',
     glue :'before',
     sticky : true,

@@ -18,8 +18,8 @@ Murlsh.closer_add = function(x) {
   $.jGrowl(html, {
     closeTemplate : 'X',
     glue :'before',
-    sticky : true,
-    } );
+    sticky : true
+    });
 };
 
 Murlsh.object_tag = function(data, height, width, params) {

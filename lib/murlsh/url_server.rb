@@ -47,7 +47,6 @@ module Murlsh
           xm.atom(@config.fetch('feed_file'))
         }
         xm.body {
-          xm.div(:id => 'closer') { }
           xm.ul(:id => 'urls') {
 
             xm.li {
@@ -128,8 +127,12 @@ module Murlsh
             xm.text! 'powered by '
             xm.a('murlsh', :href => 'http://github.com/mmb/murlsh/')
           }
-          xm.javascript(%w{jquery-1.3.2.min.js jquery.cookie.js
-            jquery.corner.js js.js}, :prefix => @config.fetch('js_prefix', ''))
+          xm.javascript(%w{
+            jquery-1.3.2.min.js
+            jquery.cookie.js
+            jquery.jgrowl_compressed.js
+            js.js
+            }, :prefix => @config.fetch('js_prefix', ''))
         }
       }
       resp

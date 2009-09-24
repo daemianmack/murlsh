@@ -13,17 +13,11 @@ Murlsh.close = function() {
 };
 
 Murlsh.closer_add = function(x) {
-  var body_width = $('body').width();
-  if (x.css) {
-      x.css('max-width', body_width - 45);
-  }
-  var div = $('<div />').addClass('closer_embed').css('max-width', body_width);
-  $('#closer').prepend(div.append(x).append($('<input />').addClass(
-    'close').attr({
-    type : 'button',
-    value : 'X'
-  }).click(Murlsh.close)));
-  div.corner('round tl').corner('round bl');
+  $.jGrowl($('<div />').append(x).html(), {
+    closeTemplate : 'X',
+    glue :'before',
+    sticky : true,
+    } );
 };
 
 Murlsh.object_tag = function(data, height, width, params) {

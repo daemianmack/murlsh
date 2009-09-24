@@ -54,33 +54,6 @@ span.host {
   font-family : monospace;
 }
 
-#closer {
-  position : fixed;
-  right : 0px;
-  top : 0px;
-}
-
-div.closer_embed, input.close {
-  background-color : black;
-}
-
-div.closer_embed {
-  clear : both;
-  float : right;
-  margin : 5px 0px 5px 0px;
-  padding : 15px 30px 15px 15px;
-}
-
-input.close {
-  border : 0;
-  color : white;
-  font-weight : bold;
-  position : absolute;
-  right : 0px;
-  top : 0px;
-  width : 30px;
-}
-
 fieldset {
   border : 0;
   margin : 0;
@@ -111,4 +84,11 @@ a.feed {
 span.date {
   color : #808080;
   font-size : 0.75em;
+}
+
+div.jGrowl div.jGrowl-notification,
+div.jGrowl div.jGrowl-closer {
+  clear : both;
+  float : right;
+  width : auto;
 }

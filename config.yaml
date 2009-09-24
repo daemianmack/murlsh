@@ -14,4 +14,5 @@ img_prefix: img/
 js_prefix: js/
 swf_prefix: swf/
 css_files:
+- jquery.jgrowl.css
 - screen.css

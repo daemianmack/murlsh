@@ -6,7 +6,7 @@ require 'murlsh/referrer'
 require 'murlsh/time'
 require 'murlsh/url_server'
 require 'murlsh/url'
-require 'murlsh/xhtml_content_type'
+require 'murlsh/xhtml_response'
 
 # requiring builder before active_record blows up
 require 'murlsh/atom_feed'

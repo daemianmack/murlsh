@@ -17,10 +17,10 @@ module Murlsh
     end
 
     def get(req)
-      resp = Rack::Response.new
+      resp = Murlsh::XhtmlResponse.new
 
-      resp['Content-Type'] = Murlsh.xhtml_content_type(
-        req.env['HTTP_ACCEPT'], req.env['HTTP_USER_AGENT'])
+      resp.set_content_type(req.env['HTTP_ACCEPT'],
+        req.env['HTTP_USER_AGENT'])
 
       xm = Murlsh::Markup.new(:indent => 2)
       xm.instruct! :xml

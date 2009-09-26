@@ -13,7 +13,7 @@ module Murlsh
     end
 
     Widely_known = %w{
-      en.wikipedia.org
+      wikipedia.org
       flickr.com
       github.com
       twitter.com
@@ -23,12 +23,12 @@ module Murlsh
 
     def hostrec
       begin
-        host = URI(url).host.sub(/^(www)\./, '')
+        domain = URI(url).host[/[a-z\d-]+\.[a-z]{2,}$/].downcase
       rescue Exception => e
-        host = nil
+        domain = nil
       end
-      yield host unless !host or (title.downcase.index(host.downcase) or
-        Widely_known.include?(host))
+      yield domain unless !domain or title.downcase.index(domain) or
+        Widely_known.include?(domain)
     end
 
     def is_image?

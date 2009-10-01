@@ -23,7 +23,7 @@ module Murlsh
 
     def hostrec
       begin
-        domain = URI(url).host[/[a-z\d-]+\.[a-z]{2,}$/].downcase
+        domain = URI(url).host[/[a-z\d-]+\.[a-z]{2,}(\.[a-z]{2})?$/].downcase
       rescue Exception => e
         domain = nil
       end

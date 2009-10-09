@@ -21,9 +21,6 @@ module Murlsh
         :adapter => 'sqlite3', :database => @config.fetch('db_file'))
 
       @db = ActiveRecord::Base.connection.instance_variable_get(:@connection)
-      @db.create_function('MATCH', 2) do |func,search_in,search_for|
-        func.result = search_in.to_s.match(/#{search_for}/i) ? 1 : nil
-      end
 
       @url_server = Murlsh::UrlServer.new(@config, @db)
     end

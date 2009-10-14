@@ -1,6 +1,4 @@
 %w{
-murlsh
-
 rubygems
 active_record
 rack
@@ -19,123 +17,28 @@ module Murlsh
     def get(req)
       resp = Murlsh::XhtmlResponse.new
 
-      resp.set_content_type(req.env['HTTP_ACCEPT'],
-        req.env['HTTP_USER_AGENT'])
+      resp.set_content_type(req.env['HTTP_ACCEPT'], req.env['HTTP_USER_AGENT'])
 
-      xm = Murlsh::Markup.new(:indent => 2)
-      xm.instruct! :xml
-      xm.declare! :DOCTYPE, :html, :PUBLIC, '-//W3C//DTD XHTML 1.1//EN',
-        'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'
+      urls = Murlsh::Url.all(:conditions => search_conditions(req.params['q']),
+        :order => 'id DESC',
+        :limit =>  req.params['n'] ? req.params['n'].to_i :
+        @config.fetch('num_posts_page', 100))
 
-      resp.body = xm.html(:xmlns => 'http://www.w3.org/1999/xhtml',
-        :'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-        :'xsi:schemaLocation' => 'http://www.w3.org/MarkUp/SCHEMA/xhtml11.xsd',
-        :'xml:lang' => 'en') {
-        xm.head {
-          xm.title(@config.fetch('page_title', '') +
-            (req.params['q'] ? " /#{req.params['q']}" : ''))
-          xm.metas(
-            :description => @config.fetch('description', ''),
-            :viewport =>
-              'width=device-width,minimum-scale=1.0,maximum-scale=1.0')
-          (gv = @config.fetch('google_verify')) and xm.metas('verify-v1' => gv)
-          xm.css(@config.fetch('css_files', []),
-            :prefix => @config.fetch('css_prefix', ''))
-          xm.css('phone.css',
-            :media => 'only screen and (max-device-width: 480px)',
-            :prefix => @config.fetch('css_prefix', ''))
-          xm.atom(@config.fetch('feed_file'))
-        }
-        xm.body {
-          xm.ul(:id => 'urls') {
+      resp['Last-Modified'] = urls.first.time.httpdate unless urls.empty?
 
-            xm.li {
-              xm.div(:class => 'icon') {
-                xm.a('feed', :href => @config.fetch('feed_file'),
-                  :class => 'feed')
-              }
-              xm.form(:action => '', :method => 'get') {
-                value = req.params['q']
-                Murlsh::Referrer.new(req.referrer).search_query do |refq|
-                  re_parts = refq.split.collect { |x| Regexp.escape(x) }
-                  value = "\\b(#{re_parts.join('|')})\\b"
-                end
-                xm.fieldset {
-                  xm.input(:type => 'text', :id => 'q', :name => 'q',
-                    :size => 32, :value => value)
-                  xm.input(:type => 'submit', :value=> 'Regex Search')
-                }
-              }
-            }
+      resp.body = Murlsh::UrlBody.new(@config, @db, req, urls)
 
-            conditions = []
-            if req.params['q']
-              search_cols = %w{name title url}
-              conditions = [search_cols.collect { |x| "MATCH(#{x}, ?)" }.join(
-                ' OR ')].push(*[req.params['q']] * search_cols.size)
-            end
-
-            last = nil
-
-            Murlsh::Url.all(:conditions => conditions, :order => 'id DESC',
-              :limit =>  req.params['n'] ? req.params['n'].to_i :
-                @config.fetch('num_posts_page', 100)
-              ).each do |mu|
-
-              xm.li {
-                unless mu.same_author?(last)
-                  gravatar_size = @config.fetch('gravatar_size', 0)
-                  xm.div(:class => 'icon') {
-                    xm.gravatar(mu.email, 's' => gravatar_size,
-                      :text => mu.name)
-                  } if mu.email and gravatar_size > 0
-                  xm.div(mu.name, :class => 'name') if mu.name
-                end
-
-                xm.a(mu.title.strip.gsub(/\s+/, ' '), :href => mu.url)
-
-                mu.hostrec { |hostrec| xm.span(hostrec, :class => 'host') }
-                xm.span(", #{mu.time.fuzzy}", :class => 'date') if
-                  @config.fetch('show_dates', true)
-                last = mu
-              }
-            end
-
-            xm.li {
-              xm.form(:action => '', :method => 'post') {
-                xm.fieldset(:id => 'add') {
-                  xm.p {
-                    xm.label('Add URL:', :for => 'url')
-                    xm.input(:type => 'text', :id => 'url', :name => 'url',
-                      :size => 32)
-                  }
-                  xm.p {
-                    xm.label('Password:', :for => 'auth')
-                    xm.input(:type => 'password', :id => 'auth',
-                      :name => 'auth', :size => 16)
-                    xm.input(:type => 'button', :id => 'submit',
-                      :value => 'Add')
-                  }
-                }
-              }
-            }
-          }
-
-          xm.div(:style => 'clear : both')
-
-          xm.p {
-            xm.text! 'powered by '
-            xm.a('murlsh', :href => 'http://github.com/mmb/murlsh/')
-          }
-          xm.javascript(%w{
-            jquery-1.3.2.min.js
-            jquery.cookie.js
-            jquery.jgrowl_compressed.js
-            js.js
-            }, :prefix => @config.fetch('js_prefix', ''))
-        }
-      }
       resp
+    end
+
+    def search_conditions(q)
+      if q
+        search_cols = %w{name title url}
+        [search_cols.collect { |x| "MATCH(#{x}, ?)" }.join(' OR ')].push(
+          *[q] * search_cols.size)
+      else
+        []
+      end
     end
 
     def post(req)

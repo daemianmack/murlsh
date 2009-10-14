@@ -12,3 +12,4 @@ require 'murlsh/xhtml_response'
 # requiring builder before active_record blows up
 require 'murlsh/atom_feed'
 require 'murlsh/markup'
+require 'murlsh/url_body'

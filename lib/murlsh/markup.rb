@@ -1,9 +1,6 @@
-require 'rubygems'
-require 'builder'
-
 module Murlsh
 
-  class Markup < Builder::XmlMarkup
+  module Markup
 
     def javascript(sources, options={})
       sources.to_a.each do |src|

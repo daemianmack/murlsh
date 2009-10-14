@@ -101,7 +101,7 @@ Murlsh.add_extra = function() {
   var mp3_match = /.*\.mp3$/i.exec(href);
 
   var s3_match =
-    /^(http:\/\/static\.mmb\.s3\.amazonaws.com\/[\w\-]+\.)(jpg|gif|png)$/i.exec(
+    /^(http:\/\/static\.mmb\.s3\.amazonaws.com\/.*\.)(jpg|gif|png)$/i.exec(
     href);
 
   var vimeo_match = /^http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)$/i.exec(href);

@@ -77,7 +77,7 @@ Murlsh.youtube_thumb = function(id) {
 
 Murlsh.youtube_click = function() {
   var movie = 'http://www.youtube.com/v/' + $(this).data('id') +
-    '&amp;hl=en&amp;fs=1&amp;showsearch=0';
+    '?hd=1&amp;hl=en&amp;fs=1&amp;showinfo=0&amp;showsearch=0';
   Murlsh.closer_add(Murlsh.object_tag(movie, 344, 425, [{ name : 'movie', value : movie }]));
 };
 

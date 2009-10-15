@@ -19,26 +19,13 @@ module Murlsh
 
       resp.set_content_type(req.env['HTTP_ACCEPT'], req.env['HTTP_USER_AGENT'])
 
-      urls = Murlsh::Url.all(:conditions => search_conditions(req.params['q']),
-        :order => 'id DESC',
-        :limit =>  req.params['n'] ? req.params['n'].to_i :
-        @config.fetch('num_posts_page', 100))
+      last_db_update = File::Stat.new(@config['db_file']).mtime
+      resp['Last-Modified'] = last_db_update.httpdate
+      resp['ETag'] = "#{last_db_update.to_i}#{req.params.sort}"
 
-      resp['Last-Modified'] = urls.first.time.httpdate unless urls.empty?
-
-      resp.body = Murlsh::UrlBody.new(@config, @db, req, urls)
+      resp.body = Murlsh::UrlBody.new(@config, @db, req)
 
       resp
-    end
-
-    def search_conditions(q)
-      if q
-        search_cols = %w{name title url}
-        [search_cols.collect { |x| "MATCH(#{x}, ?)" }.join(' OR ')].push(
-          *[q] * search_cols.size)
-      else
-        []
-      end
     end
 
     def post(req)

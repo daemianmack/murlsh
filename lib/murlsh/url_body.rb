@@ -3,9 +3,26 @@ module Murlsh
   class UrlBody < Builder::XmlMarkup
     include Murlsh::Markup
 
-    def initialize(config, db, req, urls)
-      @config, @db, @req, @urls = config, db, req, urls
+    def initialize(config, db, req)
+      @config, @db, @req = config, db, req
       super(:indent => 2)
+    end
+
+    def urls
+      Murlsh::Url.all(:conditions => search_conditions(@req.params['q']),
+        :order => 'id DESC',
+        :limit =>  @req.params['n'] ? @req.params['n'].to_i :
+        @config.fetch('num_posts_page', 100))
+    end
+
+    def search_conditions(q)
+      if q
+        search_cols = %w{name title url}
+        [search_cols.collect { |x| "MATCH(#{x}, ?)" }.join(' OR ')].push(
+          *[q] * search_cols.size)
+      else
+        []
+      end
     end
 
     def each
@@ -56,7 +73,7 @@ module Murlsh
 
             last = nil
 
-            @urls.each do |mu|
+            urls.each do |mu|
               li {
                 unless mu.same_author?(last)
                   gravatar_size = @config.fetch('gravatar_size', 0)

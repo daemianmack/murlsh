@@ -11,7 +11,7 @@ var _6=arguments;
 return this.each(function(){
 var _7=this;
 if($(this).data("jGrowl.instance")==undefined){
-$(this).data("jGrowl.instance",new $.fn.jGrowl());
+$(this).data("jGrowl.instance",$.extend(new $.fn.jGrowl(),{notifications:[],element:null,interval:null}));
 $(this).data("jGrowl.instance").startup(this);
 }
 if($.isFunction($(this).data("jGrowl.instance")[m])){
@@ -50,6 +50,7 @@ o.open.apply(_1a.element,[_1a.element,_1b,o]);
 }).bind("jGrowl.beforeClose",function(){
 o.beforeClose.apply(_1a.element,[_1a.element,_1b,o]);
 }).bind("jGrowl.close",function(){
+$(this).data("jGrowl").pause=true;
 $(this).trigger("jGrowl.beforeClose").animate(o.animateClose,o.speed,o.easing,function(){
 $(this).remove();
 o.close.apply(_1a.element,[_1a.element,_1b,o]);
@@ -85,7 +86,7 @@ $(this).remove();
 },startup:function(e){
 this.element=$(e).addClass("jGrowl").append("<div class=\"jGrowl-notification\"></div>");
 this.interval=setInterval(function(){
-jQuery(e).data("jGrowl.instance").update();
+$(e).data("jGrowl.instance").update();
 },this.defaults.check);
 if($.browser.msie&&parseInt($.browser.version)<7&&!window["XMLHttpRequest"]){
 $(this.element).addClass("ie6");

@@ -4,10 +4,14 @@ require 'murlsh'
 
 require 'test/unit'
 
+class MarkupMixer < Builder::XmlMarkup
+  include Murlsh::Markup
+end
+
 class MarkupTest < Test::Unit::TestCase
 
   def setup
-    @m = Murlsh::Markup.new()
+    @m = MarkupMixer.new()
   end
 
   def attr_check(name, value, s)

@@ -78,12 +78,12 @@ module Murlsh
             li {
               form(:action => '', :method => 'post') {
                 fieldset(:id => 'add') {
-                  p {
+                  self.p {
                     label('Add URL:', :for => 'url')
                     input(:type => 'text', :id => 'url', :name => 'url',
                       :size => 32)
                   }
-                  p {
+                  self.p {
                     label('Password:', :for => 'auth')
                     input(:type => 'password', :id => 'auth', :name => 'auth',
                       :size => 16)
@@ -96,7 +96,7 @@ module Murlsh
 
           div(:style => 'clear : both')
 
-          p {
+          self.p {
             text! 'powered by '
             a('murlsh', :href => 'http://github.com/mmb/murlsh/')
           }

@@ -41,6 +41,7 @@ Gem::Specification.new do |s|
      "lib/murlsh/url_body.rb",
      "lib/murlsh/url_server.rb",
      "lib/murlsh/xhtml_response.rb",
+     "murlsh.gemspec",
      "public/css/jquery.jgrowl.css",
      "public/css/phone.css",
      "public/css/screen.css",

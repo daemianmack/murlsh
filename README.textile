@@ -11,7 +11,7 @@ Simple site for a small group of people to share urls.
 
 See "http://urls.matthewm.boedicker.org/":http://urls.matthewm.boedicker.org/ for example.
 
-Setup:
+Phusion Passenger Setup:
 
 <pre>
 <code>
@@ -20,7 +20,7 @@ gem install pkg/murlsh-x.x.x.gem
 </code>
 </pre>
 
-In web root:
+In the web directory:
 
 <pre>
 <code>

@@ -1,8 +1,9 @@
 $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
+require 'rubygems'
+
 require 'murlsh'
 
-require 'rubygems'
 require 'flog'
 require 'rake/testtask'
 require 'sqlite3'

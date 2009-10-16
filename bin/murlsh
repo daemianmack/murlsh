@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+FileUtils.cp_r(
+  %w{config.ru config.yaml public/ Rakefile}.collect { |x| 
+    File.join(File.dirname(__FILE__), '..', x) }, '.', :verbose => true)
+
+puts 'edit config.yaml'
+puts 'rake db:init user:add'

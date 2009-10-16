@@ -24,6 +24,7 @@ In web root:
 
 <pre>
 <code>
+murlsh
 edit config.yaml
 rake db:init user:add
 </code>

@@ -164,3 +164,17 @@ def ask(prompt, sep=':')
   print "#{prompt}#{sep} "
   return STDIN.gets.chomp
 end
+
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = 'murlsh'
+    gemspec.summary = 'url sharing site framework'
+    gemspec.description = 'url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding'
+    gemspec.email = 'matthewm@boedicker.org'
+    gemspec.homepage = 'http://github.com/mmb/murlsh'
+    gemspec.authors = ['Matthew M. Boedicker']
+  end
+rescue LoadError
+  puts 'Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com'
+end

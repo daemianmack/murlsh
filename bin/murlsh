@@ -3,8 +3,12 @@
 require 'fileutils'
 
 FileUtils.cp_r(
-  %w{config.ru config.yaml public/ Rakefile}.collect { |x| 
+  %w{.htaccess config.ru config.yaml public/ Rakefile}.collect { |x| 
     File.join(File.dirname(__FILE__), '..', x) }, '.', :verbose => true)
 
-puts 'edit config.yaml'
-puts 'rake db:init user:add'
+puts <<eos
+Next steps:
+
+edit config.yaml
+rake db:init user:add
+eos

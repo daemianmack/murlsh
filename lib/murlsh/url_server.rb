@@ -34,13 +34,9 @@ module Murlsh
       url = req.params['url']
 
       unless url.empty?
-        user = nil
-        unless req.params['auth'].empty?
-          user = Murlsh::Auth.new(@config.fetch('auth_file')).auth(
-            req.params['auth'])
-        end
-
-        if user
+        auth = req.params['auth']
+        if user = auth.empty? ? nil : Murlsh::Auth.new(
+          @config.fetch('auth_file')).auth(auth)
           ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
             :database => @config.fetch('db_file'))
 
@@ -67,10 +63,10 @@ module Murlsh
 
           resp['Content-Type'] = 'application/json'
 
-          resp.set_cookie('auth', 
+          resp.set_cookie('auth',
             :expires => Time.mktime(2015, 6, 22),
             :path => '/',
-            :value => req.params['auth'])
+            :value => auth)
 
           resp.body = result[0,1].to_json
         else

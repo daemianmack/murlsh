@@ -31,7 +31,9 @@ module Murlsh
     def post(req)
       resp = Rack::Response.new
 
-      unless req.params['url'].empty?
+      url = req.params['url']
+
+      unless url.empty?
         user = nil
         unless req.params['auth'].empty?
           user = Murlsh::Auth.new(@config.fetch('auth_file')).auth(
@@ -42,14 +44,13 @@ module Murlsh
           ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
             :database => @config.fetch('db_file'))
 
-          content_type = Murlsh.get_content_type(req.params['url'])
+          content_type = Murlsh.get_content_type(url)
           mu = Murlsh::Url.new do |u|
             u.time = Time.now.gmtime
-            u.url = req.params['url']
+            u.url = url
             u.email = user[:email]
             u.name = user[:name]
-            u.title = Murlsh.get_title(req.params['url'],
-              :content_type => content_type)
+            u.title = Murlsh.get_title(url, :content_type => content_type)
             u.content_type = content_type
           end
 

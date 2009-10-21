@@ -44,6 +44,7 @@ module Murlsh
     %w{//html/head/title //head/title //html/title //title}.each do |xpath|
       return (doc/xpath).first.inner_html unless (doc/xpath).first.nil?
     end
+    nil
   end
 
   # Get the character set of an Hpricot document.

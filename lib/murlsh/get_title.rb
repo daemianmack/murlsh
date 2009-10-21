@@ -32,7 +32,7 @@ module Murlsh
     rescue Exception => e
        raise unless options[:failproof]
     end
-    result and !result.empty? ? result : url
+    (result and !result.empty?) ? result : url
   end
 
   def might_have_title(content_type)

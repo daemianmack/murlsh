@@ -54,7 +54,7 @@ module Murlsh
 
                 mu.hostrec { |hostrec| span(hostrec, :class => 'host') }
                 span(", #{mu.time.fuzzy}", :class => 'date') if
-                  @config.fetch('show_dates', true)
+                  @config.fetch('show_dates', true) and mu.time
                 last = mu
               }
             end

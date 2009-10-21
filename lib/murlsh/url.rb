@@ -7,6 +7,10 @@ module Murlsh
 
   class Url < ActiveRecord::Base
 
+    def title
+      read_attribute(:title) || read_attribute(:url) || 'title missing'
+    end
+
     def same_author?(other)
       other and other.email and other.name and
         email and name and email == other.email and name == other.name

@@ -12,6 +12,8 @@ module Murlsh
       @config = config
       @db = db
       ActiveRecord::Base.default_timezone = :utc
+
+      Dir['plugins/*.rb'].each { |p| load p }
     end
 
     def get(req)
@@ -52,14 +54,7 @@ module Murlsh
 
           mu.save
 
-          result = Murlsh::Url.all(:order => 'id DESC',
-            :limit => @config.fetch('num_posts_feed', 25))
-
-          feed = Murlsh::AtomFeed.new(@config.fetch('root_url'),
-            :filename => @config.fetch('feed_file'),
-            :title => @config.fetch('page_title', ''))
-
-          feed.write(result, @config.fetch('feed_file'))
+          Murlsh::Plugin.hooks('add_post') { |p| p.run(@config) }
 
           resp['Content-Type'] = 'application/json'
 
@@ -68,7 +63,7 @@ module Murlsh
             :path => '/',
             :value => auth)
 
-          resp.body = result[0,1].to_json
+          resp.body = [mu].to_json
         else
           resp.status = 403
           resp['Content-Type'] = 'text/plain'

@@ -3,7 +3,7 @@
 require 'fileutils'
 
 FileUtils.cp_r(
-  %w{.htaccess config.ru config.yaml public/ Rakefile}.collect { |x| 
+  %w{.htaccess config.ru config.yaml plugins/ public/ Rakefile}.collect { |x| 
     File.join(File.dirname(__FILE__), '..', x) }, '.', :verbose => true)
 
 FileUtils.mkdir('tmp')

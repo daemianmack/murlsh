@@ -175,6 +175,17 @@ begin
     gemspec.email = 'matthewm@boedicker.org'
     gemspec.homepage = 'http://github.com/mmb/murlsh'
     gemspec.authors = ['Matthew M. Boedicker']
+
+    %w{
+      activerecord 2.3.4
+      bcrypt 2.1.2
+      builder 2.1.2
+      hpricot 0.8.1
+      htmlentities 4.2.0
+      rack 1.0.1
+      sqlite3 1.2.5
+     }.each_slice(2) { |g,v| gemspec.add_dependency(g, ">= #{v}") }
+
   end
 rescue LoadError
   puts 'Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com'

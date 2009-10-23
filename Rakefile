@@ -182,7 +182,7 @@ begin
       builder 2.1.2
       hpricot 0.8.1
       htmlentities 4.2.0
-      rack 1.0.1
+      rack 1.0.0
       sqlite3-ruby 1.2.1
      }.each_slice(2) { |g,v| gemspec.add_dependency(g, ">= #{v}") }
 

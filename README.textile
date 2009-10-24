@@ -16,8 +16,8 @@ Phusion Passenger Setup:
 
 <pre>
 <code>
-rake gemspec build
-gem install pkg/murlsh-x.x.x.gem
+gem sources -a http://gemcutter.org/
+gem install murlsh
 </code>
 </pre>
 

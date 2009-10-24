@@ -6,7 +6,7 @@ FileUtils.cp_r(
   %w{.htaccess config.ru config.yaml plugins/ public/ Rakefile}.collect { |x| 
     File.join(File.dirname(__FILE__), '..', x) }, '.', :verbose => true)
 
-FileUtils.mkdir('tmp')
+FileUtils.mkdir_p('tmp', :verbose => true)
 
 puts <<eos
 Next steps:

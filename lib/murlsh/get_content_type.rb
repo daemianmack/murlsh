@@ -55,14 +55,11 @@ module Murlsh
     net_http
   end
 
-  # Get the response to HTTP HEAD. If HEAD not allowed do GET.
+  # Get the response to HTTP HEAD. If HEAD returns anything other than success
+  # try GET.
   def get_resp(http, url, headers={})
-    resp = http.request_head(url.path_query, headers)
-    if Net::HTTPMethodNotAllowed === resp
-      http.request_get(url.path_query, headers)
-    else
-      resp
-    end
+    resp = http.request_head(url.path_query, headers) === Net::HTTPSuccess ?
+      resp : http.request_get(url.path_query, headers)
   end
 
   def default_headers(url)

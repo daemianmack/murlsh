@@ -42,15 +42,14 @@ module Murlsh
           ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
             :database => @config.fetch('db_file'))
 
-          content_type = Murlsh.get_content_type(url)
           mu = Murlsh::Url.new do |u|
             u.time = Time.now.gmtime
             u.url = url
             u.email = user[:email]
             u.name = user[:name]
-            u.title = Murlsh.get_title(url, :content_type => content_type)
-            u.content_type = content_type
           end
+
+          Murlsh::Plugin.hooks('add_pre') { |p| p.run(mu, @config) }
 
           mu.save
 

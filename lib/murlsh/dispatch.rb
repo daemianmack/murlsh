@@ -11,8 +11,10 @@ yaml
 
 module Murlsh
 
+  # Dispatch requests.
   class Dispatch
 
+    # Set up config hash and database connection.
     def initialize
       @config = YAML.load_file('config.yaml')
       @url_root = URI(@config.fetch('root_url')).path
@@ -25,6 +27,7 @@ module Murlsh
       @url_server = Murlsh::UrlServer.new(@config, @db)
     end
 
+    # Rack call.
     def call(env)
       dispatch = {
         ['GET', @url_root] => [@url_server, :get],
@@ -41,6 +44,7 @@ module Murlsh
       obj.send(meth, req).finish
     end
 
+    # Called if the request is not found.
     def not_found(req)
       Rack::Response.new("<p>#{req.url} not found</p>
 

@@ -2,6 +2,8 @@ require 'time'
 
 class Time
 
+  # Return a string of the approximate amount of time that has passed since
+  # this time.
   def fuzzy
      days_ago = (Time.now.to_i - to_i) / 86400
 

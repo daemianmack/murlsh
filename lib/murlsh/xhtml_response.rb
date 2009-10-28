@@ -1,9 +1,10 @@
 module Murlsh
 
+  # Set the content type correctly based on accept header and user agent.
   class XhtmlResponse < Rack::Response
 
-    # set the content type to application/xhtml+xml for anything that
-    # claims to accept it, for anything else or IE use text/html
+    # Set the content type to application/xhtml+xml for anything that
+    # claims to accept it, for anything else or IE use text/html.
     def set_content_type(http_accept, http_user_agent)
       self['Content-Type'] = if http_accept and
         http_accept[/((\*|application)\/\*|application\/xhtml\+xml)/i] and

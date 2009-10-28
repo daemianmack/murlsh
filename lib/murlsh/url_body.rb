@@ -1,5 +1,6 @@
 module Murlsh
 
+  # Url list page builder.
   class UrlBody < Builder::XmlMarkup
     include Murlsh::Markup
 
@@ -8,12 +9,14 @@ module Murlsh
       super(:indent => 2)
     end
 
+    # Fetch urls base on query string parameters.
     def urls
       Murlsh::Url.all(:conditions => search_conditions, :order => 'id DESC',
         :limit =>  @req.params['n'] ? @req.params['n'].to_i :
           @config.fetch('num_posts_page', 100))
     end
 
+    # Search conditions builder for ActiveRecord conditions.
     def search_conditions
       if @q
         search_cols = %w{name title url}
@@ -24,6 +27,7 @@ module Murlsh
       end
     end
 
+    # Url list page body builder.
     def each
       instruct! :xml
       declare! :DOCTYPE, :html, :PUBLIC, '-//W3C//DTD XHTML 1.1//EN',
@@ -69,6 +73,7 @@ module Murlsh
       }
     end
 
+    # Head builder.
     def headd
       head {
         titlee
@@ -84,20 +89,24 @@ module Murlsh
       }
     end
 
+    # Title builder.
     def titlee
       title(@config.fetch('page_title', '') + (@q ? " /#{@q}" : ''))
     end
 
+    # Google verification link builder.
     def google_verify
       (gv = @config.fetch('google_verify')) and metas('verify-v1' => gv)
     end
 
+    # Feed icon builder.
     def feed_icon
       div(:class => 'icon') {
         a('feed', :href => @config.fetch('feed_file'), :class => 'feed')
       }
     end
 
+    # Search form builder.
     def search_form
       form(:action => '', :method => 'get') {
         value = @q
@@ -113,6 +122,7 @@ module Murlsh
       }
     end
 
+    # Url add form builder.
     def add_form
       form(:action => '', :method => 'post') {
         fieldset(:id => 'add') {
@@ -125,15 +135,18 @@ module Murlsh
       }
     end
 
+    # Url add form input builder.
     def add_form_input(label, id, size, tipe='text')
       label(label, :for => id)
       input(:type => tipe, :id => id, :name => id, :size => size)
     end
 
+    # Clear div builder.
     def clear
       div(:style => 'clear : both')
     end
 
+    # Powered by builder.
     def powered_by
       self.p {
         text! 'powered by '
@@ -141,6 +154,7 @@ module Murlsh
       }
     end
 
+    # Required javascript builder.
     def js
       javascript(%w{
         jquery-1.3.2.min.js

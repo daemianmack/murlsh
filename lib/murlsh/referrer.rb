@@ -3,6 +3,7 @@ require 'uri'
 
 module Murlsh
 
+  # For parsing query strings from referring search engines.
   class Referrer
 
     def initialize(url)
@@ -19,6 +20,7 @@ module Murlsh
       end
     end
 
+    # Get the searched for string from a search engine query string.
     def search_query(qmap=Qmap)
       if hostpath and query_string
         qmap.each_pair do |r,v|
@@ -34,6 +36,7 @@ module Murlsh
       nil
     end
 
+    # Regex host match to name of query string parameter.
     Qmap = {
       /^www\.google\.(bs|ca|com|cz|dk|es|fi|nl)(\/m)?\/search$/ => 'q',
       /^www\.bing\.com\/search$/ => 'q',

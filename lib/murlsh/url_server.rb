@@ -6,6 +6,7 @@ rack
 
 module Murlsh
 
+  # Build responses for HTTP requests.
   class UrlServer
 
     def initialize(config, db)
@@ -16,6 +17,8 @@ module Murlsh
       Dir['plugins/*.rb'].each { |p| load p }
     end
 
+    # Respond to a GET request. Return a page of urls based on the query
+    # string parameters.
     def get(req)
       resp = Murlsh::XhtmlResponse.new
 
@@ -30,6 +33,7 @@ module Murlsh
       resp
     end
 
+    # Respond to a POST request. Add the new url and return json.
     def post(req)
       resp = Rack::Response.new
 

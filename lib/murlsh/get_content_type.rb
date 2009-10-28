@@ -4,6 +4,7 @@ require 'uri'
 
 class URI::Generic
 
+  # Return the path and query string.
   def path_query
     path + (query ? "?#{query}" : '')
   end
@@ -14,6 +15,9 @@ module Murlsh
 
   module_function
 
+  # Try to get the content type of a url. Options:
+  # :failproof - if true hide all exceptions and return empty string on failure
+  # :headers - hash of headers to send in request
   def get_content_type(url, options={})
     options[:headers] = default_headers(url).merge(
       options.fetch(:headers, {}))
@@ -48,6 +52,8 @@ module Murlsh
     uri.is_a?(URI::HTTP) ? uri : URI(uri)
   end
 
+  # Create a Net::HTTP to a host and port. Options:
+  # :debug - stream to write debug output to
   def make_net_http(url, options={})
     net_http = Net::HTTP.new(url.host, url.port)
     net_http.use_ssl = (url.scheme == 'https')
@@ -62,6 +68,7 @@ module Murlsh
       resp : http.request_get(url.path_query, headers)
   end
 
+  # Get default headers sent with the request. Can be based on url.
   def default_headers(url)
     result = {
       'User-Agent' =>

@@ -5,8 +5,12 @@ require 'uri'
 
 module Murlsh
 
+  # ATOM feed builder.
   class AtomFeed
 
+    # root_url is the base url for the feed items. Options:
+    # :filename - the file name of the feed (atom.xml)
+    # :title - the feed title
     def initialize(root_url, options={})
       options = {
         :filename => 'atom.xml',
@@ -18,6 +22,7 @@ module Murlsh
       setup_id_fields
     end
 
+    # Set up fields to use for building item ids.
     def setup_id_fields
       uri_parsed = URI(@root_url)
 
@@ -28,6 +33,7 @@ module Murlsh
       @path = uri_parsed.path
     end
 
+    # Generate the feed and write it to the filesystem with locking.
     def write(entries, path)
       open(path, 'w') do |f|
         f.flock(File::LOCK_EX)
@@ -38,6 +44,8 @@ module Murlsh
       end
     end
 
+    # Build the feed using XML builder. Options are passed to
+    # Builder::XmlMarkup.new.
     def make(entries, options={})
       xm = Builder::XmlMarkup.new(options)
       xm.instruct! :xml
@@ -62,10 +70,12 @@ module Murlsh
       xm
     end
 
+    # Build the entry's id.
     def entry_id(url)
       "tag:#{@domain},#{url.time.strftime('%Y-%m-%d')}:#{@host}#{@path}#{url.id}"
     end
 
+    # Add an ATOM enclosure if the url is an image.
     def enclosure(xm, mu)
       xm.link(:rel => 'enclosure', :type => mu.content_type, :href => mu.url,
         :title => 'Full-size') if mu.is_image?

@@ -10,6 +10,9 @@ module Murlsh
 
   module_function
 
+  # Try to get the title of a url. Options:
+  # :failproof - if true hide all exceptions and return empty string on failure
+  # :headers - hash of headers to send in request
   def get_title(url, options={})
     options[:headers] = default_headers(url).merge(
       options.fetch(:headers, {}))
@@ -35,6 +38,8 @@ module Murlsh
     (result and !result.empty?) ? result : url
   end
 
+  # Return true if the content type is likely to have a title that can be
+  # parsed.
   def might_have_title(content_type)
     content_type[/^text\/html/]
   end

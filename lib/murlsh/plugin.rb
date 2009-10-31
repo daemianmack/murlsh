@@ -18,7 +18,8 @@ module Murlsh
 
     # Get registered plugins by hook (add_pre, add_post, etc.)
     def self.hooks(name)
-      matches = registered.select { |p| p::Hook == name }
+      matches = registered.select { |p| p::Hook == name }.
+        sort { |a,b| a.to_s <=> b.to_s }
 
       if block_given?
         matches.each { |p| yield p }

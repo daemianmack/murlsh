@@ -8,6 +8,8 @@ module Murlsh
   #   run arguments (url, config hash)
   # add_post - called after a new url is saved
   #   run arguments (config hash)
+  # hostrec - called to post process the domain that shows after links
+  #   run arguments (domain, url, title)
   class Plugin
 
     # Called when a plugin class inherits from this class (the way plugins

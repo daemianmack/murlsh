@@ -19,16 +19,6 @@ module Murlsh
         email and name and email == other.email and name == other.name
     end
 
-    # Well-known sites to skip showing the domain for.
-    Widely_known = %w{
-      wikipedia.org
-      flickr.com
-      github.com
-      twitter.com
-      vimeo.com
-      youtube.com
-      }
-
     # Return text showing what domain a link goes to.
     def hostrec
       begin
@@ -36,8 +26,11 @@ module Murlsh
       rescue Exception => e
         domain = nil
       end
-      yield domain unless !domain or title.downcase.index(domain) or
-        Widely_known.include?(domain)
+
+      domain = Murlsh::Plugin.hooks('hostrec').inject(domain) {
+        |result,plugin| plugin.run(result, url, title) }
+
+      yield domain if domain
     end
 
     # Return true if this url is an image.

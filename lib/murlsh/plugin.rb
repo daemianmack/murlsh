@@ -1,14 +1,13 @@
 module Murlsh
 
   # Superclass for plugins. How plugins are registered.
-  # 
-  # Hooks:
   #
-  # add_pre - called before a new url is saved
+  # Hooks:
+  # * add_pre - called before a new url is saved
   #   run arguments (url, config hash)
-  # add_post - called after a new url is saved
+  # * add_post - called after a new url is saved
   #   run arguments (config hash)
-  # hostrec - called to post process the domain that shows after links
+  # * hostrec - called to post process the domain that shows after links
   #   run arguments (domain, url, title)
   class Plugin
 

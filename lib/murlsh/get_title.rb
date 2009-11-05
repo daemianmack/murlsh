@@ -10,9 +10,10 @@ module Murlsh
 
   module_function
 
-  # Try to get the title of a url. Options:
-  # :failproof - if true hide all exceptions and return empty string on failure
-  # :headers - hash of headers to send in request
+  # Try to get the title of a url.
+  # Options:
+  # * :failproof - if true hide all exceptions and return empty string on failure
+  # * :headers - hash of headers to send in request
   def get_title(url, options={})
     options[:headers] = default_headers(url).merge(
       options.fetch(:headers, {}))

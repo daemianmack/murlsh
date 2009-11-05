@@ -8,9 +8,10 @@ module Murlsh
   # ATOM feed builder.
   class AtomFeed
 
-    # root_url is the base url for the feed items. Options:
-    # :filename - the file name of the feed (atom.xml)
-    # :title - the feed title
+    # root_url is the base url for the feed items.
+    # Options:
+    # * :filename - the file name of the feed (atom.xml)
+    # * :title - the feed title
     def initialize(root_url, options={})
       options = {
         :filename => 'atom.xml',

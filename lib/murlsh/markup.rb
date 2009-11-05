@@ -3,8 +3,9 @@ module Murlsh
   # Helper mixin for XML builder.
   module Markup
 
-    # Javascript link builder. Takes list of script urls. Options:
-    # :prefix - prefix to append to all script urls
+    # Javascript link builder. Takes list of script urls.
+    # Options:
+    # * :prefix - prefix to append to all script urls
     def javascript(sources, options={})
       sources.to_a.each do |src|
         script('', :type => 'text/javascript',
@@ -12,11 +13,12 @@ module Murlsh
       end
     end
 
-    # Image tag builder. Options:
-    # :href - make the image a link to this url
-    # :prefix - prefix to append to all image urls
-    # :size - image size if square or [w, h]
-    # :text - text for alt and title tag
+    # Image tag builder.
+    # Options:
+    # * :href - make the image a link to this url
+    # * :prefix - prefix to append to all image urls
+    # * :size - image size if square or [w, h]
+    # * :text - text for alt and title tag
     #
     # Any other options in hash will be added as attributes.
     def murlsh_img(options={})
@@ -39,9 +41,10 @@ module Murlsh
       link(:rel => 'alternate', :type => 'application/atom+xml', :href => href)
     end
 
-    # CSS link builder. Options:
-    # :media - optional media attribute
-    # :prefix - prepended to all CSS urls
+    # CSS link builder.
+    # Options:
+    # * :media - optional media attribute
+    # * :prefix - prepended to all CSS urls
     def css(hrefs, options={})
       hrefs.to_a.each do |href|
         attrs = {
@@ -59,10 +62,11 @@ module Murlsh
       tags.each { |k,v| meta(:name => k, :content => v) }
     end
 
-    # Gravatar builder. Takes MD5 hash of email address. Options:
-    # 'd' - default Gravatar (identicon, monsterid, or wavatar)
-    # 's' - size (0 - 512)
-    # 'r' - rating (g, pg, r or x)
+    # Gravatar builder. Takes MD5 hash of email address.
+    # Options:
+    # * 'd' - default Gravatar (identicon, monsterid, or wavatar)
+    # * 's' - size (0 - 512)
+    # * 'r' - rating (g, pg, r or x)
     def gravatar(email_hash, options={})
       query = options.reject do |k,v|
         not ((k == 'd' and %w{identicon monsterid wavatar}.include?(v)) or

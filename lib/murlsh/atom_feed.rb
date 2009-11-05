@@ -9,6 +9,7 @@ module Murlsh
   class AtomFeed
 
     # root_url is the base url for the feed items.
+    #
     # Options:
     # * :filename - the file name of the feed (atom.xml)
     # * :title - the feed title

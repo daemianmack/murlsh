@@ -16,6 +16,7 @@ module Murlsh
   module_function
 
   # Try to get the content type of a url.
+  #
   # Options:
   # * :failproof - if true hide all exceptions and return empty string on failure
   # * :headers - hash of headers to send in request
@@ -54,6 +55,7 @@ module Murlsh
   end
 
   # Create a Net::HTTP to a host and port.
+  #
   # Options:
   # * :debug - stream to write debug output to
   def make_net_http(url, options={})

@@ -4,6 +4,7 @@ module Murlsh
   module Markup
 
     # Javascript link builder. Takes list of script urls.
+    #
     # Options:
     # * :prefix - prefix to append to all script urls
     def javascript(sources, options={})
@@ -14,6 +15,7 @@ module Murlsh
     end
 
     # Image tag builder.
+    #
     # Options:
     # * :href - make the image a link to this url
     # * :prefix - prefix to append to all image urls
@@ -42,6 +44,7 @@ module Murlsh
     end
 
     # CSS link builder.
+    #
     # Options:
     # * :media - optional media attribute
     # * :prefix - prepended to all CSS urls

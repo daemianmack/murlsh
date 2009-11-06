@@ -9,6 +9,14 @@ body {
   width : 290px;
 }
 
+#urls li {
+  overflow : hidden;
+}
+
 input#q {
   width : 130px;
+}
+
+input#url {
+  width : 160px;
 }

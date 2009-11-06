@@ -205,7 +205,12 @@ Murlsh.orientation_changed = function() {
 window.onorientationchange = Murlsh.orientation_changed;
 
 $(document).ready(function() {
-  Murlsh.orientation_changed();
+  if (Murlsh.is_iphone()) {
+    Murlsh.orientation_changed();
+    $('#urls li:first').prepend($('<a />').attr('href', '#bottom').text(
+      'bottom'));
+    $('#urls li:last').append($('<a />').attr('href', '#top').text('top'));
+  }
   $('a').map(Murlsh.add_extra);
   $('#urls li:even').addClass('even');
 

@@ -39,6 +39,7 @@ module Murlsh
         :'xml:lang' => 'en') {
         headd
         body {
+          in_page_a('top')
           ul(:id => 'urls') {
             li { feed_icon ; search_form }
 
@@ -69,6 +70,7 @@ module Murlsh
           clear
           powered_by
           js
+          in_page_a('bottom')
         }
       }
     end

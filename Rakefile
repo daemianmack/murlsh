@@ -175,6 +175,7 @@ begin
     gemspec.email = 'matthewm@boedicker.org'
     gemspec.homepage = 'http://github.com/mmb/murlsh'
     gemspec.authors = ['Matthew M. Boedicker']
+    gemspec.executables = %w{murlsh}
 
     %w{
       activerecord 2.3.4

@@ -209,7 +209,7 @@ $(document).ready(function() {
     Murlsh.orientation_changed();
     $('#urls li:first').prepend($('<a />').attr('href', '#bottom').text(
       'bottom'));
-    $('#urls li:last').append($('<a />').attr('href', '#top').text('top'));
+    $('#urls li:last').append($('<a />').attr('href', '#urls').text('top'));
   }
   $('a').map(Murlsh.add_extra);
   $('#urls li:even').addClass('even');

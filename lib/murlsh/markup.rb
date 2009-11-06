@@ -86,6 +86,7 @@ module Murlsh
       murlsh_img(options)
     end
 
+    # In page anchor builder.
     def in_page_a(name)
       a(:name => name)
     end

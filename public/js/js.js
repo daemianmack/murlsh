@@ -51,11 +51,12 @@ Murlsh.flickr_click = function() {
   Murlsh.closer_add(Murlsh.new_img($(this).data('zoom'), ''));
 };
 
-Murlsh.imageshack_thumb = function(prefix, ext) {
-  return Murlsh.new_img(prefix + 'th.' + ext, '').addClass('thumb imgshack');
+Murlsh.img_thumb = function(prefix, ext) {
+  return Murlsh.new_img(prefix + 'th.' + (ext.match(/^pdf$/i) ? 'png' : ext),
+    '').addClass('thumb');
 };
 
-Murlsh.imageshack_click = function() {
+Murlsh.img_click = function() {
   Murlsh.closer_add(Murlsh.new_img($(this).data('href'), ''));
 };
 
@@ -101,7 +102,7 @@ Murlsh.add_extra = function() {
   var mp3_match = /.*\.mp3$/i.exec(href);
 
   var s3_match =
-    /^(http:\/\/static\.mmb\.s3\.amazonaws.com\/.*\.)(jpg|gif|png)$/i.exec(
+    /^(http:\/\/static\.mmb\.s3\.amazonaws.com\/.*\.)(jpe?g|gif|pdf|png)$/i.exec(
     href);
 
   var vimeo_match = /^http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)$/i.exec(href);
@@ -125,13 +126,13 @@ Murlsh.add_extra = function() {
     $.getJSON('http://api.flickr.com/services/rest/?api_key=d04e574aaf11bf2e1c03cba4ee7e5725&method=flickr.photos.getinfo&format=json&photo_id=' +
       flickr_match[1] + '&jsoncallback=?', thumb_insert_func);
   } else if (imageshack_match) {
-    thumb = Murlsh.imageshack_thumb(imageshack_match[1], imageshack_match[2]);
+    thumb = Murlsh.img_thumb(imageshack_match[1], imageshack_match[2]);
     this_a.html('imageshack.us');
     if (Murlsh.is_iphone()) {
       this_a.prepend(thumb);
     } else {
       this_a.before(thumb.data('href', imageshack_match[0]).click(
-        Murlsh.imageshack_click));
+        Murlsh.img_click));
     }
   } else if (mp3_match) {
     var swf = 'swf/player_mp3_mini.swf';
@@ -141,13 +142,16 @@ Murlsh.add_extra = function() {
       { name : 'movie', value : swf }
     ]));
   } else if (s3_match) {
-    thumb = Murlsh.imageshack_thumb(s3_match[1], s3_match[2]);
-    if (Murlsh.is_iphone()) {
-      this_a.html(thumb);
+    thumb = Murlsh.img_thumb(s3_match[1], s3_match[2]);
+    if (s3_match[2].match(/^pdf$/i)) {
+	this_a.before(thumb).html('pdf');
     } else {
-      this_a.html('link');
-      this_a.before(thumb.data('href', s3_match[0]).click(
-        Murlsh.imageshack_click));
+      if (Murlsh.is_iphone()) {
+        this_a.html(thumb);
+      } else {
+        this_a.html('link');
+        this_a.before(thumb.data('href', s3_match[0]).click(Murlsh.img_click));
+      }
     }
   } else if (vimeo_match) {
     thumb_insert_func = function vimeo_thumb_insert(d) {

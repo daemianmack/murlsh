@@ -30,3 +30,5 @@ edit config.yaml
 rake db:init user:add
 </code>
 </pre>
+
+Questions and comments: "matthewm@boedicker.org":mailto:matthewm@boedicker.org

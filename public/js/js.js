@@ -3,6 +3,7 @@
 var Murlsh = {};
 
 Murlsh.new_img = function(src, text) {
+  text = text || '';
   return $('<img />').attr({
     src : src,
     alt : text,
@@ -46,16 +47,16 @@ Murlsh.flickr_thumb = function(d) {
 };
 
 Murlsh.flickr_click = function() {
-  Murlsh.closer_add(Murlsh.new_img($(this).data('zoom'), ''));
+  Murlsh.closer_add(Murlsh.new_img($(this).data('zoom')));
 };
 
 Murlsh.img_thumb = function(prefix, ext) {
-  return Murlsh.new_img(prefix + 'th.' + (ext.match(/^pdf$/i) ? 'png' : ext),
-    '').addClass('thumb');
+  return Murlsh.new_img(
+    prefix + 'th.' + (ext.match(/^pdf$/i) ? 'png' : ext)).addClass('thumb');
 };
 
 Murlsh.img_click = function() {
-  Murlsh.closer_add(Murlsh.new_img($(this).data('href'), ''));
+  Murlsh.closer_add(Murlsh.new_img($(this).data('href')));
 };
 
 Murlsh.vimeo_thumb = function(d) {

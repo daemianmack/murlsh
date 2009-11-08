@@ -1,3 +1,5 @@
+"use strict";
+
 var Murlsh = {};
 
 Murlsh.new_img = function(src, text) {

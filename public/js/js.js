@@ -82,30 +82,30 @@ Murlsh.is_iphone = function() {
   return navigator.userAgent.match(/i(phone|pod)/i);
 };
 
+Murlsh.flickr_re =
+  /^http:\/\/(?:www\.)?flickr\.com\/photos\/[^\/]+?\/([0-9]+)/i;
+Murlsh.imageshack_re =
+  /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpg|gif|png)$/i;
+Murlsh.mp3_re =
+  /.*\.mp3$/i;
+Murlsh.s3_re =
+  /^(http:\/\/static\.mmb\.s3\.amazonaws.com\/.*\.)(jpe?g|gif|pdf|png)$/i;
+Murlsh.vimeo_re =
+  /^http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)$/i;
+Murlsh.youtube_re =
+  /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=(.+?)(?:&|$)/i;
+
 Murlsh.add_extra = function() {
   var this_a = $(this);
 
   var href = $(this).attr('href');
 
-  var flickr_match =
-    /^http:\/\/(?:www\.)?flickr\.com\/photos\/[^\/]+?\/([0-9]+)/i.exec(
-    href);
-
-  var imageshack_match =
-    /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpg|gif|png)$/i.exec(
-    href);
-
-  var mp3_match = /.*\.mp3$/i.exec(href);
-
-  var s3_match =
-    /^(http:\/\/static\.mmb\.s3\.amazonaws.com\/.*\.)(jpe?g|gif|pdf|png)$/i.exec(
-    href);
-
-  var vimeo_match = /^http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)$/i.exec(href);
-
-  var youtube_match =
-    /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=(.+?)(?:&|$)/i.exec(
-    href);
+  var flickr_match = Murlsh.flickr_re.exec(href);
+  var imageshack_match = Murlsh.imageshack_re.exec(href);
+  var mp3_match = Murlsh.mp3_re.exec(href);
+  var s3_match = Murlsh.s3_re.exec(href);
+  var vimeo_match = Murlsh.vimeo_re.exec(href);
+  var youtube_match = Murlsh.youtube_re.exec(href);
 
   var thumb;
   var thumb_insert_func;

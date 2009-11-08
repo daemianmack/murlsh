@@ -8,10 +8,6 @@ Murlsh.new_img = function(src, text) {
   });
 };
 
-Murlsh.close = function() {
-  $(this).parent().remove();
-};
-
 Murlsh.closer_add = function(x) {
   var html = (typeof x == 'object') ? $('<div />').append(x).html() : x;
 

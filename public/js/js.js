@@ -2,9 +2,32 @@
 
 var Murlsh = {};
 
+Murlsh.tag = function(name, attr, text) {
+  var klass;
+  var result = $('<' + name + ' />');
+
+  if (attr) {
+    if (attr.klass) {
+      klass = attr.klass;
+      delete attr.klass;
+    }
+    result.attr(attr);
+  }
+
+  if (text) {
+    result.text(text);
+  }
+
+  if (klass) {
+    result.addClass(klass);
+  }
+
+  return result;
+};
+
 Murlsh.img = function(src, text) {
   text = text || '';
-  return $('<img />').attr({
+  return Murlsh.tag('img', { 
     src : src,
     alt : text,
     title : text
@@ -12,7 +35,7 @@ Murlsh.img = function(src, text) {
 };
 
 Murlsh.closer_add = function(x) {
-  var html = (typeof x == 'object') ? $('<div />').append(x).html() : x;
+  var html = (typeof x == 'object') ? Murlsh.tag('div').append(x).html() : x;
 
   $.jGrowl(html, {
     closeTemplate : 'X',
@@ -42,8 +65,7 @@ Murlsh.flickr_thumb = function(d) {
   }
 
   return Murlsh.img(base + d.photo.secret + '_s.jpg',
-    d.photo.title._content).addClass(
-    'thumb flickr').data('zoom', zoom);
+    d.photo.title._content).addClass('thumb flickr').data('zoom', zoom);
 };
 
 Murlsh.flickr_click = function() {
@@ -51,8 +73,8 @@ Murlsh.flickr_click = function() {
 };
 
 Murlsh.img_thumb = function(prefix, ext) {
-  return Murlsh.img(
-    prefix + 'th.' + (ext.match(/^pdf$/i) ? 'png' : ext)).addClass('thumb');
+  return Murlsh.img(prefix + 'th.' +
+    (ext.match(/^pdf$/i) ? 'png' : ext)).addClass('thumb');
 };
 
 Murlsh.img_click = function() {
@@ -88,7 +110,7 @@ Murlsh.is_iphone = function() {
 Murlsh.flickr_re =
   /^http:\/\/(?:www\.)?flickr\.com\/photos\/[^\/]+?\/([0-9]+)/i;
 Murlsh.imageshack_re =
-  /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpg|gif|png)$/i;
+  /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpe?g|gif|png)$/i;
 Murlsh.mp3_re =
   /.*\.mp3$/i;
 Murlsh.s3_re =
@@ -175,17 +197,16 @@ Murlsh.add_extra = function() {
 };
 
 Murlsh.format_li = function(d) {
-  var li = $('<li />').append($('<a />').attr('href', d.url).text(
-    d.title));
+  var li = Murlsh.tag('li').append(Murlsh.tag('a', { href : d.url }, d.title));
 
   if (d.name) {
-    li.prepend($('<div />').addClass('name').text(d.name));
+    li.prepend(Murlsh.tag('div', { klass : 'name' }, d.name));
   }
 
   var icon_size = 32;
 
   if (d.email) {
-    li.prepend($('<div />').addClass('icon').append(
+    li.prepend(Murlsh.tag('div', { klass : 'icon' }).append(
       Murlsh.img(
         'http://www.gravatar.com/avatar/' + d.email + '?s=' + icon_size,
         d.name).attr({
@@ -197,22 +218,24 @@ Murlsh.format_li = function(d) {
   return li;
 };
 
-Murlsh.orientation_changed = function() {
-  if (window.orientation === 0 || window.orientation == 180) {
-    $('#urls').width(290);
-  } else {
-    $('#urls').width(450);
-  }
-};
+Murlsh.iphone_init = function() {
+  window.onorientationchange = function() {
+    if (window.orientation === 0 || window.orientation == 180) {
+      $('#urls').width(290);
+    } else {
+      $('#urls').width(450);
+    }
+  };
 
-window.onorientationchange = Murlsh.orientation_changed;
+  window.onorientationchange();
+
+  $('#urls li:first').prepend(Murlsh.tag('a', { href : '#bottom' }, 'bottom'));
+  $('#urls li:last').append(Murlsh.tag('a', { href : '#urls' }, 'top'));
+};
 
 $(document).ready(function() {
   if (Murlsh.is_iphone()) {
-    Murlsh.orientation_changed();
-    $('#urls li:first').prepend($('<a />').attr('href', '#bottom').text(
-      'bottom'));
-    $('#urls li:last').append($('<a />').attr('href', '#urls').text('top'));
+    Murlsh.iphone_init();
   }
   $('a').map(Murlsh.add_extra);
   $('#urls li:even').addClass('even');

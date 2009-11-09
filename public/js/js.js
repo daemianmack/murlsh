@@ -55,17 +55,19 @@ Murlsh.object_tag = function(data, height, width, params) {
 };
 
 Murlsh.flickr_thumb = function(d) {
-  var base = 'http://farm' + d.photo.farm + '.static.flickr.com/' +
-    d.photo.server + '/' + d.photo.id + '_';
-  var zoom;
-  if (d.photo.originalsecret) {
-    zoom = base + d.photo.originalsecret + '_o.' + d.photo.originalformat;
-  } else {
+  if (d.stat == 'ok') {
+    var base = 'http://farm' + d.photo.farm + '.static.flickr.com/' +
+      d.photo.server + '/' + d.photo.id + '_';
+    var zoom;
+    if (d.photo.originalsecret) {
+      zoom = base + d.photo.originalsecret + '_o.' + d.photo.originalformat;
+    } else {
     zoom = base + d.photo.secret + '_m.jpg';
-  }
+    }
 
-  return Murlsh.img(base + d.photo.secret + '_s.jpg',
-    d.photo.title._content).addClass('thumb flickr').data('zoom', zoom);
+    return Murlsh.img(base + d.photo.secret + '_s.jpg',
+      d.photo.title._content).addClass('thumb flickr').data('zoom', zoom);
+  }
 };
 
 Murlsh.flickr_click = function() {
@@ -104,10 +106,12 @@ Murlsh.youtube_click = function() {
 };
 
 Murlsh.thumb_insert = function(img, click_function, a) {
-  if (Murlsh.is_iphone()) {
-    a.prepend(img);
-  } else {
-    a.before(img.click(click_function));
+  if (img) {
+    if (Murlsh.is_iphone()) {
+      a.prepend(img);
+    } else {
+      a.before(img.click(click_function));
+    }
   }
 };
 

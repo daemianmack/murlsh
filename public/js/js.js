@@ -68,15 +68,6 @@ Murlsh.flickr_thumb = function(d) {
     d.photo.title._content).addClass('thumb flickr').data('zoom', zoom);
 };
 
-Murlsh.flickr_thumb_insert = function(d, a) {
-  var img = Murlsh.flickr_thumb(d);
-  if (Murlsh.is_iphone()) {
-    a.prepend(img);
-  } else {
-    a.before(img.click(Murlsh.flickr_click));
-  }
-};
-
 Murlsh.flickr_click = function() {
   Murlsh.closer_add(Murlsh.img($(this).data('zoom')));
 };
@@ -112,6 +103,14 @@ Murlsh.youtube_click = function() {
   Murlsh.closer_add(Murlsh.object_tag(movie, 344, 425, [{ name : 'movie', value : movie }]));
 };
 
+Murlsh.thumb_insert = function(img, click_function, a) {
+  if (Murlsh.is_iphone()) {
+    a.prepend(img);
+  } else {
+    a.before(img.click(click_function));
+  }
+};
+
 Murlsh.is_iphone = function() {
   return navigator.userAgent.match(/i(phone|pod)/i);
 };
@@ -142,23 +141,17 @@ Murlsh.add_extra = function() {
   var youtube_match = Murlsh.youtube_re.exec(href);
 
   var thumb;
-  var thumb_insert_func;
 
   if (flickr_match) {
-    callback = function(d) {
-      Murlsh.flickr_thumb_insert(d, this_a);
-    }
+    var callback = function(d) {
+      Murlsh.thumb_insert(Murlsh.flickr_thumb(d), Murlsh.flickr_click, this_a);
+    };
     $.getJSON('http://api.flickr.com/services/rest/?api_key=d04e574aaf11bf2e1c03cba4ee7e5725&method=flickr.photos.getinfo&format=json&photo_id=' +
       flickr_match[1] + '&jsoncallback=?', callback);
   } else if (imageshack_match) {
-    thumb = Murlsh.img_thumb(imageshack_match[1], imageshack_match[2]);
-    this_a.html('imageshack.us');
-    if (Murlsh.is_iphone()) {
-      this_a.prepend(thumb);
-    } else {
-      this_a.before(thumb.data('href', imageshack_match[0]).click(
-        Murlsh.img_click));
-    }
+    thumb = Murlsh.img_thumb(imageshack_match[1], imageshack_match[2]).data(
+      'href', imageshack_match[0]);
+    Murlsh.thumb_insert(thumb, Murlsh.img_click, this_a.html('imageshack.us'));
   } else if (mp3_match) {
     var swf = 'swf/player_mp3_mini.swf';
     $(this).before(Murlsh.object_tag(swf, 20, 200, [
@@ -179,24 +172,15 @@ Murlsh.add_extra = function() {
       }
     }
   } else if (vimeo_match) {
-    thumb_insert_func = function vimeo_thumb_insert(d) {
-      var img = Murlsh.vimeo_thumb(d);
-      if (Murlsh.is_iphone()) {
-        this_a.prepend(img);
-      } else {
-        this_a.before(img.data('embed_html', d.html).click(
-          Murlsh.vimeo_click));
-      }
+    var callback = function(d) {
+      var thumb = Murlsh.vimeo_thumb(d).data('embed_html', d.html);
+      Murlsh.thumb_insert(thumb, Murlsh.vimeo_click, this_a);
     };
     $.getJSON('http://vimeo.com/api/oembed.json?url=http%3A//vimeo.com/' +
-      vimeo_match[1] + '&callback=?', thumb_insert_func);
+      vimeo_match[1] + '&callback=?', callback);
   } else if (youtube_match) {
-    var img = Murlsh.youtube_thumb(youtube_match[1]);
-    if (Murlsh.is_iphone()) {
-      $(this).prepend(img);
-    } else {
-      $(this).before(img.click(Murlsh.youtube_click));
-    }
+    thumb = Murlsh.youtube_thumb(youtube_match[1]);
+    Murlsh.thumb_insert(thumb, Murlsh.youtube_click, this_a);
   }
 };
 

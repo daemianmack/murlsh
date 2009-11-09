@@ -68,6 +68,15 @@ Murlsh.flickr_thumb = function(d) {
     d.photo.title._content).addClass('thumb flickr').data('zoom', zoom);
 };
 
+Murlsh.flickr_thumb_insert = function(d, a) {
+  var img = Murlsh.flickr_thumb(d);
+  if (Murlsh.is_iphone()) {
+    a.prepend(img);
+  } else {
+    a.before(img.click(Murlsh.flickr_click));
+  }
+};
+
 Murlsh.flickr_click = function() {
   Murlsh.closer_add(Murlsh.img($(this).data('zoom')));
 };
@@ -136,16 +145,11 @@ Murlsh.add_extra = function() {
   var thumb_insert_func;
 
   if (flickr_match) {
-    thumb_insert_func = function flickr_thumb_insert(d) {
-      var img = Murlsh.flickr_thumb(d);
-      if (Murlsh.is_iphone()) {
-        this_a.prepend(img);
-      } else {
-        this_a.before(img.click(Murlsh.flickr_click));
-      }
-    };
+    callback = function(d) {
+      Murlsh.flickr_thumb_insert(d, this_a);
+    }
     $.getJSON('http://api.flickr.com/services/rest/?api_key=d04e574aaf11bf2e1c03cba4ee7e5725&method=flickr.photos.getinfo&format=json&photo_id=' +
-      flickr_match[1] + '&jsoncallback=?', thumb_insert_func);
+      flickr_match[1] + '&jsoncallback=?', callback);
   } else if (imageshack_match) {
     thumb = Murlsh.img_thumb(imageshack_match[1], imageshack_match[2]);
     this_a.html('imageshack.us');

@@ -119,71 +119,69 @@ Murlsh.is_iphone = function() {
   return navigator.userAgent.match(/i(phone|pod)/i);
 };
 
-Murlsh.flickr_re =
-  /^http:\/\/(?:www\.)?flickr\.com\/photos\/[^\/]+?\/([0-9]+)/i;
-Murlsh.imageshack_re =
-  /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpe?g|gif|png)$/i;
-Murlsh.mp3_re =
-  /.*\.mp3$/i;
-Murlsh.s3_re =
-  /^(http:\/\/static\.mmb\.s3\.amazonaws.com\/.*\.)(jpe?g|gif|pdf|png)$/i;
-Murlsh.vimeo_re =
-  /^http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)$/i;
-Murlsh.youtube_re =
-  /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=(.+?)(?:&|$)/i;
+Murlsh.href_res = {
+  flickr :
+    /^http:\/\/(?:www\.)?flickr\.com\/photos\/[^\/]+?\/([0-9]+)/i,
+  imageshack :
+    /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpe?g|gif|png)$/i,
+  mp3 :
+    /.*\.mp3$/i,
+  s3 :
+    /^(http:\/\/static\.mmb\.s3\.amazonaws.com\/.*\.)(jpe?g|gif|pdf|png)$/i,
+  vimeo :
+    /^http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)$/i,
+  youtube :
+    /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=(.+?)(?:&|$)/i
+};
 
 Murlsh.add_extra = function() {
   var this_a = $(this);
 
   var href = $(this).attr('href');
 
-  var flickr_match = Murlsh.flickr_re.exec(href);
-  var imageshack_match = Murlsh.imageshack_re.exec(href);
-  var mp3_match = Murlsh.mp3_re.exec(href);
-  var s3_match = Murlsh.s3_re.exec(href);
-  var vimeo_match = Murlsh.vimeo_re.exec(href);
-  var youtube_match = Murlsh.youtube_re.exec(href);
+  var match = {};
+  $.each(Murlsh.href_res, function(x, re) { return !(match[x] = re.exec(href)); });
 
   var thumb;
 
-  if (flickr_match) {
+  if (match.flickr) {
     var callback = function(d) {
       Murlsh.thumb_insert(Murlsh.flickr_thumb(d), Murlsh.flickr_click, this_a);
     };
     $.getJSON('http://api.flickr.com/services/rest/?api_key=d04e574aaf11bf2e1c03cba4ee7e5725&method=flickr.photos.getinfo&format=json&photo_id=' +
-      flickr_match[1] + '&jsoncallback=?', callback);
-  } else if (imageshack_match) {
-    thumb = Murlsh.img_thumb(imageshack_match[1], imageshack_match[2]).data(
-      'href', imageshack_match[0]);
+      match.flickr[1] + '&jsoncallback=?', callback);
+  } else if (match.imageshack) {
+    thumb = Murlsh.img_thumb(match.imageshack[1], match.imageshack[2]).data(
+      'href', match.imageshack[0]);
     Murlsh.thumb_insert(thumb, Murlsh.img_click, this_a.html('imageshack.us'));
-  } else if (mp3_match) {
+  } else if (match.mp3) {
     var swf = 'swf/player_mp3_mini.swf';
     $(this).before(Murlsh.object_tag(swf, 20, 200, [
       { name : 'bgcolor', value : '#000000' },
-      { name : 'FlashVars', value : 'mp3=' + mp3_match[0] },
+      { name : 'FlashVars', value : 'mp3=' + match.mp3[0] },
       { name : 'movie', value : swf }
     ]));
-  } else if (s3_match) {
-    thumb = Murlsh.img_thumb(s3_match[1], s3_match[2]);
-    if (s3_match[2].match(/^pdf$/i)) {
+  } else if (match.s3) {
+    thumb = Murlsh.img_thumb(match.s3[1], match.s3[2]);
+    if (match.s3[2].match(/^pdf$/i)) {
 	this_a.before(thumb).html('pdf');
     } else {
       if (Murlsh.is_iphone()) {
         this_a.html(thumb);
       } else {
         this_a.html('link');
-        this_a.before(thumb.data('href', s3_match[0]).click(Murlsh.img_click));
+        this_a.before(thumb.data('href', match.s3[0]).click(Murlsh.img_click));
       }
     }
-  } else if (vimeo_match) {
+  } else if (match.vimeo) {
     var callback = function(d) {
       var thumb = Murlsh.vimeo_thumb(d).data('embed_html', d.html);
       Murlsh.thumb_insert(thumb, Murlsh.vimeo_click, this_a);
     };
     $.getJSON('http://vimeo.com/api/oembed.json?url=http%3A//vimeo.com/' +
-      vimeo_match[1] + '&callback=?', callback);
-  } else if (youtube_match) {
-    thumb = Murlsh.youtube_thumb(youtube_match[1]);
+      match.vimeo[1] + '&callback=?', callback);
+  } else if (match.youtube) {
+    thumb = Murlsh.youtube_thumb(match.youtube[1]);
     Murlsh.thumb_insert(thumb, Murlsh.youtube_click, this_a);
   }
 };
@@ -229,7 +227,7 @@ $(document).ready(function() {
   if (Murlsh.is_iphone()) {
     Murlsh.iphone_init();
   }
-  $('a').map(Murlsh.add_extra);
+  $('#urls a').map(Murlsh.add_extra);
   $('#urls li:even').addClass('even');
 
   $('#submit').click(function() {

@@ -9,8 +9,11 @@ num_posts_feed: 25
 num_posts_page: 100
 page_title: mmb url share
 root_url: http://urls.matthewm.boedicker.org/
-js_prefix: js/
-swf_prefix: swf/
 css_files:
-- jquery.jgrowl.css
-- screen.css
+- css/jquery.jgrowl.css
+- css/screen.css
+js_files:
+- js/jquery-1.3.2.min.js
+- js/jquery.cookie.js
+- js/jquery.jgrowl_compressed.js
+- js/js.js

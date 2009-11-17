@@ -153,14 +153,7 @@ module Murlsh
     end
 
     # Required javascript builder.
-    def js
-      javascript(%w{
-        jquery-1.3.2.min.js
-        jquery.cookie.js
-        jquery.jgrowl_compressed.js
-        js.js
-        }, :prefix => @config.fetch('js_prefix', ''))
-    end
+    def js; javascript(@config['js_files']); end
 
   end
 

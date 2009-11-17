@@ -82,10 +82,7 @@ module Murlsh
           :viewport =>
             'width=device-width,minimum-scale=1.0,maximum-scale=1.0')
         google_verify
-        css(@config.fetch('css_files', []),
-          :prefix => @config.fetch('css_prefix', ''))
-        css('phone.css', :media => 'only screen and (max-device-width: 480px)',
-          :prefix => @config.fetch('css_prefix', ''))
+        css(@config.fetch('css_files', []))
         atom(@config.fetch('feed_file'))
       }
     end

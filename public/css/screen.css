@@ -92,3 +92,35 @@ div.jGrowl div.jGrowl-closer {
   float : right;
   width : auto;
 }
+
+/* iphone */
+@media only screen and (max-device-width: 480px) {
+
+  a.feed {
+    display : none;
+  }
+
+  body {
+    margin : 0;
+    padding : 0;
+  }
+
+  #urls {
+    margin : 0;
+    padding-left : 0;
+    width : 290px;
+  }
+
+  #urls li {
+    overflow : hidden;
+  }
+
+  input#q {
+    width : 130px;
+  }
+
+  input#url {
+    width : 160px;
+  }
+
+}

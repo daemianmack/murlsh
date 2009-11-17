@@ -6,7 +6,7 @@ module Murlsh
 
     def initialize(config, db, req)
       @config, @db, @req, @q = config, db, req, req.params['q']
-      super(:indent => 2)
+      super(:indent => @config['xhtml_indent'] || 0)
     end
 
     # Fetch urls base on query string parameters.

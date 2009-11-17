@@ -1,15 +1,17 @@
 $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
-require 'rubygems'
+%w{
+pp
+yaml
 
-require 'murlsh'
+rubygems
 
-require 'flog'
-require 'rake/testtask'
-require 'sqlite3'
+flog
+rake/testtask
+sqlite3
 
-require 'pp'
-require 'yaml'
+murlsh
+}.each { |d| require d }
 
 config = YAML.load_file('config.yaml')
 

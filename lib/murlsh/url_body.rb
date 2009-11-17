@@ -56,7 +56,10 @@ module Murlsh
 
                 a(mu.title.strip.gsub(/\s+/, ' '), :href => mu.url)
 
-                mu.hostrec { |hostrec| span(hostrec, :class => 'host') }
+                mu.hostrec do |hostrec|
+                  text!(' ')
+                  span(hostrec, :class => 'host')
+                end
                 span(", #{mu.time.fuzzy}", :class => 'date') if
                   @config.fetch('show_dates', true) and mu.time
                 last = mu

@@ -164,10 +164,12 @@ curl \\
 EOS
 end
 
+directory 'public/generated'
+
 namespace :js do
 
   desc 'Combine and compress javascript.'
-  task :compress do
+  task :compress => ['public/generated'] do
     js = ''
     config['js_files'].each do |f|
       open(File.join('public', f)) do |c|

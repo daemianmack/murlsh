@@ -1,7 +1,11 @@
 $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
 %w{
+cgi
+digest/md5
+net/http
 pp
+uri
 yaml
 
 rubygems
@@ -126,9 +130,6 @@ end
 
 desc "Validate XHTML."
 task :validate do
-  require 'cgi'
-  require 'net/http'
-
   net_http = Net::HTTP.new('validator.w3.org', 80)
   #net_http.set_debug_output(STDOUT)
 
@@ -161,6 +162,48 @@ curl \\
   --data-urlencode "auth=${AUTH}" \\
   #{config.fetch('root_url')}
 EOS
+end
+
+namespace :js do
+
+  desc 'Combine and compress javascript.'
+  task :compress do
+    js = ''
+    config['js_files'].each do |f|
+      open(File.join('public', f)) do |c|
+        while (line = c.gets) do; js << line; end
+        js << "\n"
+      end
+    end
+
+    compressed = Net::HTTP.post_form(
+      URI.parse('http://closure-compiler.appspot.com/compile'), {
+      'compilation_level' => 'SIMPLE_OPTIMIZATIONS',
+      'js_code' => js,
+      'output_format' => 'text',
+      'output_info' => 'compiled_code',
+      }).body
+
+    md5sum = Digest::MD5.hexdigest(compressed)
+
+    filename = "#{md5sum}.js"
+
+    out = File.join('public', 'generated', filename)
+
+    unless File.exists?(out)
+      open(out, 'w') { |f| f.write(compressed) }
+      puts "generated #{out}"
+    end
+
+    compressed_url = "generated/#{filename}"
+
+    unless config['js_compressed'] == compressed_url
+      config['js_compressed'] = compressed_url
+      open('config.yaml', 'w') { |f| YAML.dump(config, f) }
+      puts "updated config with js_compressed = #{compressed_url}"
+    end
+  end
+
 end
 
 def ask(prompt, sep=':')

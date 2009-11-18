@@ -156,7 +156,9 @@ module Murlsh
     end
 
     # Required javascript builder.
-    def js; javascript(@config['js_files']); end
+    def js
+      javascript(@config['js_compressed']) || javascript(@config['js_files'])
+    end
 
   end
 

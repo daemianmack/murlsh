@@ -38,7 +38,7 @@ module Murlsh
 
     # Regex host match to name of query string parameter.
     Qmap = {
-      /^www\.google\.(bs|ca|com|cz|dk|es|fi|nl)(\/m)?\/search$/ => 'q',
+      /^www\.google\.(bs|ca|com|cz|dk|es|fi|it|nl|no)(\/m)?\/search$/ => 'q',
       /^www\.bing\.com\/search$/ => 'q',
     }
 

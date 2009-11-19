@@ -176,6 +176,34 @@ def cat(in_files, sep=nil)
   result
 end
 
+directory 'public/css'
+
+namespace :css do
+
+  desc 'Combine and compress css.'
+  task :compress => ['public/css'] do
+    combined = cat(config['css_files'].collect { |x| "public/#{x}" }, "\n")
+
+    md5sum = Digest::MD5.hexdigest(combined)
+
+    filename = "#{md5sum}.gen.css"
+
+    out = "public/css/#{filename}"
+
+    open(out, 'w') { |f| f.write(combined) }
+    puts "generated #{out}"
+
+    compressed_url = "css/#{filename}"
+
+    unless config['css_compressed'] == compressed_url
+      config['css_compressed'] = compressed_url
+      open('config.yaml', 'w') { |f| YAML.dump(config, f) }
+      puts "updated config with css_compressed = #{compressed_url}"
+    end
+  end
+
+end
+
 directory 'public/js'
 
 namespace :js do
@@ -198,10 +226,8 @@ namespace :js do
 
     out = "public/js/#{filename}"
 
-    unless File.exists?(out)
-      open(out, 'w') { |f| f.write(compressed) }
-      puts "generated #{out}"
-    end
+    open(out, 'w') { |f| f.write(compressed) }
+    puts "generated #{out}"
 
     compressed_url = "js/#{filename}"
 

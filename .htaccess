@@ -5,3 +5,7 @@ AddOutputFilterByType DEFLATE application/xhtml+xml
 AddOutputFilterByType DEFLATE application/xml
 AddOutputFilterByType DEFLATE text/css
 AddOutputFilterByType DEFLATE text/html
+
+<FilesMatch "\.gen\.(css|js)$">
+  Header add Expires "Wed, 22 Jun 2019 20:07:00 GMT"
+</FilesMatch>

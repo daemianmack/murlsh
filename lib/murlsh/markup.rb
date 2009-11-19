@@ -8,12 +8,10 @@ module Murlsh
     # Options:
     # * :prefix - prefix to append to all script urls
     def javascript(sources, options={})
-      a = sources.to_a
-      a.each do |src|
+      if_any(sources) do |src|
         script('', :type => 'text/javascript',
           :src => "#{options[:prefix]}#{src}")
       end
-      !a.empty?
     end
 
     # Image tag builder.
@@ -51,7 +49,7 @@ module Murlsh
     # * :media - optional media attribute
     # * :prefix - prepended to all CSS urls
     def css(hrefs, options={})
-      hrefs.to_a.each do |href|
+      if_any(hrefs) do |href|
         attrs = {
           :href => "#{options[:prefix]}#{href}",
           :rel => 'stylesheet',
@@ -119,6 +117,14 @@ module Murlsh
         options[:alt] = options[:title] = options[:text]
         options.delete(:text)
       end
+    end
+
+    # Run a block for each element of an array, return true if array was not
+    # empty.
+    def if_any(a)
+      aa = a.to_a
+      aa.each { |x| yield x }
+      !aa.empty?
     end
 
   end

@@ -73,10 +73,12 @@ namespace :db do
 
 end
 
-namespace :dreamhost do
+directory 'tmp'
 
-  desc "Restart Passenger."
-  task :restart do
+namespace :passenger do
+
+  desc 'Restart Passenger.'
+  task :restart => ['tmp'] do
     open('tmp/restart.txt', 'w') { |f| }
   end
 

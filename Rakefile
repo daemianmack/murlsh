@@ -164,40 +164,46 @@ curl \\
 EOS
 end
 
-directory 'public/generated'
+# Concatenate some files and return the result as a string.
+def cat(in_files, sep=nil)
+  result = ''
+  in_files.each do |fname|
+    open(fname) do |h|
+      while (line = h.gets) do; result << line; end
+      result << sep if sep
+    end
+  end
+  result
+end
+
+directory 'public/js'
 
 namespace :js do
 
   desc 'Combine and compress javascript.'
-  task :compress => ['public/generated'] do
-    js = ''
-    config['js_files'].each do |f|
-      open(File.join('public', f)) do |c|
-        while (line = c.gets) do; js << line; end
-        js << "\n"
-      end
-    end
+  task :compress => ['public/js'] do
+    combined = cat(config['js_files'].collect { |x| "public/#{x}" } )
 
     compressed = Net::HTTP.post_form(
       URI.parse('http://closure-compiler.appspot.com/compile'), {
       'compilation_level' => 'SIMPLE_OPTIMIZATIONS',
-      'js_code' => js,
+      'js_code' => combined,
       'output_format' => 'text',
       'output_info' => 'compiled_code',
       }).body
 
     md5sum = Digest::MD5.hexdigest(compressed)
 
-    filename = "#{md5sum}.js"
+    filename = "#{md5sum}.gen.js"
 
-    out = File.join('public', 'generated', filename)
+    out = "public/js/#{filename}"
 
     unless File.exists?(out)
       open(out, 'w') { |f| f.write(compressed) }
       puts "generated #{out}"
     end
 
-    compressed_url = "generated/#{filename}"
+    compressed_url = "js/#{filename}"
 
     unless config['js_compressed'] == compressed_url
       config['js_compressed'] = compressed_url

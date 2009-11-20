@@ -228,7 +228,6 @@ $(document).ready(function() {
     Murlsh.iphone_init();
   }
   $('#urls a').map(Murlsh.add_extra);
-  $('#urls li:even').addClass('even');
 
   $('#submit').click(function() {
     $.post('url', {

@@ -50,7 +50,7 @@ module Murlsh
     # Builder::XmlMarkup.new.
     def make(entries, options={})
       xm = Builder::XmlMarkup.new(options)
-      xm.instruct! :xml
+      xm.instruct!(:xml)
 
       xm.feed(:xmlns => 'http://www.w3.org/2005/Atom') {
         xm.id(@root_url)

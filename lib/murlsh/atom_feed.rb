@@ -37,13 +37,7 @@ module Murlsh
 
     # Generate the feed and write it to the filesystem with locking.
     def write(entries, path)
-      open(path, 'w') do |f|
-        f.flock(File::LOCK_EX)
-
-        make(entries, :target => f)
-
-        f.flock(File::LOCK_UN)
-      end
+      Murlsh::openlock(path, 'w') { |f| make(entries, :target => f) }
     end
 
     # Build the feed using XML builder. Options are passed to

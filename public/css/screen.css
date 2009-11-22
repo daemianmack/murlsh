@@ -1,5 +1,4 @@
 body {
-  font-family : sans-serif;
   font-size : 1em;
   line-height : 1.5em;
 }
@@ -10,7 +9,7 @@ img {
 
 #urls {
   list-style-type : none;
-  width : 480px;
+  width : 600px;
 }
 
 li {
@@ -23,6 +22,14 @@ li {
 div.icon {
   float : left;
   margin : 0 0.5em 0 0;
+}
+
+a:link, a:visited, a:active {
+  text-decoration : none;
+}
+
+a:hover {
+  text-decoration : underline;
 }
 
 div.name {
@@ -81,7 +88,7 @@ div.jGrowl div.jGrowl-closer {
 }
 
 /* iphone */
-@media only screen and (max-device-width: 480px) {
+@media screen and (max-device-width : 480px) {
 
   a.feed {
     display : none;

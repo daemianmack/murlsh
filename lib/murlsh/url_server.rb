@@ -10,8 +10,7 @@ module Murlsh
   class UrlServer
 
     def initialize(config, db)
-      @config = config
-      @db = db
+      @config, @db = config, db
       ActiveRecord::Base.default_timezone = :utc
 
       Dir['plugins/*.rb'].each { |p| load p }
@@ -35,11 +34,7 @@ module Murlsh
 
     # Respond to a POST request. Add the new url and return json.
     def post(req)
-      resp = Rack::Response.new
-
-      url = req.params['url']
-
-      unless url.empty?
+      unless req.params['url'].empty?
         auth = req.params['auth']
         if user = auth.empty? ? nil : Murlsh::Auth.new(
           @config.fetch('auth_file')).auth(auth)
@@ -48,7 +43,7 @@ module Murlsh
 
           mu = Murlsh::Url.new do |u|
             u.time = Time.now.gmtime
-            u.url = url
+            u.url = req.params['url']
             u.email = user[:email]
             u.name = user[:name]
           end
@@ -59,25 +54,22 @@ module Murlsh
 
           Murlsh::Plugin.hooks('add_post') { |p| p.run(@config) }
 
-          resp['Content-Type'] = 'application/json'
+          resp = Rack::Response.new([mu].to_json, 200, {
+            'Content-Type' => 'application/json' })
 
           resp.set_cookie('auth',
             :expires => Time.mktime(2015, 6, 22),
             :path => '/',
             :value => auth)
 
-          resp.body = [mu].to_json
+          resp
         else
-          resp.status = 403
-          resp['Content-Type'] = 'text/plain'
-          resp.write('Permission denied')
+          Rack::Response.new('Permission denied', 403, {
+            'Content-Type' => 'text/plain' })
         end
       else
-        resp.status = 500
-        resp['Content-Type'] = 'text/plain'
-        resp.write('No url')
+        Rack::Response.new('No url', 500, { 'Content-Type' => 'text/plain' })
       end
-      resp
     end
 
   end

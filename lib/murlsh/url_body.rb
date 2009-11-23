@@ -85,7 +85,7 @@ module Murlsh
           :viewport =>
             'width=device-width,minimum-scale=1.0,maximum-scale=1.0')
         google_verify
-        css(@config['css_compressed']) || css(@config['css_files'])
+        css(@config['css_compressed'] || @config['css_files'])
         atom(@config.fetch('feed_file'))
       }
     end
@@ -156,9 +156,7 @@ module Murlsh
     end
 
     # Required javascript builder.
-    def js
-      javascript(@config['js_compressed']) || javascript(@config['js_files'])
-    end
+    def js; javascript(@config['js_compressed'] || @config['js_files']); end
 
   end
 

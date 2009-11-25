@@ -76,7 +76,7 @@ Murlsh.flickr_thumb = function(d) {
 };
 
 Murlsh.flickr_click = function() {
-  Murlsh.closer_add(Murlsh.img($(this).data('zoom')), $(this).attr('title'));
+  Murlsh.closer_add(Murlsh.img($(this).data('zoom')));
 };
 
 Murlsh.img_thumb = function(prefix, ext) {

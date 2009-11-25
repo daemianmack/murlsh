@@ -21,7 +21,7 @@ config = YAML.load_file('config.yaml')
 
 desc "Test remote content type fetch for a URL and show errors."
 task :content_type, :url do |t, args|
-  puts Murlsh.get_content_type(args.url, :failproof => false)
+  puts Murlsh.get_content_type(args.url, :failproof => false, :debug => STDOUT)
 end
 
 namespace :db do
@@ -100,7 +100,7 @@ end
 
 desc "Test remote title fetch for a URL and show errors."
 task :title, :url do |t, args|
-  puts Murlsh.get_title(args.url, :failproof => false)
+  puts Murlsh.get_title(args.url, :failproof => false, :debug => STDOUT)
 end
 
 desc 'Try to fetch the title for a url and update it in the database.'

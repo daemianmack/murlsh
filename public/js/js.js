@@ -34,12 +34,13 @@ Murlsh.img = function(src, text) {
   });
 };
 
-Murlsh.closer_add = function(x) {
+Murlsh.closer_add = function(x, header) {
   var html = (typeof x == 'object') ? Murlsh.tag('div').append(x).html() : x;
 
   $.jGrowl(html, {
     closeTemplate : 'X',
     glue :'before',
+    header : header,
     sticky : true
     });
 };
@@ -55,23 +56,27 @@ Murlsh.object_tag = function(data, height, width, params) {
 };
 
 Murlsh.flickr_thumb = function(d) {
+  var photo = d.photo;
   if (d.stat == 'ok') {
-    var base = 'http://farm' + d.photo.farm + '.static.flickr.com/' +
-      d.photo.server + '/' + d.photo.id + '_';
+    var base = 'http://farm' + photo.farm + '.static.flickr.com/' +
+      photo.server + '/' + photo.id + '_';
     var zoom;
-    if (d.photo.originalsecret) {
-      zoom = base + d.photo.originalsecret + '_o.' + d.photo.originalformat;
+    if (photo.originalsecret) {
+      zoom = base + photo.originalsecret + '_o.' + photo.originalformat;
     } else {
-    zoom = base + d.photo.secret + '_m.jpg';
+    zoom = base + photo.secret + '_m.jpg';
     }
 
-    return Murlsh.img(base + d.photo.secret + '_s.jpg',
-      d.photo.title._content).addClass('thumb flickr').data('zoom', zoom);
+    var owner = photo.owner;
+    return Murlsh.img(base + photo.secret + '_s.jpg',
+      photo.title._content +
+      (owner && owner.username ? ' by ' + owner.username : '')
+      ).addClass('thumb flickr').data('zoom', zoom);
   }
 };
 
 Murlsh.flickr_click = function() {
-  Murlsh.closer_add(Murlsh.img($(this).data('zoom')));
+  Murlsh.closer_add(Murlsh.img($(this).data('zoom')), $(this).attr('title'));
 };
 
 Murlsh.img_thumb = function(prefix, ext) {

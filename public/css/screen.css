@@ -24,6 +24,14 @@ div.icon {
   margin : 0 0.5em 0 0;
 }
 
+a:link {
+  color : #000;
+}
+
+a:visited {
+  color : #808080;
+}
+
 a:link, a:visited, a:active {
   text-decoration : none;
 }

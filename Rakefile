@@ -158,11 +158,13 @@ task :post_sh do
 #!/bin/sh
 
 URL="$1"
-AUTH="$2" # password can be passed as second parameter or hardcoded here
+VIA="$2"
+AUTH="$3" # password can be passed as second parameter or hardcoded here
 
 curl \\
   --data-urlencode "url=${URL}" \\
   --data-urlencode "auth=${AUTH}" \\
+  --data-urlencode "via=${VIA}" \\
   #{config.fetch('root_url')}
 EOS
 end

@@ -46,6 +46,7 @@ module Murlsh
             u.url = req.params['url']
             u.email = user[:email]
             u.name = user[:name]
+            u.via = req.params['via'] unless req.params['via'].empty?
           end
 
           Murlsh::Plugin.hooks('add_pre') { |p| p.run(mu, @config) }

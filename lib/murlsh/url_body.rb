@@ -60,6 +60,11 @@ module Murlsh
                   text!(' ')
                   span(hostrec, :class => 'host')
                 end
+                mu.viarec do |via|
+                  span(:class => 'via') {
+                    text!(' (via '); a(via.domain, :href => via); text!(')')
+                  }
+                end
                 span(", #{mu.time.fuzzy}", :class => 'date') if
                   @config.fetch('show_dates', true) and mu.time
                 last = mu

@@ -3,6 +3,10 @@ require 'active_record'
 
 require 'uri'
 
+module URI
+  def domain; host[/[a-z\d-]+\.[a-z]{2,}(\.[a-z]{2})?$/].downcase; end
+end
+
 module Murlsh
 
   # URL ActiveRecord.
@@ -21,16 +25,22 @@ module Murlsh
 
     # Return text showing what domain a link goes to.
     def hostrec
-      begin
-        domain = URI(url).host[/[a-z\d-]+\.[a-z]{2,}(\.[a-z]{2})?$/].downcase
-      rescue Exception => e
-        domain = nil
-      end
+      domain = begin; URI(url).domain; rescue Exception; end
 
       domain = Murlsh::Plugin.hooks('hostrec').inject(domain) {
         |result,plugin| plugin.run(result, url, title) }
 
       yield domain if domain
+    end
+
+    # Yield the url that the url came from.
+    def viarec
+      if via
+        begin
+          yield URI(via)
+        rescue Exception
+        end
+      end
     end
 
     # Return true if this url is an image.

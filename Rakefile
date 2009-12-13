@@ -62,7 +62,8 @@ namespace :db do
       email TEXT,
       name TEXT,
       title TEXT,
-      content_type TEXT);
+      content_type TEXT,
+      via TEXT);
       ")
   end
 

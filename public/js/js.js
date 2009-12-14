@@ -237,6 +237,7 @@ $(document).ready(function() {
   $('#submit').click(function() {
     $.post('url', {
       url : $('#url').val(),
+      via : $('#via').val(),
       auth : $('#auth').val()
       }, function(d) {
         $.each(d, function(i, v) {
@@ -245,6 +246,7 @@ $(document).ready(function() {
           $(li).children('a:first').map(Murlsh.add_extra);
         });
         $('#url').val('');
+        $('#via').val('');
       }, 'json');
   });
 

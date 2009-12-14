@@ -133,6 +133,7 @@ module Murlsh
       form(:action => '', :method => 'post') {
         fieldset(:id => 'add') {
           self.p { add_form_input('Add URL:', 'url', 32) }
+          self.p { add_form_input('Via:', 'via', 32) }
           self.p {
             add_form_input('Password:', 'auth', 16, 'password')
             input(:type => 'button', :id => 'submit', :value => 'Add')

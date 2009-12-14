@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{murlsh}
-  s.version = "0.3.0"
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2009-11-05}
+  s.date = %q{2009-12-13}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
      "lib/murlsh/get_content_type.rb",
      "lib/murlsh/get_title.rb",
      "lib/murlsh/markup.rb",
+     "lib/murlsh/openlock.rb",
      "lib/murlsh/plugin.rb",
      "lib/murlsh/referrer.rb",
      "lib/murlsh/sqlite3_adapter.rb",
@@ -48,7 +49,6 @@ Gem::Specification.new do |s|
      "plugins/lookup_content_type_title.rb",
      "plugins/update_feed.rb",
      "public/css/jquery.jgrowl.css",
-     "public/css/phone.css",
      "public/css/screen.css",
      "public/js/jquery-1.3.2.min.js",
      "public/js/jquery.cookie.js",

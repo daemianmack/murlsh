@@ -33,10 +33,11 @@ module Murlsh
       declare! :DOCTYPE, :html, :PUBLIC, '-//W3C//DTD XHTML 1.1//EN',
         'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'
 
-      yield html(:xmlns => 'http://www.w3.org/1999/xhtml',
-        :'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-        :'xsi:schemaLocation' => 'http://www.w3.org/MarkUp/SCHEMA/xhtml11.xsd',
-        :'xml:lang' => 'en') {
+      yield html(%w{
+        xmlns              http://www.w3.org/1999/xhtml
+        xmlns:xsi          http://www.w3.org/2001/XMLSchema-instance
+        xsi:schemaLocation http://www.w3.org/MarkUp/SCHEMA/xhtml11.xsd
+        xml:lang           en}) {
         headd
         body {
           ul(:id => 'urls') {

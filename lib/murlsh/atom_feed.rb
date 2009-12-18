@@ -60,7 +60,7 @@ module Murlsh
             xm.updated(mu.time.xmlschema)
             xm.link(:href => mu.url)
             enclosure(xm, mu)
-            via(vm, mu)
+            via(xm, mu)
           }
         end
       }

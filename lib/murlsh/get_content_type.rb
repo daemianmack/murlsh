@@ -42,7 +42,7 @@ module Murlsh
               return get_content_type(resp['location'], options)
           end
         end
-      rescue Exception => e
+      rescue Exception
         raise unless options[:failproof]
       end
     end

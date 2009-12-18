@@ -34,7 +34,7 @@ module Murlsh
         result = HTMLEntities.new.decode(Iconv.conv('utf-8',
           get_charset(doc) || f.charset, find_title(doc)))
       end
-    rescue Exception => e
+    rescue Exception
        raise unless options[:failproof]
     end
     (result and !result.empty?) ? result : url

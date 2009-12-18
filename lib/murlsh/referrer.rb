@@ -14,7 +14,7 @@ module Murlsh
         @hostpath = url_parsed.host + url_parsed.path
         @query_string =
           url_parsed.query.nil? ? {} : CGI::parse(url_parsed.query)
-      rescue Exception => e
+      rescue Exception
         @hostpath = ''
         @query_string = {}
       end

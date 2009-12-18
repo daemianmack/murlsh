@@ -60,6 +60,7 @@ module Murlsh
             xm.updated(mu.time.xmlschema)
             xm.link(:href => mu.url)
             enclosure(xm, mu)
+            via(vm, mu)
           }
         end
       }
@@ -75,6 +76,14 @@ module Murlsh
     def enclosure(xm, mu)
       xm.link(:rel => 'enclosure', :type => mu.content_type, :href => mu.url,
         :title => 'Full-size') if mu.is_image?
+    end
+
+    def via(xm, mu)
+      begin
+        xm.link(:rel => 'via', :type => 'text/html', :href => mu.via,
+          :title => URI(mu.via).domain) if mu.via
+      rescue Exception
+      end
     end
 
   end

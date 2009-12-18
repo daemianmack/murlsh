@@ -121,7 +121,7 @@ div.jGrowl div.jGrowl-closer {
     width : 130px;
   }
 
-  input#url {
+  input#url, input#via {
     width : 160px;
   }
 

@@ -8,8 +8,9 @@ module Murlsh
     Hook = 'add_pre'
 
     def self.run(url, config)
-      url.content_type = Murlsh.get_content_type(url.url)
-      url.title = Murlsh.get_title(url.url, :content_type => url.content_type)
+      ask = URI(url.url).extend(Murlsh::UriAsk)
+      url.content_type = ask.content_type
+      url.title = ask.title
     end
 
   end

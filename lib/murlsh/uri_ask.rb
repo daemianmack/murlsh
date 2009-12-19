@@ -17,7 +17,7 @@ module Murlsh
     # * :failproof - if true hide all exceptions and return empty string on failure
     # * :headers - hash of headers to send in request
     def content_type(options={})
-      return @content_type if @content_type
+      return @content_type if defined?(@content_type)
       options[:headers] = default_headers.merge(options.fetch(:headers, {}))
 
       options = {
@@ -39,7 +39,7 @@ module Murlsh
     # * :failproof - if true hide all exceptions and return empty string on failure
     # * :headers - hash of headers to send in request
     def title(options={})
-      return @title if @title
+      return @title if defined?(@title)
       options[:headers] = default_headers.merge(options.fetch(:headers, {}))
 
       options = {

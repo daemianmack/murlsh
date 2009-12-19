@@ -18,11 +18,7 @@ module Murlsh
     # * :headers - hash of headers to send in request
     def content_type(options={})
       return @content_type if defined?(@content_type)
-      options[:headers] = default_headers.merge(options.fetch(:headers, {}))
-
-      options = {
-        :failproof => true,
-        }.merge(options)
+      options = default_options(options)
 
       @content_type = ''
       begin
@@ -40,11 +36,7 @@ module Murlsh
     # * :headers - hash of headers to send in request
     def title(options={})
       return @title if defined?(@title)
-      options[:headers] = default_headers.merge(options.fetch(:headers, {}))
-
-      options = {
-        :failproof => true,
-        }.merge(options)
+      options = default_options(options)
 
       @title = to_s
       begin
@@ -61,12 +53,21 @@ module Murlsh
       @title
     end
 
+    # Default options overlaid with passed in options.
+    def default_options(options={})
+      options[:headers] = default_headers.merge(options.fetch(:headers, {}))
+
+      {
+        :failproof => true,
+        }.merge(options)
+    end
+
     # Default headers sent with the request.
     def default_headers
       result = {
         'User-Agent' =>
           'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624',
-      }
+        }
       if (host || '')[/^www\.nytimes\.com/]
         result['Referer'] = 'http://news.google.com/'
       end

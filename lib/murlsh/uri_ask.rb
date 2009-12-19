@@ -18,13 +18,11 @@ module Murlsh
     # * :headers - hash of headers to send in request
     def content_type(options={})
       return @content_type if defined?(@content_type)
-      options = default_options(options)
+      options[:headers] = default_headers.merge(options.fetch(:headers, {}))
 
       @content_type = ''
-      begin
+      Murlsh::failproof(options) do
         @content_type = self.open(options[:headers]) { |f| f.content_type }
-      rescue Exception
-        raise unless options[:failproof]
       end
       @content_type
     end
@@ -36,30 +34,20 @@ module Murlsh
     # * :headers - hash of headers to send in request
     def title(options={})
       return @title if defined?(@title)
-      options = default_options(options)
-
-      @title = to_s
-      begin
-        if might_have_title(options)
-          f = self.open(options[:headers])
-          doc = Hpricot(f).extend(Murlsh::Doc)
-
-          @title = HTMLEntities.new.decode(Iconv.conv('utf-8',
-            doc.charset || f.charset, doc.title))
-        end
-      rescue Exception
-         raise unless options[:failproof]
-      end
-      @title
-    end
-
-    # Default options overlaid with passed in options.
-    def default_options(options={})
       options[:headers] = default_headers.merge(options.fetch(:headers, {}))
 
-      {
-        :failproof => true,
-        }.merge(options)
+      @title = to_s
+      if might_have_title?(options)
+        Murlsh::failproof(options) do
+          self.open(options[:headers]) do |f|
+            doc = Hpricot(f).extend(Murlsh::Doc)
+
+            @title = HTMLEntities.new.decode(Iconv.conv('utf-8',
+              doc.charset || f.charset, doc.title))
+          end
+        end
+      end
+      @title
     end
 
     # Default headers sent with the request.
@@ -77,7 +65,7 @@ module Murlsh
 
     # Return true if the content type is likely to have a title that can be
     # parsed.
-    def might_have_title(options={})
+    def might_have_title?(options={})
       content_type(options)[/^text\/html/]
     end
 

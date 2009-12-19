@@ -3,10 +3,6 @@ require 'active_record'
 
 require 'uri'
 
-module URI
-  def domain; host[/[a-z\d-]+\.[a-z]{2,}(\.[a-z]{2})?$/].downcase; end
-end
-
 module Murlsh
 
   # URL ActiveRecord.

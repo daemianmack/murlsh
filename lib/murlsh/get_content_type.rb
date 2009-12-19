@@ -2,15 +2,6 @@ require 'net/http'
 require 'net/https'
 require 'uri'
 
-class URI::Generic
-
-  # Return the path and query string.
-  def path_query
-    path + (query ? "?#{query}" : '')
-  end
-
-end
-
 module Murlsh
 
   module_function

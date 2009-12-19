@@ -1,3 +1,4 @@
+require 'murlsh/uri.rb'
 require 'murlsh/auth'
 require 'murlsh/dispatch'
 require 'murlsh/get_content_type'

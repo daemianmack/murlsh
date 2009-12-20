@@ -54,9 +54,9 @@ module Murlsh
         entries.each do |mu|
           xm.entry {
             xm.author { xm.name(mu.name) }
-            xm.title(mu.title)
+            xm.title(mu.title_stripped)
             xm.id(entry_id(mu))
-            xm.summary(mu.title)
+            xm.summary(mu.title_stripped)
             xm.updated(mu.time.xmlschema)
             xm.link(:href => mu.url)
             enclosure(xm, mu)

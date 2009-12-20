@@ -54,7 +54,7 @@ module Murlsh
                   div(mu.name, :class => 'name') if mu.name
                 end
 
-                a(mu.title.strip.gsub(/\s+/, ' '), :href => mu.url)
+                a(mu.title_stripped, :href => mu.url)
 
                 mu.hostrec do |hostrec|
                   text!(' ')

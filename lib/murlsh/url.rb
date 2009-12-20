@@ -13,6 +13,10 @@ module Murlsh
       read_attribute(:title) || read_attribute(:url) || 'title missing'
     end
 
+    # Title with whitespace compressed and leading and trailing whitespace
+    # stripped.
+    def title_stripped; title.strip.gsub(/\s+/, ' '); end
+
     # Return true if this url has the same author as another url.
     def same_author?(other)
       other and other.email and other.name and

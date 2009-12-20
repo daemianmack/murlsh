@@ -21,18 +21,9 @@ module Murlsh
       @filename = options[:filename]
       @title = options[:title]
 
-      setup_id_fields
-    end
+      root_uri = URI(@root_url)
 
-    # Set up fields to use for building item ids.
-    def setup_id_fields
-      uri_parsed = URI(@root_url)
-
-      m = uri_parsed.host.match(/^(.*?)\.?([^.]+\.[^.]+)$/)
-
-      @host, @domain = (m ? m.captures : [uri_parsed.host, ''])
-
-      @path = uri_parsed.path
+      @host, @domain, @path = root_uri.host, root_uri.domain, root_uri.path
     end
 
     # Generate the feed and write it to the filesystem with locking.
@@ -64,7 +55,6 @@ module Murlsh
           }
         end
       }
-      xm
     end
 
     # Build the entry's id.

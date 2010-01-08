@@ -1,3 +1,5 @@
+require 'net/http'
+require 'net/https'
 require 'open-uri'
 require 'uri'
 
@@ -22,7 +24,15 @@ module Murlsh
 
       @content_type = ''
       Murlsh::failproof(options) do
-        @content_type = self.open(options[:headers]) { |f| f.content_type }
+        # try head first to save bandwidth
+        http = Net::HTTP.new(host, port)
+        http.use_ssl = (scheme == 'https')
+
+        resp = http.request_head(path_query, options[:headers])
+        @content_type = case resp
+          when Net::HTTPSuccess then resp['content-type']
+          else self.open(options[:headers]) { |f| f.content_type }
+        end
       end
       @content_type
     end

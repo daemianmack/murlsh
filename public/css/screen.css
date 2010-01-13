@@ -51,7 +51,7 @@ img.thumb, li object {
   margin-right : 10px;
 }
 
-span.host {
+sub.host {
   color : #808080;
   font-family : monospace;
 }

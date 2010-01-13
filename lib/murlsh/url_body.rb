@@ -57,8 +57,7 @@ module Murlsh
                 a(mu.title_stripped, :href => mu.url)
 
                 mu.hostrec do |hostrec|
-                  text!(' ')
-                  span(hostrec, :class => 'host')
+                  self.sub(" [#{hostrec}]", :class => 'host')
                 end
                 mu.viarec do |via|
                   span(:class => 'via') {

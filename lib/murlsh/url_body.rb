@@ -115,14 +115,9 @@ module Murlsh
     # Search form builder.
     def search_form
       form(:action => '', :method => 'get') {
-        value = @q
-        Murlsh::Referrer.new(@req.referrer).search_query do |refq|
-          re_parts = refq.split.collect { |x| Regexp.escape(x) }
-          value = "\\b(#{re_parts.join('|')})\\b"
-        end
         fieldset {
           input(:type => 'text', :id => 'q', :name => 'q', :size => 32,
-            :value => value)
+            :value => @q)
           input(:type => 'submit', :value=> 'Regex Search')
         }
       }

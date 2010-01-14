@@ -60,6 +60,10 @@ span.via {
   font-size : 0.75em;
 }
 
+span.via:before {
+  content : "\2190 \ ";
+}
+
 fieldset {
   border : 0;
   margin : 0;

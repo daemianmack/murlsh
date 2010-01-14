@@ -61,7 +61,7 @@ module Murlsh
                 end
                 mu.viarec do |via|
                   span(:class => 'via') {
-                    text!(' (via '); a(via.domain, :href => via); text!(')')
+                    text!(' via '); a(via.domain, :href => via)
                   }
                 end
                 span(", #{mu.time.fuzzy}", :class => 'date') if

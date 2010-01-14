@@ -61,7 +61,7 @@ span.via {
 }
 
 span.via:before {
-  content : "\2190 \ ";
+  content : " \2190 \ ";
 }
 
 fieldset {

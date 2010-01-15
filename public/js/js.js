@@ -42,17 +42,20 @@ Murlsh.closer_add = function(x, header) {
     glue :'before',
     header : header,
     sticky : true
-    });
+  });
 };
 
 Murlsh.object_tag = function(data, height, width, params) {
-  var result = '<object data="' + data + '" height="' + height +
-    '" type="application/x-shockwave-flash" width="' + width + '">';
-  $.each(params, function(i, v) {
-    result += '<param name="' + v.name + '" value="' + v.value + '" />';
+  var object = $('<object />').attr({
+    data : data,
+    height : height,
+    type : 'application/x-shockwave-flash',
+    width : width
   });
-  result += '</object>';
-  return result;
+
+  $.each(params, function(i, v) { object.append($('<param />', v)); });
+
+  return object;
 };
 
 Murlsh.flickr_thumb = function(d) {
@@ -60,11 +63,9 @@ Murlsh.flickr_thumb = function(d) {
   if (d.stat == 'ok') {
     var base = 'http://farm' + photo.farm + '.static.flickr.com/' +
       photo.server + '/' + photo.id + '_';
-    var zoom;
+    var zoom = base + photo.secret + '_m.jpg';
     if (photo.originalsecret) {
       zoom = base + photo.originalsecret + '_o.' + photo.originalformat;
-    } else {
-    zoom = base + photo.secret + '_m.jpg';
     }
 
     var owner = photo.owner;
@@ -105,9 +106,16 @@ Murlsh.youtube_thumb = function(id) {
 };
 
 Murlsh.youtube_click = function() {
-  var movie = 'http://www.youtube.com/v/' + $(this).data('id') +
-    '?hd=1&amp;hl=en&amp;fs=1&amp;showinfo=0&amp;showsearch=0';
-  Murlsh.closer_add(Murlsh.object_tag(movie, 344, 425, [{ name : 'movie', value : movie }]));
+  var movie = 'http://www.youtube.com/v/' + $(this).data('id') + '?' +
+    $.param({
+      hd : 1,
+      hl : 'en',
+      fs : 1,
+      showinfo : 0,
+      showsearch : 0
+    });
+  Murlsh.closer_add(Murlsh.object_tag(movie, 344, 425,
+    [{ name : 'movie', value : movie }]));
 };
 
 Murlsh.thumb_insert = function(img, click_function, a) {
@@ -140,54 +148,72 @@ Murlsh.href_res = {
 };
 
 Murlsh.add_extra = function() {
-  var this_a = $(this);
-
   var href = $(this).attr('href');
-
   var match = {};
-  $.each(Murlsh.href_res, function(x, re) { return !(match[x] = re.exec(href)); });
 
-  var thumb;
+  $.each(Murlsh.href_res, function(x, re) {
+    return !(match[x] = re.exec(href));
+  });
 
   if (match.flickr) {
-    var callback = function(d) {
-      Murlsh.thumb_insert(Murlsh.flickr_thumb(d), Murlsh.flickr_click, this_a);
-    };
-    $.getJSON('http://api.flickr.com/services/rest/?api_key=d04e574aaf11bf2e1c03cba4ee7e5725&method=flickr.photos.getinfo&format=json&photo_id=' +
-      match.flickr[1] + '&jsoncallback=?', callback);
+    $.ajax({
+      url : 'http://api.flickr.com/services/rest/',
+      data : {
+        api_key : 'd04e574aaf11bf2e1c03cba4ee7e5725',
+        format : 'json',
+        method : 'flickr.photos.getinfo',
+        photo_id : match.flickr[1]
+        },
+      dataType : 'jsonp',
+      jsonp : 'jsoncallback',
+      success : function(d) {
+        Murlsh.thumb_insert(Murlsh.flickr_thumb(d), Murlsh.flickr_click,
+          $(this));
+        },
+      context : $(this)
+    });
   } else if (match.imageshack) {
-    thumb = Murlsh.img_thumb(match.imageshack[1], match.imageshack[2]).data(
-      'href', match.imageshack[0]);
-    Murlsh.thumb_insert(thumb, Murlsh.img_click, this_a.html('imageshack.us'));
+    Murlsh.thumb_insert(
+      Murlsh.img_thumb(match.imageshack[1], match.imageshack[2]).data('href',
+        match.imageshack[0]),
+      Murlsh.img_click, $(this).html('imageshack.us'));
   } else if (match.mp3) {
     var swf = 'swf/player_mp3_mini.swf';
+
     $(this).before(Murlsh.object_tag(swf, 20, 200, [
       { name : 'bgcolor', value : '#000000' },
       { name : 'FlashVars', value : 'mp3=' + match.mp3[0] },
       { name : 'movie', value : swf }
     ]));
   } else if (match.s3) {
-    thumb = Murlsh.img_thumb(match.s3[1], match.s3[2]);
+    var thumb = Murlsh.img_thumb(match.s3[1], match.s3[2]);
+
     if (match.s3[2].match(/^pdf$/i)) {
-	this_a.before(thumb).html('pdf');
+	$(this).before(thumb).html('pdf');
     } else {
       if (Murlsh.is_iphone()) {
-        this_a.html(thumb);
+        $(this).html(thumb);
       } else {
-        this_a.html('link');
-        this_a.before(thumb.data('href', match.s3[0]).click(Murlsh.img_click));
+        $(this).html('link');
+        $(this).before(thumb.data('href', match.s3[0]).click(
+          Murlsh.img_click));
       }
     }
   } else if (match.vimeo) {
-    var callback = function(d) {
-      var thumb = Murlsh.vimeo_thumb(d).data('embed_html', d.html);
-      Murlsh.thumb_insert(thumb, Murlsh.vimeo_click, this_a);
-    };
-    $.getJSON('http://vimeo.com/api/oembed.json?url=http%3A//vimeo.com/' +
-      match.vimeo[1] + '&callback=?', callback);
+    $.ajax({
+      url : 'http://vimeo.com/api/oembed.json',
+      data : { url : 'http://vimeo.com/' + match.vimeo[1] },
+      dataType : 'jsonp',
+      success : function(d) {
+        Murlsh.thumb_insert(Murlsh.vimeo_thumb(d).data('embed_html',
+          d.html.replace(/&/g, '&amp;')),
+          Murlsh.vimeo_click, $(this));
+        },
+      context : $(this)
+    });
   } else if (match.youtube) {
-    thumb = Murlsh.youtube_thumb(match.youtube[1]);
-    Murlsh.thumb_insert(thumb, Murlsh.youtube_click, this_a);
+    Murlsh.thumb_insert(Murlsh.youtube_thumb(match.youtube[1]),
+      Murlsh.youtube_click, $(this));
   }
 };
 
@@ -215,11 +241,11 @@ Murlsh.format_li = function(d) {
 
 Murlsh.iphone_init = function() {
   window.onorientationchange = function() {
+    var width = 450;
     if (window.orientation === 0 || window.orientation == 180) {
-      $('#urls').width(290);
-    } else {
-      $('#urls').width(450);
+      width = 290;
     }
+    $('#urls').width(width);
   };
 
   window.onorientationchange();

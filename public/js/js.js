@@ -2,32 +2,9 @@
 
 var Murlsh = {};
 
-Murlsh.tag = function(name, attr, text) {
-  var klass;
-  var result = $('<' + name + ' />');
-
-  if (attr) {
-    if (attr.klass) {
-      klass = attr.klass;
-      delete attr.klass;
-    }
-    result.attr(attr);
-  }
-
-  if (text) {
-    result.text(text);
-  }
-
-  if (klass) {
-    result.addClass(klass);
-  }
-
-  return result;
-};
-
 Murlsh.img = function(src, text) {
   text = text || '';
-  return Murlsh.tag('img', { 
+  return $('<img />', {
     src : src,
     alt : text,
     title : text
@@ -35,7 +12,7 @@ Murlsh.img = function(src, text) {
 };
 
 Murlsh.closer_add = function(x, header) {
-  var html = (typeof x == 'object') ? Murlsh.tag('div').append(x).html() : x;
+  var html = (typeof x == 'object') ? $('<div />').append(x).html() : x;
 
   $.jGrowl(html, {
     closeTemplate : 'X',
@@ -218,16 +195,19 @@ Murlsh.add_extra = function() {
 };
 
 Murlsh.format_li = function(d) {
-  var li = Murlsh.tag('li').append(Murlsh.tag('a', { href : d.url }, d.title));
+  var li = $('<li />').append($('a', {
+    href : d.url,
+    text : d.title
+  }));
 
   if (d.name) {
-    li.prepend(Murlsh.tag('div', { klass : 'name' }, d.name));
+    li.prepend($('<div />', { text : d.name }).addClass('name'));
   }
 
   var icon_size = 32;
 
   if (d.email) {
-    li.prepend(Murlsh.tag('div', { klass : 'icon' }).append(
+    li.prepend($('<div />').addClass('icon').append(
       Murlsh.img(
         'http://www.gravatar.com/avatar/' + d.email + '?s=' + icon_size,
         d.name).attr({
@@ -250,8 +230,14 @@ Murlsh.iphone_init = function() {
 
   window.onorientationchange();
 
-  $('#urls li:first').prepend(Murlsh.tag('a', { href : '#bottom' }, 'bottom'));
-  $('#urls li:last').append(Murlsh.tag('a', { href : '#urls' }, 'top'));
+  $('#urls li:first').prepend($('<a />', {
+    href : '#bottom',
+    text : 'bottom'
+  }));
+  $('#urls li:last').append($('<a />', {
+    href : '#urls',
+    text : 'top'
+  }));
 };
 
 $(document).ready(function() {

@@ -1,3 +1,5 @@
+/*global $, window*/
+
 "use strict";
 
 var Murlsh = {};
@@ -53,7 +55,7 @@ Murlsh.flickr_thumb = function (d) {
 
         owner = photo.owner;
         return Murlsh.img(base + photo.secret + '_s.jpg',
-            photo.title['_content'] +
+            photo.title._content +
             (owner && owner.username ? ' by ' + owner.username : '')
             ).addClass('thumb flickr').data('zoom', zoom);
     }
@@ -117,7 +119,7 @@ Murlsh.is_iphone = function () {
 
 Murlsh.href_res = {
     flickr :
-        /^http:\/\/(?:www\.)?flickr\.com\/photos\/[@\w-]+?\/([\d]+)/i,
+        /^http:\/\/(?:www\.)?flickr\.com\/photos\/[@\w\-]+?\/([\d]+)/i,
     imageshack :
         /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpe?g|gif|png)$/i,
     mp3 :
@@ -127,7 +129,7 @@ Murlsh.href_res = {
     vimeo :
         /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
     youtube :
-        /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w-]+)(?:&|$)/i
+        /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
 };
 
 Murlsh.add_extra = function () {

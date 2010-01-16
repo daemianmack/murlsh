@@ -127,7 +127,7 @@ Murlsh.href_res = {
     vimeo :
         /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
     youtube :
-        /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([a-z\d]+)(?:&|$)/i
+        /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w-]+)(?:&|$)/i
 };
 
 Murlsh.add_extra = function () {

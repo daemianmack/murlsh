@@ -203,7 +203,7 @@ Murlsh.add_extra = function () {
 };
 
 Murlsh.format_li = function (d) {
-    var li = $('<li />').append($('a', {
+    var li = $('<li />').append($('<a />', {
         href : d.url,
         text : d.title
     })),

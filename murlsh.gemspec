@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{murlsh}
-  s.version = "0.4.0"
+  s.version = "0.5.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2009-12-13}
+  s.date = %q{2010-01-15}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -31,14 +31,15 @@ Gem::Specification.new do |s|
      "lib/murlsh/atom_feed.rb",
      "lib/murlsh/auth.rb",
      "lib/murlsh/dispatch.rb",
-     "lib/murlsh/get_content_type.rb",
-     "lib/murlsh/get_title.rb",
+     "lib/murlsh/doc.rb",
+     "lib/murlsh/failproof.rb",
      "lib/murlsh/markup.rb",
      "lib/murlsh/openlock.rb",
      "lib/murlsh/plugin.rb",
-     "lib/murlsh/referrer.rb",
      "lib/murlsh/sqlite3_adapter.rb",
      "lib/murlsh/time.rb",
+     "lib/murlsh/uri.rb",
+     "lib/murlsh/uri_ask.rb",
      "lib/murlsh/url.rb",
      "lib/murlsh/url_body.rb",
      "lib/murlsh/url_server.rb",
@@ -50,17 +51,15 @@ Gem::Specification.new do |s|
      "plugins/update_feed.rb",
      "public/css/jquery.jgrowl.css",
      "public/css/screen.css",
-     "public/js/jquery-1.3.2.min.js",
+     "public/js/jquery-1.4.min.js",
      "public/js/jquery.cookie.js",
      "public/js/jquery.jgrowl_compressed.js",
      "public/js/js.js",
      "public/swf/player_mp3_mini.swf",
+     "test/atom_feed_test.rb",
      "test/auth_test.rb",
-     "test/get_charset_test.rb",
-     "test/get_content_type_test.rb",
-     "test/get_title_test.rb",
      "test/markup_test.rb",
-     "test/referrer_test.rb",
+     "test/uri_ask_test.rb",
      "test/xhtml_response_test.rb"
   ]
   s.homepage = %q{http://github.com/mmb/murlsh}
@@ -70,12 +69,10 @@ Gem::Specification.new do |s|
   s.summary = %q{url sharing site framework}
   s.test_files = [
     "test/xhtml_response_test.rb",
+     "test/uri_ask_test.rb",
      "test/markup_test.rb",
-     "test/referrer_test.rb",
-     "test/get_charset_test.rb",
-     "test/get_content_type_test.rb",
-     "test/auth_test.rb",
-     "test/get_title_test.rb"
+     "test/atom_feed_test.rb",
+     "test/auth_test.rb"
   ]
 
   if s.respond_to? :specification_version then

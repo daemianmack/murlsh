@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{murlsh}
-  s.version = "0.5.0"
+  s.version = "0.5.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
@@ -60,6 +60,7 @@ Gem::Specification.new do |s|
      "test/auth_test.rb",
      "test/markup_test.rb",
      "test/uri_ask_test.rb",
+     "test/uri_test.rb",
      "test/xhtml_response_test.rb"
   ]
   s.homepage = %q{http://github.com/mmb/murlsh}
@@ -71,6 +72,7 @@ Gem::Specification.new do |s|
     "test/xhtml_response_test.rb",
      "test/uri_ask_test.rb",
      "test/markup_test.rb",
+     "test/uri_test.rb",
      "test/atom_feed_test.rb",
      "test/auth_test.rb"
   ]

@@ -24,19 +24,25 @@ Murlsh.closer_add = function (x, header) {
     });
 };
 
+Murlsh.escape_xml = function (s) {
+    return s.replace(/&/g, '&amp;');
+};
+
 Murlsh.object_tag = function (data, height, width, params) {
-    var object = $('<object />').attr({
-        data : data,
-        height : height,
-        type : 'application/x-shockwave-flash',
-        width : width
-    });
+    // this does not use jQuery to build tags because building object
+    // tags is broken in IE
+    var result = '<object data="' + Murlsh.escape_xml(data) +
+        '" height="' + height +
+        '" type="application/x-shockwave-flash" width="' + width + '">';
 
     $.each(params, function (i, v) {
-        object.append($('<param />', v));
+        result += '<param name="' + v.name + '" value="' +
+            Murlsh.escape_xml(v.value) + '" />';
     });
 
-    return object;
+    result += '</object>';
+
+    return result;
 };
 
 Murlsh.flickr_thumb = function (d) {
@@ -191,7 +197,7 @@ Murlsh.add_extra = function () {
             dataType : 'jsonp',
             success : function (d) {
                 Murlsh.thumb_insert(Murlsh.vimeo_thumb(d).data('embed_html',
-                    d.html.replace(/&/g, '&amp;')),
+                    Murlsh.escape_xml(d.html)),
                     Murlsh.vimeo_click, $(this));
             },
             context : $(this)

@@ -13,7 +13,7 @@ css_files:
 - css/jquery.jgrowl.css
 - css/screen.css
 js_files:
-- js/jquery-1.4.min.js
+- js/jquery-1.4.1.min.js
 - js/jquery.cookie.js
 - js/jquery.jgrowl_compressed.js
 - js/js.js

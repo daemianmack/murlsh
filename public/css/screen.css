@@ -49,6 +49,9 @@ div.name {
 img.thumb, li object {
   float : left;
   margin-right : 10px;
+  border : 1px solid #808080;
+  -moz-border-radius : 5px;
+  -webkit-border-radius : 5px;
 }
 
 span.host {

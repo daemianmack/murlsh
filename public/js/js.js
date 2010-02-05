@@ -105,7 +105,7 @@ Murlsh.youtube_click = function () {
             showinfo : 0,
             showsearch : 0
         });
-    Murlsh.closer_add(Murlsh.object_tag(movie, 344, 425,
+    Murlsh.closer_add(Murlsh.object_tag(movie, 505, 640,
       [{ name : 'movie', value : movie }]));
 };
 

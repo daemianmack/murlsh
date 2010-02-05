@@ -51,7 +51,7 @@ img.thumb, li object {
   margin-right : 10px;
 }
 
-sub.host {
+span.host {
   color : #808080;
   font-family : monospace;
 }
@@ -113,6 +113,8 @@ div.jGrowl div.jGrowl-closer {
   body {
     margin : 0;
     padding : 0;
+    font-size : 1.25em;
+    line-height : 1.875em;
   }
 
   #urls {

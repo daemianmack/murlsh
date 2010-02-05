@@ -92,7 +92,7 @@ Murlsh.vimeo_click = function () {
 };
 
 Murlsh.youtube_thumb = function (id) {
-    return Murlsh.img('http://img.youtube.com/vi/' + id + '/1.jpg',
+    return Murlsh.img('http://img.youtube.com/vi/' + id + '/default.jpg',
         'click to watch').addClass('thumb youtube').data('id', id);
 };
 

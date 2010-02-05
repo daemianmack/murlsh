@@ -99,9 +99,10 @@ Murlsh.youtube_thumb = function (id) {
 Murlsh.youtube_click = function () {
     var movie = 'http://www.youtube.com/v/' + $(this).data('id') + '?' +
         $.param({
+            fs : 1,
             hd : 1,
             hl : 'en',
-            fs : 1,
+            iv_load_policy : 3,
             showinfo : 0,
             showsearch : 0
         });

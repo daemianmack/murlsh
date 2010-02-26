@@ -20,7 +20,10 @@ Murlsh.closer_add = function (x, header) {
         closeTemplate : 'X',
         glue : 'before',
         header : header,
-        sticky : true
+        sticky : true,
+        beforeOpen : function (e, m, o) {
+            e.find('.message img').css('max-width', $(window).width() / 2);
+        }
     });
 };
 

@@ -135,7 +135,7 @@ Murlsh.href_res = {
     mp3 :
         /\.mp3$/i,
     s3 :
-        /^(http:\/\/static\.mmb\.s3\.amazonaws\.com\/\w+\.)(jpe?g|gif|pdf|png)$/i,
+        /^(http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w-+]\.)(jpe?g|gif|pdf|png)$/i,
     vimeo :
         /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
     youtube :

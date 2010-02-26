@@ -13,6 +13,17 @@ Murlsh.img = function (src, text) {
     });
 };
 
+Murlsh.make_fit = function (e, max_width, max_height) {
+    var width = e.width(),
+        height = e.height(),
+        scale;
+    if (width > max_width || height > max_height) {
+        scale = Math.min(max_width / width, max_height / height);
+        e.width(Math.round(width * scale));
+        e.height(Math.round(height * scale));
+    }
+}
+
 Murlsh.closer_add = function (x, header) {
     var html = (typeof x === 'object') ? $('<div />').append(x).html() : x;
 
@@ -21,8 +32,12 @@ Murlsh.closer_add = function (x, header) {
         glue : 'before',
         header : header,
         sticky : true,
-        beforeOpen : function (e, m, o) {
-            e.find('.message img').css('max-width', $(window).width() / 2);
+        beforeOpen : function (e) {
+            e.find('.message img').load(function () {
+                Murlsh.make_fit($(this),
+                    Math.round($(window).width() / 2),
+                    Math.round($(window).height() - 100));
+            });
         }
     });
 };

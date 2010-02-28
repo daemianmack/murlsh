@@ -69,10 +69,9 @@ module Murlsh
     end
 
     def via(xm, mu)
-      begin
+      Murlsh::failproof do
         xm.link(:rel => 'via', :type => 'text/html', :href => mu.via,
           :title => URI(mu.via).domain) if mu.via
-      rescue Exception
       end
     end
 

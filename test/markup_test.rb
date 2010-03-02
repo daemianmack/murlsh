@@ -2,7 +2,7 @@ $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'murlsh'
 
-require 'test/unit'
+require 'spec/test/unit'
 
 class MarkupMixer < Builder::XmlMarkup
   include Murlsh::Markup

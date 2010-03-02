@@ -11,7 +11,7 @@ yaml
 rubygems
 
 flog
-rake/testtask
+spec/rake/spectask
 sqlite3
 
 murlsh
@@ -94,8 +94,8 @@ task :flog do
 end
 
 desc "Run test suite."
-Rake::TestTask.new do |t|
-  t.pattern = 'test/*_test.rb'
+Spec::Rake::SpecTask.new('test') do |t|
+  t.spec_files = FileList['test/*_test.rb']
   t.verbose = true
   t.warning = true
 end

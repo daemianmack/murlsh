@@ -2,7 +2,7 @@ $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'murlsh'
 
-require 'test/unit'
+require 'spec/test/unit'
 require 'uri'
 
 class UriAskTest < Test::Unit::TestCase

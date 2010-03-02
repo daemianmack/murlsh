@@ -5,7 +5,7 @@ require 'time'
 
 require 'murlsh'
 
-require 'test/unit'
+require 'spec/test/unit'
 
 class AtomFeedTest < Test::Unit::TestCase
 

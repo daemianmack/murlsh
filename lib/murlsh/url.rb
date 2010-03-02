@@ -25,7 +25,7 @@ module Murlsh
 
     # Return text showing what domain a link goes to.
     def hostrec
-      domain = begin; URI(url).domain; rescue Exception; end
+      domain = Murlsh::failproof { URI(url).domain }
 
       domain = Murlsh::Plugin.hooks('hostrec').inject(domain) {
         |result,plugin| plugin.run(result, url, title) }
@@ -34,14 +34,7 @@ module Murlsh
     end
 
     # Yield the url that the url came from.
-    def viarec
-      if via
-        begin
-          yield URI(via)
-        rescue Exception
-        end
-      end
-    end
+    def viarec; Murlsh::failproof { yield URI(via) } if via; end
 
     # Return true if this url is an image.
     def is_image?

@@ -95,7 +95,7 @@ end
 
 desc "Run test suite."
 Spec::Rake::SpecTask.new('test') do |t|
-  t.spec_files = FileList['test/*_test.rb']
+  t.spec_files = FileList['spec/*_spec.rb']
   t.verbose = true
   t.warning = true
 end

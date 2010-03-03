@@ -17,7 +17,7 @@ describe Murlsh::Auth do
     File.delete(@f)
   end
 
-  it "should authorize valid credentials" do
+  it 'should authorize valid credentials' do
     @a.auth('secret1').should == {
       :name => 'test1',
       :email => Digest::MD5.hexdigest('test1@test.com')
@@ -28,7 +28,7 @@ describe Murlsh::Auth do
       }
   end
 
-  it "should not authorize invalid credentials" do
+  it 'should not authorize invalid credentials' do
     @a.auth('not there').should be_nil
   end
 

@@ -5,57 +5,32 @@ require 'time'
 
 require 'murlsh'
 
-require 'spec/test/unit'
+describe Murlsh::AtomFeed do
 
-class AtomFeedTest < Test::Unit::TestCase
+  before do
+    @url1 = stub('Url', 
+      :content_type => 'text/html',
+      :id => 1,
+      :is_image? => false,
+      :name => 'test 1',
+      :time => Time.parse('dec 19 2009 12:34:56pm').utc,
+      :title_stripped => 'test title',
+      :url => 'http://matthewm.boedicker.org/',
+      :via => 'http://www.google.com')
 
-  class MockUrl
+    @url2 = stub('Url',
+      :content_type => 'image/jpeg',
+      :id => 2,
+      :is_image? => true,
+      :name => 'test 2',
+      :time => Time.parse('dec 20 2009 10:10:10am').utc,
+      :title_stripped => 'image test',
+      :url => 'http://matthewm.boedicker.org/test.jpg',
+      :via => nil)
 
-    def initialize(content_type, id, is_image, name, time, title_stripped,
-      url, via)
-      @content_type,
-      @id,
-      @is_image,
-      @name,
-      @time,
-      @title_stripped,
-      @url,
-      @via =
-        content_type,
-        id,
-        is_image,
-        name,
-        time,
-        title_stripped,
-        url,
-        via
-    end
+    @feed = Murlsh::AtomFeed.new('http://test.com/test/', :title => 'test')
 
-    def is_image?; is_image; end
-
-    attr_reader :content_type
-    attr_reader :id
-    attr_reader :is_image
-    attr_reader :name
-    attr_reader :time
-    attr_reader :title_stripped
-    attr_reader :url
-    attr_reader :via
-  end
-
-  def test_atom_feed
-    feed = Murlsh::AtomFeed.new('http://test.com/test/', :title => 'test')
-    time1 = Time.parse('dec 19 2009 12:34:56pm').utc
-    time2 = Time.parse('dec 20 2009 10:10:10am').utc
-
-    entries = [
-      MockUrl.new('text/html', 1, false, 'test 1', time1, 'test title',
-        'http://matthewm.boedicker.org/', 'http://www.google.com'),
-      MockUrl.new('image/jpeg', 2, true, 'test 2', time2, 'image test',
-        'http://matthewm.boedicker.org/test.jpg', nil)
-      ]
-
-    expected = <<EOS
+    @expected = <<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>http://test.com/test/</id>
@@ -86,16 +61,19 @@ class AtomFeedTest < Test::Unit::TestCase
   </entry>
 </feed>
 EOS
+  end
 
-    assert_equal(expected, feed.make(entries, :indent => 2))
+  it 'should generate the correct atom feed' do
+    @feed.make([@url1, @url2], :indent => 2).should == @expected
+  end
 
+  it 'should write the correct atom feed to a file' do
     f = Tempfile.open('test_atom_feed')
-    feed.make(entries, :indent => 2, :target => f)
+    @feed.make([@url1, @url2], :indent => 2, :target => f)
 
     f.open
-    assert_equal(expected, f.read)
+    f.read.should == @expected
     f.close
-
   end
 
 end

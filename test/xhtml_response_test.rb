@@ -2,10 +2,7 @@ $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'murlsh'
 
-require 'spec/test/unit'
-
-class XhtmlResponseTest < Test::Unit::TestCase
-
+describe Murlsh::XhtmlResponse do
   Ie_ua = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)'
 
   Non_ie_ua = 'Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.0.10) Gecko/2009042523 Ubuntu/9.04 (jaunty) Firefox/3.0.10'
@@ -16,124 +13,100 @@ class XhtmlResponseTest < Test::Unit::TestCase
     req['Content-Type']
   end
 
-  def test_star_star
-    assert_equal('application/xhtml+xml',
-      get_content_type('*/*', Non_ie_ua))
+  it 'should return application/xhtml+xml when accept is */* and it is not IE' do
+    get_content_type('*/*', Non_ie_ua).should == 'application/xhtml+xml'
   end
 
-  def test_star_star_ie
-    assert_equal('text/html',
-      get_content_type('*/*', Ie_ua))
+  it 'should return text/html when accept is */* and it is IE' do
+    get_content_type('*/*', Ie_ua).should == 'text/html'
   end
 
-  def test_star_star_empty
-    assert_equal('application/xhtml+xml',
-      get_content_type('*/*', ''))
+  it 'should return application/xhtml+xml when accept is */* and user agent is empty' do
+    get_content_type('*/*', '').should == 'application/xhtml+xml'
   end
 
-  def test_star_star_nil
-    assert_equal('application/xhtml+xml',
-      get_content_type('*/*', nil))
+  it 'should return application/xhtml+xml when accept is */* and user agent is nil' do
+    get_content_type('*/*', nil).should == 'application/xhtml+xml'
   end
 
-  def test_application_star
-    assert_equal('application/xhtml+xml',
-      get_content_type('application/*', Non_ie_ua))
+  it 'should return application/xhtml+xml when accept is application/* and it is not IE' do
+    get_content_type('application/*', Non_ie_ua).should == 'application/xhtml+xml'
   end
 
-  def test_application_star_ie
-    assert_equal('text/html',
-      get_content_type('application/*', Ie_ua))
+  it 'should return text/html when accept is application/* and it is IE' do
+    get_content_type('application/*', Ie_ua).should == 'text/html'
   end
 
-  def test_application_star_empty
-    assert_equal('application/xhtml+xml',
-      get_content_type('application/*', ''))
+  it 'should return application/xhtml+xml when accept is application/* and user agent is empty' do
+    get_content_type('application/*', '').should == 'application/xhtml+xml'
   end
 
-  def test_application_star_nil
-    assert_equal('application/xhtml+xml',
-      get_content_type('application/*', nil))
+  it 'should return application/xhtml+xml when accept is application/* and user agent is empty' do
+    get_content_type('application/*', nil).should == 'application/xhtml+xml'
   end
 
-  def test_application_xhtml_xml
-    assert_equal('application/xhtml+xml',
-      get_content_type('application/xhtml+xml', Non_ie_ua))
+  it 'should return application/xhtml+xml when accept is application/xhtml+xml and it is not IE' do
+    get_content_type('application/xhtml+xml', Non_ie_ua).should == 'application/xhtml+xml'
   end
 
-  def test_application_xhtml_xml_ie
-    assert_equal('text/html',
-      get_content_type('application/xhtml+xml', Ie_ua))
+  it 'should return text/html when accept is application/xhtml+xml and it is not IE' do
+    get_content_type('application/xhtml+xml', Ie_ua).should == 'text/html'
   end
 
-  def test_application_xhtml_xml_empty
-    assert_equal('application/xhtml+xml',
-      get_content_type('application/xhtml+xml', ''))
+  it 'should return application/xhtml+xml when accept is application/xhtml+xml and user agent is empty' do
+    get_content_type('application/xhtml+xml', '').should == 'application/xhtml+xml'
   end
 
-  def test_application_xhtml_xml_nil
-    assert_equal('application/xhtml+xml',
-      get_content_type('application/xhtml+xml', nil))
+  it 'should return application/xhtml+xml when accept is application/xhtml+xml and user agent is nil' do
+    get_content_type('application/xhtml+xml', nil).should == 'application/xhtml+xml'
   end
 
-  def test_text_html
-    assert_equal('text/html',
-      get_content_type('text/html', Non_ie_ua))
+  it 'should return text/html when accept is text/html and it is not IE' do
+    get_content_type('text/html', Non_ie_ua).should == 'text/html'
   end
 
-  def test_text_html_ie
-    assert_equal('text/html',
-      get_content_type('text/html', Ie_ua))
+  it 'should return text/html when accept is text/html and it is IE' do
+    get_content_type('text/html', Ie_ua).should == 'text/html'
   end
 
-  def test_text_html_empty
-    assert_equal('text/html',
-      get_content_type('text/html', ''))
+  it 'should return text/html when accept is text/html and user agent is empty' do
+    get_content_type('text/html', '').should == 'text/html'
   end
 
-  def test_text_html_nil
-    assert_equal('text/html',
-      get_content_type('text/html', nil))
+  it 'should return text/html when accept is text/html and user agent is nil' do
+    get_content_type('text/html', nil).should == 'text/html'
   end
 
-  def test_empty
-    assert_equal('text/html',
-      get_content_type('', Non_ie_ua))
+  it 'should return text/html when accept is empty and it is not IE' do
+    get_content_type('', Non_ie_ua).should == 'text/html'
   end
 
-  def test_empty_ie
-    assert_equal('text/html',
-      get_content_type('', Ie_ua))
+  it 'should return text/html when accept is empty and it is IE' do
+    get_content_type('', Ie_ua).should == 'text/html'
   end
 
-  def test_empty_empty
-    assert_equal('text/html',
-      get_content_type('', ''))
+  it 'should return text/html when accept is empty and user agent is empty' do
+    get_content_type('', '').should == 'text/html'
   end
 
-  def test_empty_nil
-    assert_equal('text/html',
-      get_content_type('', nil))
+  it 'should return text/html when accept is empty and user agent is nil' do
+    get_content_type('', nil).should == 'text/html'
   end
 
-  def test_nil
-    assert_equal('text/html',
-      get_content_type(nil, Non_ie_ua))
+  it 'should return text/html when accept is nil and it is not IE' do
+    get_content_type(nil, Non_ie_ua).should == 'text/html'
   end
 
-  def test_nil_ie
-    assert_equal('text/html',
-      get_content_type(nil, Ie_ua))
+  it 'should return text/html when accept is nil and it is IE' do
+    get_content_type(nil, Ie_ua).should == 'text/html'
   end
 
-  def test_nil_empty
-    assert_equal('text/html',
-      get_content_type(nil, ''))
+  it 'should return text/html when accept is nil and user agent is empty' do
+    get_content_type(nil, '').should == 'text/html'
   end
 
-  def test_nil_nil
-    assert_equal('text/html',
-      get_content_type(nil, nil))
+  it 'should return text/html when accept is nil and user agent is nil' do
+    get_content_type(nil, nil).should == 'text/html'
   end
 
 end

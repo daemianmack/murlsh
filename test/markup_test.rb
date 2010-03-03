@@ -2,143 +2,132 @@ $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'murlsh'
 
-require 'spec/test/unit'
-
 class MarkupMixer < Builder::XmlMarkup
   include Murlsh::Markup
 end
 
-class MarkupTest < Test::Unit::TestCase
+describe MarkupMixer do
 
-  def setup
+  before do
     @m = MarkupMixer.new()
   end
 
-  def attr_check(name, value, s)
-    assert_match(/#{name}="#{value}"/, s)
-  end
-
-  def test_javascript_single
+  it 'should correctly render a single javascript tag' do
     @m.javascript('test.js')
-    assert_equal(
-      '<script type="text/javascript" src="test.js"></script>', @m.target!)
+    @m.target!.should ==
+      '<script type="text/javascript" src="test.js"></script>'
   end
 
-  def test_javascript_multiple
+  it 'should correctly render a list of javascript tags' do
     @m.javascript(['test1.js', 'test2.js'])
-    assert_equal(
-        '<script type="text/javascript" src="test1.js"></script><script type="text/javascript" src="test2.js"></script>',
-      @m.target!)
+    @m.target!.should ==
+      '<script type="text/javascript" src="test1.js"></script><script type="text/javascript" src="test2.js"></script>'
   end
 
-  def test_javascript_single_prefix
+  it 'should correctly render a single javascript tag with a prefix' do
     @m.javascript('test.js', :prefix => 'http://static.com/js/')
-    assert_equal(
-      '<script type="text/javascript" src="http://static.com/js/test.js"></script>',
-      @m.target!)
+    @m.target!.should ==
+      '<script type="text/javascript" src="http://static.com/js/test.js"></script>'
   end
 
-  def test_javascript_multiple_prefix
+  it 'should correctly render a list of javascripts tag with a prefix' do
     @m.javascript(['test1.js', 'test2.js'], :prefix => 'js/')
-    assert_equal(
-        '<script type="text/javascript" src="js/test1.js"></script><script type="text/javascript" src="js/test2.js"></script>',
-      @m.target!)
+    @m.target!.should ==
+      '<script type="text/javascript" src="js/test1.js"></script><script type="text/javascript" src="js/test2.js"></script>'
   end
 
-  def test_murlsh_img_prefix
+  it 'should correctly render a murlsh_img tag' do
     @m.murlsh_img(:src => 'foo.png', :prefix => 'http://static.com/img/')
-    assert_equal('<img src="http://static.com/img/foo.png"/>', @m.target!)
+    @m.target!.should == '<img src="http://static.com/img/foo.png"/>'
   end
 
-  def test_murlsh_img_size_one
+  it 'should correctly render a murlsh_img tag with a single size value' do
     @m.murlsh_img(:src => 'foo.png', :size => 32)
     [
-      %w{height 32},
-      %w{src foo.png},
-      %w{width 32},
-    ].each { |t| attr_check(*t.push(@m.target!)) }
+      /height="32"/,
+      /src="foo\.png"/,
+      /width="32"/,
+    ].each { |r| !@m.target!.should match r }
   end
 
-  def test_murlsh_img_size_two
+  it 'should correctly render a murlsh_img tag with two size values' do
     @m.murlsh_img(:src => 'foo.png', :size => [100, 200])
     [
-      %w{height 200},
-      %w{src foo.png},
-      %w{width 100},
-    ].each { |t| attr_check(*t.push(@m.target!)) }
+      /height="200"/,
+      /src="foo\.png"/,
+      /width="100"/,
+    ].each { |r| !@m.target!.should match r }
   end
 
-  def test_murlsh_img_size_text
+  it 'should correctly render a murlsh_img tag with text' do
     @m.murlsh_img(:src => 'foo.png', :text => 'test')
     [
-      %w{alt test},
-      %w{src foo.png},
-      %w{title test},
-    ].each { |t| attr_check(*t.push(@m.target!)) }
+      /alt="test"/,
+      /src="foo\.png"/,
+      /title="test"/,
+    ].each { |r| !@m.target!.should match r }
   end
 
-  def test_murlsh_img_href
+  it 'should correctly render a murlsh_img tag with an href' do
     @m.murlsh_img(:href => '/test/', :src => 'foo.png')
-    assert_equal('<a href="/test/"><img src="foo.png"/></a>', @m.target!)
+    @m.target!.should == '<a href="/test/"><img src="foo.png"/></a>'
   end
 
-  def test_metas
+  it 'should correctly render meta tags' do
     @m.metas(:a => '1', :b => '2', :c => '3')
     [
       '<meta (name="a" content="1"|content="1" name="a")/>',
       '<meta (name="b" content="2"|content="2" name="b")/>',
       '<meta (name="c" content="3"|content="3" name="c")/>',
-    ].each { |r| assert_match(/#{r}/, @m.target!) }
+    ].each { |r| @m.target!.should match /#{r}/ }
   end
 
-  def test_gravatar_none
+  it 'should correctly render a gravatar tag' do
     @m.gravatar('xxx')
-    assert_equal('<img src="http://www.gravatar.com/avatar/xxx"/>', @m.target!)
+    @m.target!.should == '<img src="http://www.gravatar.com/avatar/xxx"/>'
   end
 
-  def test_gravatar_valid_d
+  it 'should correctly render a gravatar tag with a valid default' do
     @m.gravatar('xxx', 'd' => 'identicon')
-    assert_equal('<img src="http://www.gravatar.com/avatar/xxx?d=identicon"/>',
-      @m.target!)
+    @m.target!.should ==
+      '<img src="http://www.gravatar.com/avatar/xxx?d=identicon"/>'
   end
 
-  def test_gravatar_invalid_d
+  it 'should not pass the default parameter to gravatar if the default is invalid' do
     @m.gravatar('xxx', 'd' => 'bad')
-    assert_equal('<img src="http://www.gravatar.com/avatar/xxx"/>', @m.target!)
+    @m.target!.should == '<img src="http://www.gravatar.com/avatar/xxx"/>'
   end
 
-  def test_gravatar_valid_r
+  it 'should correctly render a gravatar tag with a valid rating' do
     @m.gravatar('xxx', 'r' => 'x')
-    assert_equal('<img src="http://www.gravatar.com/avatar/xxx?r=x"/>',
-      @m.target!)
+    @m.target!.should == '<img src="http://www.gravatar.com/avatar/xxx?r=x"/>'
   end
 
-  def test_gravatar_invalid_r
+  it 'should not pass the rating parameter to gravatar if the rating is invalid' do
     @m.gravatar('xxx', 'r' => 'foo')
-    assert_equal('<img src="http://www.gravatar.com/avatar/xxx"/>', @m.target!)
+    @m.target!.should == '<img src="http://www.gravatar.com/avatar/xxx"/>'
   end
 
-  def test_gravatar_valid_s
+  it 'should correctly render a gravatar tag with a valid size' do
     @m.gravatar('xxx', 's' => 100)
-    assert_equal('<img src="http://www.gravatar.com/avatar/xxx?s=100"/>',
-      @m.target!)
+    @m.target!.should ==
+      '<img src="http://www.gravatar.com/avatar/xxx?s=100"/>'
   end
 
-  def test_gravatar_invalid_s
+  it 'should not pass the size parameter to gravatar if the size is invalid' do
     @m.gravatar('xxx', 's' => 1000)
-    assert_equal('<img src="http://www.gravatar.com/avatar/xxx"/>', @m.target!)
+    @m.target!.should == '<img src="http://www.gravatar.com/avatar/xxx"/>'
   end
 
-  def test_gravatar_s_0
+  it 'should return an empty string for a gravatar with size 0' do
     @m.gravatar('xxx', 's' => 0)
-    assert_equal('', @m.target!)
+    @m.target!.should be_empty
   end
 
-  def test_gravatar_href
+  it 'should correctly render a gravatar tag with an href' do
     @m.gravatar('xxx', :href => '/test/')
-    assert_equal(
-      '<a href="/test/"><img src="http://www.gravatar.com/avatar/xxx"/></a>',
-      @m.target!)
+    @m.target!.should == 
+      '<a href="/test/"><img src="http://www.gravatar.com/avatar/xxx"/></a>'
   end
 
 end

@@ -2,10 +2,9 @@ $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'murlsh'
 
-require 'spec/test/unit'
 require 'uri'
 
-class UriAskTest < Test::Unit::TestCase
+describe Murlsh::UriAsk do
 
   def asker(s)
     URI(s).extend(Murlsh::UriAsk)
@@ -17,48 +16,45 @@ class UriAskTest < Test::Unit::TestCase
     asker(s).content_type(options)
   end
 
-  def test_empty
-    assert_equal('', content_type(''))
+  it 'should return an empty string for the content type of an empty string' do
+    content_type('').should be_empty
   end
 
-  def test_bad_host
-    assert_equal('', content_type('http://a.b/test/'))
+  it 'should return an empty string for the content type of a URI with an invalid hostname' do
+    content_type('http://a.b/test/').should be_empty
   end
 
-  def test_bad_path
-    assert_equal('', content_type(
-      'http://matthewm.boedicker.org/does_not_exist/'))
+  it 'should return an empty string for the content type of a URI with a nonexistant path' do
+    content_type(
+      'http://matthewm.boedicker.org/does_not_exist/').should be_empty
   end
 
-  def test_good
-    assert_match(/^text\/html/, content_type('http://www.google.com/'))
+  it 'should return text/html for the content type of a valid URI that is text/html' do
+    content_type('http://www.google.com/').should match /^text\/html/
   end
 
-  def test_https
-    assert_match(/^text\/html/, content_type(
-      'https://msp.f-secure.com/web-test/common/test.html'))
+  it 'should return text/html for the content type of a valid https URI that is text/html' do
+    content_type('https://msp.f-secure.com/web-test/common/test.html'
+      ).should match /^text\/html/
   end
 
-  def test_303
-    # youtube returns a 303
-    assert_match(/^text\/html/, content_type(
-      'http://www.youtube.com/watch?v=Vxq9yj2pVWk'))
+  it 'should return text/html for the content type of a URI that returns HTTP 203' do
+    content_type('http://www.youtube.com/watch?v=Vxq9yj2pVWk'
+      ).should match /^text\/html/
   end
 
-  def test_failproof_true
-    assert_equal('', content_type('http://x.boedicker.org/',
-      :failproof => true))
+  it 'should return an empty string for the content type of an invalid URI when given failproof option true' do
+    content_type('http://x.boedicker.org/', :failproof => true).should be_empty
   end
 
-  def test_failproof_false
-    assert_raise SocketError do
-      content_type('http://x.boedicker.org/', :failproof => false)
-    end
+  it 'should raise a SocketError when getting the content type of an invalid URI when given failproof option false' do
+    lambda { content_type('http://x.boedicker.org/', :failproof => false)
+      }.should raise_error(SocketError)
   end
 
-  def test_redirect_limit
-    assert_equal('text/html', content_type(
-      'http://matthewm.boedicker.org/redirect_test/'))
+  it 'should limit redirects when getting content type' do
+    content_type('http://matthewm.boedicker.org/redirect_test/'
+      ).should == 'text/html'
   end
 
   # title
@@ -67,34 +63,31 @@ class UriAskTest < Test::Unit::TestCase
     asker(s).title(options)
   end
 
-  def noop(url)
-    assert_equal(url, title(url))
+  it 'should return an empty title for an empty URI' do
+    title('').should be_empty
   end
 
-  def test_title_empty
-    noop('')
+  it 'should return the URI as title for an invalid URI' do
+    title('foo').should == 'foo'
   end
 
-  def test_title_invalid_url
-    noop('foo')
+  it 'should return the URI as title for a URI with an invalid host' do
+    title('http://28fac7a1ac51976c90016509d97c89ba.edu/'
+      ).should == 'http://28fac7a1ac51976c90016509d97c89ba.edu/'
   end
 
-  def test_title_invalid_host
-    noop('http://28fac7a1ac51976c90016509d97c89ba.edu/')
+  it 'should return the page title as title for a valid URI' do
+    title('http://www.google.com/').should == 'Google'
   end
 
-  def test_title_good
-    assert_equal('Google', title('http://www.google.com/'))
+  it 'should return the URI as title for an invalid URI when the failproof option is true' do
+    title('http://x.boedicker.org/', :failproof => true
+      ).should == 'http://x.boedicker.org/'
   end
 
-  def test_title_failproof_true
-    noop(title('http://x.boedicker.org/', :failproof => true))
-  end
-
-  def test_title_failproof_false
-    assert_raise SocketError do
-      title('http://x.boedicker.org/', :failproof => false)
-    end
+  it 'should raise a SocketError when trying to get the title of an invalid URI when given failproof option false' do
+    lambda { title('http://x.boedicker.org/', :failproof => false)
+      }.should raise_error(SocketError)
   end
 
 end

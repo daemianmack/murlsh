@@ -26,7 +26,10 @@ module Murlsh
       Murlsh::failproof(options) do
         # try head first to save bandwidth
         http = Net::HTTP.new(host, port)
-        http.use_ssl = (scheme == 'https')
+        if scheme == 'https'
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        end
 
         resp = http.request_head(path_query, options[:headers])
         @content_type = case resp

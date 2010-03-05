@@ -19,7 +19,8 @@ module Murlsh
 
         hubs.each do |hub|
           EventMachine.run {
-            pub = EventMachine::PubSubHubbub.new(hub).publish(feed_url)
+            pub = EventMachine::PubSubHubbub.new(hub['publish_url']).publish(
+              feed_url)
 
             pub.callback { EventMachine.stop  }
             pub.errback { EventMachine.stop }

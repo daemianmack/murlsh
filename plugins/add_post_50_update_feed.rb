@@ -13,7 +13,8 @@ module Murlsh
 
       feed = Murlsh::AtomFeed.new(config.fetch('root_url'),
         :filename => config.fetch('feed_file'),
-        :title => config.fetch('page_title', ''))
+        :title => config.fetch('page_title', ''),
+        :hubs => config.fetch('pubsubhubbub_hubs', []))
 
       feed.write(latest, config.fetch('feed_file'))
     end

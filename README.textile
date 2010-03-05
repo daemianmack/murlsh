@@ -9,6 +9,7 @@ Simple site for a small group of people to share or archive urls.
 * looks good on iPhone
 * rack interface
 * plug-in interface
+* PubSubHubbub notification
 
 See "http://urls.matthewm.boedicker.org/":http://urls.matthewm.boedicker.org/ for example.
 

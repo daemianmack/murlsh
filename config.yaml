@@ -17,3 +17,4 @@ js_files:
 - js/jquery.cookie.js
 - js/jquery.jgrowl_compressed.js
 - js/js.js
+pubsubhubbub_hubs: []

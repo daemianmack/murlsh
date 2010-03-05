@@ -16,10 +16,12 @@ module Murlsh
     def initialize(root_url, options={})
       options = {
         :filename => 'atom.xml',
-        :title => 'Atom feed' }.merge(options)
+        :title => 'Atom feed',
+        :hubs => []}.merge(options)
       @root_url = root_url
       @filename = options[:filename]
       @title = options[:title]
+      @hubs = options[:hubs]
 
       root_uri = URI(@root_url)
 
@@ -40,6 +42,7 @@ module Murlsh
       xm.feed(:xmlns => 'http://www.w3.org/2005/Atom') {
         xm.id(@root_url)
         xm.link(:href => URI.join(@root_url, @filename), :rel => 'self')
+        @hubs.each { |hub| xm.link(:href => hub, :rel => 'hub') }
         xm.title(@title)
         xm.updated(entries.collect { |mu| mu.time }.max.xmlschema)
         entries.each do |mu|

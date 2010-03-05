@@ -9,12 +9,13 @@ module Murlsh
 
     def self.run(config)
       hubs = config.fetch('pubsubhubbub_hubs', [])
-      feed_url = URI.join(config['root_url'], config['feed_file'])
 
       unless hubs.empty?
         require 'rubygems'
         require 'eventmachine'
         require 'pubsubhubbub'
+
+        feed_url = URI.join(config['root_url'], config['feed_file'])
 
         hubs.each do |hub|
           EventMachine.run {

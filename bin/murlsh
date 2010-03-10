@@ -2,7 +2,36 @@
 
 require 'fileutils'
 
-FileUtils.cp_r(
+def ask(prompt, default)
+  print "#{prompt} [#{default}] "
+  answer = gets.strip
+  answer = default if answer.empty?
+  answer
+end
+
+def cp_r_safe(sources, dest, options)
+  sources.each do |source|
+    new = File.join(dest, File.split(File.expand_path(source)).last)
+
+    if File.directory?(source)
+      FileUtils.mkdir_p(new, options)
+      cp_r_safe(Dir.foreach(source).
+        reject { |f| %w{. ..}.include?(f) }.
+        collect { |f| File.join(source, f) }, new, options)
+    else
+      answer = if File.exists?(new)
+        ask("#{new} exists. Overwrite?", 'n')
+      else
+        'y'
+      end
+
+      FileUtils.copy(source, new, options) if answer == 'y'
+    end
+  end
+
+end
+
+cp_r_safe(
   %w{.htaccess config.ru config.yaml plugins/ public/ Rakefile}.collect { |x| 
     File.join(File.dirname(__FILE__), '..', x) }, '.', :verbose => true)
 

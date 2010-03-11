@@ -3,7 +3,7 @@ require 'murlsh'
 module Murlsh
 
   # regenerate atom feed after a new url has been added
-  class UpdateFeed < Plugin
+  class AddPost50UpdateFeed < Plugin
 
     Hook = 'add_post'
 

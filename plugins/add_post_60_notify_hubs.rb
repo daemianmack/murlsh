@@ -3,7 +3,7 @@ require 'murlsh'
 module Murlsh
 
   # notify PubSubHubbub hubs that feed has been updated
-  class NotifyHubs < Plugin
+  class AddPost60NotifyHubs < Plugin
 
     Hook = 'add_post'
 

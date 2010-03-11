@@ -1,7 +1,7 @@
 module Murlsh
 
   # skip showing host record for some domains
-  class HostrecSkip < Plugin
+  class Hostrec60Skip < Plugin
 
     Hook = 'hostrec'
 

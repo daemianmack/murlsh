@@ -3,7 +3,7 @@ require 'murlsh'
 module Murlsh
 
   # try to fetch the content type and title of a url
-  class LookupContentTypeTitle < Plugin
+  class AddPre50LookupContentTypeTitle < Plugin
 
     Hook = 'add_pre'
 

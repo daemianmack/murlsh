@@ -1,7 +1,7 @@
 module Murlsh
 
   # skip showing host record if domain is contained in title
-  class HostrecRedundant < Plugin
+  class Hostrec50Redundant < Plugin
 
     Hook = 'hostrec'
 

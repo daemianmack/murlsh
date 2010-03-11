@@ -3,7 +3,6 @@ require 'net/https'
 require 'open-uri'
 require 'uri'
 
-require 'rubygems'
 require 'hpricot'
 require 'htmlentities'
 require 'iconv'

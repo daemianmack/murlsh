@@ -11,7 +11,6 @@ module Murlsh
       hubs = config.fetch('pubsubhubbub_hubs', [])
 
       unless hubs.empty?
-        require 'rubygems'
         require 'eventmachine'
         require 'pubsubhubbub'
 

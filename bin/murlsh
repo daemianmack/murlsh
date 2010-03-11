@@ -15,7 +15,7 @@ def cp_r_safe(sources, dest, options)
 
     if File.directory?(source)
       FileUtils.mkdir_p(new, options)
-      cp_r_safe(Dir.foreach(source).
+      cp_r_safe(Dir.entries(source).
         reject { |f| %w{. ..}.include?(f) }.
         collect { |f| File.join(source, f) }, new, options)
     else

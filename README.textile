@@ -34,6 +34,12 @@ rake init
 </code>
 </pre>
 
+h1. Plugins
+
+Plugins are executed in sort order of their class name for each hook. See
+Plugin class rdoc in lib/murlsh/plugin.rb for list of hooks. See plugins
+directory for examples.
+
 h1. PubSubHubbub
 
 Murlsh can notify "PubSubHubbub":http://code.google.com/p/pubsubhubbub/ hubs
@@ -48,7 +54,7 @@ pubsubhubbub_hubs:
 </code>
 </pre>
 
-subscribe_url is what gets put in the feed as link rel="hub"
 publish_url is where the notifications get sent
+subscribe_url is what gets put in the feed as link rel="hub"
 
 Questions and comments: "matthewm@boedicker.org":mailto:matthewm@boedicker.org

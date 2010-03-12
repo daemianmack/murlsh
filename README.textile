@@ -13,7 +13,9 @@ Simple site for a small group of people to share or archive urls.
 
 See "http://urls.matthewm.boedicker.org/":http://urls.matthewm.boedicker.org/ for example.
 
-Phusion Passenger Setup:
+h1. Installation
+
+h2. Phusion Passenger
 
 <pre>
 <code>
@@ -31,5 +33,22 @@ edit config.yaml
 rake db:init user:add
 </code>
 </pre>
+
+h1. PubSubHubbub
+
+Murlsh can notify PubSubHubbub:"http://code.google.com/p/pubsubhubbub/" hubs
+when a new url is added by adding them to config.yaml. The pubsubhubbub_hubs
+key is a list of hashes in the following format:
+
+<pre>
+<code>
+pubsubhubbub_hubs:
+- publish_url: http://pubsubhubbub.appspot.com/publish
+  subscribe_url: http://pubsubhubbub.appspot.com/
+</code>
+</pre>
+
+subscribe_url is what gets put in the feed as link rel="hub"
+publish_url is where the notifications get sent
 
 Questions and comments: "matthewm@boedicker.org":mailto:matthewm@boedicker.org

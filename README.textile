@@ -30,7 +30,7 @@ In the web directory:
 <code>
 murlsh
 edit config.yaml
-rake db:init user:add
+rake init
 </code>
 </pre>
 

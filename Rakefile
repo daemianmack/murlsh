@@ -17,6 +17,12 @@ murlsh
 
 config = YAML.load_file('config.yaml')
 
+desc 'Initialize a new installation.'
+task :init => %w{db:init user:add compress}
+
+desc 'Combine and compress static files.'
+task :compress => %w{css:compress js:compress}
+
 desc "Test remote content type fetch for a URL and show errors."
 task :content_type, :url do |t, args|
   puts URI(args.url).extend(Murlsh::UriAsk).content_type(:failproof => false,

@@ -165,7 +165,7 @@ task :post_sh do
 
 URL="$1"
 VIA="$2"
-AUTH="$3" # password can be passed as second parameter or hardcoded here
+AUTH="$3" # password can be passed as third parameter or hardcoded here
 
 curl \\
   --data-urlencode "url=${URL}" \\

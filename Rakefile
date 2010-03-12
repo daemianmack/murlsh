@@ -18,7 +18,16 @@ murlsh
 config = YAML.load_file('config.yaml')
 
 desc 'Initialize a new installation.'
-task :init => %w{db:init user:add compress}
+task :init => %w{db:init user:add compress} do
+  puts <<-eos
+
+Things you might want to do now:
+
+- visit #{config['root_url']} in a browser
+- 'rake post_sh > url_post.sh' to generate a shell script for posting urls
+
+eos
+end
 
 desc 'Combine and compress static files.'
 task :compress => %w{css:compress js:compress}

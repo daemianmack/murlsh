@@ -36,7 +36,7 @@ rake db:init user:add
 
 h1. PubSubHubbub
 
-Murlsh can notify PubSubHubbub:"http://code.google.com/p/pubsubhubbub/" hubs
+Murlsh can notify "PubSubHubbub":http://code.google.com/p/pubsubhubbub/ hubs
 when a new url is added by adding them to config.yaml. The pubsubhubbub_hubs
 key is a list of hashes in the following format:
 

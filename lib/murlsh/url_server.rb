@@ -1,5 +1,4 @@
 %w{
-rubygems
 active_record
 rack
 }.each { |m| require m }

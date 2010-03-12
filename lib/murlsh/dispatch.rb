@@ -1,7 +1,6 @@
 %w{
 murlsh
 
-rubygems
 active_record
 rack
 sqlite3

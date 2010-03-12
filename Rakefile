@@ -8,8 +8,6 @@ pp
 uri
 yaml
 
-rubygems
-
 flog
 spec/rake/spectask
 sqlite3

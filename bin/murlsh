@@ -41,5 +41,5 @@ puts <<eos
 Next steps:
 
 edit config.yaml
-rake db:init user:add
+rake init
 eos

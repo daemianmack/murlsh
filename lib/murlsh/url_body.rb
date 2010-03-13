@@ -51,7 +51,8 @@ module Murlsh
                   div(:class => 'icon') {
                     gravatar(mu.email, 's' => gravatar_size, :text => mu.name)
                   } if mu.email and gravatar_size > 0
-                  div(mu.name, :class => 'name') if mu.name
+                  div(mu.name, :class => 'name') if
+                    @config.fetch('show_names', false) and mu.name
                 end
 
                 a(mu.title_stripped, :href => mu.url)

@@ -18,3 +18,4 @@ js_files:
 - js/jquery.jgrowl_compressed.js
 - js/js.js
 pubsubhubbub_hubs: []
+show_names: true

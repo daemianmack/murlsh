@@ -3,9 +3,6 @@ murlsh
 
 active_record
 rack
-sqlite3
-
-yaml
 }.each { |m| require m }
 
 module Murlsh
@@ -14,8 +11,8 @@ module Murlsh
   class Dispatch
 
     # Set up config hash and database connection.
-    def initialize
-      @config = YAML.load_file('config.yaml')
+    def initialize(config)
+      @config = config
       @url_root = URI(@config.fetch('root_url')).path
 
       ActiveRecord::Base.establish_connection(
@@ -28,19 +25,19 @@ module Murlsh
 
     # Rack call.
     def call(env)
+      url_url = "#{@url_root}url"
+
       dispatch = {
-        ['GET', @url_root] => [@url_server, :get],
-        ['POST', @url_root] => [@url_server, :post],
-        ['GET', "#{@url_root}url"] => [@url_server, :get],
-        ['POST', "#{@url_root}url"] => [@url_server, :post],
+        ['GET', @url_root] => @url_server.method(:get),
+        ['POST', @url_root] => @url_server.method(:post),
+        ['GET', url_url] => @url_server.method(:get),
+        ['POST', url_url] => @url_server.method(:post),
       }
-      dispatch.default = [self, :not_found]
+      dispatch.default = self.method(:not_found)
 
       req = Rack::Request.new(env)
 
-      obj, meth = dispatch[[req.request_method, req.path]]
-
-      obj.send(meth, req).finish
+      dispatch[[req.request_method, req.path]].call(req).finish
     end
 
     # Called if the request is not found.

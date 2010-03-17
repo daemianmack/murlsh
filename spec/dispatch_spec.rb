@@ -8,8 +8,7 @@ describe Murlsh::Dispatch do
   include Rack::Test::Methods
 
   def app
-    config = YAML.load_file(File.join('..', 'config.yaml'))
-    config['db_file'] = File.join('..', config['db_file'])
+    config = YAML.load_file('config.yaml')
     Murlsh::Dispatch.new(config)
   end
 

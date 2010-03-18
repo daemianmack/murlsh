@@ -22,7 +22,7 @@ Murlsh.make_fit = function (e, max_width, max_height) {
         e.width(Math.round(width * scale));
         e.height(Math.round(height * scale));
     }
-}
+};
 
 Murlsh.closer_add = function (x, header) {
     var html = (typeof x === 'object') ? $('<div />').append(x).html() : x;
@@ -99,10 +99,7 @@ Murlsh.img_click = function () {
 };
 
 Murlsh.vimeo_thumb = function (d) {
-    return Murlsh.img(d.thumbnail_url, d.title).addClass('thumb vimeo').attr({
-        height : d.thumbnail_height,
-        width : d.thumbnail_width
-    });
+    return Murlsh.img(d.thumbnail_medium, d.title).addClass('thumb vimeo');
 };
 
 Murlsh.vimeo_click = function () {
@@ -150,7 +147,7 @@ Murlsh.href_res = {
     mp3 :
         /\.mp3$/i,
     s3 :
-        /^(http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w-]+\.)(jpe?g|gif|pdf|png)$/i,
+        /^(http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w\-]+\.)(jpe?g|gif|pdf|png)$/i,
     vimeo :
         /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
     youtube :
@@ -211,13 +208,17 @@ Murlsh.add_extra = function () {
         }
     } else if (match.vimeo) {
         $.ajax({
-            url : 'http://vimeo.com/api/oembed.json',
-            data : { url : 'http://vimeo.com/' + match.vimeo[1] },
+            url : 'http://vimeo.com/api/v2/video/' + match.vimeo[1] + '.json',
             dataType : 'jsonp',
             success : function (d) {
-                Murlsh.thumb_insert(Murlsh.vimeo_thumb(d).data('embed_html',
-                    Murlsh.escape_xml(d.html)),
-                    Murlsh.vimeo_click, $(this));
+                var video = d[0],
+                    movie = 'http://vimeo.com/moogaloop.swf?clip_id=' +
+                        video.id;
+                Murlsh.thumb_insert(Murlsh.vimeo_thumb(video).data(
+                    'embed_html',
+                    Murlsh.object_tag(movie, video.height, video.width, [
+                        { name : 'movie', value : movie }
+                    ])), Murlsh.vimeo_click, $(this));
             },
             context : $(this)
         });

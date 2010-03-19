@@ -263,13 +263,9 @@ Murlsh.iphone_init = function () {
 
     window.onorientationchange();
 
-    $('#urls li:first').prepend($('<a />', {
+    $('a.feed').replaceWith($('<a />', {
         href : '#bottom',
         text : 'bottom'
-    }));
-    $('#urls li:last').append($('<a />', {
-        href : '#urls',
-        text : 'top'
     }));
 };
 

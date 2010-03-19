@@ -111,15 +111,11 @@ div.jGrowl div.jGrowl-closer {
 /* iphone */
 @media screen and (max-device-width : 480px) {
 
-  a.feed {
-    display : none;
-  }
-
   body {
     margin : 0;
     padding : 0;
     font-size : 1.25em;
-    line-height : 1.875em;
+    line-height : normal;
   }
 
   #urls {
@@ -130,10 +126,11 @@ div.jGrowl div.jGrowl-closer {
 
   #urls li {
     overflow : hidden;
+    border-bottom : 1px solid #ccc;
   }
 
   input#q {
-    width : 130px;
+    width : 110px;
   }
 
   input#url, input#via {

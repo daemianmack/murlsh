@@ -11,8 +11,10 @@ require 'murlsh/url_server'
 require 'murlsh/url'
 require 'murlsh/uri_ask'
 require 'murlsh/xhtml_response'
+require 'murlsh/yaml_ordered_hash'
 
 # requiring builder before active_record blows up
 require 'murlsh/atom_feed'
 require 'murlsh/markup'
 require 'murlsh/url_body'
+

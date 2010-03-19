@@ -92,6 +92,8 @@ a.feed {
   font-weight : bold;
   font-size : 0.75em;
   padding : 2px 4px 2px 4px;
+  -moz-border-radius : 5px;
+  -webkit-border-radius : 5px;
 }
 
 span.date {

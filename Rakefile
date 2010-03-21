@@ -109,6 +109,13 @@ end
 desc "Run test suite."
 Spec::Rake::SpecTask.new('test') do |t|
   t.spec_files = FileList['spec/*_spec.rb']
+  # list of places to check for unicode_formatter.rb and use it if found
+  %w{unicode_formatter.rb}.map { |x| File.expand_path(x) }.each do |f|
+    if File.exists?(f)
+      t.spec_opts = %W{--require #{f} --format UnicodeFormatter}
+      break
+    end
+  end
   t.verbose = true
   t.warning = true
 end

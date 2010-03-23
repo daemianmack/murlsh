@@ -9,7 +9,13 @@ module Murlsh
 
     # Get the title of this url.
     def title
-      read_attribute(:title) || read_attribute(:url) || 'title missing'
+      ta = read_attribute(:title)
+      ta = nil if ta and ta.empty?
+      
+      ua = read_attribute(:url)
+      ua = nil if ua and ua.empty?
+
+      ta || ua || 'title missing'
     end
 
     # Title with whitespace compressed and leading and trailing whitespace

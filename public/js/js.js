@@ -89,9 +89,17 @@ Murlsh.flickr_click = function () {
     Murlsh.closer_add(Murlsh.img($(this).data('zoom')));
 };
 
-Murlsh.img_thumb = function (prefix, ext) {
-    return Murlsh.img(prefix + 'th.' +
-        (ext.match(/^pdf$/i) ? 'png' : ext)).addClass('thumb');
+Murlsh.img_thumb = function () {
+    // turn arguments into a real array
+    var url_parts = [].splice.call(arguments, 0),
+        last_index = url_parts.length - 1;
+
+    // if pdf the thumbnail will be .png
+    if (url_parts[last_index].match(/^pdf$/i)) {
+        url_parts.last_index = 'png';
+    }
+
+    return Murlsh.img(url_parts.join('')).addClass('thumb');
 };
 
 Murlsh.img_click = function () {
@@ -144,6 +152,8 @@ Murlsh.href_res = {
         /^http:\/\/(?:www\.)?flickr\.com\/photos\/[@\w\-]+?\/([\d]+)/i,
     imageshack :
         /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpe?g|gif|png)$/i,
+    imgur :
+        /^(http:\/\/(?:i\.)?imgur\.com\/[a-z\d]+)(\.(?:jpe?g|gif|png))$/i,
     mp3 :
         /\.mp3$/i,
     s3 :
@@ -183,9 +193,13 @@ Murlsh.add_extra = function () {
         });
     } else if (match.imageshack) {
         Murlsh.thumb_insert(
-            Murlsh.img_thumb(match.imageshack[1], match.imageshack[2]).data(
+            Murlsh.img_thumb(match.imageshack[1], 'th.', match.imageshack[2]).data(
                 'href', match.imageshack[0]),
-        Murlsh.img_click, $(this).html('imageshack.us'));
+            Murlsh.img_click, $(this).html('imageshack.us'));
+    } else if (match.imgur) {
+        Murlsh.thumb_insert(
+            Murlsh.img_thumb(match.imgur[1], 's', match.imgur[2]).data('href', match.imgur[0]),
+            Murlsh.img_click, $(this).html('imgur.com'));
     } else if (match.mp3) {
         $(this).before(Murlsh.object_tag(swf, 20, 200, [
             { name : 'bgcolor', value : '#000000' },
@@ -193,7 +207,7 @@ Murlsh.add_extra = function () {
             { name : 'movie', value : swf }
         ]));
     } else if (match.s3) {
-        thumb = Murlsh.img_thumb(match.s3[1], match.s3[2]);
+        thumb = Murlsh.img_thumb(match.s3[1], 'th.', match.s3[2]);
 
         if (match.s3[2].match(/^pdf$/i)) {
             $(this).before(thumb).html('pdf');

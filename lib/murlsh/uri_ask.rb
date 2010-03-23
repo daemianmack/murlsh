@@ -51,8 +51,10 @@ module Murlsh
           self.open(options[:headers]) do |f|
             doc = Hpricot(f).extend(Murlsh::Doc)
 
-            @title = HTMLEntities.new.decode(Iconv.conv('utf-8',
-              doc.charset || f.charset, doc.title))
+            if doc.title and !doc.title.empty?
+              @title = HTMLEntities.new.decode(Iconv.conv('utf-8',
+                doc.charset || f.charset, doc.title))
+            end
           end
         end
       end

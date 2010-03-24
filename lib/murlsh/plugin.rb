@@ -9,6 +9,8 @@ module Murlsh
   #   run arguments (config hash)
   # * hostrec - called to post process the domain that shows after links
   #   run arguments (domain, url, title)
+  # * time - called to convert the time of a post into a string for display
+  #   run arguments (time)
   class Plugin
 
     # Called when a plugin class inherits from this class (the way plugins

@@ -65,8 +65,12 @@ module Murlsh
                     text!(' via '); a(via.domain || via, :href => via)
                   }
                 end
-                span(", #{mu.time.fuzzy}", :class => 'date') if
-                  @config.fetch('show_dates', true) and mu.time
+
+                display_time = Murlsh::Plugin.hooks('time').inject(mu.time) do |result,plugin|
+                  plugin.run(result)
+                end
+
+                span(", #{display_time}", :class => 'date') if display_time
                 last = mu
               }
             end

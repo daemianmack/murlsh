@@ -26,7 +26,7 @@ describe Murlsh::UriAsk do
     content_type('http://a.b/test/').should be_empty
   end
 
-  it 'should return an empty string for the content type of a URI with a nonexistant path' do
+  it 'should return an empty string for the content type of a URI with a nonexistent path' do
     content_type(
       'http://matthewm.boedicker.org/does_not_exist/').should be_empty
   end

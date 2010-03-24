@@ -1,21 +1,23 @@
 $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-require 'murlsh'
+%w{
+tempfile
+
+murlsh
+}.each { |m| require m }
 
 describe Murlsh::Auth do
 
   before do
-    @f = '/tmp/murlsh_users_test'
+    @f = Tempfile.new('murlsh_users_test')
 
-    @a = Murlsh::Auth.new(@f)
+    @a = Murlsh::Auth.new(@f.path)
 
     @a.add_user('test1', 'test1@test.com', 'secret1')
     @a.add_user('test2', 'test2@test.com', 'secret2')
   end
 
-  after do
-    File.delete(@f)
-  end
+  after do; @f.close!; end
 
   it 'should authorize valid credentials' do
     @a.auth('secret1').should == {

@@ -1,8 +1,8 @@
 %w{
-murlsh
-
 active_record
 rack
+
+murlsh
 }.each { |m| require m }
 
 module Murlsh

@@ -1,4 +1,6 @@
-require 'hpricot'
+%w{
+hpricot
+}.each { |m| require m }
 
 module Murlsh
 

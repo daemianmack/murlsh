@@ -1,4 +1,6 @@
-require 'active_record/connection_adapters/sqlite3_adapter'
+%w{
+active_record/connection_adapters/sqlite3_adapter
+}.each { |m| require m }
 
 class ActiveRecord::ConnectionAdapters::SQLite3Adapter
 

@@ -1,4 +1,6 @@
-require 'murlsh'
+%w{
+murlsh
+}.each { |m| require m }
 
 module Murlsh
 

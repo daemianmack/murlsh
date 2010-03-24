@@ -1,4 +1,6 @@
-require 'time'
+%w{
+time
+}.each { |m| require m }
 
 class Time
 

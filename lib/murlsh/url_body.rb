@@ -144,9 +144,7 @@ module Murlsh
     end
 
     # Clear div builder.
-    def clear
-      div(:style => 'clear : both')
-    end
+    def clear; div(:style => 'clear : both'); end
 
     # Powered by builder.
     def powered_by

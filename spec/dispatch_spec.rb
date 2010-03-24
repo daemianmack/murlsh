@@ -1,8 +1,10 @@
 $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-require 'murlsh'
+%w{
+rack/test
 
-require 'rack/test'
+murlsh
+}.each { |m| require m }
 
 describe Murlsh::Dispatch do
   include Rack::Test::Methods

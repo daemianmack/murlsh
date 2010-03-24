@@ -1,6 +1,8 @@
-require 'active_record'
+%w{
+uri
 
-require 'uri'
+active_record
+}.each { |m| require m }
 
 module Murlsh
 

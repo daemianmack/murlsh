@@ -1,6 +1,8 @@
 $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-require 'murlsh'
+%w{
+murlsh
+}.each { |m| require m }
 
 describe Murlsh::XhtmlResponse do
   Ie_ua = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)'

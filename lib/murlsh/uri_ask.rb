@@ -1,11 +1,13 @@
-require 'net/http'
-require 'net/https'
-require 'open-uri'
-require 'uri'
+%w{
+net/http
+net/https
+open-uri
+uri
 
-require 'hpricot'
-require 'htmlentities'
-require 'iconv'
+hpricot
+htmlentities
+iconv
+}.each { |m| require m }
 
 module Murlsh
 

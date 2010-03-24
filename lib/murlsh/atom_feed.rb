@@ -1,6 +1,8 @@
-require 'builder'
+%w{
+uri
 
-require 'uri'
+builder
+}.each { |m| require m }
 
 module Murlsh
 

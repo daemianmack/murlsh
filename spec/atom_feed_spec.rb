@@ -1,9 +1,11 @@
 $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-require 'tempfile'
-require 'time'
+%w{
+tempfile
+time
 
-require 'murlsh'
+murlsh
+}.each { |m| require m }
 
 describe Murlsh::AtomFeed do
 
@@ -69,12 +71,10 @@ EOS
   end
 
   it 'should write the correct atom feed to a file' do
-    f = Tempfile.open('test_atom_feed')
-    @feed.make([@url1, @url2], :indent => 2, :target => f)
+    tempfile = Tempfile.open('test_atom_feed')
+    @feed.make([@url1, @url2], :indent => 2, :target => tempfile)
 
-    f.open
-    f.read.should match @expected
-    f.close
+    open(tempfile) { |f| f.read.should match @expected }
   end
 
 end

@@ -1,8 +1,10 @@
 $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-require 'murlsh'
+%w{
+uri
 
-require 'uri'
+murlsh
+}.each { |m| require m }
 
 describe Murlsh::UriAsk do
 

@@ -17,9 +17,7 @@ module Murlsh
   # See Rakefile for user maintenance tasks.
   class Auth
 
-    def initialize(file)
-      @file = file
-    end
+    def initialize(file); @file = file; end
 
     # Authenticate a user by password. Return their name and email if correct.
     def auth(password)

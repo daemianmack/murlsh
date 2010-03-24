@@ -1,8 +1,10 @@
 $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
-require 'murlsh'
+%w{
+yaml
 
-require 'yaml'
+murlsh
+}.each { |m| require m }
 
 # use Rack::ShowExceptions
 use Rack::ConditionalGet

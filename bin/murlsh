@@ -17,7 +17,7 @@ def cp_r_safe(sources, dest, options)
       FileUtils.mkdir_p(new, options)
       cp_r_safe(Dir.entries(source).
         reject { |f| %w{. ..}.include?(f) }.
-        collect { |f| File.join(source, f) }, new, options)
+        map { |f| File.join(source, f) }, new, options)
     else
       answer = if File.exists?(new)
         ask("#{new} exists. Overwrite?", 'n')
@@ -32,7 +32,7 @@ def cp_r_safe(sources, dest, options)
 end
 
 cp_r_safe(
-  %w{.htaccess config.ru config.yaml plugins/ public/ Rakefile}.collect { |x| 
+  %w{.htaccess config.ru config.yaml plugins/ public/ Rakefile}.map { |x| 
     File.join(File.dirname(__FILE__), '..', x) }, '.', :verbose => true)
 
 FileUtils.mkdir_p('tmp', :verbose => true)

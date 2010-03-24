@@ -210,7 +210,7 @@ namespace :css do
 
   desc 'Combine and compress css.'
   task :compress => ['public/css'] do
-    combined = cat(config['css_files'].collect { |x| "public/#{x}" }, "\n")
+    combined = cat(config['css_files'].map { |x| "public/#{x}" }, "\n")
 
     md5sum = Digest::MD5.hexdigest(combined)
 
@@ -239,7 +239,7 @@ namespace :js do
 
   desc 'Combine and compress javascript.'
   task :compress => ['public/js'] do
-    combined = cat(config['js_files'].collect { |x| "public/#{x}" } )
+    combined = cat(config['js_files'].map { |x| "public/#{x}" } )
 
     compressed = Net::HTTP.post_form(
       URI.parse('http://closure-compiler.appspot.com/compile'), {

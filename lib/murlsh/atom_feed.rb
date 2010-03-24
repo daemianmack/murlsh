@@ -45,7 +45,7 @@ module Murlsh
         xm.link(:href => URI.join(@root_url, @filename), :rel => 'self')
         @hubs.each { |hub| xm.link(:href => hub, :rel => 'hub') }
         xm.title(@title)
-        xm.updated(entries.collect { |mu| mu.time }.max.xmlschema)
+        xm.updated(entries.map(&:time).max.xmlschema)
         entries.each do |mu|
           xm.entry {
             xm.author { xm.name(mu.name) }

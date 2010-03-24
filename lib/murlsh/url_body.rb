@@ -66,10 +66,8 @@ module Murlsh
                   }
                 end
 
-                display_time = Murlsh::Plugin.hooks('time').inject(mu.time) do |result,plugin|
-                  plugin.run(result)
-                end
-
+                display_time = Murlsh::Plugin.hooks('time').inject(
+                  mu.time) { |result,plugin| plugin.run(result) }
                 span(", #{display_time}", :class => 'date') if display_time
                 last = mu
               }

@@ -9,8 +9,7 @@ module Murlsh
     # * :prefix - prefix to append to all script urls
     def javascript(sources, options={})
       sources.to_a.each do |src|
-        script('', :type => 'text/javascript',
-          :src => "#{options[:prefix]}#{src}")
+        script('', :src => "#{options[:prefix]}#{src}")
       end
     end
 

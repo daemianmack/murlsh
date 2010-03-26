@@ -22,14 +22,27 @@ module Murlsh
       nil
     end
 
-    # Find the title of the document.
-    def title
-      %w{//html/head/title //head/title //html/title //title}.each do |xpath|
-        return (self/xpath).first.inner_html unless (self/xpath).first.nil?
+    # Check a list of xpaths in order and return the inner html of the first
+    # one that is not nil.
+    def xpath_search(xpaths)
+      xpaths.each do |xpath|
+        selection = (self/xpath).first
+        return selection.inner_html unless selection.nil?
       end
       nil
     end
 
+    # Get the title of the document.
+    def title
+      xpath_search(%w{//html/head/title //head/title //html/title //title})
+    end
+
+    # Get the meta description of athedocument.
+    def description
+      description = (self/"//html/head/meta[@name='description']").first
+
+      description['content'] unless description.nil?
+    end
   end
 
 end

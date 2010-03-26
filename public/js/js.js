@@ -169,7 +169,7 @@ Murlsh.href_res = {
 
 Murlsh.add_extra = function() {
     var href = $(this).attr('href');
-    var match = {},;
+    var match = {};
     var swf = 'swf/player_mp3_mini.swf';
     var thumb;
 

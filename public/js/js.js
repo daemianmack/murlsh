@@ -14,9 +14,9 @@ Murlsh.img = function(src, text) {
 };
 
 Murlsh.make_fit = function(e, max_width, max_height) {
-    var width = e.width();
     var height = e.height();
     var scale;
+    var width = e.width();
 
     if (width > max_width || height > max_height) {
         scale = Math.min(max_width / width, max_height / height);
@@ -65,9 +65,9 @@ Murlsh.object_tag = function(data, height, width, params) {
 };
 
 Murlsh.flickr_thumb = function(d) {
-    var photo = d.photo;
     var base;
     var owner;
+    var photo = d.photo;
     var zoom;
 
     if (d.stat === 'ok') {
@@ -228,8 +228,8 @@ Murlsh.add_extra = function() {
             url : 'http://vimeo.com/api/v2/video/' + match.vimeo[1] + '.json',
             dataType : 'jsonp',
             success : function(d) {
-                var video = d[0];
                 var movie = 'http://vimeo.com/moogaloop.swf?clip_id=' + video.id;
+                var video = d[0];
 
                 Murlsh.thumb_insert(Murlsh.vimeo_thumb(video).data(
                     'embed_html',
@@ -246,11 +246,11 @@ Murlsh.add_extra = function() {
 };
 
 Murlsh.format_li = function(d) {
+    var icon_size = 32;
     var li = $('<li />').append($('<a />', {
         href : d.url,
         text : d.title
         }));
-    var icon_size = 32;
 
     if (d.name) {
         li.prepend($('<div />', { text : d.name }).addClass('name'));

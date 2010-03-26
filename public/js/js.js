@@ -4,7 +4,7 @@
 
 var Murlsh = {};
 
-Murlsh.img = function (src, text) {
+Murlsh.img = function(src, text) {
     text = text || '';
     return $('<img />', {
         src : src,
@@ -13,10 +13,11 @@ Murlsh.img = function (src, text) {
     });
 };
 
-Murlsh.make_fit = function (e, max_width, max_height) {
-    var width = e.width(),
-        height = e.height(),
-        scale;
+Murlsh.make_fit = function(e, max_width, max_height) {
+    var width = e.width();
+    var height = e.height();
+    var scale;
+
     if (width > max_width || height > max_height) {
         scale = Math.min(max_width / width, max_height / height);
         e.width(Math.round(width * scale));
@@ -24,7 +25,7 @@ Murlsh.make_fit = function (e, max_width, max_height) {
     }
 };
 
-Murlsh.closer_add = function (x, header) {
+Murlsh.closer_add = function(x, header) {
     var html = (typeof x === 'object') ? $('<div />').append(x).html() : x;
 
     $.jGrowl(html, {
@@ -32,8 +33,8 @@ Murlsh.closer_add = function (x, header) {
         glue : 'before',
         header : header,
         sticky : true,
-        beforeOpen : function (e) {
-            e.find('.message img').load(function () {
+        beforeOpen : function(e) {
+            e.find('.message img').load(function() {
                 Murlsh.make_fit($(this),
                     Math.round($(window).width() / 2),
                     Math.round($(window).height() - 100));
@@ -42,18 +43,18 @@ Murlsh.closer_add = function (x, header) {
     });
 };
 
-Murlsh.escape_xml = function (s) {
+Murlsh.escape_xml = function(s) {
     return s.replace(/&/g, '&amp;');
 };
 
-Murlsh.object_tag = function (data, height, width, params) {
+Murlsh.object_tag = function(data, height, width, params) {
     // this does not use jQuery to build tags because building object
     // tags is broken in IE
     var result = '<object data="' + Murlsh.escape_xml(data) +
         '" height="' + height +
         '" type="application/x-shockwave-flash" width="' + width + '">';
 
-    $.each(params, function (i, v) {
+    $.each(params, function(i, v) {
         result += '<param name="' + v.name + '" value="' +
             Murlsh.escape_xml(v.value) + '" />';
     });
@@ -63,11 +64,12 @@ Murlsh.object_tag = function (data, height, width, params) {
     return result;
 };
 
-Murlsh.flickr_thumb = function (d) {
-    var photo = d.photo,
-        base,
-        owner,
-        zoom;
+Murlsh.flickr_thumb = function(d) {
+    var photo = d.photo;
+    var base;
+    var owner;
+    var zoom;
+
     if (d.stat === 'ok') {
         base = 'http://farm' + photo.farm + '.static.flickr.com/' +
             photo.server + '/' + photo.id + '_';
@@ -85,14 +87,14 @@ Murlsh.flickr_thumb = function (d) {
     }
 };
 
-Murlsh.flickr_click = function () {
+Murlsh.flickr_click = function() {
     Murlsh.closer_add(Murlsh.img($(this).data('zoom')));
 };
 
-Murlsh.img_thumb = function () {
+Murlsh.img_thumb = function() {
     // turn arguments into a real array
-    var url_parts = [].splice.call(arguments, 0),
-        last_index = url_parts.length - 1;
+    var url_parts = [].splice.call(arguments, 0);
+    var last_index = url_parts.length - 1;
 
     // if pdf the thumbnail will be .png
     if (url_parts[last_index].match(/^pdf$/i)) {
@@ -102,24 +104,24 @@ Murlsh.img_thumb = function () {
     return Murlsh.img(url_parts.join('')).addClass('thumb');
 };
 
-Murlsh.img_click = function () {
+Murlsh.img_click = function() {
     Murlsh.closer_add(Murlsh.img($(this).data('href')));
 };
 
-Murlsh.vimeo_thumb = function (d) {
+Murlsh.vimeo_thumb = function(d) {
     return Murlsh.img(d.thumbnail_medium, d.title).addClass('thumb vimeo');
 };
 
-Murlsh.vimeo_click = function () {
+Murlsh.vimeo_click = function() {
     Murlsh.closer_add($(this).data('embed_html'));
 };
 
-Murlsh.youtube_thumb = function (id) {
+Murlsh.youtube_thumb = function(id) {
     return Murlsh.img('http://img.youtube.com/vi/' + id + '/default.jpg',
         'click to watch').addClass('thumb youtube').data('id', id);
 };
 
-Murlsh.youtube_click = function () {
+Murlsh.youtube_click = function() {
     var movie = 'http://www.youtube.com/v/' + $(this).data('id') + '?' +
         $.param({
             fs : 1,
@@ -129,11 +131,12 @@ Murlsh.youtube_click = function () {
             showinfo : 0,
             showsearch : 0
         });
+
     Murlsh.closer_add(Murlsh.object_tag(movie, 505, 640,
       [{ name : 'movie', value : movie }]));
 };
 
-Murlsh.thumb_insert = function (img, click_function, a) {
+Murlsh.thumb_insert = function(img, click_function, a) {
     if (img) {
         if (Murlsh.is_iphone()) {
             a.prepend(img);
@@ -143,7 +146,7 @@ Murlsh.thumb_insert = function (img, click_function, a) {
     }
 };
 
-Murlsh.is_iphone = function () {
+Murlsh.is_iphone = function() {
     return navigator.userAgent.match(/i(phone|pod)/i);
 };
 
@@ -164,13 +167,13 @@ Murlsh.href_res = {
         /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
 };
 
-Murlsh.add_extra = function () {
-    var href = $(this).attr('href'),
-        match = {},
-        swf = 'swf/player_mp3_mini.swf',
-        thumb;
+Murlsh.add_extra = function() {
+    var href = $(this).attr('href');
+    var match = {},;
+    var swf = 'swf/player_mp3_mini.swf';
+    var thumb;
 
-    $.each(Murlsh.href_res, function (x, re) {
+    $.each(Murlsh.href_res, function(x, re) {
         return !(match[x] = re.exec(href));
     });
 
@@ -185,7 +188,7 @@ Murlsh.add_extra = function () {
             },
             dataType : 'jsonp',
             jsonp : 'jsoncallback',
-            success : function (d) {
+            success : function(d) {
                 Murlsh.thumb_insert(Murlsh.flickr_thumb(d),
                     Murlsh.flickr_click, $(this));
             },
@@ -224,10 +227,10 @@ Murlsh.add_extra = function () {
         $.ajax({
             url : 'http://vimeo.com/api/v2/video/' + match.vimeo[1] + '.json',
             dataType : 'jsonp',
-            success : function (d) {
-                var video = d[0],
-                    movie = 'http://vimeo.com/moogaloop.swf?clip_id=' +
-                        video.id;
+            success : function(d) {
+                var video = d[0];
+                var movie = 'http://vimeo.com/moogaloop.swf?clip_id=' + video.id;
+
                 Murlsh.thumb_insert(Murlsh.vimeo_thumb(video).data(
                     'embed_html',
                     Murlsh.object_tag(movie, video.height, video.width, [
@@ -242,12 +245,12 @@ Murlsh.add_extra = function () {
     }
 };
 
-Murlsh.format_li = function (d) {
+Murlsh.format_li = function(d) {
     var li = $('<li />').append($('<a />', {
         href : d.url,
         text : d.title
-    })),
-        icon_size = 32;
+        }));
+    var icon_size = 32;
 
     if (d.name) {
         li.prepend($('<div />', { text : d.name }).addClass('name'));
@@ -266,8 +269,8 @@ Murlsh.format_li = function (d) {
     return li;
 };
 
-Murlsh.iphone_init = function () {
-    window.onorientationchange = function () {
+Murlsh.iphone_init = function() {
+    window.onorientationchange = function() {
         var width = 450;
         if (window.orientation === 0 || window.orientation === 180) {
             width = 290;
@@ -283,19 +286,19 @@ Murlsh.iphone_init = function () {
     }));
 };
 
-$(document).ready(function () {
+$(document).ready(function() {
     if (Murlsh.is_iphone()) {
         Murlsh.iphone_init();
     }
     $('#urls a').map(Murlsh.add_extra);
 
-    $('#submit').click(function () {
+    $('#submit').click(function() {
         $.post('url', {
             url : $('#url').val(),
             via : $('#via').val(),
             auth : $('#auth').val()
         }, function (d) {
-            $.each(d, function (i, v) {
+            $.each(d, function(i, v) {
                 var li = Murlsh.format_li(v);
                 $('#urls > li:first').after(li);
                 $(li).children('a:first').map(Murlsh.add_extra);

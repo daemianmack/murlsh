@@ -228,8 +228,8 @@ Murlsh.add_extra = function() {
             url : 'http://vimeo.com/api/v2/video/' + match.vimeo[1] + '.json',
             dataType : 'jsonp',
             success : function(d) {
-                var movie = 'http://vimeo.com/moogaloop.swf?clip_id=' + video.id;
                 var video = d[0];
+                var movie = 'http://vimeo.com/moogaloop.swf?clip_id=' + video.id;
 
                 Murlsh.thumb_insert(Murlsh.vimeo_thumb(video).data(
                     'embed_html',

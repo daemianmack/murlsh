@@ -37,12 +37,6 @@ module Murlsh
       xpath_search(%w{//html/head/title //head/title //html/title //title})
     end
 
-    # Get the meta description of athedocument.
-    def description
-      description = (self/"//html/head/meta[@name='description']").first
-
-      description['content'] unless description.nil?
-    end
   end
 
 end

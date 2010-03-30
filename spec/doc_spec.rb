@@ -38,7 +38,6 @@ eos
 eos
 
     doc = Hpricot(html).extend(Murlsh::Doc)
-    doc.title.should == 'the title'
 
     doc.description.should == 'the description'
   end
@@ -56,7 +55,6 @@ eos
 eos
 
     doc = Hpricot(html).extend(Murlsh::Doc)
-    doc.title.should == 'the title'
 
     doc.description.should be_nil
   end

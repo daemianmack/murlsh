@@ -91,6 +91,23 @@ module Murlsh
         '?' + h.map { |k,v| URI.escape("#{k}=#{v}") }.join('&')
     end
 
+    # Form input builder.
+    def form_input(options)
+      if options[:id]
+        if options[:label]
+          label_suffix = options[:label_suffix] || ':'
+          label("#{options[:label]}#{label_suffix}", :for => options[:id])
+        end
+        options[:name] ||= options[:id]
+      end
+
+      options.delete(:label)
+
+      input({
+        :type => 'text',
+        }.merge(options))
+    end
+
     private
 
     def img_convert_prefix(options)

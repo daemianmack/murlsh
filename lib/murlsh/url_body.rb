@@ -118,9 +118,8 @@ module Murlsh
     def search_form
       form(:action => '', :method => 'get') {
         fieldset {
-          input(:type => 'text', :id => 'q', :name => 'q', :size => 32,
-            :value => @q)
-          input(:type => 'submit', :value=> 'Regex Search')
+          form_input(:id => 'q', :size => 32, :value => @q)
+          form_input(:type => 'submit', :value => 'Regex Search')
         }
       }
     end
@@ -129,20 +128,15 @@ module Murlsh
     def add_form
       form(:action => '', :method => 'post') {
         fieldset(:id => 'add') {
-          self.p { add_form_input('Add URL:', 'url', 32) }
-          self.p { add_form_input('Via:', 'via', 32) }
+          self.p { form_input(:id => 'url', :label => 'Add URL', :size => 32) }
+          self.p { form_input(:id => 'via', :label => 'Via', :size => 32) }
           self.p {
-            add_form_input('Password:', 'auth', 16, 'password')
-            input(:type => 'button', :id => 'submit', :value => 'Add')
+            form_input(:id => 'auth', :label => 'Password', :size => 16,
+              :type => 'password')
+            form_input(:id => 'submit', :type => 'button', :value => 'Add')
           }
         }
       }
-    end
-
-    # Url add form input builder.
-    def add_form_input(label, id, size, tipe='text')
-      label(label, :for => id)
-      input(:type => tipe, :id => id, :name => id, :size => size)
     end
 
     # Clear div builder.

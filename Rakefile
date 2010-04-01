@@ -268,6 +268,14 @@ namespace :js do
     end
   end
 
+  desc 'Run javascript through jslint.'
+  task :lint do
+    %{public/js/js.js}.each do |jsf|
+      puts jsf
+      puts `rhino http://www.jslint.com/rhino/jslint.js #{jsf}`
+    end
+  end
+
 end
 
 def ask(prompt, sep=':')

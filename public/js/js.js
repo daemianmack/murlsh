@@ -13,19 +13,19 @@ Murlsh.img = function(src, text) {
     });
 };
 
-Murlsh.make_fit = function(e, max_width, max_height) {
+Murlsh.makeFit = function(e, maxWidth, maxHeight) {
     var height = e.height();
     var scale;
     var width = e.width();
 
-    if (width > max_width || height > max_height) {
-        scale = Math.min(max_width / width, max_height / height);
+    if (width > maxWidth || height > maxHeight) {
+        scale = Math.min(maxWidth / width, maxHeight / height);
         e.width(Math.round(width * scale));
         e.height(Math.round(height * scale));
     }
 };
 
-Murlsh.closer_add = function(x, header) {
+Murlsh.closerAdd = function(x, header) {
     var html = (typeof x === 'object') ? $('<div />').append(x).html() : x;
 
     $.jGrowl(html, {
@@ -35,7 +35,7 @@ Murlsh.closer_add = function(x, header) {
         sticky : true,
         beforeOpen : function(e) {
             e.find('.message img').load(function() {
-                Murlsh.make_fit($(this),
+                Murlsh.makeFit($(this),
                     Math.round($(window).width() / 2),
                     Math.round($(window).height() - 100));
             });
@@ -43,20 +43,20 @@ Murlsh.closer_add = function(x, header) {
     });
 };
 
-Murlsh.escape_xml = function(s) {
+Murlsh.escapeXml = function(s) {
     return s.replace(/&/g, '&amp;');
 };
 
-Murlsh.object_tag = function(data, height, width, params) {
+Murlsh.objectTag = function(data, height, width, params) {
     // this does not use jQuery to build tags because building object
     // tags is broken in IE
-    var result = '<object data="' + Murlsh.escape_xml(data) +
+    var result = '<object data="' + Murlsh.escapeXml(data) +
         '" height="' + height +
         '" type="application/x-shockwave-flash" width="' + width + '">';
 
     $.each(params, function(i, v) {
         result += '<param name="' + v.name + '" value="' +
-            Murlsh.escape_xml(v.value) + '" />';
+            Murlsh.escapeXml(v.value) + '" />';
     });
 
     result += '</object>';
@@ -64,7 +64,7 @@ Murlsh.object_tag = function(data, height, width, params) {
     return result;
 };
 
-Murlsh.flickr_thumb = function(d) {
+Murlsh.flickrThumb = function(d) {
     var base;
     var owner;
     var photo = d.photo;
@@ -87,41 +87,41 @@ Murlsh.flickr_thumb = function(d) {
     }
 };
 
-Murlsh.flickr_click = function() {
-    Murlsh.closer_add(Murlsh.img($(this).data('zoom')));
+Murlsh.flickrClick = function() {
+    Murlsh.closerAdd(Murlsh.img($(this).data('zoom')));
 };
 
-Murlsh.img_thumb = function() {
+Murlsh.imgThumb = function() {
     // turn arguments into a real array
-    var url_parts = [].splice.call(arguments, 0);
-    var last_index = url_parts.length - 1;
+    var urlParts = [].splice.call(arguments, 0);
+    var lastIndex = urlParts.length - 1;
 
     // if pdf the thumbnail will be .png
-    if (url_parts[last_index].match(/^pdf$/i)) {
-        url_parts.last_index = 'png';
+    if (urlParts[lastIndex].match(/^pdf$/i)) {
+        urlParts.lastIndex = 'png';
     }
 
-    return Murlsh.img(url_parts.join('')).addClass('thumb');
+    return Murlsh.img(urlParts.join('')).addClass('thumb');
 };
 
-Murlsh.img_click = function() {
-    Murlsh.closer_add(Murlsh.img($(this).data('href')));
+Murlsh.imgClick = function() {
+    Murlsh.closerAdd(Murlsh.img($(this).data('href')));
 };
 
-Murlsh.vimeo_thumb = function(d) {
+Murlsh.vimeoThumb = function(d) {
     return Murlsh.img(d.thumbnail_medium, d.title).addClass('thumb vimeo');
 };
 
-Murlsh.vimeo_click = function() {
-    Murlsh.closer_add($(this).data('embed_html'));
+Murlsh.vimeoClick = function() {
+    Murlsh.closerAdd($(this).data('embedHtml'));
 };
 
-Murlsh.youtube_thumb = function(id) {
+Murlsh.youtubeThumb = function(id) {
     return Murlsh.img('http://img.youtube.com/vi/' + id + '/default.jpg',
         'click to watch').addClass('thumb youtube').data('id', id);
 };
 
-Murlsh.youtube_click = function() {
+Murlsh.youtubeClick = function() {
     var movie = 'http://www.youtube.com/v/' + $(this).data('id') + '?' +
         $.param({
             fs : 1,
@@ -132,25 +132,25 @@ Murlsh.youtube_click = function() {
             showsearch : 0
         });
 
-    Murlsh.closer_add(Murlsh.object_tag(movie, 505, 640,
+    Murlsh.closerAdd(Murlsh.objectTag(movie, 505, 640,
       [{ name : 'movie', value : movie }]));
 };
 
-Murlsh.thumb_insert = function(img, click_function, a) {
+Murlsh.thumbInsert = function(img, clickFunction, a) {
     if (img) {
-        if (Murlsh.is_iphone()) {
+        if (Murlsh.isIphone()) {
             a.prepend(img);
         } else {
-            a.before(img.click(click_function));
+            a.before(img.click(clickFunction));
         }
     }
 };
 
-Murlsh.is_iphone = function() {
+Murlsh.isIphone = function() {
     return navigator.userAgent.match(/i(phone|pod)/i);
 };
 
-Murlsh.href_res = {
+Murlsh.hrefRes = {
     flickr :
         /^http:\/\/(?:www\.)?flickr\.com\/photos\/[@\w\-]+?\/([\d]+)/i,
     imageshack :
@@ -167,13 +167,13 @@ Murlsh.href_res = {
         /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
 };
 
-Murlsh.add_extra = function() {
+Murlsh.addExtra = function() {
     var href = $(this).attr('href');
     var match = {};
     var swf = 'swf/player_mp3_mini.swf';
     var thumb;
 
-    $.each(Murlsh.href_res, function(x, re) {
+    $.each(Murlsh.hrefRes, function(x, re) {
         return !(match[x] = re.exec(href));
     });
 
@@ -189,38 +189,38 @@ Murlsh.add_extra = function() {
             dataType : 'jsonp',
             jsonp : 'jsoncallback',
             success : function(d) {
-                Murlsh.thumb_insert(Murlsh.flickr_thumb(d),
-                    Murlsh.flickr_click, $(this));
+                Murlsh.thumbInsert(Murlsh.flickrThumb(d),
+                    Murlsh.flickrClick, $(this));
             },
             context : $(this)
         });
     } else if (match.imageshack) {
-        Murlsh.thumb_insert(
-            Murlsh.img_thumb(match.imageshack[1], 'th.', match.imageshack[2]).data(
+        Murlsh.thumbInsert(
+            Murlsh.imgThumb(match.imageshack[1], 'th.', match.imageshack[2]).data(
                 'href', match.imageshack[0]),
-            Murlsh.img_click, $(this).html('imageshack.us'));
+            Murlsh.imgClick, $(this).html('imageshack.us'));
     } else if (match.imgur) {
-        Murlsh.thumb_insert(
-            Murlsh.img_thumb(match.imgur[1], 's', match.imgur[2]).data('href', match.imgur[0]),
-            Murlsh.img_click, $(this).html('imgur.com'));
+        Murlsh.thumbInsert(
+            Murlsh.imgThumb(match.imgur[1], 's', match.imgur[2]).data('href', match.imgur[0]),
+            Murlsh.imgClick, $(this).html('imgur.com'));
     } else if (match.mp3) {
-        $(this).before(Murlsh.object_tag(swf, 20, 200, [
+        $(this).before(Murlsh.objectTag(swf, 20, 200, [
             { name : 'bgcolor', value : '#000000' },
             { name : 'FlashVars', value : 'mp3=' + href },
             { name : 'movie', value : swf }
         ]));
     } else if (match.s3) {
-        thumb = Murlsh.img_thumb(match.s3[1], 'th.', match.s3[2]);
+        thumb = Murlsh.imgThumb(match.s3[1], 'th.', match.s3[2]);
 
         if (match.s3[2].match(/^pdf$/i)) {
             $(this).before(thumb).html('pdf');
         } else {
-            if (Murlsh.is_iphone()) {
+            if (Murlsh.isIphone()) {
                 $(this).html(thumb);
             } else {
                 $(this).html('link');
                 $(this).before(thumb.data('href', match.s3[0]).click(
-                    Murlsh.img_click));
+                    Murlsh.imgClick));
             }
         }
     } else if (match.vimeo) {
@@ -231,22 +231,22 @@ Murlsh.add_extra = function() {
                 var video = d[0];
                 var movie = 'http://vimeo.com/moogaloop.swf?clip_id=' + video.id;
 
-                Murlsh.thumb_insert(Murlsh.vimeo_thumb(video).data(
-                    'embed_html',
-                    Murlsh.object_tag(movie, video.height, video.width, [
+                Murlsh.thumbInsert(Murlsh.vimeoThumb(video).data(
+                    'embedHtml',
+                    Murlsh.objectTag(movie, video.height, video.width, [
                         { name : 'movie', value : movie }
-                    ])), Murlsh.vimeo_click, $(this));
+                    ])), Murlsh.vimeoClick, $(this));
             },
             context : $(this)
         });
     } else if (match.youtube) {
-        Murlsh.thumb_insert(Murlsh.youtube_thumb(match.youtube[1]),
-            Murlsh.youtube_click, $(this));
+        Murlsh.thumbInsert(Murlsh.youtubeThumb(match.youtube[1]),
+            Murlsh.youtubeClick, $(this));
     }
 };
 
-Murlsh.format_li = function(d) {
-    var icon_size = 32;
+Murlsh.formatLi = function(d) {
+    var iconSize = 32;
     var li = $('<li />').append($('<a />', {
         href : d.url,
         text : d.title
@@ -259,17 +259,17 @@ Murlsh.format_li = function(d) {
     if (d.email) {
         li.prepend($('<div />').addClass('icon').append(
         Murlsh.img(
-            'http://www.gravatar.com/avatar/' + d.email + '?s=' + icon_size,
+            'http://www.gravatar.com/avatar/' + d.email + '?s=' + iconSize,
             d.name).attr({
-            width : icon_size,
-            height : icon_size
+            width : iconSize,
+            height : iconSize
         })));
     }
 
     return li;
 };
 
-Murlsh.iphone_init = function() {
+Murlsh.iphoneInit = function() {
     window.onorientationchange = function() {
         var width = 450;
         if (window.orientation === 0 || window.orientation === 180) {
@@ -287,10 +287,10 @@ Murlsh.iphone_init = function() {
 };
 
 $(document).ready(function() {
-    if (Murlsh.is_iphone()) {
-        Murlsh.iphone_init();
+    if (Murlsh.isIphone()) {
+        Murlsh.iphoneInit();
     }
-    $('#urls a').map(Murlsh.add_extra);
+    $('#urls a').map(Murlsh.addExtra);
 
     $('#submit').click(function() {
         $.post('url', {
@@ -299,9 +299,9 @@ $(document).ready(function() {
             auth : $('#auth').val()
         }, function (d) {
             $.each(d, function(i, v) {
-                var li = Murlsh.format_li(v);
+                var li = Murlsh.formatLi(v);
                 $('#urls > li:first').after(li);
-                $(li).children('a:first').map(Murlsh.add_extra);
+                $(li).children('a:first').map(Murlsh.addExtra);
             });
             $('#url').val('');
             $('#via').val('');

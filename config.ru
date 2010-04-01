@@ -10,7 +10,7 @@ murlsh
 use Rack::ConditionalGet
 use Rack::Deflater
 use Rack::Static, :urls => %w{/css /js /swf}, :root => 'public'
-use Rack::Static, :urls => %w{/atom.xml}
+use Rack::Static, :urls => %w{/atom.xml /rss.xml}
 
 config = YAML.load_file('config.yaml')
 

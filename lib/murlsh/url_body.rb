@@ -88,10 +88,8 @@ module Murlsh
     def headd
       head {
         titlee
-        metas(:description => @config.fetch('description', ''),
-          :viewport =>
-            'width=device-width,minimum-scale=1.0,maximum-scale=1.0')
-        google_verify
+        metas(@config.select { |k,v| k =~ /^meta_tag_/ and v }.
+          map { |k,v| [k.sub('meta_tag_', ''), v] })
         css(@config['css_compressed'] || @config['css_files'])
         atom(@config.fetch('feed_file'))
       }
@@ -100,11 +98,6 @@ module Murlsh
     # Title builder.
     def titlee
       title(@config.fetch('page_title', '') + (@q ? " /#{@q}" : ''))
-    end
-
-    # Google verification link builder.
-    def google_verify
-      (gv = @config.fetch('google_verify')) and metas('verify-v1' => gv)
     end
 
     # Feed icon builder.

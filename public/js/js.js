@@ -234,12 +234,16 @@ Murlsh.addExtra = function() {
                 '.json',
             dataType : 'jsonp',
             success : function(d) {
-                $(this).html(d.text);
-                Murlsh.thumbInsert($('<a />', {
+                var nameLink = $('<a />', {
                     href: 'http://twitter.com/' + d.user.screen_name,
                     text: d.user.screen_name
-                }).prepend(Murlsh.imgThumb(d.user.profile_image_url)).
-                after(document.createTextNode(': ')), null, $(this));
+                });
+
+                $(this).html(d.text).before(nameLink).before(
+                    document.createTextNode(': '));
+
+                Murlsh.thumbInsert(Murlsh.imgThumb(d.user.profile_image_url),
+                    null, nameLink);
             },
             context : $(this)
         });

@@ -17,25 +17,25 @@ describe MarkupMixer do
   it 'should correctly render a single javascript tag' do
     @m.javascript('test.js')
     @m.target!.should ==
-      '<script src="test.js"></script>'
+      '<script type="text/javascript" src="test.js"></script>'
   end
 
   it 'should correctly render a list of javascript tags' do
     @m.javascript(['test1.js', 'test2.js'])
     @m.target!.should ==
-      '<script src="test1.js"></script><script src="test2.js"></script>'
+      '<script type="text/javascript" src="test1.js"></script><script type="text/javascript" src="test2.js"></script>'
   end
 
   it 'should correctly render a single javascript tag with a prefix' do
     @m.javascript('test.js', :prefix => 'http://static.com/js/')
     @m.target!.should ==
-      '<script src="http://static.com/js/test.js"></script>'
+      '<script type="text/javascript" src="http://static.com/js/test.js"></script>'
   end
 
   it 'should correctly render a list of javascripts tag with a prefix' do
     @m.javascript(['test1.js', 'test2.js'], :prefix => 'js/')
     @m.target!.should ==
-      '<script src="js/test1.js"></script><script src="js/test2.js"></script>'
+      '<script type="text/javascript" src="js/test1.js"></script><script type="text/javascript" src="js/test2.js"></script>'
   end
 
   it 'should correctly render a murlsh_img tag' do

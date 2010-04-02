@@ -310,7 +310,7 @@ $(document).ready(function() {
     if (Murlsh.isIphone()) {
         Murlsh.iphoneInit();
     }
-    $('#urls a').map(Murlsh.addExtra);
+    $('a.m').map(Murlsh.addExtra);
 
     $('#submit').click(function() {
         $.post('url', {

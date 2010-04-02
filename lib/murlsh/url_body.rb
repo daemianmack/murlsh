@@ -55,7 +55,7 @@ module Murlsh
                     @config.fetch('show_names', false) and mu.name
                 end
 
-                a(mu.title_stripped, :href => mu.url)
+                a(mu.title_stripped, :href => mu.url, :class => 'm')
 
                 mu.hostrec do |hostrec|
                   self.span(" [#{hostrec}]", :class => 'host')

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-03-10}
+  s.date = %q{2010-04-02}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -37,19 +37,22 @@ Gem::Specification.new do |s|
      "lib/murlsh/openlock.rb",
      "lib/murlsh/plugin.rb",
      "lib/murlsh/sqlite3_adapter.rb",
-     "lib/murlsh/time.rb",
+     "lib/murlsh/time_ago.rb",
      "lib/murlsh/uri.rb",
      "lib/murlsh/uri_ask.rb",
      "lib/murlsh/url.rb",
      "lib/murlsh/url_body.rb",
      "lib/murlsh/url_server.rb",
      "lib/murlsh/xhtml_response.rb",
+     "lib/murlsh/yaml_ordered_hash.rb",
      "murlsh.gemspec",
      "plugins/add_post_50_update_feed.rb",
+     "plugins/add_post_50_update_rss.rb",
      "plugins/add_post_60_notify_hubs.rb",
      "plugins/add_pre_50_lookup_content_type_title.rb",
      "plugins/hostrec_50_redundant.rb",
      "plugins/hostrec_60_skip.rb",
+     "plugins/time_50_ago.rb",
      "public/css/jquery.jgrowl.css",
      "public/css/screen.css",
      "public/js/jquery-1.4.2.min.js",
@@ -59,10 +62,14 @@ Gem::Specification.new do |s|
      "public/swf/player_mp3_mini.swf",
      "spec/atom_feed_spec.rb",
      "spec/auth_spec.rb",
+     "spec/dispatch_spec.rb",
+     "spec/doc_spec.rb",
      "spec/markup_spec.rb",
      "spec/uri_ask_spec.rb",
      "spec/uri_spec.rb",
-     "spec/xhtml_response_spec.rb"
+     "spec/url_spec.rb",
+     "spec/xhtml_response_spec.rb",
+     "spec/yaml_ordered_hash_spec.rb"
   ]
   s.homepage = %q{http://github.com/mmb/murlsh}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -73,9 +80,13 @@ Gem::Specification.new do |s|
     "spec/xhtml_response_spec.rb",
      "spec/atom_feed_spec.rb",
      "spec/auth_spec.rb",
+     "spec/yaml_ordered_hash_spec.rb",
      "spec/uri_ask_spec.rb",
+     "spec/dispatch_spec.rb",
      "spec/markup_spec.rb",
-     "spec/uri_spec.rb"
+     "spec/url_spec.rb",
+     "spec/uri_spec.rb",
+     "spec/doc_spec.rb"
   ]
 
   if s.respond_to? :specification_version then

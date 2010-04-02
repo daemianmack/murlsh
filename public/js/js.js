@@ -141,7 +141,10 @@ Murlsh.thumbInsert = function(img, clickFunction, a) {
         if (Murlsh.isIphone()) {
             a.prepend(img);
         } else {
-            a.before(img.click(clickFunction));
+            if (clickFunction) {
+                img.click(clickFunction);
+            }
+            a.before(img);
         }
     }
 };
@@ -161,6 +164,8 @@ Murlsh.hrefRes = {
         /\.mp3$/i,
     s3 :
         /^(http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w\-]+\.)(jpe?g|gif|pdf|png)$/i,
+    twitter :
+        /^http:\/\/twitter\.com\/\w+\/statuses\/(\d+)$/i,
     vimeo :
         /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
     youtube :
@@ -223,6 +228,21 @@ Murlsh.addExtra = function() {
                     Murlsh.imgClick));
             }
         }
+    } else if (match.twitter) {
+        $.ajax({
+            url : 'http://api.twitter.com/1/statuses/show/' + match.twitter[1] +
+                '.json',
+            dataType : 'jsonp',
+            success : function(d) {
+                $(this).html(d.text);
+                Murlsh.thumbInsert($('<a />', {
+                    href: 'http://twitter.com/' + d.user.screen_name,
+                    text: d.user.screen_name
+                }).prepend(Murlsh.imgThumb(d.user.profile_image_url)).
+                after(document.createTextNode(': ')), null, $(this));
+            },
+            context : $(this)
+        });
     } else if (match.vimeo) {
         $.ajax({
             url : 'http://vimeo.com/api/v2/video/' + match.vimeo[1] + '.json',
@@ -250,7 +270,7 @@ Murlsh.formatLi = function(d) {
     var li = $('<li />').append($('<a />', {
         href : d.url,
         text : d.title
-        }));
+    }));
 
     if (d.name) {
         li.prepend($('<div />', { text : d.name }).addClass('name'));

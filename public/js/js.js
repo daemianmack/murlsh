@@ -261,7 +261,8 @@ Murlsh.addExtra = function() {
                         { name : 'movie', value : movie }
                     ])), Murlsh.vimeoClick, $(this));
             },
-            context : $(this)
+            context : $(this),
+            jsonpCallback : 'vimeoCallback' + match.vimeo[1]
         });
     } else if (match.youtube) {
         Murlsh.thumbInsert(Murlsh.youtubeThumb(match.youtube[1]),

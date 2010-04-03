@@ -1,7 +1,6 @@
 %w{
 open-uri
 
-active_record
 json
 rack
 }.each { |m| require m }

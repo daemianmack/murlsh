@@ -21,6 +21,7 @@ module Murlsh
       @db = ActiveRecord::Base.connection.instance_variable_get(:@connection)
 
       @url_server = Murlsh::UrlServer.new(@config, @db)
+      @flickr_server = Murlsh::FlickrServer.new(@config)
     end
 
     # Rack call.
@@ -32,6 +33,7 @@ module Murlsh
         ['POST', @url_root] => @url_server.method(:post),
         ['GET', url_url] => @url_server.method(:get),
         ['POST', url_url] => @url_server.method(:post),
+        ['GET', '/flickr'] => @flickr_server.method(:get),
       }
       dispatch.default = self.method(:not_found)
 

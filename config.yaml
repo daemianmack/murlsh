@@ -5,6 +5,7 @@ css_files:
 - css/screen.css
 db_file: murlsh.db
 feed_file: atom.xml
+flickr_api_key: 
 gravatar_size: 32
 js_files: 
 - js/jquery-1.4.2.min.js

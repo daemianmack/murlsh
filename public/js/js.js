@@ -184,9 +184,9 @@ Murlsh.addExtra = function() {
 
     if (match.flickr) {
         $.ajax({
-            url : 'http://api.flickr.com/services/rest/',
+            // url : 'http://api.flickr.com/services/rest/',
+            url : 'flickr',
             data : {
-                api_key : 'd04e574aaf11bf2e1c03cba4ee7e5725',
                 format : 'json',
                 method : 'flickr.photos.getinfo',
                 photo_id : match.flickr[1]
@@ -197,7 +197,8 @@ Murlsh.addExtra = function() {
                 Murlsh.thumbInsert(Murlsh.flickrThumb(d),
                     Murlsh.flickrClick, $(this));
             },
-            context : $(this)
+            context : $(this),
+            jsonpCallback : 'flickrCallback' + match.flickr[1]
         });
     } else if (match.imageshack) {
         Murlsh.thumbInsert(

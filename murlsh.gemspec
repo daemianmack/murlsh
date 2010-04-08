@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-04-03}
+  s.date = %q{2010-04-08}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
      "lib/murlsh/auth.rb",
      "lib/murlsh/dispatch.rb",
      "lib/murlsh/doc.rb",
+     "lib/murlsh/etag_add_encoding.rb",
      "lib/murlsh/failproof.rb",
      "lib/murlsh/flickr_server.rb",
      "lib/murlsh/markup.rb",
@@ -101,7 +102,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_runtime_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_runtime_dependency(%q<json>, [">= 1.2.3"])
-      s.add_runtime_dependency(%q<rack>, [">= 1.0.0"])
+      s.add_runtime_dependency(%q<rack>, [">= 1.1.0"])
       s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
     else
       s.add_dependency(%q<activerecord>, [">= 2.3.4"])
@@ -110,7 +111,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_dependency(%q<json>, [">= 1.2.3"])
-      s.add_dependency(%q<rack>, [">= 1.0.0"])
+      s.add_dependency(%q<rack>, [">= 1.1.0"])
       s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
     end
   else
@@ -120,7 +121,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<hpricot>, [">= 0.8.1"])
     s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
     s.add_dependency(%q<json>, [">= 1.2.3"])
-    s.add_dependency(%q<rack>, [">= 1.0.0"])
+    s.add_dependency(%q<rack>, [">= 1.1.0"])
     s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
   end
 end

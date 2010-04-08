@@ -11,11 +11,7 @@ use Rack::ConditionalGet
 use Murlsh::EtagAddEncoding
 use Rack::Deflater
 
-begin
-  require 'rack/contrib' if Rack.version.to_f < 1.1
-rescue LoadError
-end
-
+# make rack < 1.1 still work but not generate etags
 begin
   use Rack::ETag
 rescue NameError

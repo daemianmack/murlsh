@@ -102,7 +102,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_runtime_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_runtime_dependency(%q<json>, [">= 1.2.3"])
-      s.add_runtime_dependency(%q<rack>, [">= 1.1.0"])
+      s.add_runtime_dependency(%q<rack>, [">= 1.0.0"])
       s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
     else
       s.add_dependency(%q<activerecord>, [">= 2.3.4"])
@@ -111,7 +111,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_dependency(%q<json>, [">= 1.2.3"])
-      s.add_dependency(%q<rack>, [">= 1.1.0"])
+      s.add_dependency(%q<rack>, [">= 1.0.0"])
       s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
     end
   else
@@ -121,7 +121,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<hpricot>, [">= 0.8.1"])
     s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
     s.add_dependency(%q<json>, [">= 1.2.3"])
-    s.add_dependency(%q<rack>, [">= 1.1.0"])
+    s.add_dependency(%q<rack>, [">= 1.0.0"])
     s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
   end
 end

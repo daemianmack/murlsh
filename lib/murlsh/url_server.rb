@@ -24,7 +24,6 @@ module Murlsh
 
       last_db_update = File::Stat.new(@config['db_file']).mtime
       resp['Last-Modified'] = last_db_update.httpdate
-      resp['ETag'] = "W/\"#{last_db_update.to_i}#{req.params.sort}\""
 
       resp.body = Murlsh::UrlBody.new(@config, @db, req)
 

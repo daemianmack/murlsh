@@ -8,7 +8,9 @@ murlsh
 
 # use Rack::ShowExceptions
 use Rack::ConditionalGet
+use Murlsh::EtagAddEncoding
 use Rack::Deflater
+use Rack::ETag
 use Rack::Static, :urls => %w{/css /js /swf}, :root => 'public'
 use Rack::Static, :urls => %w{/atom.xml /rss.xml}
 

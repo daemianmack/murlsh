@@ -92,9 +92,14 @@ Murlsh.flickrClick = function() {
 };
 
 Murlsh.imgThumb = function() {
-    // turn arguments into a real array
-    var urlParts = [].splice.call(arguments, 0);
-    var lastIndex = urlParts.length - 1;
+    var lastIndex;
+    var urlParts = [];
+
+    for (var i = 0; i < arguments.length; i += 1) {
+        urlParts.push(arguments[i]);
+    }
+
+    lastIndex = urlParts.length - 1;
 
     // if pdf the thumbnail will be .png
     if (urlParts[lastIndex].match(/^pdf$/i)) {

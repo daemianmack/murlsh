@@ -61,8 +61,10 @@ module Murlsh
                   self.span(" [#{hostrec}]", :class => 'host')
                 end
                 mu.viarec do |via|
+                  display_via = Murlsh::Plugin.hooks('via').inject(
+                    via) { |result,plugin| plugin.run(result) }
                   span(:class => 'via') {
-                    text!(' via '); a(via.domain || via, :href => via)
+                    text!(' via '); a(display_via, :href => via)
                   }
                 end
 

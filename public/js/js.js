@@ -248,8 +248,11 @@ Murlsh.addExtra = function() {
                 $(this).html(d.text).before(nameLink).before(
                     document.createTextNode(': '));
 
-                Murlsh.thumbInsert(Murlsh.imgThumb(d.user.profile_image_url),
-                    null, nameLink);
+                Murlsh.thumbInsert(
+                    Murlsh.imgThumb(d.user.profile_image_url).attr({
+                        height : '48',
+                        width : '48'
+                    }), null, nameLink);
             },
             context : $(this)
         });

@@ -6,7 +6,7 @@ murlsh
 
 describe Murlsh::YamlOrderedHash do
 
-  it 'should generate yaml with hash keys in sorted order' do
+  subject do
     h = {
       'd' => 4,
       'a' => 1,
@@ -15,14 +15,15 @@ describe Murlsh::YamlOrderedHash do
       }
 
     h.extend(Murlsh::YamlOrderedHash)
-
-    h.to_yaml.should == <<EOS
+  end
+  
+  its(:to_yaml) { should == <<EOS
 --- 
 a: 1
 b: 2
 c: 3
 d: 4
 EOS
-  end
+  }
 
 end

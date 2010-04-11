@@ -8,10 +8,11 @@ murlsh
 
 describe Murlsh::Doc do
 
-  it 'should get the right title from an HTML page that has one' do
+  subject do
     html = <<eos
 <html>
   <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <title>the title</title>
   </head>
 <body>
@@ -19,9 +20,10 @@ describe Murlsh::Doc do
 </body>
 </html>
 eos
-
-    doc = Hpricot(html).extend(Murlsh::Doc)
-    doc.title.should == 'the title'
+    Hpricot(html).extend(Murlsh::Doc)
   end
+
+  its(:charset) { should == 'utf-8' }
+  its(:title) { should == 'the title' }
 
 end

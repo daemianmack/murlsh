@@ -27,21 +27,26 @@ module Murlsh
     def xpath_search(xpaths)
       xpaths.to_a.each do |xpath|
         selection = (self/xpath).first
-        return selection unless selection.nil?
+        if selection; return yield selection; end
       end
       nil
     end
 
     # Get the title of the document.
     def title
-      node = xpath_search %w{//html/head/title //head/title //html/title //title}
-      node.inner_html unless node.nil?
+      xpath_search(%w{
+        //html/head/title
+        //head/title
+        //html/title
+        //title
+        }) { |node| node.inner_html }
     end
 
     # Get the meta description of the document.
     def description
-      node = xpath_search "//html/head/meta[@name='description']"
-      node['content'] unless node.nil?
+      xpath_search(
+        "//html/head/meta[@name='description']"
+        ) { |node| node['content'] }
     end
 
   end

@@ -27,7 +27,7 @@ module Murlsh
     def xpath_search(xpaths)
       xpaths.to_a.each do |xpath|
         selection = (self/xpath).first
-        if selection; return yield selection; end
+        if selection; return (yield selection); end
       end
       nil
     end

@@ -13,6 +13,7 @@ describe Murlsh::Doc do
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="description" content="the description" />
     <title>the title</title>
   </head>
 <body>
@@ -25,5 +26,6 @@ eos
 
   its(:charset) { should == 'utf-8' }
   its(:title) { should == 'the title' }
+  its(:description) { should == 'the description' }
 
 end

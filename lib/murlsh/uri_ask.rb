@@ -45,22 +45,57 @@ module Murlsh
     # * :headers - hash of headers to send in request
     def title(options={})
       return @title if defined?(@title)
-      options[:headers] = default_headers.merge(options.fetch(:headers, {}))
 
       @title = to_s
-      if might_have_title?(options)
+
+      d = doc(options)
+
+      if d and d.title and !d.title.empty?
+        @title = decode(d.title)
+      end
+
+      @title
+    end
+ 
+    # Get the HTML meta description.
+    #
+    # Options:
+    # * :failproof - if true hide all exceptions and return empty string on failure
+    # * :headers - hash of headers to send in request
+    def description(options={})
+      return @description if defined?(@description)
+
+      @description = ''
+
+      d = doc(options)
+
+      if d and d.description and !d.description.empty?
+        @description = decode(d.description)
+      end
+
+      @description
+    end
+
+    # Get the parsed Hpricot doc at this url.
+    #
+    # Options:
+    # * :failproof - if true hide all exceptions and return empty string on failure
+    # * :headers - hash of headers to send in request
+    def doc(options={})
+      return @doc if defined?(@doc)
+      options[:headers] = default_headers.merge(options.fetch(:headers, {}))
+
+      @doc = nil
+      if html?(options)
         Murlsh::failproof(options) do
           self.open(options[:headers]) do |f|
-            doc = Hpricot(f).extend(Murlsh::Doc)
+            @doc = Hpricot(f).extend(Murlsh::Doc)
 
-            if doc.title and !doc.title.empty?
-              @title = HTMLEntities.new.decode(Iconv.conv('utf-8',
-                doc.charset || f.charset, doc.title))
-            end
+            @charset = @doc.charset || f.charset
           end
         end
       end
-      @title
+      @doc
     end
 
     # Default headers sent with the request.
@@ -76,10 +111,15 @@ module Murlsh
       result
     end
 
-    # Return true if the content type is likely to have a title that can be
-    # parsed.
-    def might_have_title?(options={})
+    # Return true if the content type is HTML.
+    def html?(options={})
       content_type(options)[/^text\/html/]
+    end
+
+    # Convert from the character set of this url to utf-8 and decode HTML
+    # entities.
+    def decode(s)
+      HTMLEntities.new.decode(Iconv.conv('utf-8', @charset, s))
     end
 
   end

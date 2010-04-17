@@ -41,7 +41,7 @@ module Murlsh
     # Get the HTML title.
     #
     # Options:
-    # * :failproof - if true hide all exceptions and return empty string on failure
+    # * :failproof - if true hide all exceptions and return url on failure
     # * :headers - hash of headers to send in request
     def title(options={})
       return @title if defined?(@title)

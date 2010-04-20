@@ -1,4 +1,5 @@
 %w{
+digest/sha1
 open-uri
 
 json
@@ -7,16 +8,15 @@ rack
 
 module Murlsh
 
-  # Proxy for Flickr rest API flickr.photos.getinfo call to support conditional
-  # get.
+  # Proxy for Flickr rest API to support conditional get and caching.
   #
   # Passes along query string with api key added, returns result from Flickr
-  # with content type set to application/json and last modified header set.
+  # with cache-control, etag and last-modified headers set.
   class FlickrServer
 
     def initialize(config); @config = config; end
 
-    # Proxy a flickr.photos.getinfo request to the Flickr rest API.
+    # Proxy a request to the Flickr API.
     def get(req)
       resp = Rack::Response.new
 
@@ -26,9 +26,6 @@ module Murlsh
         q = params.map { |k,v| "#{URI.encode(k)}=#{URI.encode(v)}" }.join('&')
 
         json_wrapped = open("http://api.flickr.com/services/rest/?#{q}") do |f|
-          # for some reason Firefox will not cache if it's text/plain, which is
-          # what Flickr returns
-          resp['Content-Type'] = 'application/json'
           f.read
         end
 
@@ -36,6 +33,9 @@ module Murlsh
 
         json_parsed = JSON.parse(json)
 
+        resp['Cache-Control'] = 'public, max-age=86400'
+        resp['Content-Type'] = 'application/json'
+        resp['ETag'] = "\"#{Digest::SHA1.hexdigest(json_wrapped)}\""
         resp['Last-Modified'] = Time.at(
           json_parsed['photo']['dates']['lastupdate'].to_i).httpdate
 

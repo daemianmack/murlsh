@@ -236,8 +236,9 @@ Murlsh.addExtra = function() {
         }
     } else if (match.twitter) {
         $.ajax({
-            url : 'http://api.twitter.com/1/statuses/show/' + match.twitter[1] +
-                '.json',
+            // url : 'http://api.twitter.com/1/statuses/show/' +
+            url : '/twitter/1/statuses/show/' +
+                match.twitter[1] + '.json',
             dataType : 'jsonp',
             success : function(d) {
                 var nameLink = $('<a />', {
@@ -254,7 +255,8 @@ Murlsh.addExtra = function() {
                         width : '48'
                     }), null, nameLink);
             },
-            context : $(this)
+            context : $(this),
+            jsonpCallback : 'twitterCallback' + match.twitter[1]
         });
     } else if (match.vimeo) {
         $.ajax({

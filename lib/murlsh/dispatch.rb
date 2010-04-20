@@ -21,13 +21,15 @@ module Murlsh
 
       url_server = Murlsh::UrlServer.new(@config, db)
       flickr_server = Murlsh::FlickrServer.new(@config)
+      twitter_server = Murlsh::TwitterServer.new
 
       root_path = URI(@config.fetch('root_url')).path
 
       @dispatch = [
-        [/^GET #{root_path}(url)?$/, url_server.method(:get)],
-        [/^POST #{root_path}(url)?$/, url_server.method(:post)],
-        [/^GET \/flickr$/, flickr_server.method(:get)],
+        [%r{^GET #{root_path}(url)?$}, url_server.method(:get)],
+        [%r{^POST #{root_path}(url)?$}, url_server.method(:post)],
+        [%r{^GET /flickr$}, flickr_server.method(:get)],
+        [%r{^GET /twitter/.+$}, twitter_server.method(:get)],
       ]
     end
 

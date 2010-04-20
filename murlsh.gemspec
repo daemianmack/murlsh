@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-04-10}
+  s.date = %q{2010-04-19}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -40,6 +40,7 @@ Gem::Specification.new do |s|
      "lib/murlsh/plugin.rb",
      "lib/murlsh/sqlite3_adapter.rb",
      "lib/murlsh/time_ago.rb",
+     "lib/murlsh/twitter_server.rb",
      "lib/murlsh/uri.rb",
      "lib/murlsh/uri_ask.rb",
      "lib/murlsh/url.rb",
@@ -52,6 +53,7 @@ Gem::Specification.new do |s|
      "plugins/add_post_50_update_rss.rb",
      "plugins/add_post_60_notify_hubs.rb",
      "plugins/add_pre_50_lookup_content_type_title.rb",
+     "plugins/add_pre_60_github_title.rb",
      "plugins/hostrec_50_redundant.rb",
      "plugins/hostrec_60_skip.rb",
      "plugins/time_50_ago.rb",
@@ -104,6 +106,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_runtime_dependency(%q<json>, [">= 1.2.3"])
       s.add_runtime_dependency(%q<rack>, [">= 1.0.0"])
+      s.add_runtime_dependency(%q<rack-cache>, [">= 0.5.2"])
       s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
     else
       s.add_dependency(%q<activerecord>, [">= 2.3.4"])
@@ -113,6 +116,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_dependency(%q<json>, [">= 1.2.3"])
       s.add_dependency(%q<rack>, [">= 1.0.0"])
+      s.add_dependency(%q<rack-cache>, [">= 0.5.2"])
       s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
     end
   else
@@ -123,6 +127,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
     s.add_dependency(%q<json>, [">= 1.2.3"])
     s.add_dependency(%q<rack>, [">= 1.0.0"])
+    s.add_dependency(%q<rack-cache>, [">= 0.5.2"])
     s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
   end
 end

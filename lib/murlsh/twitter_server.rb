@@ -30,7 +30,7 @@ module Murlsh
 
       json_parsed = JSON.parse(json)
 
-      resp['Cache-Control'] = 'public, max-age=86400'
+      resp['Cache-Control'] = 'max-age=86400'
       resp['ETag'] = "\"#{Digest::SHA1.hexdigest(json_wrapped)}\""
       resp['Last-Modified'] = Time.parse(json_parsed['created_at']).httpdate
 

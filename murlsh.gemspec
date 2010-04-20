@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-04-19}
+  s.date = %q{2010-04-20}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -61,7 +61,6 @@ Gem::Specification.new do |s|
      "public/css/jquery.jgrowl.css",
      "public/css/screen.css",
      "public/js/jquery-1.4.2.min.js",
-     "public/js/jquery.cookie.js",
      "public/js/jquery.jgrowl_compressed.js",
      "public/js/js.js",
      "public/swf/player_mp3_mini.swf",

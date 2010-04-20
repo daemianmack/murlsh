@@ -348,7 +348,4 @@ $(document).ready(function() {
         }, 'json');
     });
 
-    if ($.cookie('auth')) {
-        $('#auth').val($.cookie('auth'));
-    }
 });

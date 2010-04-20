@@ -57,11 +57,6 @@ module Murlsh
           resp = Rack::Response.new([mu].to_json, 200, {
             'Content-Type' => 'application/json' })
 
-          resp.set_cookie('auth',
-            :expires => Time.mktime(2015, 6, 22),
-            :path => '/',
-            :value => auth)
-
           resp
         else
           Rack::Response.new('Permission denied', 403, {

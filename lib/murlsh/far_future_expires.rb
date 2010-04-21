@@ -1,4 +1,5 @@
 %w{
+rack
 rack/utils
 }.each { |m| require m }
 
@@ -17,10 +18,12 @@ module Murlsh
     def call(env)
       status, headers, body = @app.call(env)
 
+      req = Rack::Request.new(env)
+
       headers = Rack::Utils::HeaderHash.new(headers)
 
       @patterns.each do |pattern|
-        if pattern.match(env['REQUEST_PATH'])
+        if pattern.match(req.path)
           headers['Expires'] = @future
           break
         end

@@ -23,8 +23,9 @@ module Murlsh
       resp.set_content_type(req.env['HTTP_ACCEPT'], req.env['HTTP_USER_AGENT'])
 
       last_db_update = File::Stat.new(@config['db_file']).mtime
-      resp['Last-Modified'] = last_db_update.httpdate
+      resp['Cache-Control'] = 'must-revalidate, max-age=0'
       resp['ETag'] = "W/\"#{last_db_update.to_i}#{req.params.sort}\""
+      resp['Last-Modified'] = last_db_update.httpdate
 
       resp.body = Murlsh::UrlBody.new(@config, @db, req)
 

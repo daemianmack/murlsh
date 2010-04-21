@@ -25,7 +25,7 @@ module Murlsh
     # Check a list of xpaths in order and return the inner html of the first
     # one that is not nil.
     def xpath_search(xpaths)
-      xpaths.to_a.each do |xpath|
+      [*xpaths].each do |xpath|
         selection = (self/xpath).first
         if selection; return (yield selection); end
       end

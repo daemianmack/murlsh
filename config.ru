@@ -26,4 +26,6 @@ use Murlsh::MustRevalidate, :patterns => %r{^#{Regexp.escape(feed_path)}$}
 use Rack::Static, :urls => %w{/css /js /swf}, :root => 'public'
 use Rack::Static, :urls => %w{/atom.xml /rss.xml}
 
+# use Rack::Lint
+
 run Murlsh::Dispatch.new(config)

@@ -1,15 +1,16 @@
-Simple site for a small group of people to share or archive urls.
+Site for sharing and archiving links.
 
 * looks up url titles
 * adds thumbnails for and jGrowls embedded versions of Flickr, Imageshack, Vimeo and YouTube urls
-* embeds Flash mp3 player for mp3 urls
-* Gravatar support
-* Atom feed
+* converts Twitter status urls to their full text and adds user thumbnail
+* generates Atom and RSS feeds
 * regex search
+* embeds Flash mp3 player for mp3 urls
 * looks good on iPhone
-* rack interface
-* plug-in interface
 * PubSubHubbub notification
+* plug-in interface
+* rack interface
+* Gravatar support
 
 !http://static.mmb.s3.amazonaws.com/murlsh_screenshot.jpg!
 

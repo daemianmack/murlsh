@@ -320,10 +320,6 @@ Murlsh.iphoneInit = function() {
         href : '#bottom',
         text : 'bottom'
     }));
-
-    // change input types to html5 to make typing easier
-    $('#q').attr('type', 'search');
-    $('#url,#via').attr('type', 'url');
 };
 
 $(document).ready(function() {

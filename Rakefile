@@ -93,7 +93,7 @@ directory 'tmp'
 namespace :passenger do
 
   desc 'Restart Passenger.'
-  task :restart => ['tmp'] do
+  task :restart => %w{compress tmp} do
     open('tmp/restart.txt', 'w') { |f| }
   end
 

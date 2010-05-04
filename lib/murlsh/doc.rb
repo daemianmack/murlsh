@@ -1,7 +1,3 @@
-%w{
-hpricot
-}.each { |m| require m }
-
 module Murlsh
 
   # Hpricot:Doc mixin.

@@ -11,6 +11,8 @@ module Murlsh
   #   run arguments (domain, url, title)
   # * time - called to convert the time of a post into a string for display
   #   run arguments (time)
+  # * via - called to convert a via url into a string for display
+  #   run arguments (via url)
   class Plugin
 
     # Called when a plugin class inherits from this class (the way plugins

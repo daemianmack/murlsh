@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-04-30}
+  s.date = %q{2010-05-05}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -58,6 +58,7 @@ Gem::Specification.new do |s|
      "plugins/add_pre_60_github_title.rb",
      "plugins/hostrec_50_redundant.rb",
      "plugins/hostrec_60_skip.rb",
+     "plugins/html_parse_50_hpricot.rb",
      "plugins/time_50_ago.rb",
      "plugins/via_50_domain.rb",
      "public/css/jquery.jgrowl.css",

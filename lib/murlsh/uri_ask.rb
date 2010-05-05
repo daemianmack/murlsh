@@ -4,7 +4,6 @@ net/https
 open-uri
 uri
 
-hpricot
 htmlentities
 iconv
 }.each { |m| require m }
@@ -76,7 +75,10 @@ module Murlsh
       @description
     end
 
-    # Get the parsed Hpricot doc at this url.
+    # Get the parsed doc at this url.
+    #
+    # Doc can be an Hpricot or Nokogiri doc or anything that supports the
+    # methods in Murlsh::Doc.
     #
     # Options:
     # * :failproof - if true hide all exceptions and return empty string on failure
@@ -89,7 +91,8 @@ module Murlsh
       if html?(options)
         Murlsh::failproof(options) do
           self.open(options[:headers]) do |f|
-            @doc = Hpricot(f).extend(Murlsh::Doc)
+            @doc = Murlsh::Plugin.hooks('html_parse').first.run(f).extend(
+              Murlsh::Doc)
 
             @charset = @doc.charset || f.charset
           end

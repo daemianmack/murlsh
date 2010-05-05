@@ -9,6 +9,8 @@ module Murlsh
   #   run arguments (config hash)
   # * hostrec - called to post process the domain that shows after links
   #   run arguments (domain, url, title)
+  # * html_parse - called to parse HTML using something like Hpricot or Nokogiri
+  #   run arguments (parseable)
   # * time - called to convert the time of a post into a string for display
   #   run arguments (time)
   # * via - called to convert a via url into a string for display

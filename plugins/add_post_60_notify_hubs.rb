@@ -7,7 +7,7 @@ module Murlsh
   # notify PubSubHubbub hubs that feed has been updated
   class AddPost60NotifyHubs < Plugin
 
-    Hook = 'add_post'
+    @hook = 'add_post'
 
     def self.run(config)
       hubs = config.fetch('pubsubhubbub_hubs', [])

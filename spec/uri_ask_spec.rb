@@ -6,6 +6,8 @@ uri
 murlsh
 }.each { |m| require m }
 
+Dir['plugins/*.rb'].each { |p| load p }
+
 describe Murlsh::UriAsk do
 
   def asker(s)

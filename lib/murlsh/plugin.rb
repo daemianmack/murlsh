@@ -25,7 +25,7 @@ module Murlsh
 
     # Get registered plugins by hook (add_pre, add_post, etc.)
     def self.hooks(name)
-      matches = registered.select { |p| p::Hook == name }.
+      matches = registered.select { |p| p.hook == name }.
         sort { |a,b| a.to_s <=> b.to_s }
 
       if block_given?
@@ -35,7 +35,10 @@ module Murlsh
     end
 
     @registered = []
-    class << self; attr_reader :registered end
+    class << self;
+      attr_reader :hook
+      attr_reader :registered
+    end
 
   end
 

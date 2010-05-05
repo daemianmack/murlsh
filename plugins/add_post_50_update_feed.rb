@@ -7,7 +7,7 @@ module Murlsh
   # regenerate atom feed after a new url has been added
   class AddPost50UpdateFeed < Plugin
 
-    Hook = 'add_post'
+    @hook = 'add_post'
 
     def self.run(config)
       latest = Murlsh::Url.all(:order => 'id DESC',

@@ -9,7 +9,7 @@ module Murlsh
   # Regenerate RSS feed after a new url has been added.
   class AddPost50UpdateRss < Plugin
 
-    Hook = 'add_post'
+    @hook = 'add_post'
 
     def self.run(config)
       output_file = 'rss.xml'

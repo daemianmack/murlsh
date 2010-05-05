@@ -1,15 +1,15 @@
 module Murlsh
 
-  # skip showing host record for some domains
+  # Skip showing host record for some domains.
   class Hostrec60Skip < Plugin
 
-    Hook = 'hostrec'
+    @hook = 'hostrec'
 
     def self.run(domain, url, title)
-      domain unless Skips.include?(domain)
+      domain unless skips.include?(domain)
     end
 
-    Skips = %w{
+    @skips = %w{
       wikipedia.org
       flickr.com
       github.com
@@ -17,6 +17,7 @@ module Murlsh
       vimeo.com
       youtube.com
       }
+    class << self; attr_reader :skips; end
 
   end
 

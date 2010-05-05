@@ -7,7 +7,7 @@ module Murlsh
   # try to fetch the content type and title of a url
   class AddPre50LookupContentTypeTitle < Plugin
 
-    Hook = 'add_pre'
+    @hook = 'add_pre'
 
     def self.run(url, config)
       ask = URI(url.url).extend(Murlsh::UriAsk)

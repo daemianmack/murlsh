@@ -9,7 +9,7 @@ module Murlsh
   # For most urls the domain is displayed, but for some return custom text.
   class Via50Domain < Plugin
 
-    Hook = 'via'
+    @hook = 'via'
 
     def self.run(via)
       search = via.to_s.gsub(%r{^http://}, '')

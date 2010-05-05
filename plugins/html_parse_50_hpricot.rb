@@ -7,7 +7,7 @@ module Murlsh
   # Parse HTML with Hpricot and return an Hpricot doc.
   class HtmlParse50Hpricot < Plugin
 
-    Hook = 'html_parse'
+    @hook = 'html_parse'
 
     def self.run(x)
       Hpricot(x)

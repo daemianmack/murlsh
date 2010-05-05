@@ -8,7 +8,7 @@ module Murlsh
   # to title.
   class AddPre60GithubTitle < Plugin
 
-    Hook = 'add_pre'
+    @hook = 'add_pre'
 
     def self.run(url, config)
       if url.url[%r{http://github.com/\w+/\w+}]

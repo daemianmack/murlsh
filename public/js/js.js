@@ -113,6 +113,10 @@ Murlsh.imgClick = function() {
     Murlsh.closerAdd(Murlsh.img($(this).data('href')));
 };
 
+Murlsh.twitterThumb = function(d) {
+    return Murlsh.img(d.user.profile_image_url).addClass('thumb twitter');
+}
+
 Murlsh.vimeoThumb = function(d) {
     return Murlsh.img(d.thumbnail_medium, d.title).addClass('thumb vimeo');
 };
@@ -249,11 +253,7 @@ Murlsh.addExtra = function() {
                 $(this).html(d.text).before(nameLink).before(
                     document.createTextNode(': '));
 
-                Murlsh.thumbInsert(
-                    Murlsh.imgThumb(d.user.profile_image_url).attr({
-                        height : '48',
-                        width : '48'
-                    }), null, nameLink);
+                Murlsh.thumbInsert(Murlsh.twitterThumb(d), null, nameLink);
             },
             context : $(this),
             jsonpCallback : 'twitterCallback' + match.twitter[1]

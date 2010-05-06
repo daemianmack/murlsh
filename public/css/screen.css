@@ -54,6 +54,11 @@ img.thumb, li object {
   -webkit-border-radius : 5px;
 }
 
+img.thumb.twitter {
+  height : 48px;
+  width : 48px;
+}
+
 span.host {
   color : #808080;
   font-family : monospace;

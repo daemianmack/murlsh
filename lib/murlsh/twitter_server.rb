@@ -2,8 +2,9 @@
 digest/sha1
 open-uri
 
-json
 rack
+
+murlsh
 }.each { |m| require m }
 
 module Murlsh
@@ -26,9 +27,7 @@ module Murlsh
         f.read
       end
 
-      json = /.+?\((.+)\)/.match(json_wrapped)[1]
-
-      json_parsed = JSON.parse(json)
+      json_parsed = Murlsh::unwrap_jsonp(json_wrapped)
 
       resp['Cache-Control'] = 'max-age=86400'
       resp['ETag'] = "\"#{Digest::SHA1.hexdigest(json_wrapped)}\""

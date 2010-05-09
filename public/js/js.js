@@ -174,7 +174,7 @@ Murlsh.hrefRes = {
     s3 :
         /^(http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w\-]+\.)(jpe?g|gif|pdf|png)$/i,
     twitter :
-        /^http:\/\/twitter\.com\/\w+\/status(?:es)?\/(\d+)$/i,
+        /^https?:\/\/twitter\.com\/\w+\/status(?:es)?\/(\d+)$/i,
     vimeo :
         /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
     youtube :

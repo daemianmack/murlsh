@@ -103,7 +103,7 @@ Murlsh.imgThumb = function() {
 
     // if pdf the thumbnail will be .png
     if (urlParts[lastIndex].match(/^pdf$/i)) {
-        urlParts.lastIndex = 'png';
+        urlParts.splice(lastIndex, 1, 'png');
     }
 
     return Murlsh.img(urlParts.join('')).addClass('thumb');

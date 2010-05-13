@@ -1,5 +1,7 @@
 --- 
 auth_file: murlsh_users
+cache_metastore: file:tmp/cache/rack/meta
+cache_entitystore: file:tmp/cache/rack/body
 css_files: 
 - css/jquery.jgrowl.css
 - css/screen.css

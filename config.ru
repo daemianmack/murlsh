@@ -11,10 +11,12 @@ murlsh
 config = YAML.load_file('config.yaml')
 
 # use Rack::ShowExceptions
-use Rack::Cache,
-  :verbose => true,
-  :metastore => 'file:tmp/cache/rack/meta',
-  :entitystore => 'file:tmp/cache/rack/body'
+if config.key?('cache_metastore') and config.key?('cache_entitystore')
+  use Rack::Cache,
+    :verbose => true,
+    :metastore => config['cache_metastore'],
+    :entitystore => config['cache_entitystore']
+end
 use Rack::ConditionalGet
 use Murlsh::EtagAddEncoding
 use Rack::Deflater

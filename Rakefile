@@ -303,6 +303,7 @@ begin
       json 1.2.3
       rack 1.0.0
       rack-cache 0.5.2
+      rack-throttle 0.3.0
       sqlite3-ruby 1.2.1
      }.each_slice(2) { |g,v| gemspec.add_dependency(g, ">= #{v}") }
 

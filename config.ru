@@ -4,6 +4,7 @@ $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 yaml
 
 rack/cache
+rack/throttle
 
 murlsh
 }.each { |m| require m }
@@ -11,6 +12,8 @@ murlsh
 config = YAML.load_file('config.yaml')
 
 # use Rack::ShowExceptions
+# no more than 1024 requests per day per ip
+use Rack::Throttle::Daily, :max => 1024
 if config.key?('cache_metastore') and config.key?('cache_entitystore')
   use Rack::Cache,
     :verbose => true,

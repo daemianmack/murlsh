@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-05-14}
+  s.date = %q{2010-05-18}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -28,7 +28,6 @@ Gem::Specification.new do |s|
      "config.ru",
      "config.yaml",
      "lib/murlsh.rb",
-     "lib/murlsh/atom_feed.rb",
      "lib/murlsh/auth.rb",
      "lib/murlsh/dispatch.rb",
      "lib/murlsh/doc.rb",
@@ -68,7 +67,6 @@ Gem::Specification.new do |s|
      "public/js/jquery.jgrowl_compressed.js",
      "public/js/js.js",
      "public/swf/player_mp3_mini.swf",
-     "spec/atom_feed_spec.rb",
      "spec/auth_spec.rb",
      "spec/dispatch_spec.rb",
      "spec/doc_spec.rb",
@@ -83,11 +81,10 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/mmb/murlsh}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.6}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{url sharing site framework}
   s.test_files = [
     "spec/xhtml_response_spec.rb",
-     "spec/atom_feed_spec.rb",
      "spec/auth_spec.rb",
      "spec/yaml_ordered_hash_spec.rb",
      "spec/unwrap_json_spec.rb",
@@ -103,7 +100,7 @@ Gem::Specification.new do |s|
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activerecord>, [">= 2.3.4"])
       s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
       s.add_runtime_dependency(%q<builder>, [">= 2.1.2"])
@@ -114,6 +111,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<rack-cache>, [">= 0.5.2"])
       s.add_runtime_dependency(%q<rack-throttle>, [">= 0.3.0"])
       s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
+      s.add_runtime_dependency(%q<tinyatom>, [">= 0.1.1"])
     else
       s.add_dependency(%q<activerecord>, [">= 2.3.4"])
       s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
@@ -125,6 +123,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rack-cache>, [">= 0.5.2"])
       s.add_dependency(%q<rack-throttle>, [">= 0.3.0"])
       s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
+      s.add_dependency(%q<tinyatom>, [">= 0.1.1"])
     end
   else
     s.add_dependency(%q<activerecord>, [">= 2.3.4"])
@@ -137,6 +136,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rack-cache>, [">= 0.5.2"])
     s.add_dependency(%q<rack-throttle>, [">= 0.3.0"])
     s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
+    s.add_dependency(%q<tinyatom>, [">= 0.1.1"])
   end
 end
 

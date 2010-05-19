@@ -1,4 +1,6 @@
 %w{
+tinyatom
+
 murlsh
 }.each { |m| require m }
 
@@ -10,15 +12,45 @@ module Murlsh
     @hook = 'add_post'
 
     def self.run(config)
+      feed = TinyAtom::Feed.new(config['root_url'], config.fetch('page_title'),
+        URI.join(config['root_url'], config['feed_file']),
+        :hubs => config.fetch('pubsubhubbub_hubs', []).
+          map { |x| x['subscribe_url'] } )
+
       latest = Murlsh::Url.all(:order => 'id DESC',
         :limit => config.fetch('num_posts_feed', 25))
 
-      feed = Murlsh::AtomFeed.new(config.fetch('root_url'),
-        :filename => config.fetch('feed_file'),
-        :title => config.fetch('page_title', ''),
-        :hubs => config.fetch('pubsubhubbub_hubs', []).map { |x| x['subscribe_url'] } )
+      latest.each do |mu|
+        options = {
+          :author_name => mu.name,
+          :summary => mu.title_stripped
+        }
 
-      feed.write(latest, config.fetch('feed_file'))
+        if mu.is_image?
+          options.merge!(
+            :enclosure_type => mu.content_type,
+            :enclosure_href => mu.url,
+            :enclosure_title => 'Full-size'
+            )
+        end
+
+        Murlsh::failproof do
+          if mu.via
+            options.merge!(
+              :via_type => 'text/html',
+              :via_href => mu.via,
+              :via_title => URI(mu.via).domain
+              )
+          end
+        end
+
+        feed.add_entry(mu.id, mu.title_stripped, mu.time, mu.url, options)
+      end
+
+      Murlsh::openlock(config.fetch('feed_file'), 'w') do |f|
+        feed.make(:target => f)
+      end
+
     end
 
   end

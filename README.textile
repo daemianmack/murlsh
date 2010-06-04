@@ -26,14 +26,8 @@ h2. Phusion Passenger
 <code>
 gem sources -a http://gemcutter.org/
 gem install murlsh
-</code>
-</pre>
-
-In the web directory:
-
-<pre>
-<code>
-murlsh
+murlsh DESTINATION_DIRECTORY
+cd DESTINATION_DIRECTORY
 edit config.yaml
 rake init
 </code>

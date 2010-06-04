@@ -2,9 +2,18 @@
 
 require 'fileutils'
 
+def usage
+  puts <<-eos
+Initialize a murlsh site instance in a web directory.
+
+usage: murlsh DESTINATION_DIRECTORY
+
+eos
+end
+
 def ask(prompt, default)
   print "#{prompt} [#{default}] "
-  answer = gets.strip
+  answer = $stdin.gets.strip
   answer = default if answer.empty?
   answer
 end
@@ -31,15 +40,20 @@ def cp_r_safe(sources, dest, options)
 
 end
 
+if ARGV.empty?; usage; exit 1; end
+
+dest_dir = ARGV[0]
+
 cp_r_safe(
   %w{.htaccess config.ru config.yaml plugins/ public/ Rakefile}.map { |x| 
-    File.join(File.dirname(__FILE__), '..', x) }, '.', :verbose => true)
+    File.join(File.dirname(__FILE__), '..', x) }, dest_dir, :verbose => true)
 
 FileUtils.mkdir_p('tmp', :verbose => true)
 
 puts <<eos
 Next steps:
 
+cd #{dest_dir}
 edit config.yaml
 rake init
 eos

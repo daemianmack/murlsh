@@ -56,4 +56,6 @@ pubsubhubbub_hubs:
 publish_url is where the notifications get sent
 subscribe_url is what gets put in the feed as link rel="hub"
 
+This will make updates to your feed show up in Google Reader instantly.
+
 Questions and comments: "matthewm@boedicker.org":mailto:matthewm@boedicker.org

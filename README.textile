@@ -58,4 +58,11 @@ subscribe_url is what gets put in the feed as link rel="hub"
 
 This will make updates to your feed show up in Google Reader instantly.
 
+h1. Updating
+
+If you are using the gem and it gets updated to a new version you should run
+the murlsh command again from your web directory to update plugins, javascript
+and css. It will prompt before overwriting anything in case you have made
+modifications.
+
 Questions and comments: "matthewm@boedicker.org":mailto:matthewm@boedicker.org

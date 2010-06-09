@@ -22,6 +22,8 @@ h1. Installation
 
 h2. Phusion Passenger
 
+DESTINATION_DIRECTORY is the web directory to install the murlsh site to.
+
 <pre>
 <code>
 gem sources -a http://gemcutter.org/

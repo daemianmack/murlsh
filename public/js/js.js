@@ -123,7 +123,7 @@ Murlsh.twitterAddLinks = function(s) {
         /https?:\/\/(?:[0-9a-z](?:[0-9a-z\-]{0,61}[0-9a-z])?\.)+[a-z]+\/[0-9a-z$_.+!*'(),\/?#\-]*/gi,
         '<a href="$&">$&</a>');
     result = result.replace(
-        /([\s,(])@([0-9a-z_]+)([\s,.)])/gi,
+        /(^|[\s,(])@([0-9a-z_]+)($|[\s,.)])/gi,
         '$1<a href="http://twitter.com/$2">@$2</a>$3');
 
     return result;

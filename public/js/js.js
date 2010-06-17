@@ -115,7 +115,19 @@ Murlsh.imgClick = function() {
 
 Murlsh.twitterThumb = function(d) {
     return Murlsh.img(d.user.profile_image_url).addClass('thumb twitter');
-}
+};
+
+Murlsh.twitterAddLinks = function(s) {
+    // turn urls into links and Twitter usernames into links to Twitter
+    var result = s.replace(
+        /https?:\/\/(?:[0-9a-z](?:[0-9a-z\-]{0,61}[0-9a-z])?\.)+[a-z]+\/[0-9a-z$_.+!*'(),\/?#\-]*/gi,
+        '<a href="$&">$&</a>');
+    result = result.replace(
+        /([\s,(])@([0-9a-z_]+)([\s,.)])/gi,
+        '$1<a href="http://twitter.com/$2">@$2</a>$3');
+
+    return result;
+};
 
 Murlsh.vimeoThumb = function(d) {
     return Murlsh.img(d.thumbnail_medium, d.title).addClass('thumb vimeo');
@@ -246,14 +258,15 @@ Murlsh.addExtra = function() {
             dataType : 'jsonp',
             success : function(d) {
                 var nameLink = $('<a />', {
-                    href: 'http://twitter.com/' + d.user.screen_name,
-                    text: d.user.screen_name
+                    href: 'http://twitter.com/' + d.user.screen_name + '/status/' + d.id,
+                    text: '@' + d.user.screen_name
                 });
-
-                $(this).html(d.text).before(nameLink).before(
-                    document.createTextNode(': '));
+                var tweet = $('<span />').addClass('tweet').append(nameLink).
+                    append(': ').append(Murlsh.twitterAddLinks(d.text));
 
                 Murlsh.thumbInsert(Murlsh.twitterThumb(d), null, nameLink);
+
+                $(this).replaceWith(tweet);
             },
             context : $(this),
             jsonpCallback : 'twitterCallback' + match.twitter[1]

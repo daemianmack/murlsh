@@ -130,7 +130,7 @@ div.jGrowl div.jGrowl-closer {
     width : 290px;
   }
 
-  #urls li {
+  #urls>li {
     overflow : hidden;
     border-bottom : 1px solid #ccc;
   }

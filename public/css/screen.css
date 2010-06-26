@@ -12,6 +12,10 @@ img {
   width : 600px;
 }
 
+ul.comments {
+  list-style-type : none;
+}
+
 li {
   clear : both;
   float : left;

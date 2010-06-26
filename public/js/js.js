@@ -117,11 +117,19 @@ Murlsh.twitterThumb = function(d) {
     return Murlsh.img(d.user.profile_image_url).addClass('thumb twitter');
 };
 
-Murlsh.twitterAddLinks = function(s) {
-    // turn urls into links and Twitter usernames into links to Twitter
+Murlsh.autoLink = function(s) {
+    // turn urls into links
     var result = s.replace(
         /https?:\/\/(?:[0-9a-z](?:[0-9a-z\-]{0,61}[0-9a-z])?\.)+[a-z]+\/[0-9a-z$_.+!*'(),\/?#\-]*/gi,
         '<a href="$&">$&</a>');
+
+    return result;
+};
+
+Murlsh.twitterAddLinks = function(s) {
+    // turn urls into links and Twitter usernames into links to Twitter
+    var result = Murlsh.autoLink(s);
+
     result = result.replace(
         /(^|[\s,(])@([0-9a-z_]+)($|[\s,.)])/gi,
         '$1<a href="http://twitter.com/$2">@$2</a>$3');
@@ -318,6 +326,32 @@ Murlsh.formatLi = function(d) {
     return li;
 };
 
+Murlsh.addComments = function(link, comments) {
+    var avatar;
+    var comment;
+    var commentElement;
+    var ul = $('<ul />').addClass('comments').appendTo(link.parent());
+
+    for (var i = 0; i < comments.length; i += 1) {
+        comment = comments[i];
+        commentElement = $('<li />');
+        if (comment.authorAvatar.length > 0) {
+            avatar = Murlsh.img(comment.authorAvatar).appendTo(commentElement);
+            if (comment.authorUrl.length > 0) {
+                avatar.wrapAll($('<a />').attr('href', comment.authorUrl));
+            }
+            commentElement.append(' ');
+        }
+        commentElement
+            .append($('<span />').append(comment.authorName).addClass(
+                'comment-name'))
+            .append(' : ')
+            .append($('<span />').append(Murlsh.autoLink(comment.comment)).addClass(
+                'comment-comment'))
+            .appendTo(ul);
+    }
+}
+
 Murlsh.iphoneInit = function() {
     window.onorientationchange = function() {
         var width = 450;
@@ -339,7 +373,6 @@ $(document).ready(function() {
     if (Murlsh.isIphone()) {
         Murlsh.iphoneInit();
     }
-    $('a.m').map(Murlsh.addExtra);
 
     $('#submit').click(function() {
         $.post('url', {
@@ -350,11 +383,23 @@ $(document).ready(function() {
             $.each(d, function(i, v) {
                 var li = Murlsh.formatLi(v);
                 $('#urls > li:first').after(li);
-                $(li).children('a:first').map(Murlsh.addExtra);
+                $(li).children('a:first').each(Murlsh.addExtra);
             });
             $('#url').val('');
             $('#via').val('');
         }, 'json');
     });
 
+    var urls = $('a.m');
+
+    $.getJSON('/js/comments.json', function(data) {
+        urls.each(function() {
+            var href = $(this).attr('href');
+            if (href in data) {
+                Murlsh.addComments($(this), data[href]);
+            }
+        });
+    });
+
+    urls.each(Murlsh.addExtra);
 });

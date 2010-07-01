@@ -392,6 +392,8 @@ $(document).ready(function() {
 
     var urls = $('a.m');
 
+/*
+    // experimental comment support, to enable uncomment and edit comments.json
     $.getJSON('/js/comments.json', function(data) {
         urls.each(function() {
             var href = $(this).attr('href');
@@ -400,6 +402,7 @@ $(document).ready(function() {
             }
         });
     });
+*/
 
     urls.each(Murlsh.addExtra);
 });

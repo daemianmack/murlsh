@@ -301,6 +301,7 @@ begin
       hpricot 0.8.1
       htmlentities 4.2.0
       json 1.2.3
+      push-notify 0.1.0
       rack 1.0.0
       rack-cache 0.5.2
       rack-throttle 0.3.0

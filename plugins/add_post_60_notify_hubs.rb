@@ -13,23 +13,14 @@ module Murlsh
       hubs = config.fetch('pubsubhubbub_hubs', [])
 
       unless hubs.empty?
-        require 'eventmachine'
-        require 'pubsubhubbub'
+        require 'push-notify'
 
         feed_url = URI.join(config['root_url'], config['feed_file'])
-
-        hubs.each do |hub|
-          EventMachine.run {
-            pub = EventMachine::PubSubHubbub.new(hub['publish_url']).publish(
-              feed_url)
-
-            pub.callback { EventMachine.stop  }
-            pub.errback { EventMachine.stop }
-          }
+        begin
+          PushNotify::Content.new(feed_url).tell(*hubs.map { |h| h['publish_url'] })
+        rescue Exception
         end
-
       end
-
     end
 
   end

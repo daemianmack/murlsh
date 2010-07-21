@@ -42,8 +42,6 @@ the murlsh command again from your web directory to update plugins, javascript
 and css. It will prompt before overwriting anything in case you have made
 modifications.
 
-Questions and comments: "matthewm@boedicker.org":mailto:matthewm@boedicker.org
-
 h1. Plugins
 
 Classes in the plugins directory can be used to change behavior at certain
@@ -85,3 +83,5 @@ publish_url is where the notifications get sent
 subscribe_url is what gets put in the feed as link rel="hub"
 
 This will make updates to your feed show up in Google Reader instantly.
+
+Questions and comments: "matthewm@boedicker.org":mailto:matthewm@boedicker.org

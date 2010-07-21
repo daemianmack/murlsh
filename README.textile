@@ -8,7 +8,7 @@ Site for sharing and archiving links.
 * embeds Flash mp3 player for mp3 urls
 * looks good on iPhone
 * PubSubHubbub notification
-* plug-in interface
+* plugin interface
 * rack interface
 * Gravatar support
 
@@ -35,6 +35,38 @@ rake init
 </code>
 </pre>
 
+h1. Updating
+
+If you are using the gem and it gets updated to a new version you should run
+the murlsh command again from your web directory to update plugins, javascript
+and css. It will prompt before overwriting anything in case you have made
+modifications.
+
+Questions and comments: "matthewm@boedicker.org":mailto:matthewm@boedicker.org
+
+h1. Plugins
+
+Classes in the plugins directory can be used to change behavior at certain
+points. Each class that extends Murlsh::Plugin and sets an instance variable
+called @hook will be called for that hook. Each plugin has a run() method that
+accepts arguments and returns something. These methods will be called in the
+order of their class names sorted lexically. Some hooks pass the output of their
+run() method to the next plugin for that hook so that the data can be passed
+through a chain of methods that each do something to it.
+
+A lot of the standard behavior is implemented as plugins. See the plugins
+directory for examples.
+
+Plugin hooks
+
+|Hook|Description|run() arguments|Returns|
+|add_pre|called before a new url is saved|url, config hash|undefined|
+|add_post|called after a new url is saved|config hash|undefined|
+|hostrec|post process the domain that is shown after links|domain, url, title|text to display|
+|html_parse|parse HTML using something like Hpricot or Nokogiri|parseable|parsed HTML, only first plugin is run (cannot be chained)|
+|time|convert the time of a post into a string for display|time|time display text|
+|via|convert a via url into a string for display|via url|via url display text|
+
 h1. PubSubHubbub
 
 Murlsh can notify "PubSubHubbub":http://code.google.com/p/pubsubhubbub/ hubs
@@ -53,12 +85,3 @@ publish_url is where the notifications get sent
 subscribe_url is what gets put in the feed as link rel="hub"
 
 This will make updates to your feed show up in Google Reader instantly.
-
-h1. Updating
-
-If you are using the gem and it gets updated to a new version you should run
-the murlsh command again from your web directory to update plugins, javascript
-and css. It will prompt before overwriting anything in case you have made
-modifications.
-
-Questions and comments: "matthewm@boedicker.org":mailto:matthewm@boedicker.org

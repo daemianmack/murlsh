@@ -308,9 +308,12 @@ Murlsh.addExtra = function() {
             Murlsh.youtubeClick, $(this));
     } else {
         // Apple touch icon if available
-        var host = Murlsh.hostRe.exec(href)[1];
-        if ($.inArray(host, Murlsh.config.apple_icon_hosts) > -1) {
-            Murlsh.thumbInsert(Murlsh.appleThumb(host), null, $(this));
+        var hostMatch = Murlsh.hostRe.exec(href);
+        if (hostMatch) {
+            var host = hostMatch[1];
+            if ($.inArray(host, Murlsh.config.apple_icon_hosts) > -1) {
+                Murlsh.thumbInsert(Murlsh.appleThumb(host), null, $(this));
+            }
         }
     }
 };

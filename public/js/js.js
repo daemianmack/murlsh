@@ -206,7 +206,7 @@ Murlsh.hrefRes = {
         /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
 };
 
-Murlsh.domainRe = /^http:\/\/(?:[a-z\d](?:[a-z\d\-]{0,61}[a-z\d])?\.)*([a-z\d](?:[a-z\d\-]{0,61}[a-z\d])?\.[a-z\d](?:[a-z\d\-]{0,61}[a-z\d])?)(?::\d+)?\//i;
+Murlsh.hostRe = /^http:\/\/([a-z\d\.\-]+(?::\d+)?)\//i;
 
 Murlsh.addExtra = function() {
     var href = $(this).attr('href');
@@ -308,9 +308,9 @@ Murlsh.addExtra = function() {
             Murlsh.youtubeClick, $(this));
     } else {
         // Apple touch icon if available
-        var domain = Murlsh.domainRe.exec(href)[1];
-        if ($.inArray(domain, Murlsh.config.apple_icon_domains) > -1) {
-            Murlsh.thumbInsert(Murlsh.appleThumb(domain), null, $(this));
+        var host = Murlsh.hostRe.exec(href)[1];
+        if ($.inArray(host, Murlsh.config.apple_icon_hosts) > -1) {
+            Murlsh.thumbInsert(Murlsh.appleThumb(host), null, $(this));
         }
     }
 };

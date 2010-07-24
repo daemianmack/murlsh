@@ -64,6 +64,11 @@ Murlsh.objectTag = function(data, height, width, params) {
     return result;
 };
 
+Murlsh.appleThumb = function(host) {
+    return Murlsh.img('http://' + host + '/apple-touch-icon.png', '').addClass(
+        'thumb apple');
+};
+
 Murlsh.flickrThumb = function(d) {
     var base;
     var owner;
@@ -201,6 +206,8 @@ Murlsh.hrefRes = {
         /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
 };
 
+Murlsh.domainRe = /^http:\/\/(?:[a-z\d](?:[a-z\d\-]{0,61}[a-z\d])?\.)*([a-z\d](?:[a-z\d\-]{0,61}[a-z\d])?\.[a-z\d](?:[a-z\d\-]{0,61}[a-z\d])?)(?::\d+)?\//i;
+
 Murlsh.addExtra = function() {
     var href = $(this).attr('href');
     var match = {};
@@ -299,6 +306,12 @@ Murlsh.addExtra = function() {
     } else if (match.youtube) {
         Murlsh.thumbInsert(Murlsh.youtubeThumb(match.youtube[1]),
             Murlsh.youtubeClick, $(this));
+    } else {
+        // Apple touch icon if available
+        var domain = Murlsh.domainRe.exec(href)[1];
+        if ($.inArray(domain, Murlsh.config.apple_icon_domains) > -1) {
+            Murlsh.thumbInsert(Murlsh.appleThumb(domain), null, $(this));
+        }
     }
 };
 
@@ -350,7 +363,7 @@ Murlsh.addComments = function(link, comments) {
                 'comment-comment'))
             .appendTo(ul);
     }
-}
+};
 
 Murlsh.iphoneInit = function() {
     window.onorientationchange = function() {
@@ -404,5 +417,9 @@ $(document).ready(function() {
     });
 */
 
-    urls.each(Murlsh.addExtra);
+    $.getJSON('config', function(data) {
+        Murlsh.config = data;
+        urls.each(Murlsh.addExtra);
+    });
+
 });

@@ -60,6 +60,11 @@ img.thumb.twitter {
   width : 48px;
 }
 
+img.thumb.apple {
+  height : 48px;
+  width : 48px;
+}
+
 span.host {
   color : #808080;
   font-family : monospace;

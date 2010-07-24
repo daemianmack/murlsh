@@ -20,6 +20,7 @@ module Murlsh
       db = ActiveRecord::Base.connection.instance_variable_get(:@connection)
 
       url_server = Murlsh::UrlServer.new(@config, db)
+      config_server = Murlsh::ConfigServer.new(@config)
       flickr_server = Murlsh::FlickrServer.new(@config)
       twitter_server = Murlsh::TwitterServer.new
 
@@ -28,6 +29,7 @@ module Murlsh
       @dispatch = [
         [%r{^GET #{root_path}(url)?$}, url_server.method(:get)],
         [%r{^POST #{root_path}(url)?$}, url_server.method(:post)],
+        [%r{^GET /config$}, config_server.method(:get)],
         [%r{^GET /flickr$}, flickr_server.method(:get)],
         [%r{^GET /twitter/.+$}, twitter_server.method(:get)],
       ]

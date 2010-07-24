@@ -29,9 +29,9 @@ module Murlsh
       @dispatch = [
         [%r{^GET #{root_path}(url)?$}, url_server.method(:get)],
         [%r{^POST #{root_path}(url)?$}, url_server.method(:post)],
-        [%r{^GET /config$}, config_server.method(:get)],
-        [%r{^GET /flickr$}, flickr_server.method(:get)],
-        [%r{^GET /twitter/.+$}, twitter_server.method(:get)],
+        [%r{^GET #{root_path}config$}, config_server.method(:get)],
+        [%r{^GET #{root_path}flickr$}, flickr_server.method(:get)],
+        [%r{^GET #{root_path}twitter/.+$}, twitter_server.method(:get)],
       ]
     end
 

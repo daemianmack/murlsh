@@ -1,6 +1,5 @@
 --- 
-apple_icon_domains: 
-- github.com
+apple_icon_domains: []
 auth_file: murlsh_users
 cache_entitystore: file:tmp/cache/rack/body
 cache_metastore: file:tmp/cache/rack/meta

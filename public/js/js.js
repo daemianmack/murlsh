@@ -3,28 +3,26 @@
 "use strict";
 
 var Murlsh = function (config, $, navigator, window) {
-    var my = {};
-
-    my.hrefRes = {
-        flickr :
-            /^http:\/\/(?:www\.)?flickr\.com\/photos\/[@\w\-]+?\/([\d]+)/i,
-        imageshack :
-            /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpe?g|gif|png)$/i,
-        imgur :
-            /^(http:\/\/(?:i\.)?imgur\.com\/[a-z\d]+)(\.(?:jpe?g|gif|png))$/i,
-        mp3 :
-            /\.mp3$/i,
-        s3 :
-            /^(http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w\-]+\.)(jpe?g|gif|pdf|png)$/i,
-        twitter :
-            /^https?:\/\/twitter\.com\/\w+\/status(?:es)?\/(\d+)$/i,
-        vimeo :
-            /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
-        youtube :
-            /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
-    };
-
-    my.hostRe = /^http:\/\/([a-z\d\.\-]+(?::\d+)?)\//i;
+    var my = {},
+        hrefRes = {
+            flickr :
+                /^http:\/\/(?:www\.)?flickr\.com\/photos\/[@\w\-]+?\/([\d]+)/i,
+            imageshack :
+                /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpe?g|gif|png)$/i,
+            imgur :
+                /^(http:\/\/(?:i\.)?imgur\.com\/[a-z\d]+)(\.(?:jpe?g|gif|png))$/i,
+            mp3 :
+                /\.mp3$/i,
+            s3 :
+                /^(http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w\-]+\.)(jpe?g|gif|pdf|png)$/i,
+            twitter :
+                /^https?:\/\/twitter\.com\/\w+\/status(?:es)?\/(\d+)$/i,
+            vimeo :
+                /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
+            youtube :
+                /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
+        },
+        hostRe = /^http:\/\/([a-z\d\.\-]+(?::\d+)?)\//i;
 
     function autoLink(s) {
         // turn urls into links
@@ -242,7 +240,7 @@ var Murlsh = function (config, $, navigator, window) {
             swf = 'swf/player_mp3_mini.swf',
             thumb;
 
-        $.each(my.hrefRes, function (x, re) {
+        $.each(hrefRes, function (x, re) {
             return !(match[x] = re.exec(href));
         });
 
@@ -335,7 +333,7 @@ var Murlsh = function (config, $, navigator, window) {
             thumbInsert(youtubeThumb(match.youtube[1]), youtubeClick, $(this));
         } else {
             // Apple touch icon if available
-            hostMatch = my.hostRe.exec(href);
+            hostMatch = hostRe.exec(href);
             if (hostMatch) {
                 host = hostMatch[1];
                 if ($.inArray(host, config.apple_icon_hosts) > -1) {

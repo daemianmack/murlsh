@@ -294,6 +294,9 @@ begin
     gemspec.authors = ['Matthew M. Boedicker']
     gemspec.executables = %w{murlsh}
 
+    # gemspec.signing_key = '/home/mmb/src/keys/gem-private_key.pem'
+    # gemspec.cert_chain = %w{/home/mmb/src/keys/gem-public_cert.pem}
+
     %w{
       activerecord 2.3.4
       bcrypt-ruby 2.1.2

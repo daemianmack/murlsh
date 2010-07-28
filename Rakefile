@@ -168,11 +168,17 @@ def validate(check_url, options={})
 
   net_http.start do |http|
     resp = http.request_head(opts[:validator_path])
-    {
-      :status =>  resp['X-W3C-Validator-Status'],
-      :errors => resp['X-W3C-Validator-Errors'],
-      :warnings => resp['X-W3C-Validator-Warnings'],
+    result = {
+      :response => resp
     }
+    if Net::HTTPSuccess === resp
+      result.merge!(
+        :status =>  resp['X-W3C-Validator-Status'],
+        :errors => resp['X-W3C-Validator-Errors'],
+        :warnings => resp['X-W3C-Validator-Warnings']
+      )
+    end
+    result
   end
 
 end
@@ -184,7 +190,11 @@ namespace :validate do
     check_url = config['root_url']
     print "validating #{check_url} : "
     result = validate(check_url)
-    puts "#{result[:status]} (#{result[:errors]} errors, #{result[:warnings]} warnings)"
+    if Net::HTTPSuccess === result[:response]
+      puts "#{result[:status]} (#{result[:errors]} errors, #{result[:warnings]} warnings)"
+    else
+      puts result[:response]
+    end
   end
 
 end

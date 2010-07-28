@@ -154,23 +154,37 @@ namespace :user do
 
 end
 
-desc "Validate XHTML."
-task :validate do
-  net_http = Net::HTTP.new('validator.w3.org', 80)
-  #net_http.set_debug_output(STDOUT)
+# Validate a document with the W3C validation service.
+def validate(check_url, options={})
+  opts = {
+    :validator_host => 'validator.w3.org',
+    :validator_port => 80,
+    :validator_path =>
+      "/check?uri=#{CGI::escape(check_url)}&charset=(detect+automatically)&doctype=Inline&group=0",
+  }.merge(options)
 
-  check_url = config.fetch('root_url')
-
-  print "validating #{check_url} : "
+  net_http = Net::HTTP.new(opts[:validator_host], opts[:validator_port])
+  # net_http.set_debug_output(STDOUT)
 
   net_http.start do |http|
-    resp = http.request_head(
-      "/check?uri=#{CGI::escape(check_url)}&charset=(detect+automatically)&doctype=Inline&group=0")
-    result = resp['X-W3C-Validator-Status']
-    errors = resp['X-W3C-Validator-Errors']
-    warnings = resp['X-W3C-Validator-Warnings']
+    resp = http.request_head(opts[:validator_path])
+    {
+      :status =>  resp['X-W3C-Validator-Status'],
+      :errors => resp['X-W3C-Validator-Errors'],
+      :warnings => resp['X-W3C-Validator-Warnings'],
+    }
+  end
 
-    puts "#{result} (#{errors} errors, #{warnings} warnings)"
+end
+
+namespace :validate do
+
+  desc 'Validate XHTML.'
+  task :xhtml do
+    check_url = config.fetch('root_url')
+    print "validating #{check_url} : "
+    result = validate(check_url)
+    puts "#{result[:status]} (#{result[:errors]} errors, #{result[:warnings]} warnings)"
   end
 
 end

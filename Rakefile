@@ -181,7 +181,7 @@ namespace :validate do
 
   desc 'Validate XHTML.'
   task :xhtml do
-    check_url = config.fetch('root_url')
+    check_url = config['root_url']
     print "validating #{check_url} : "
     result = validate(check_url)
     puts "#{result[:status]} (#{result[:errors]} errors, #{result[:warnings]} warnings)"

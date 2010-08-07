@@ -4,6 +4,7 @@ net/https
 open-uri
 uri
 
+hpricot
 htmlentities
 iconv
 }.each { |m| require m }
@@ -95,8 +96,12 @@ module Murlsh
       if html?(options)
         Murlsh::failproof(options) do
           self.open(options[:headers]) do |f|
-            @doc = Murlsh::Plugin.hooks('html_parse').first.run(f).extend(
-              Murlsh::Doc)
+            html_parse_plugins = Murlsh::Plugin.hooks('html_parse')
+            @doc = if html_parse_plugins.empty?
+              Hpricot(f).extend(Murlsh::Doc)
+            else
+              html_parse_plugins.first.run(f).extend(Murlsh::Doc)
+            end
 
             @charset = @doc.charset || f.charset
           end

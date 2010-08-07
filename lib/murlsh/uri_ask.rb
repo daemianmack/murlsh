@@ -22,19 +22,23 @@ module Murlsh
       return @content_type if defined?(@content_type)
       options[:headers] = default_headers.merge(options.fetch(:headers, {}))
 
-      @content_type = ''
+      content_type = ''
       Murlsh::failproof(options) do
         # try head first to save bandwidth
         http = Net::HTTP.new(host, port)
         http.use_ssl = (scheme == 'https')
 
         resp = http.request_head(path_query, options[:headers])
-        @content_type = case resp
-          when Net::HTTPSuccess then resp['content-type']
-          else self.open(options[:headers]) { |f| f.content_type }
+
+        if Net::HTTPSuccess === resp
+          content_type = resp['content-type']
+        end
+
+        if not content_type or content_type.empty?
+          content_type = self.open(options[:headers]) { |f| f.content_type }
         end
       end
-      @content_type
+      @content_type = content_type
     end
 
     # Get the HTML title.

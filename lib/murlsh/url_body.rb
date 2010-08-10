@@ -20,7 +20,7 @@ module Murlsh
     def search_conditions
       if @q
         search_cols = %w{name title url}
-        [search_cols.map { |x| "MATCH(#{x}, ?)" }.join(' OR ')].push(
+        [search_cols.map { |x| "MURLSHMATCH(#{x}, ?)" }.join(' OR ')].push(
           *[@q] * search_cols.size)
       else
         []

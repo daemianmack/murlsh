@@ -3,6 +3,15 @@
 "use strict";
 
 var Murlsh = function (config, $, navigator, window) {
+    function compileRegexMap(regexMap) {
+        var result = {};
+        $.each(regexMap, function (reStr) {
+            result[reStr] = new RegExp('^' + reStr + '$', 'i'); 
+        });
+
+        return result;
+    }
+
     var my = {},
         hrefRes = {
             flickr :
@@ -22,11 +31,7 @@ var Murlsh = function (config, $, navigator, window) {
             youtube :
                 /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
         },
-        thumbGeneratorsCompiled = {};
-
-    for (var reStr in config.thumb_generators) {
-        thumbGeneratorsCompiled[reStr] = new RegExp('^' + reStr + '$', 'i');
-    }
+        thumbGeneratorsCompiled = compileRegexMap(config.thumb_generators);
 
     function autoLink(s) {
         // turn urls into links
@@ -232,10 +237,9 @@ var Murlsh = function (config, $, navigator, window) {
     };
 
     my.addExtra = function () {
-        var thumbRe,
-            thumbReStr,
-            href = $(this).attr('href'),
+        var href = $(this).attr('href'),
             match = {},
+            savedThis = $(this),
             swf = 'swf/player_mp3_mini.swf',
             thumb;
 
@@ -331,14 +335,15 @@ var Murlsh = function (config, $, navigator, window) {
         } else if (match.youtube) {
             thumbInsert(youtubeThumb(match.youtube[1]), youtubeClick, $(this));
         } else {
-            for (var thumbReStr in config.thumb_generators) {
-                thumbRe = thumbGeneratorsCompiled[thumbReStr];
-                if (href.match(thumbRe)) {
-                    thumbInsert(img(href.replace(thumbRe,
-                        config.thumb_generators[thumbReStr])).addClass(
-                        'thumb generator'), null, $(this));
+            $.each(config.thumb_generators, function (reStr) {
+                var re = thumbGeneratorsCompiled[reStr];
+                if (href.match(re)) {
+                    thumbInsert(img(href.replace(re,
+                        config.thumb_generators[reStr])).addClass(
+                        'thumb generator'), null, savedThis);
+                    return false;
                 }
-            }
+            });
         }
     };
 

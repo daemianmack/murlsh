@@ -22,7 +22,11 @@ var Murlsh = function (config, $, navigator, window) {
             youtube :
                 /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
         },
-        hostRe = /^http:\/\/([a-z\d\.\-]+(?::\d+)?)\//i;
+        thumbGeneratorsCompiled = {};
+
+    for (var reStr in config.thumb_generators) {
+        thumbGeneratorsCompiled[reStr] = new RegExp('^' + reStr + '$', 'i');
+    }
 
     function autoLink(s) {
         // turn urls into links
@@ -73,11 +77,6 @@ var Murlsh = function (config, $, navigator, window) {
         result += '</object>';
 
         return result;
-    }
-
-    function appleThumb(host) {
-        return img('http://' + host + '/apple-touch-icon.png', '').addClass(
-            'thumb apple');
     }
 
     function closerAdd(x, header) {
@@ -233,8 +232,8 @@ var Murlsh = function (config, $, navigator, window) {
     };
 
     my.addExtra = function () {
-        var host,
-            hostMatch,
+        var thumbRe,
+            thumbReStr,
             href = $(this).attr('href'),
             match = {},
             swf = 'swf/player_mp3_mini.swf',
@@ -332,12 +331,12 @@ var Murlsh = function (config, $, navigator, window) {
         } else if (match.youtube) {
             thumbInsert(youtubeThumb(match.youtube[1]), youtubeClick, $(this));
         } else {
-            // Apple touch icon if available
-            hostMatch = hostRe.exec(href);
-            if (hostMatch) {
-                host = hostMatch[1];
-                if ($.inArray(host, config.apple_icon_hosts) > -1) {
-                    thumbInsert(appleThumb(host), null, $(this));
+            for (var thumbReStr in config.thumb_generators) {
+                thumbRe = thumbGeneratorsCompiled[thumbReStr];
+                if (href.match(thumbRe)) {
+                    thumbInsert(img(href.replace(thumbRe,
+                        config.thumb_generators[thumbReStr])).addClass(
+                        'thumb generator'), null, $(this));
                 }
             }
         }

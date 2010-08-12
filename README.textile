@@ -96,8 +96,7 @@ it must match the entire url. The regex is compiled case-insensitive.
 For example:
 
 * Show the GitHub octocat Apple touch icon
-(http://github.com/apple-touch-icon.png) as a thumbnail for GitHub links:
-
+(http://github.com/apple-touch-icon.png) as a thumbnail for GitHub links
 * Show a friend's Gravatar for the thumbnails of links to his blog
 
 <pre>

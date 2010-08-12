@@ -237,9 +237,9 @@ var Murlsh = function (config, $, navigator, window) {
     };
 
     my.addExtra = function () {
-        var href = $(this).attr('href'),
+        var thisA = $(this),
+            href = thisA.attr('href'),
             match = {},
-            savedThis = $(this),
             swf = 'swf/player_mp3_mini.swf',
             thumb;
 
@@ -261,18 +261,18 @@ var Murlsh = function (config, $, navigator, window) {
                 success : function (d) {
                     thumbInsert(flickrThumb(d), flickrClick, $(this));
                 },
-                context : $(this),
+                context : thisA,
                 jsonpCallback : 'flickrCallback' + match.flickr[1]
             });
         } else if (match.imageshack) {
             thumbInsert(imgThumb(match.imageshack[1], 'th.',
                 match.imageshack[2]).data('href', match.imageshack[0]),
-                    imgClick, $(this).html('imageshack.us'));
+                    imgClick, thisA.html('imageshack.us'));
         } else if (match.imgur) {
             thumbInsert(imgThumb(match.imgur[1], 's', match.imgur[2]).data(
-                'href', match.imgur[0]), imgClick, $(this).html('imgur.com'));
+                'href', match.imgur[0]), imgClick, thisA.html('imgur.com'));
         } else if (match.mp3) {
-            $(this).before(objectTag(swf, 20, 200, [
+            thisA.before(objectTag(swf, 20, 200, [
                 { name : 'bgcolor', value : '#000000' },
                 { name : 'FlashVars', value : 'mp3=' + href },
                 { name : 'movie', value : swf }
@@ -281,13 +281,13 @@ var Murlsh = function (config, $, navigator, window) {
             thumb = imgThumb(match.s3[1], 'th.', match.s3[2]);
 
             if (match.s3[2].match(/^pdf$/i)) {
-                $(this).before(thumb).html('pdf');
+                thisA.before(thumb).html('pdf');
             } else {
                 if (my.isIphone()) {
-                    $(this).html(thumb);
+                    thisA.html(thumb);
                 } else {
-                    $(this).html('link');
-                    $(this).before(thumb.data('href', match.s3[0]).click(
+                    thisA.html('link');
+                    thisA.before(thumb.data('href', match.s3[0]).click(
                         imgClick));
                 }
             }
@@ -311,7 +311,7 @@ var Murlsh = function (config, $, navigator, window) {
 
                     $(this).replaceWith(tweet);
                 },
-                context : $(this),
+                context : thisA,
                 jsonpCallback : 'twitterCallback' + match.twitter[1]
             });
         } else if (match.vimeo) {
@@ -329,18 +329,18 @@ var Murlsh = function (config, $, navigator, window) {
                             { name : 'movie', value : movie }
                         ])), vimeoClick, $(this));
                 },
-                context : $(this),
+                context : thisA,
                 jsonpCallback : 'vimeoCallback' + match.vimeo[1]
             });
         } else if (match.youtube) {
-            thumbInsert(youtubeThumb(match.youtube[1]), youtubeClick, $(this));
+            thumbInsert(youtubeThumb(match.youtube[1]), youtubeClick, thisA);
         } else {
             $.each(config.thumb_generators, function (reStr) {
                 var re = thumbGeneratorsCompiled[reStr];
                 if (href.match(re)) {
                     thumbInsert(img(href.replace(re,
                         config.thumb_generators[reStr])).addClass(
-                        'thumb generator'), null, savedThis);
+                        'thumb generator'), null, thisA);
                     return false;
                 }
             });

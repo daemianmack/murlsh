@@ -31,7 +31,7 @@ var Murlsh = function (config, $, navigator, window) {
             youtube :
                 /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
         },
-        thumbGeneratorsCompiled = compileRegexMap(config.thumb_generators);
+        thumbLocatorsCompiled = compileRegexMap(config.thumb_locators);
 
     function autoLink(s) {
         // turn urls into links
@@ -335,12 +335,12 @@ var Murlsh = function (config, $, navigator, window) {
         } else if (match.youtube) {
             thumbInsert(youtubeThumb(match.youtube[1]), youtubeClick, thisA);
         } else {
-            $.each(config.thumb_generators, function (reStr) {
-                var re = thumbGeneratorsCompiled[reStr];
+            $.each(config.thumb_locators, function (reStr) {
+                var re = thumbLocatorsCompiled[reStr];
                 if (href.match(re)) {
                     thumbInsert(img(href.replace(re,
-                        config.thumb_generators[reStr])).addClass(
-                        'thumb generator'), null, thisA);
+                        config.thumb_locators[reStr])).addClass(
+                        'thumb locator'), null, thisA);
                     return false;
                 }
             });

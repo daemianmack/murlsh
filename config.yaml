@@ -3,7 +3,7 @@ auth_file: murlsh_users
 cache_entitystore: file:tmp/cache/rack/body
 cache_metastore: file:tmp/cache/rack/meta
 config_js: 
-- thumb_generators
+- thumb_locators
 css_files: 
 - css/jquery.jgrowl.css
 - css/screen.css
@@ -25,7 +25,7 @@ pubsubhubbub_hubs: []
 
 root_url: http://urls.matthewm.boedicker.org/
 show_names: true
-thumb_generators:
+thumb_locators:
   (http:\/\/en\.wikipedia\.org\/).*: $1apple-touch-icon.png
   (http:\/\/github\.com\/).*: $1apple-touch-icon.png
   (http:\/\/stackoverflow\.com\/).*: $1apple-touch-icon.png

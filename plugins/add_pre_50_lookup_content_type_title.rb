@@ -12,8 +12,7 @@ module Murlsh
     def self.run(url, config)
       ask = URI(url.url).extend(Murlsh::UriAsk)
       headers = {
-        'User-Agent' =>
-          "murlsh (http://github.com/mmb/murlsh) for #{config.fetch('root_url', '?')}"
+        'User-Agent' => 'murlsh (http://github.com/mmb/murlsh)'
       }
       url.content_type = ask.content_type(:headers => headers)
       url.title = ask.title(:headers => headers)

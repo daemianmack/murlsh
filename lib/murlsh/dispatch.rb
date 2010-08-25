@@ -27,10 +27,14 @@ module Murlsh
       root_path = URI(@config.fetch('root_url')).path
 
       @dispatch = [
+        [%r{^HEAD #{root_path}(url)?$}, url_server.method(:head)],
         [%r{^GET #{root_path}(url)?$}, url_server.method(:get)],
         [%r{^POST #{root_path}(url)?$}, url_server.method(:post)],
+        [%r{^HEAD #{root_path}config$}, config_server.method(:head)],
         [%r{^GET #{root_path}config$}, config_server.method(:get)],
+        [%r{^HEAD #{root_path}flickr$}, flickr_server.method(:head)],
         [%r{^GET #{root_path}flickr$}, flickr_server.method(:get)],
+        [%r{^HEAD #{root_path}twitter/.+$}, twitter_server.method(:head)],
         [%r{^GET #{root_path}twitter/.+$}, twitter_server.method(:get)],
       ]
     end

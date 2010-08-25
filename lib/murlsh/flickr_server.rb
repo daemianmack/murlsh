@@ -15,6 +15,8 @@ module Murlsh
   # with cache-control, etag and last-modified headers set.
   class FlickrServer
 
+    include HeadFromGet
+
     def initialize(config); @config = config; end
 
     # Proxy a request to the Flickr API.

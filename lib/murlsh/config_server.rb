@@ -12,6 +12,8 @@ module Murlsh
   # Will include all config keys contained in the config key named config_js.
   class ConfigServer
 
+    include HeadFromGet
+
     def initialize(config)
       @config_json =
         config.reject { |k,v| !config.fetch('config_js', []).

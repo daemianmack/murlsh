@@ -15,6 +15,8 @@ module Murlsh
   # cache-control, etag and last-modified headers set.
   class TwitterServer
 
+    include HeadFromGet
+
     # Proxy a request to the Twitter API.
     def get(req)
       resp = Rack::Response.new

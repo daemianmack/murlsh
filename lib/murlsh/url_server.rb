@@ -8,6 +8,8 @@ module Murlsh
   # Build responses for HTTP requests.
   class UrlServer
 
+    include HeadFromGet
+
     def initialize(config, db)
       @config, @db = config, db
       ActiveRecord::Base.default_timezone = :utc

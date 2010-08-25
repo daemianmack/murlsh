@@ -21,7 +21,7 @@ module Murlsh
         "#{m[1]}.reddit"
       when m = search.match(%r{^delicious\.com/(\w+)}i)
         "delicious/#{m[1]}"
-      when m = search.match(%r{^twitter\.com/(\w+)/?}i)
+      when m = search.match(%r{^twitter\.com/(\w+)}i)
         "twitter/#{m[1]}"
       when m = search.match(%r{^([a-z\d][a-z\d-]{0,61}[a-z\d])\.tumblr\.com/}i)
         "#{m[1]}.tumblr"

@@ -18,8 +18,8 @@ module Murlsh
       nil
     end
 
-    # Check a list of xpaths in order and return the inner html of the first
-    # one that is not nil.
+    # Check a list of xpaths in order and yield and return the node matching
+    # the first one that is not nil
     def xpath_search(xpaths)
       [*xpaths].each do |xpath|
         selection = (self/xpath).first

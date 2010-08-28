@@ -230,8 +230,8 @@ var Murlsh = function (config, $, navigator, window) {
                 .append($('<span />').append(comment.authorName).addClass(
                     'comment-name'))
                 .append(' : ')
-                .append($('<span />').append(autoLink(comment.comment)).
-                    addClass('comment-comment'))
+                .append($('<span />').append(autoLink(comment.comment))
+                    .addClass('comment-comment'))
                 .appendTo(ul);
         }
     };

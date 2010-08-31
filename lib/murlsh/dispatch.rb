@@ -16,6 +16,7 @@ module Murlsh
 
       ActiveRecord::Base.establish_connection(
         :adapter => 'sqlite3', :database => @config.fetch('db_file'))
+      ActiveRecord::Base.include_root_in_json = false
 
       db = ActiveRecord::Base.connection.instance_variable_get(:@connection)
 

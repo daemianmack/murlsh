@@ -1,3 +1,7 @@
+%w{
+builder
+}.each { |m| require m }
+
 module Murlsh
 
   # Url list page builder.

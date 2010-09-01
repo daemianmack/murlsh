@@ -261,6 +261,8 @@ directory 'public/js'
 
 namespace :js do
 
+  MURLSH_JS = %w{public/js/js.js}
+
   desc 'Combine and compress javascript.'
   task :compress => ['public/js'] do
     combined = cat(config['js_files'].map { |x| "public/#{x}" } )
@@ -293,10 +295,18 @@ namespace :js do
   end
 
   desc 'Run javascript through jslint.'
-  task :lint do
-    %{public/js/js.js}.each do |jsf|
+  task :jslint do
+    MURLSH_JS.each do |jsf|
       puts jsf
       puts `rhino http://www.jslint.com/rhino/jslint.js #{jsf}`
+    end
+  end
+
+  desc "Run javascript through Google's Closure Linter."
+  task :gjslint do
+    MURLSH_JS.each do |jsf|
+      puts jsf
+      puts `gjslint #{jsf}`
     end
   end
 

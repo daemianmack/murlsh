@@ -27,6 +27,7 @@ root_url: http://urls.matthewm.boedicker.org/
 show_names: true
 thumb_locators:
   (http:\/\/(cgi\.)?ebay\.(com|co\.uk)\/).*: $1apple-touch-icon.png
+  (http:\/\/blog\.makezine\.com\/).*: $1apple-touch-icon.png
   (http:\/\/en\.wikipedia\.org\/).*: $1apple-touch-icon.png
   (http:\/\/github\.com\/).*: $1apple-touch-icon.png
   (http:\/\/stackoverflow\.com\/).*: $1apple-touch-icon.png

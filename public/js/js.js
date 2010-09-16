@@ -19,7 +19,7 @@ var Murlsh = function (config, $, navigator, window) {
             imageshack :
                 /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpe?g|gif|png)$/i,
             imgur :
-                /^(http:\/\/(?:i\.)?imgur\.com\/[a-z\d]+)(\.(?:jpe?g|gif|png))$/i,
+                /^(http:\/\/(?:i\.)?imgur\.com\/)([a-z\d]+)(\.(?:jpe?g|gif|png))$/i,
             mp3 :
                 /\.mp3$/i,
             s3 :
@@ -269,8 +269,9 @@ var Murlsh = function (config, $, navigator, window) {
                 match.imageshack[2]).data('href', match.imageshack[0]),
                     imgClick, thisA.html('imageshack.us'));
         } else if (match.imgur) {
-            thumbInsert(imgThumb(match.imgur[1], 's', match.imgur[2]).data(
-                'href', match.imgur[0]), imgClick, thisA.html('imgur.com'));
+            thumbInsert(imgThumb(match.imgur[1], match.imgur[2], 's',
+                match.imgur[3]).data('href', match.imgur[0]), imgClick,
+                thisA.html('imgur/' + match.imgur[2] + match.imgur[3]));
         } else if (match.mp3) {
             thisA.before(objectTag(swf, 20, 200, [
                 { name : 'bgcolor', value : '#000000' },

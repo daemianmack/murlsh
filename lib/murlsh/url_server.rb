@@ -36,38 +36,39 @@ module Murlsh
 
     # Respond to a POST request. Add the new url and return json.
     def post(req)
-      unless req.params['url'].empty?
-        auth = req.params['auth']
-        if user = auth.empty? ? nil : Murlsh::Auth.new(
-          @config.fetch('auth_file')).auth(auth)
-          ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
-            :database => @config.fetch('db_file'))
+      auth = req.params['auth']
+      if user = auth.empty? ? nil : Murlsh::Auth.new(
+        @config.fetch('auth_file')).auth(auth)
+        ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
+          :database => @config.fetch('db_file'))
 
-          mu = Murlsh::Url.new do |u|
-            u.time = Time.now.gmtime
-            u.url = req.params['url']
-            u.email = user[:email]
-            u.name = user[:name]
-            u.via = req.params['via'] unless (req.params['via'] || []).empty?
-          end
+        mu = Murlsh::Url.new do |u|
+          u.time = Time.now.gmtime
+          u.url = req.params['url']
+          u.email = user[:email]
+          u.name = user[:name]
+          u.via = req.params['via'] unless (req.params['via'] || []).empty?
+        end
 
-          Murlsh::Plugin.hooks('add_pre') { |p| p.run(mu, @config) }
+        Murlsh::Plugin.hooks('add_pre') { |p| p.run(mu, @config) }
 
-          mu.save
-
+        begin
+          mu.save!
           Murlsh::Plugin.hooks('add_post') { |p| p.run(@config) }
-
-          resp = Rack::Response.new([mu].to_json, 200, {
-            'Content-Type' => 'application/json' })
-
-          resp
-        else
-          Rack::Response.new('Permission denied', 403, {
-            'Content-Type' => 'text/plain' })
+          response_body, response_code = [mu], 200
+        rescue ActiveRecord::RecordInvalid => error
+          response_body = {
+            'url' => error.record,
+            'errors' => error.record.errors,
+            }
+          response_code = 500
         end
       else
-        Rack::Response.new('No url', 500, { 'Content-Type' => 'text/plain' })
+        response_body, response_code = '', 403
       end
+
+      Rack::Response.new(response_body.to_json, response_code, {
+        'Content-Type' => 'application/json' })
     end
 
   end

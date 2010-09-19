@@ -50,9 +50,10 @@ module Murlsh
           u.via = req.params['via'] unless (req.params['via'] || []).empty?
         end
 
-        Murlsh::Plugin.hooks('add_pre') { |p| p.run(mu, @config) }
-
         begin
+          # validate before add_pre plugins have run and also after (in save!)
+          raise ActiveRecord::RecordInvalid.new(mu) unless mu.valid?
+          Murlsh::Plugin.hooks('add_pre') { |p| p.run(mu, @config) }
           mu.save!
           Murlsh::Plugin.hooks('add_post') { |p| p.run(@config) }
           response_body, response_code = [mu], 200

@@ -15,6 +15,11 @@ sqlite3
 murlsh
 }.each { |d| require d }
 
+# optional libraries
+%w{
+metric_fu
+}.each { |d| Murlsh::failproof { require d } }
+
 config = YAML.load_file('config.yaml')
 
 desc 'Initialize a new installation.'

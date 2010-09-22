@@ -106,4 +106,13 @@ thumb_locators:
   http:\/\/myfriend\.com\/.*: http://gravatar.com/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code>
 </pre>
 
+h1. Design Goals
+
+* make site fast and very cacheable, caching wrapper around calls to third party JSON APIs
+* low effort required to add a url, get metadata programatically instead of requiring user to specify
+* heavy lifting on the client side
+* allow customization with config and plugins
+* full regex search for finding saved urls
+* simple security (no sessions, no cookies)
+
 Questions and comments: "matthewm@boedicker.org":mailto:matthewm@boedicker.org

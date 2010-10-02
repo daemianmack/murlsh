@@ -31,5 +31,6 @@ thumb_locators:
   (http:\/\/en\.wikipedia\.org\/).*: $1apple-touch-icon.png
   (http:\/\/github\.com\/).*: $1apple-touch-icon.png
   (http:\/\/stackoverflow\.com\/).*: $1apple-touch-icon.png
+  http:\/\/twitpic\.com\/(.*): http://twitpic.com/show/mini/$1
   (http:\/\/www\.nytimes\.com\/).*: $1apple-touch-icon.png
   (http:\/\/www\.wired\.com\/).*: $1apple-touch-icon.png

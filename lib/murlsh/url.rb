@@ -44,11 +44,6 @@ module Murlsh
     # Yield the url that the url came from.
     def viarec; Murlsh::failproof { yield URI(via) } if via; end
 
-    # Return true if this url is an image.
-    def is_image?
-      %w{image/gif image/jpeg image/png}.include?(content_type)
-    end
-
   end
 
 end

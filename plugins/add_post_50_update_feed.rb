@@ -11,6 +11,14 @@ module Murlsh
 
     @hook = 'add_post'
 
+    # content types to add an enclosure for
+    EnclosureContentTypes = %w{
+      audio/mpeg
+      image/gif
+      image/jpeg
+      image/png
+      }
+
     def self.run(config)
       feed = TinyAtom::Feed.new(config['root_url'], config.fetch('page_title'),
         URI.join(config['root_url'], config['feed_file']),
@@ -26,11 +34,11 @@ module Murlsh
           :summary => mu.title_stripped
         }
 
-        if mu.is_image?
+        if EnclosureContentTypes.include?(mu.content_type)
           options.merge!(
             :enclosure_type => mu.content_type,
             :enclosure_href => mu.url,
-            :enclosure_title => 'Full-size'
+            :enclosure_title => mu.title
             )
         end
 

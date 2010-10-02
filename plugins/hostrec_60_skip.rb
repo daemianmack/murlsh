@@ -13,6 +13,7 @@ module Murlsh
       wikipedia.org
       flickr.com
       github.com
+      twitpic.com
       twitter.com
       vimeo.com
       youtube.com

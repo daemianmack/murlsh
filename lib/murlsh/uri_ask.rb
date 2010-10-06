@@ -14,16 +14,19 @@ module Murlsh
   # URI mixin.
   module UriAsk
 
+    # Get the content length.
+    #
+    # Options:
+    # * :failproof - if true hide all exceptions and return empty string on failure
+    # * :headers - hash of headers to send in request
+    def content_length(options={}); header('content-length', options); end
+
     # Get the content type.
     #
     # Options:
     # * :failproof - if true hide all exceptions and return empty string on failure
     # * :headers - hash of headers to send in request
-    def content_type(options={})
-      result = [*head_headers(options)['content-type']][0]
-      result = get_headers(options)['content-type'] if !result or result.empty?
-      result || ''
-    end
+    def content_type(options={}); header('content-type', options); end
 
     # Get the HTML title.
     #
@@ -115,6 +118,17 @@ module Murlsh
     # entities.
     def decode(s)
       HTMLEntities.new.decode(Iconv.conv('utf-8', @charset, s))
+    end
+
+    # Get the value of a response header.
+    #
+    # Options:
+    # * :failproof - if true hide all exceptions and return empty string on failure
+    # * :headers - hash of headers to send in request
+    def header(header_name, options={})
+      result = [*head_headers(options)[header_name]][0]
+      result = get_headers(options)[header_name] if !result or result.empty?
+      result || ''
     end
 
     # Get and cache response headers returned by HTTP HEAD for this URI.

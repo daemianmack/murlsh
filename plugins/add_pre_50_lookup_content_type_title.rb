@@ -4,7 +4,7 @@ murlsh
 
 module Murlsh
 
-  # try to fetch the content type and title of a url
+  # try to fetch the content length, content type and title of a url
   class AddPre50LookupContentTypeTitle < Plugin
 
     @hook = 'add_pre'
@@ -14,6 +14,12 @@ module Murlsh
       headers = {
         'User-Agent' => 'murlsh (http://github.com/mmb/murlsh)'
       }
+
+      content_length = ask.content_length(:headers => headers)
+      if content_length and not content_length.empty?
+        url.content_length = content_length
+      end
+
       url.content_type = ask.content_type(:headers => headers)
       url.title = ask.title(:headers => headers)
     end

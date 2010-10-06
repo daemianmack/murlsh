@@ -20,26 +20,9 @@ module Murlsh
     # * :failproof - if true hide all exceptions and return empty string on failure
     # * :headers - hash of headers to send in request
     def content_type(options={})
-      return @content_type if defined?(@content_type)
-      options[:headers] = default_headers.merge(options.fetch(:headers, {}))
-
-      content_type = ''
-      Murlsh::failproof(options) do
-        # try head first to save bandwidth
-        http = Net::HTTP.new(host, port)
-        http.use_ssl = (scheme == 'https')
-
-        resp = http.request_head(path_query, options[:headers])
-
-        if Net::HTTPSuccess === resp
-          content_type = resp['content-type']
-        end
-
-        if not content_type or content_type.empty?
-          content_type = self.open(options[:headers]) { |f| f.content_type }
-        end
-      end
-      @content_type = content_type
+      result = [*head_headers(options)['content-type']][0]
+      result = get_headers(options)['content-type'] if !result or result.empty?
+      result || ''
     end
 
     # Get the HTML title.
@@ -132,6 +115,53 @@ module Murlsh
     # entities.
     def decode(s)
       HTMLEntities.new.decode(Iconv.conv('utf-8', @charset, s))
+    end
+
+    # Get and cache response headers returned by HTTP HEAD for this URI.
+    #
+    # Return hash values are lists.
+    #
+    # Options:
+    # * :failproof - if true hide all exceptions and return empty hash on failure
+    # * :headers - hash of headers to send in request
+    def head_headers(options={})
+      return @head_headers if defined?(@head_headers)
+
+      request_headers = default_headers.merge(options.fetch(:headers, {}))
+
+      response_headers = {}
+      Murlsh::failproof(options) do
+        http = Net::HTTP.new(host, port)
+        http.use_ssl = (scheme == 'https')
+
+        resp = http.request_head(path_query, request_headers)
+
+        if Net::HTTPSuccess === resp
+          response_headers = resp.to_hash
+        end
+
+      end
+      @head_headers = response_headers
+    end
+
+    # Get and cache response headers returned by HTTP GET for this URI.
+    #
+    # Return hash values are single strings.
+    #
+    # Options:
+    # * :failproof - if true hide all exceptions and return empty hash on failure
+    # * :headers - hash of headers to send in request
+    def get_headers(options={})
+      return @get_headers if defined?(@get_headers)
+
+      request_headers = default_headers.merge(options.fetch(:headers, {}))
+
+      response_headers = {}
+      # use open-uri instead of Net::HTTP because it handles redirects
+      Murlsh::failproof(options) do
+        response_headers = self.open(request_headers) { |f| f.meta }
+      end
+      @get_headers = response_headers
     end
 
   end

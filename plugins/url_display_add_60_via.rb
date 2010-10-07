@@ -23,7 +23,7 @@ module Murlsh
               'hacker news'
             when m = search.match(%r{^www\.reddit\.com/r/([a-z\d]+?)/}i)
               "#{m[1]}.reddit"
-            when m = search.match(%r{^delicious\.com/(\w+)}i)
+            when m = search.match(%r{^(?:www\.)?delicious\.com/(\w+)}i)
               "delicious/#{m[1]}"
             when m = search.match(%r{^twitter\.com/(\w+)}i)
               "twitter/#{m[1]}"

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-09-21}
+  s.date = %q{2010-10-06}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -59,11 +59,11 @@ Gem::Specification.new do |s|
      "plugins/add_pre_50_lookup_content_type_title.rb",
      "plugins/add_pre_60_github_title.rb",
      "plugins/add_pre_60_google_code_title.rb",
-     "plugins/hostrec_50_redundant.rb",
-     "plugins/hostrec_60_skip.rb",
      "plugins/html_parse_50_hpricot.rb",
-     "plugins/time_50_ago.rb",
-     "plugins/via_50_domain.rb",
+     "plugins/url_display_add_50_hostrec.rb",
+     "plugins/url_display_add_55_content_type.rb",
+     "plugins/url_display_add_60_via.rb",
+     "plugins/url_display_add_65_time.rb",
      "public/css/jquery.jgrowl.css",
      "public/css/screen.css",
      "public/js/comments.json",
@@ -116,7 +116,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<rack-cache>, [">= 0.5.2"])
       s.add_runtime_dependency(%q<rack-throttle>, [">= 0.3.0"])
       s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
-      s.add_runtime_dependency(%q<tinyatom>, [">= 0.1.1"])
+      s.add_runtime_dependency(%q<tinyatom>, [">= 0.2.0"])
     else
       s.add_dependency(%q<activerecord>, [">= 2.3.4"])
       s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
@@ -129,7 +129,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rack-cache>, [">= 0.5.2"])
       s.add_dependency(%q<rack-throttle>, [">= 0.3.0"])
       s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
-      s.add_dependency(%q<tinyatom>, [">= 0.1.1"])
+      s.add_dependency(%q<tinyatom>, [">= 0.2.0"])
     end
   else
     s.add_dependency(%q<activerecord>, [">= 2.3.4"])
@@ -143,7 +143,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rack-cache>, [">= 0.5.2"])
     s.add_dependency(%q<rack-throttle>, [">= 0.3.0"])
     s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
-    s.add_dependency(%q<tinyatom>, [">= 0.1.1"])
+    s.add_dependency(%q<tinyatom>, [">= 0.2.0"])
   end
 end
 

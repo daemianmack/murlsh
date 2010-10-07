@@ -60,10 +60,8 @@ Plugin hooks
 |Hook|Description|run() arguments|Returns|
 |add_pre|called before a new url is saved|url, config hash|undefined|
 |add_post|called after a new url is saved|config hash|undefined|
-|hostrec|post process the domain that is shown after links|domain, url, title|text to display|
 |html_parse|parse HTML using something like Hpricot or Nokogiri|parseable|parsed HTML, only first plugin is run (cannot be chained)|
-|time|convert the time of a post into a string for display|time|time display text|
-|via|convert a via url into a string for display|via url|via url display text|
+|url_display_add|called to display additional information after urls|markup builder, url, config hash|undefined|
 
 h1. PubSubHubbub
 

@@ -31,19 +31,6 @@ module Murlsh
         email and name and email == other.email and name == other.name
     end
 
-    # Return text showing what domain a link goes to.
-    def hostrec
-      domain = Murlsh::failproof { URI(url).domain }
-
-      domain = Murlsh::Plugin.hooks('hostrec').inject(domain) {
-        |result,plugin| plugin.run(result, url, title) }
-
-      yield domain if domain
-    end
-
-    # Yield the url that the url came from.
-    def viarec; Murlsh::failproof { yield URI(via) } if via; end
-
   end
 
 end

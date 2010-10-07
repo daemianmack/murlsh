@@ -61,20 +61,10 @@ module Murlsh
 
                 a(mu.title_stripped, :href => mu.url, :class => 'm')
 
-                mu.hostrec do |hostrec|
-                  self.span(" [#{hostrec}]", :class => 'host')
-                end
-                mu.viarec do |via|
-                  display_via = Murlsh::Plugin.hooks('via').inject(
-                    via) { |result,plugin| plugin.run(result) }
-                  span(:class => 'via') {
-                    text!(' via '); a(display_via, :href => via)
-                  }
+                Murlsh::Plugin.hooks('url_display_add') do |p|
+                  p.run(self, mu, @config)
                 end
 
-                display_time = Murlsh::Plugin.hooks('time').inject(
-                  mu.time) { |result,plugin| plugin.run(result) }
-                span(", #{display_time}", :class => 'date') if display_time
                 last = mu
               }
             end

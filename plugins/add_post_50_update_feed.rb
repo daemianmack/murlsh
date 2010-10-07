@@ -13,6 +13,7 @@ module Murlsh
 
     # content types to add an enclosure for
     EnclosureContentTypes = %w{
+      application/pdf
       audio/mpeg
       image/gif
       image/jpeg

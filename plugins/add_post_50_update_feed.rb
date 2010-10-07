@@ -40,6 +40,9 @@ module Murlsh
             :enclosure_href => mu.url,
             :enclosure_title => mu.title
             )
+          if mu.content_length
+            options.merge!(:enclosure_length => mu.content_length)
+          end
         end
 
         Murlsh::failproof do

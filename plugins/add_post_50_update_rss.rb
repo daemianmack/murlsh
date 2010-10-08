@@ -11,6 +11,15 @@ module Murlsh
 
     @hook = 'add_post'
 
+    # content types to add an enclosure for
+    EnclosureContentTypes = %w{
+      application/pdf
+      audio/mpeg
+      image/gif
+      image/jpeg
+      image/png
+      }
+
     def self.run(config)
       output_file = 'rss.xml'
 
@@ -25,6 +34,12 @@ module Murlsh
           i.title = mu.title_stripped
           i.link = mu.url
           i.date = mu.time
+
+          if EnclosureContentTypes.include?(mu.content_type)
+            i.enclosure.url = mu.url
+            i.enclosure.type = mu.content_type
+            i.enclosure.length = mu.content_length
+          end
         end
 
       end

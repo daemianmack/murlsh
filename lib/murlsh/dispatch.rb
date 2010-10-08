@@ -24,6 +24,7 @@ module Murlsh
       config_server = Murlsh::ConfigServer.new(@config)
       flickr_server = Murlsh::FlickrServer.new(@config)
       twitter_server = Murlsh::TwitterServer.new
+      vimeo_server = Murlsh::VimeoServer.new
 
       root_path = URI(@config.fetch('root_url')).path
 
@@ -37,6 +38,8 @@ module Murlsh
         [%r{^GET #{root_path}flickr$}, flickr_server.method(:get)],
         [%r{^HEAD #{root_path}twitter/.+$}, twitter_server.method(:head)],
         [%r{^GET #{root_path}twitter/.+$}, twitter_server.method(:get)],
+        [%r{^HEAD #{root_path}vimeo/.+$}, vimeo_server.method(:head)],
+        [%r{^GET #{root_path}vimeo/.+$}, vimeo_server.method(:get)],
       ]
     end
 

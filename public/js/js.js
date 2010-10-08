@@ -317,8 +317,9 @@ var Murlsh = function (config, $, navigator, window) {
             });
         } else if (match.vimeo) {
             $.ajax({
-                url : 'http://vimeo.com/api/v2/video/' + match.vimeo[1] +
-                    '.json',
+                // url : 'http://vimeo.com/api/v2/video/' + match.vimeo[1] +
+                //     '.json',
+                url : '/vimeo/api/v2/video/' + match.vimeo[1] + '.json',
                 dataType : 'jsonp',
                 success : function (d) {
                     var video = d[0],

@@ -101,8 +101,8 @@ var Murlsh = function (config, $, navigator, window) {
         });
     }
 
-    function flickrClick() {
-        closerAdd(img($(this).data('zoom')));
+    function flickrClick(event) {
+        closerAdd(img($(event.target).data('zoom')));
     }
 
     function flickrThumb(d) {
@@ -128,8 +128,8 @@ var Murlsh = function (config, $, navigator, window) {
         }
     }
 
-    function imgClick() {
-        closerAdd(img($(this).data('href')));
+    function imgClick(event) {
+        closerAdd(img($(event.target).data('href')));
     }
 
     function imgThumb() {
@@ -179,17 +179,17 @@ var Murlsh = function (config, $, navigator, window) {
         return img(d.user.profile_image_url).addClass('thumb twitter');
     }
 
-    function vimeoClick() {
-        closerAdd($(this).data('embedHtml'));
+    function vimeoClick(event) {
+        closerAdd($(event.target).data('embedHtml'));
     }
 
     function vimeoThumb(d) {
         return img(d.thumbnail_medium, d.title).addClass('thumb vimeo');
     }
 
-    function youtubeClick() {
-        var movie = 'http://www.youtube.com/v/' + $(this).data('id') + '?' +
-            $.param({
+    function youtubeClick(event) {
+        var movie = 'http://www.youtube.com/v/' + $(event.target).data('id') +
+            '?' + $.param({
                 fs : 1,
                 hd : 1,
                 hl : 'en',

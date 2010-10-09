@@ -23,7 +23,6 @@ module Murlsh
 
       vimeo_url = URI.join('http://vimeo.com', req.fullpath[/vimeo\/(.+)/, 1])
 
-      puts 'contact vimeo'
       json_wrapped = open(vimeo_url) do |f|
         resp['Content-Type'] = f.content_type
         f.read

@@ -92,20 +92,6 @@ fieldset#add label {
   width : 100px;
 }
 
-a.feed {
-  background : #fb9e3a;
-  border-top : 1px solid #fba141;
-  border-right : 1px solid #bc4d04;
-  border-bottom : 1px solid #bc4d04;
-  border-left : 1px solid #fba141;
-  color : white;
-  font-weight : bold;
-  font-size : 0.75em;
-  padding : 2px 4px 2px 4px;
-  -moz-border-radius : 5px;
-  -webkit-border-radius : 5px;
-}
-
 span.date {
   color : #808080;
   font-size : 0.75em;

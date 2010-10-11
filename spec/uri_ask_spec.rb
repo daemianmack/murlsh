@@ -49,9 +49,14 @@ describe Murlsh::UriAsk do
     content_type('http://x.boedicker.org/', :failproof => true).should be_empty
   end
 
-  it 'should raise a NoMethodError when getting the content type of an invalid URI when given failproof option false' do
+  it 'should raise a SocketError when getting the content type of a URI with an invalid hostname when given failproof option false' do
     lambda { content_type('http://x.boedicker.org/', :failproof => false)
-      }.should raise_error(NoMethodError)
+      }.should raise_error(SocketError)
+  end
+
+  it 'should raise an HTTPError when getting the content type of a URI with an invalid path when given failproof option false' do
+    lambda { content_type('http://boedicker.org/invalid', :failproof => false)
+      }.should raise_error(OpenURI::HTTPError)
   end
 
   it 'should limit redirects when getting content type' do
@@ -87,9 +92,14 @@ describe Murlsh::UriAsk do
       ).should == 'http://x.boedicker.org/'
   end
 
-  it 'should raise a NoMethodError when trying to get the title of an invalid URI when given failproof option false' do
+  it 'should raise a SocketError when trying to get the title of a URI with an invalid hostname when given failproof option false' do
     lambda { title('http://x.boedicker.org/', :failproof => false)
-      }.should raise_error(NoMethodError)
+      }.should raise_error(SocketError)
+  end
+
+  it 'should raise an HTTPError when getting the title of a URI with an invalid path when given failproof option false' do
+    lambda { title('http://boedicker.org/invalid', :failproof => false)
+      }.should raise_error(OpenURI::HTTPError)
   end
 
 end

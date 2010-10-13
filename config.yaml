@@ -30,6 +30,7 @@ thumb_locators:
   (http:\/\/(?:cgi\.)?ebay\.(?:com|co\.uk)\/).*: $1apple-touch-icon.png
   (http:\/\/en\.wikipedia\.org\/).*: $1apple-touch-icon.png
   (http:\/\/github\.com\/).*: $1apple-touch-icon.png
+  (http:\/\/(?:[a-z.]+)?reddit\.com\/).*: $1apple-touch-icon.png
   (http:\/\/stackoverflow\.com\/).*: $1apple-touch-icon.png
   http:\/\/twitpic\.com\/(.*): http://twitpic.com/show/mini/$1
   (http:\/\/www\.nytimes\.com\/).*: $1apple-touch-icon.png

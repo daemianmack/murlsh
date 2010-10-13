@@ -6,7 +6,7 @@ var Murlsh = function (config, $, navigator, window) {
     function compileRegexMap(regexMap) {
         var result = {};
         $.each(regexMap, function (reStr) {
-            result[reStr] = new RegExp('^' + reStr + '$', 'i'); 
+            result[reStr] = new RegExp('^' + reStr + '$', 'i');
         });
 
         return result;
@@ -426,7 +426,8 @@ $(document).ready(function () {
         urls.each(murlsh.addExtra);
 
         /*
-        // experimental comment support, to enable uncomment and edit comments.json
+        // experimental comment support, to enable uncomment and edit
+        // comments.json
         $.getJSON('/js/comments.json', function (data) {
             urls.each(function () {
                 var href = $(this).attr('href');

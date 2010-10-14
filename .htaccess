@@ -12,7 +12,3 @@ AddOutputFilterByType DEFLATE text/html
   Header add Expires "Wed, 22 Jun 2019 20:07:00 GMT"
   FileETag None
 </FilesMatch>
-
-RewriteEngine on
-RewriteRule ^/atom.xml$ /atom.atom [R=permanent,L]
-RewriteRule ^/rss.xml$ /rss.rss [R=permanent,L]

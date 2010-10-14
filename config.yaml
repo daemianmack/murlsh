@@ -8,7 +8,7 @@ css_files:
 - css/jquery.jgrowl.css
 - css/screen.css
 db_file: murlsh.db
-feed_file: atom.xml
+feed_file: atom.atom
 flickr_api_key: 
 gravatar_size: 32
 js_files: 

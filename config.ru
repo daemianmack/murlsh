@@ -4,6 +4,7 @@ $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 yaml
 
 rack/cache
+rack/rewrite
 rack/throttle
 
 murlsh
@@ -25,11 +26,16 @@ use Murlsh::EtagAddEncoding
 use Rack::Deflater
 use Murlsh::FarFutureExpires, :patterns => %r{\.gen\.(css|js)$}
 
-feed_path = URI.join(config.fetch('root_url'), config.fetch('feed_file')).path
-use Murlsh::MustRevalidate, :patterns => %r{^#{Regexp.escape(feed_path)}$}
+feed_url = URI.join(config.fetch('root_url'), config.fetch('feed_file'))
+use Murlsh::MustRevalidate, :patterns => %r{^#{Regexp.escape(feed_url.path)}$}
 
 use Rack::Static, :urls => %w{/css /js /swf}, :root => 'public'
-use Rack::Static, :urls => %w{/atom.xml /rss.xml}
+use Rack::Static, :urls => %w{/atom.atom /rss.rss}
+
+use Rack::Rewrite do
+  r301 '/atom.xml', feed_url.to_s
+  r301 '/rss.xml', URI.join(config.fetch('root_url'), 'rss.rss').to_s
+end
 
 # use Rack::Lint
 

@@ -21,7 +21,7 @@ module Murlsh
       }
 
     def self.run(config)
-      output_file = 'rss.xml'
+      output_file = 'rss.rss'
 
       feed = RSS::Maker.make('2.0') do |f|
         f.channel.title = f.channel.description = config.fetch('page_title', '')

@@ -97,7 +97,9 @@ var Murlsh = function (config, $, navigator, window) {
                     makeFit($(this), Math.round($(window).width() / 2),
                         Math.round($(window).height() - 100));
                 });
-            }
+            },
+            animateOpen : { width : 'show' },
+            animateClose : { width : 'hide' }
         });
     }
 

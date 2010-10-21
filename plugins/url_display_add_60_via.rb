@@ -11,7 +11,7 @@ module Murlsh
 
     @hook = 'url_display_add'
 
-    HttpRe = %r{^http://}
+    HttpRe = %r{^http://}i
     HackerNewsRe = %r{^news\.ycombinator\.com}i
     RedditRe = %r{^www\.reddit\.com/r/([a-z\d]+?)/}i
     DeliciousRe = %r{^(?:www\.)?delicious\.com/(\w+)}i

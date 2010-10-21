@@ -11,6 +11,7 @@ module Murlsh
 
     @hook = 'url_display_add'
 
+    HttpRe = %r{^http://}
     HackerNewsRe = %r{^news\.ycombinator\.com}i
     RedditRe = %r{^www\.reddit\.com/r/([a-z\d]+?)/}i
     DeliciousRe = %r{^(?:www\.)?delicious\.com/(\w+)}i
@@ -22,7 +23,7 @@ module Murlsh
       if url.via
         if via_uri = Murlsh::failproof { URI(url.via) }
           via_uri_s = via_uri.to_s
-          search = via_uri_s.gsub(%r{^http://}, '')
+          search = via_uri_s.gsub(HttpRe, '')
 
           display_via = case
             when m = search.match(HackerNewsRe)

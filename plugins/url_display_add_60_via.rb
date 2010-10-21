@@ -11,6 +11,12 @@ module Murlsh
 
     @hook = 'url_display_add'
 
+    HackerNewsRe = %r{^news\.ycombinator\.com}i
+    RedditRe = %r{^www\.reddit\.com/r/([a-z\d]+?)/}i
+    DeliciousRe = %r{^(?:www\.)?delicious\.com/(\w+)}i
+    TwitterRe = %r{^twitter\.com/(\w+)}i
+    TumblrRe = %r{^([a-z\d][a-z\d-]{0,61}[a-z\d])\.tumblr\.com/}i
+
     # show a via link for the url
     def self.run(markup, url, config)
       if url.via
@@ -19,15 +25,15 @@ module Murlsh
           search = via_uri_s.gsub(%r{^http://}, '')
 
           display_via = case
-            when m = search.match(%r{^news\.ycombinator\.com}i)
+            when m = search.match(HackerNewsRe)
               'hacker news'
-            when m = search.match(%r{^www\.reddit\.com/r/([a-z\d]+?)/}i)
+            when m = search.match(RedditRe)
               "#{m[1]}.reddit"
-            when m = search.match(%r{^(?:www\.)?delicious\.com/(\w+)}i)
+            when m = search.match(DeliciousRe)
               "delicious/#{m[1]}"
-            when m = search.match(%r{^twitter\.com/(\w+)}i)
+            when m = search.match(TwitterRe)
               "twitter/#{m[1]}"
-            when m = search.match(%r{^([a-z\d][a-z\d-]{0,61}[a-z\d])\.tumblr\.com/}i)
+            when m = search.match(TumblrRe)
               "#{m[1]}.tumblr"
             else
               via_uri.domain || via_uri_s

@@ -1,5 +1,6 @@
 %w{
 rss/maker
+uri
 
 murlsh
 }.each { |m| require m }

@@ -1,4 +1,6 @@
 %w{
+uri
+
 tinyatom
 
 murlsh

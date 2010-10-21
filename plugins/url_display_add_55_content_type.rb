@@ -1,3 +1,7 @@
+%w{
+murlsh
+}.each { |m| require m }
+
 module Murlsh
 
   # warn of content types that launch external apps

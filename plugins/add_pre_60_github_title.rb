@@ -1,4 +1,6 @@
 %w{
+uri
+
 murlsh
 }.each { |m| require m }
 

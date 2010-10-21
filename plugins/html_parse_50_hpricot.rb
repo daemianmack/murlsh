@@ -1,5 +1,7 @@
 %w{
 hpricot
+
+murlsh
 }.each { |m| require m }
 
 module Murlsh

@@ -11,7 +11,7 @@ module Murlsh
 
     @hook = 'add_pre'
 
-    WikipediaRe = %r{^(http://[a-z]+\.)m\.(wikipedia\.org/.*)$}
+    WikipediaRe = %r{^(http://[a-z]+\.)m\.(wikipedia\.org/.*)$}i
 
     def self.run(url, config)
       if match = WikipediaRe.match(url.url)

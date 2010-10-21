@@ -10,7 +10,7 @@ module Murlsh
 
     @hook = 'add_pre'
 
-    GitHubRe = %r{^http://github\.com/\w+/[\w.-]+$}
+    GitHubRe = %r{^http://github\.com/\w+/[\w.-]+$}i
 
     def self.run(url, config)
       if url.url[GitHubRe]

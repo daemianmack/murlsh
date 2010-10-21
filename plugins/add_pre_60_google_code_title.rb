@@ -10,7 +10,7 @@ module Murlsh
 
     @hook = 'add_pre'
 
-    GoogleCodeRe = %r{^http://code\.google\.com/p/[\w-]+/$}
+    GoogleCodeRe = %r{^http://code\.google\.com/p/[\w-]+/$}i
 
     def self.run(url, config)
       if url.url[GoogleCodeRe]

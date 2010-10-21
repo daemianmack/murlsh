@@ -10,9 +10,10 @@ module Murlsh
 
     @hook = 'add_pre'
 
+    GoogleCodeRe = %r{^http://code\.google\.com/p/[\w-]+/$}
+
     def self.run(url, config)
-      if url.url[%r{^http://code\.google\.com/p/[\w-]+/$}]
-        puts 'xxx'
+      if url.url[GoogleCodeRe]
         ask = URI(url.url).extend(Murlsh::UriAsk)
         ask.doc.xpath_search("//a[@id='project_summary_link']") do |node|
           summary = node ? node.inner_html : nil

@@ -11,11 +11,17 @@ module Murlsh
 
     @hook = 'add_pre'
 
+    TwitterRe = %r{^(http://)mobile\.(twitter\.com/.*)$}i
     WikipediaRe = %r{^(http://[a-z]+\.)m\.(wikipedia\.org/.*)$}i
 
     def self.run(url, config)
-      if match = WikipediaRe.match(url.url)
-        url.url = "#{match[1]}#{match[2]}"
+      url.url = case
+        when match = TwitterRe.match(url.url)
+          "#{match[1]}#{match[2]}"
+        when match = WikipediaRe.match(url.url)
+          "#{match[1]}#{match[2]}"
+        else
+          url.url
       end
     end
 

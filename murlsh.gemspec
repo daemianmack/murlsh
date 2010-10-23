@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-10-06}
+  s.date = %q{2010-10-22}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -50,12 +50,14 @@ Gem::Specification.new do |s|
      "lib/murlsh/url.rb",
      "lib/murlsh/url_body.rb",
      "lib/murlsh/url_server.rb",
+     "lib/murlsh/vimeo_server.rb",
      "lib/murlsh/xhtml_response.rb",
      "lib/murlsh/yaml_ordered_hash.rb",
      "murlsh.gemspec",
      "plugins/add_post_50_update_feed.rb",
      "plugins/add_post_50_update_rss.rb",
      "plugins/add_post_60_notify_hubs.rb",
+     "plugins/add_pre_40_convert_mobile.rb",
      "plugins/add_pre_50_lookup_content_type_title.rb",
      "plugins/add_pre_60_github_title.rb",
      "plugins/add_pre_60_google_code_title.rb",
@@ -67,7 +69,7 @@ Gem::Specification.new do |s|
      "public/css/jquery.jgrowl.css",
      "public/css/screen.css",
      "public/js/comments.json",
-     "public/js/jquery-1.4.2.min.js",
+     "public/js/jquery-1.4.3.min.js",
      "public/js/jquery.jgrowl_compressed.js",
      "public/js/js.js",
      "public/swf/player_mp3_mini.swf",
@@ -114,6 +116,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<push-notify>, [">= 0.1.0"])
       s.add_runtime_dependency(%q<rack>, [">= 1.0.0"])
       s.add_runtime_dependency(%q<rack-cache>, [">= 0.5.2"])
+      s.add_runtime_dependency(%q<rack-rewrite>, [">= 1.0.2"])
       s.add_runtime_dependency(%q<rack-throttle>, [">= 0.3.0"])
       s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
       s.add_runtime_dependency(%q<tinyatom>, [">= 0.2.0"])
@@ -127,6 +130,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<push-notify>, [">= 0.1.0"])
       s.add_dependency(%q<rack>, [">= 1.0.0"])
       s.add_dependency(%q<rack-cache>, [">= 0.5.2"])
+      s.add_dependency(%q<rack-rewrite>, [">= 1.0.2"])
       s.add_dependency(%q<rack-throttle>, [">= 0.3.0"])
       s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
       s.add_dependency(%q<tinyatom>, [">= 0.2.0"])
@@ -141,6 +145,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<push-notify>, [">= 0.1.0"])
     s.add_dependency(%q<rack>, [">= 1.0.0"])
     s.add_dependency(%q<rack-cache>, [">= 0.5.2"])
+    s.add_dependency(%q<rack-rewrite>, [">= 1.0.2"])
     s.add_dependency(%q<rack-throttle>, [">= 0.3.0"])
     s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
     s.add_dependency(%q<tinyatom>, [">= 0.2.0"])

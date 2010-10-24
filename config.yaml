@@ -35,3 +35,4 @@ thumb_locators:
   http:\/\/twitpic\.com\/(.*): http://twitpic.com/show/mini/$1
   (http:\/\/www\.nytimes\.com\/).*: $1apple-touch-icon.png
   (http:\/\/www\.wired\.com\/).*: $1apple-touch-icon.png
+  (http:\/\/.+\.ning\.com\/).*: $1apple-touch-icon.png

@@ -11,7 +11,7 @@ module Murlsh
 
     @hook = 'add_post'
 
-    def self.run(config)
+    def self.run(url, config)
       hubs = config.fetch('pubsubhubbub_hubs', [])
 
       unless hubs.empty?

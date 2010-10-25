@@ -21,7 +21,7 @@ module Murlsh
       image/png
       }
 
-    def self.run(config)
+    def self.run(url, config)
       output_file = 'rss.rss'
 
       feed = RSS::Maker.make('2.0') do |f|

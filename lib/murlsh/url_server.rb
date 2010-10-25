@@ -55,7 +55,7 @@ module Murlsh
           raise ActiveRecord::RecordInvalid.new(mu) unless mu.valid?
           Murlsh::Plugin.hooks('add_pre') { |p| p.run(mu, @config) }
           mu.save!
-          Murlsh::Plugin.hooks('add_post') { |p| p.run(@config) }
+          Murlsh::Plugin.hooks('add_post') { |p| p.run(mu, @config) }
           response_body, response_code = [mu], 200
         rescue ActiveRecord::RecordInvalid => error
           response_body = {

@@ -22,7 +22,7 @@ module Murlsh
       image/png
       }
 
-    def self.run(config)
+    def self.run(url, config)
       feed = TinyAtom::Feed.new(config['root_url'], config.fetch('page_title'),
         URI.join(config['root_url'], config['feed_file']),
         :hubs => config.fetch('pubsubhubbub_hubs', []).

@@ -191,8 +191,8 @@ end
 
 namespace :validate do
 
-  desc 'Validate XHTML.'
-  task :xhtml do
+  desc 'Validate HTML.'
+  task :html do
     check_url = config['root_url']
     print "validating #{check_url} : "
     result = validate(check_url)

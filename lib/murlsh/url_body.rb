@@ -8,8 +8,9 @@ module Murlsh
   class UrlBody < Builder::XmlMarkup
     include Murlsh::Markup
 
-    def initialize(config, db, req)
-      @config, @db, @req, @q = config, db, req, req.params['q']
+    def initialize(config, db, req, content_type='text/html')
+      @config, @db, @req, @q, @content_type =
+        config, db, req, req.params['q'], content_type
       super(:indent => @config['html_indent'] || 0)
     end
 
@@ -79,6 +80,7 @@ module Murlsh
     def headd
       head {
         titlee
+        meta :'http-equiv' => 'Content-Type', :content => @content_type
         metas(@config.select { |k,v| k =~ /^meta_tag_/ and v }.
           map { |k,v| [k.sub('meta_tag_', ''), v] })
         css(@config['css_compressed'] || @config['css_files'])

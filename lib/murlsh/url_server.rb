@@ -25,11 +25,11 @@ module Murlsh
       resp = Rack::Response.new
 
       resp['Cache-Control'] = 'must-revalidate, max-age=0'
-      resp['Content-Type'] = 'text/html; charset="utf-8"'
+      resp['Content-Type'] = 'text/html; charset=utf-8'
       resp['ETag'] = "W/\"#{last_db_update.to_i}#{req.params.sort}\""
       resp['Last-Modified'] = last_db_update.httpdate
 
-      resp.body = Murlsh::UrlBody.new(@config, @db, req)
+      resp.body = Murlsh::UrlBody.new(@config, @db, req, resp['Content-Type'])
 
       resp
     end

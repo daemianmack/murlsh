@@ -20,12 +20,12 @@ module Murlsh
     # Respond to a GET request. Return a page of urls based on the query
     # string parameters.
     def get(req)
-      resp = Murlsh::XhtmlResponse.new
-
-      resp.set_content_type(req.env['HTTP_ACCEPT'], req.env['HTTP_USER_AGENT'])
-
       last_db_update = File::Stat.new(@config['db_file']).mtime
+
+      resp = Rack::Response.new
+
       resp['Cache-Control'] = 'must-revalidate, max-age=0'
+      resp['Content-Type'] = 'text/html; charset="utf-8"'
       resp['ETag'] = "W/\"#{last_db_update.to_i}#{req.params.sort}\""
       resp['Last-Modified'] = last_db_update.httpdate
 

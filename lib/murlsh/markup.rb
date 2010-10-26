@@ -53,7 +53,6 @@ module Murlsh
         attrs = {
           :href => "#{options[:prefix]}#{href}",
           :rel => 'stylesheet',
-          :type => 'text/css',
         }
         attrs[:media] = options[:media] if options[:media]
         link(attrs)

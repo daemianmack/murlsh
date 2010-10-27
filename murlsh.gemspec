@@ -61,6 +61,7 @@ Gem::Specification.new do |s|
      "plugins/add_pre_50_lookup_content_type_title.rb",
      "plugins/add_pre_60_github_title.rb",
      "plugins/add_pre_60_google_code_title.rb",
+     "plugins/add_pre_60_twitter_title.rb",
      "plugins/html_parse_50_hpricot.rb",
      "plugins/url_display_add_50_hostrec.rb",
      "plugins/url_display_add_55_content_type.rb",

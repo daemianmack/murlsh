@@ -201,11 +201,6 @@ var Murlsh = function (config, $, navigator, window) {
         }]));
     }
 
-    function youtubeThumb(id) {
-        return img('http://img.youtube.com/vi/' + id + '/default.jpg',
-            'click to watch').addClass('thumb youtube').data('id', id);
-    }
-
     my.addComments = function (link, comments) {
         var avatar,
             comment,
@@ -326,7 +321,8 @@ var Murlsh = function (config, $, navigator, window) {
                 jsonpCallback : 'vimeoCallback' + match.vimeo[1]
             });
         } else if (match.youtube) {
-            thumbInsert(youtubeThumb(match.youtube[1]), youtubeClick, thisA);
+            thisA.siblings('img').data('id', match.youtube[1]).click(
+                youtubeClick);
         }
     };
 

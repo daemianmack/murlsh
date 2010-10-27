@@ -25,14 +25,5 @@ pubsubhubbub_hubs: []
 
 root_url: http://urls.matthewm.boedicker.org/
 show_names: true
-thumb_locators:
-  (http:\/\/blog\.makezine\.com\/).*: $1apple-touch-icon.png
-  (http:\/\/(?:cgi\.)?ebay\.(?:com|co\.uk)\/).*: $1apple-touch-icon.png
-  (http:\/\/en\.wikipedia\.org\/).*: $1apple-touch-icon.png
-  (http:\/\/github\.com\/).*: $1apple-touch-icon.png
-  (http:\/\/(?:[a-z.]+)?reddit\.com\/).*: $1apple-touch-icon.png
-  (http:\/\/stackoverflow\.com\/).*: $1apple-touch-icon.png
-  http:\/\/twitpic\.com\/(.*): http://twitpic.com/show/mini/$1
-  (http:\/\/www\.nytimes\.com\/).*: $1apple-touch-icon.png
-  (http:\/\/www\.wired\.com\/).*: $1apple-touch-icon.png
-  (http:\/\/[a-z\d-]+\.ning\.com\/).*: $1apple-touch-icon.png
+thumb_locators: {}
+

@@ -12,10 +12,10 @@ module Murlsh
 
     @hook = 'add_pre'
 
-    GitHubRe = %r{^http://github\.com/\w+/[\w.-]+$}i
+    GithubRe = %r{^http://github\.com/\w+/[\w.-]+$}i
 
     def self.run(url, config)
-      if url.url[GitHubRe]
+      if url.url[GithubRe]
         ask = URI(url.url).extend(Murlsh::UriAsk)
         url.title << " - #{ask.description}" unless ask.description.empty?
       end

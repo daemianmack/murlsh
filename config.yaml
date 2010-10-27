@@ -2,8 +2,8 @@
 auth_file: murlsh_users
 cache_entitystore: file:tmp/cache/rack/body
 cache_metastore: file:tmp/cache/rack/meta
-config_js: 
-- thumb_locators
+config_js: []
+
 css_files: 
 - css/jquery.jgrowl.css
 - css/screen.css
@@ -25,5 +25,3 @@ pubsubhubbub_hubs: []
 
 root_url: http://urls.matthewm.boedicker.org/
 show_names: true
-thumb_locators: {}
-

@@ -30,8 +30,7 @@ var Murlsh = function (config, $, navigator, window) {
                 /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
             youtube :
                 /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
-        },
-        thumbLocatorsCompiled = compileRegexMap(config.thumb_locators);
+        };
 
     function autoLink(s) {
         // turn urls into links
@@ -177,10 +176,6 @@ var Murlsh = function (config, $, navigator, window) {
         return result;
     }
 
-    function twitterThumb(d) {
-        return img(d.user.profile_image_url).addClass('thumb twitter');
-    }
-
     function vimeoClick(event) {
         closerAdd($(event.target).data('embedHtml'));
     }
@@ -243,7 +238,10 @@ var Murlsh = function (config, $, navigator, window) {
             href = thisA.attr('href'),
             match = {},
             swf = 'swf/player_mp3_mini.swf',
-            thumb;
+            thumb,
+            tweetMatch,
+            tweetLink,
+            formattedTweet;
 
         $.each(hrefRes, function (x, re) {
             return !(match[x] = re.exec(href));
@@ -295,28 +293,19 @@ var Murlsh = function (config, $, navigator, window) {
                 }
             }
         } else if (match.twitter) {
-            $.ajax({
-                // url : 'http://api.twitter.com/1/statuses/show/' +
-                url : '/twitter/1/statuses/show/' +
-                    match.twitter[1] + '.json',
-                dataType : 'jsonp',
-                success : function (d) {
-                    var nameLink = $('<a />', {
-                        href: 'http://twitter.com/' + d.user.screen_name +
-                            '/status/' + d.id,
-                        text: '@' + d.user.screen_name
-                    }),
-                        tweet = $('<span />').addClass('tweet').append(
-                            nameLink).append(': ').append(twitterAddLinks(
-                            d.text));
+            tweetMatch = /^(@[0-9a-z_]+?): (.+)$/i.exec(thisA.text());
+            if (tweetMatch) {
+                tweetLink = $('<a />', {
+                    href : thisA.attr('href'),
+                    text : tweetMatch[1]
+                });
 
-                    thumbInsert(twitterThumb(d), null, nameLink);
+                formattedTweet = $('<span />').addClass('tweet').append(
+			   tweetLink).append(': ').append(twitterAddLinks(
+			   tweetMatch[2]));
 
-                    $(this).replaceWith(tweet);
-                },
-                context : thisA,
-                jsonpCallback : 'twitterCallback' + match.twitter[1]
-            });
+                thisA.replaceWith(formattedTweet);
+            }
         } else if (match.vimeo) {
             $.ajax({
                 // url : 'http://vimeo.com/api/v2/video/' + match.vimeo[1] +
@@ -338,16 +327,6 @@ var Murlsh = function (config, $, navigator, window) {
             });
         } else if (match.youtube) {
             thumbInsert(youtubeThumb(match.youtube[1]), youtubeClick, thisA);
-        } else {
-            $.each(config.thumb_locators, function (reStr) {
-                var re = thumbLocatorsCompiled[reStr];
-                if (href.match(re)) {
-                    thumbInsert(img(href.replace(re,
-                        config.thumb_locators[reStr])).addClass(
-                        'thumb locator'), null, thisA);
-                    return false;
-                }
-            });
         }
     };
 

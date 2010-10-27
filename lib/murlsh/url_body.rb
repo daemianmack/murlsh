@@ -55,6 +55,10 @@ module Murlsh
                     @config.fetch('show_names', false) and mu.name
                 end
 
+                if mu.thumbnail_url
+                  img(:src => mu.thumbnail_url, :class => 'thumb')
+                end
+
                 a(mu.title_stripped, :href => mu.url, :class => 'm')
 
                 Murlsh::Plugin.hooks('url_display_add') do |p|

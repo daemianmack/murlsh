@@ -83,7 +83,8 @@ namespace :db do
       title TEXT,
       content_length INTEGER,
       content_type TEXT,
-      via TEXT);
+      via TEXT,
+      thumbnail_url TEXT);
       ")
   end
 

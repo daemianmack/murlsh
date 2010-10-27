@@ -8,8 +8,8 @@ murlsh
 
 module Murlsh
 
-  # Use entire tweet for Twitter status url titles.
-  class AddPre60TwitterTitle < Plugin
+  # Set title to entire tweet and set thumbnail url.
+  class AddPre60Twitter < Plugin
 
     @hook = 'add_pre'
 
@@ -20,6 +20,7 @@ module Murlsh
         open("http://api.twitter.com/1/statuses/show/#{tweet_id}.json") do |f|
           json = JSON.parse(f.read)
           url.title = "@#{json['user']['screen_name']}: #{json['text']}"
+          url.thumbnail_url = json['user']['profile_image_url']
         end
       end
     end

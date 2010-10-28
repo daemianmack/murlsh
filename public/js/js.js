@@ -19,13 +19,13 @@ var Murlsh = function (config, $, navigator, window) {
             imageshack :
                 /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpe?g|gif|png)$/i,
             imgur :
-                /^(http:\/\/(?:i\.)?imgur\.com\/)([a-z\d]+)(\.(?:jpe?g|gif|png))$/i,
+                /^http:\/\/(?:i\.)?imgur\.com\/[a-z\d]+\.(?:jpe?g|gif|png)$/i,
             mp3 :
                 /\.mp3$/i,
             s3 :
                 /^(http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w\-]+\.)(jpe?g|gif|pdf|png)$/i,
             twitter :
-                /^https?:\/\/twitter\.com\/\w+\/status(?:es)?\/(\d+)$/i,
+                /^https?:\/\/twitter\.com\/\w+\/status(?:es)?\/\d+$/i,
             vimeo :
                 /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
             youtube :
@@ -264,9 +264,7 @@ var Murlsh = function (config, $, navigator, window) {
                 match.imageshack[2]).data('href', match.imageshack[0]),
                     imgClick, thisA.html('imageshack.us'));
         } else if (match.imgur) {
-            thumbInsert(imgThumb(match.imgur[1], match.imgur[2], 's',
-                match.imgur[3]).data('href', match.imgur[0]), imgClick,
-                thisA.html('imgur/' + match.imgur[2] + match.imgur[3]));
+            thisA.siblings('img').data('href', href).click(imgClick);
         } else if (match.mp3) {
             thisA.before(objectTag(swf, 20, 200, [
                 { name : 'bgcolor', value : '#000000' },
@@ -291,7 +289,7 @@ var Murlsh = function (config, $, navigator, window) {
             tweetMatch = /^(@[0-9a-z_]+?): (.+)$/i.exec(thisA.text());
             if (tweetMatch) {
                 tweetLink = $('<a />', {
-                    href : thisA.attr('href'),
+                    href : href,
                     text : tweetMatch[1]
                 });
 

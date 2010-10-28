@@ -15,7 +15,7 @@ var Murlsh = function (config, $, navigator, window) {
     var my = {},
         hrefRes = {
             flickr :
-                /^http:\/\/(?:www\.)?flickr\.com\/photos\/[@\w\-]+?\/([\d]+)/i,
+                /^http:\/\/(?:www\.)?flickr\.com\/photos\/[@\w\-]+?\/[\d]+/i,
             imageshack :
                 /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpe?g|gif|png)$/i,
             imgur :
@@ -100,33 +100,6 @@ var Murlsh = function (config, $, navigator, window) {
             animateOpen : { width : 'show' },
             animateClose : { width : 'hide' }
         });
-    }
-
-    function flickrClick(event) {
-        closerAdd(img($(event.target).data('zoom')));
-    }
-
-    function flickrThumb(d) {
-        var base,
-            owner,
-            photo = d.photo,
-            zoom;
-
-        if (d.stat === 'ok') {
-            base = 'http://farm' + photo.farm + '.static.flickr.com/' +
-                photo.server + '/' + photo.id + '_';
-            zoom = base + photo.secret + '_m.jpg';
-
-            if (photo.originalsecret) {
-                zoom = base + photo.originalsecret + '_o.' +
-                    photo.originalformat;
-            }
-
-            owner = photo.owner;
-            return img(base + photo.secret + '_s.jpg', photo.title._content +
-                (owner && owner.username ? ' by ' + owner.username : '')
-                ).addClass('thumb flickr').data('zoom', zoom);
-        }
     }
 
     function imgClick(event) {
@@ -232,6 +205,7 @@ var Murlsh = function (config, $, navigator, window) {
         var thisA = $(this),
             href = thisA.attr('href'),
             match = {},
+            jImg,
             swf = 'swf/player_mp3_mini.swf',
             thumb,
             tweetMatch,
@@ -243,21 +217,10 @@ var Murlsh = function (config, $, navigator, window) {
         });
 
         if (match.flickr) {
-            $.ajax({
-                // url : 'http://api.flickr.com/services/rest/',
-                url : 'flickr',
-                data : {
-                    format : 'json',
-                    method : 'flickr.photos.getinfo',
-                    photo_id : match.flickr[1]
-                },
-                dataType : 'jsonp',
-                jsonp : 'jsoncallback',
-                success : function (d) {
-                    thumbInsert(flickrThumb(d), flickrClick, $(this));
-                },
-                context : thisA,
-                jsonpCallback : 'flickrCallback' + match.flickr[1]
+            thisA.siblings('img').each(function (i, img) {
+                jImg = $(img);
+                jImg.data('href', jImg.attr('src').replace(
+                    /s\.jpg$/, 'o.jpg')).click(imgClick);
             });
         } else if (match.imageshack) {
             thumbInsert(imgThumb(match.imageshack[1], 'th.',
@@ -294,8 +257,8 @@ var Murlsh = function (config, $, navigator, window) {
                 });
 
                 formattedTweet = $('<span />').addClass('tweet').append(
-			   tweetLink).append(': ').append(twitterAddLinks(
-			   tweetMatch[2]));
+                    tweetLink).append(': ').append(twitterAddLinks(
+                    tweetMatch[2]));
 
                 thisA.replaceWith(formattedTweet);
             }

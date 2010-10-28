@@ -1,8 +1,4 @@
 %w{
-open-uri
-
-json
-
 murlsh
 }.each { |m| require m }
 

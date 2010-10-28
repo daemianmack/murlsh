@@ -56,7 +56,8 @@ module Murlsh
                 end
 
                 if mu.thumbnail_url
-                  img(:src => mu.thumbnail_url, :class => 'thumb')
+                  murlsh_img(:src => mu.thumbnail_url,
+                    :text => mu.title_stripped, :class => 'thumb')
                 end
 
                 a(mu.title_stripped, :href => mu.url, :class => 'm')

@@ -25,3 +25,4 @@ pubsubhubbub_hubs: []
 
 root_url: http://urls.matthewm.boedicker.org/
 show_names: true
+user_agent: murlsh (http://github.com/mmb/murlsh)

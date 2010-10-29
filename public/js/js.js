@@ -316,7 +316,7 @@ $(document).ready(function () {
         var murlsh = new Murlsh(config, $, navigator, window),
             urls;
 
-        if (murlsh.isIphone) {
+        if (murlsh.isIphone()) {
             murlsh.iphoneInit();
         }
 

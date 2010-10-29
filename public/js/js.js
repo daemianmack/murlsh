@@ -201,7 +201,7 @@ var Murlsh = function (config, $, navigator, window) {
             thisA.siblings('img').each(function (i, img) {
                 jImg = $(img);
                 jImg.data('href', jImg.attr('src').replace(
-                    /s\.jpg$/, 'o.jpg')).click(imgClick);
+                    /s\.jpg$/, 'm.jpg')).click(imgClick);
             });
         } else if (match.imageshack) {
             thisA.siblings('img').data('href', href).click(imgClick);

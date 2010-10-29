@@ -17,7 +17,7 @@ var Murlsh = function (config, $, navigator, window) {
             flickr :
                 /^http:\/\/(?:www\.)?flickr\.com\/photos\/[@\w\-]+?\/[\d]+/i,
             imageshack :
-                /^(http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.)(jpe?g|gif|png)$/i,
+                /^http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.jpe?g|gif|png$/i,
             imgur :
                 /^http:\/\/(?:i\.)?imgur\.com\/[a-z\d]+\.(?:jpe?g|gif|png)$/i,
             mp3 :
@@ -223,9 +223,7 @@ var Murlsh = function (config, $, navigator, window) {
                     /s\.jpg$/, 'o.jpg')).click(imgClick);
             });
         } else if (match.imageshack) {
-            thumbInsert(imgThumb(match.imageshack[1], 'th.',
-                match.imageshack[2]).data('href', match.imageshack[0]),
-                    imgClick, thisA.html('imageshack.us'));
+            thisA.siblings('img').data('href', href).click(imgClick);
         } else if (match.imgur) {
             thisA.siblings('img').data('href', href).click(imgClick);
         } else if (match.mp3) {

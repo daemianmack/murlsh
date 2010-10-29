@@ -30,7 +30,8 @@ var Murlsh = function (config, $, navigator, window) {
                 /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
             youtube :
                 /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
-        };
+        },
+        isIphone = navigator.userAgent.match(/i(phone|pod)/i);
 
     function autoLink(s) {
         // turn urls into links
@@ -108,7 +109,7 @@ var Murlsh = function (config, $, navigator, window) {
 
     function thumbInsert(img, clickFunction, a) {
         if (img) {
-            if (my.isIphone()) {
+            if (my.isIphone) {
                 a.prepend(img);
             } else {
                 if (clickFunction) {
@@ -296,10 +297,6 @@ var Murlsh = function (config, $, navigator, window) {
         }));
     };
 
-    my.isIphone = function () {
-        return navigator.userAgent.match(/i(phone|pod)/i);
-    };
-
     return my;
 };
 
@@ -308,7 +305,7 @@ $(document).ready(function () {
         var murlsh = new Murlsh(config, $, navigator, window),
             urls;
 
-        if (murlsh.isIphone()) {
+        if (murlsh.isIphone) {
             murlsh.iphoneInit();
         }
 

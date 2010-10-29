@@ -23,7 +23,7 @@ var Murlsh = function (config, $, navigator, window) {
             mp3 :
                 /\.mp3$/i,
             s3 :
-                /^(http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w\-]+\.)(jpe?g|gif|pdf|png)$/i,
+                /^http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w\-]+\.(jpe?g|gif|pdf|png)$/i,
             twitter :
                 /^https?:\/\/twitter\.com\/\w+\/status(?:es)?\/\d+$/i,
             vimeo :
@@ -104,25 +104,6 @@ var Murlsh = function (config, $, navigator, window) {
 
     function imgClick(event) {
         closerAdd(img($(event.target).data('href')));
-    }
-
-    function imgThumb() {
-        var i,
-            lastIndex,
-            urlParts = [];
-
-        for (i = 0; i < arguments.length; i += 1) {
-            urlParts.push(arguments[i]);
-        }
-
-        lastIndex = urlParts.length - 1;
-
-        // if pdf the thumbnail will be .png
-        if (urlParts[lastIndex].match(/^pdf$/i)) {
-            urlParts.splice(lastIndex, 1, 'png');
-        }
-
-        return img(urlParts.join('')).addClass('thumb');
     }
 
     function thumbInsert(img, clickFunction, a) {
@@ -233,18 +214,8 @@ var Murlsh = function (config, $, navigator, window) {
                 { name : 'movie', value : swf }
             ]));
         } else if (match.s3) {
-            thumb = imgThumb(match.s3[1], 'th.', match.s3[2]);
-
-            if (match.s3[2].match(/^pdf$/i)) {
-                thisA.before(thumb).html('pdf');
-            } else {
-                if (my.isIphone()) {
-                    thisA.html(thumb);
-                } else {
-                    thisA.html('link');
-                    thisA.before(thumb.data('href', match.s3[0]).click(
-                        imgClick));
-                }
+            if (!match.s3[1].match(/^pdf$/i)) {
+                thisA.siblings('img').data('href', href).click(imgClick);
             }
         } else if (match.twitter) {
             tweetMatch = /^(@[0-9a-z_]+?): (.+)$/i.exec(thisA.text());

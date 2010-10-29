@@ -199,15 +199,21 @@ var Murlsh = function (config, $, navigator, window) {
         });
 
         if (match.flickr) {
-            thisA.siblings('img').each(function (i, img) {
-                jImg = $(img);
-                jImg.data('href', jImg.attr('src').replace(
-                    /s\.jpg$/, 'm.jpg')).click(imgClick);
-            });
+            if (!my.isIphone) {
+                thisA.siblings('img').each(function (i, img) {
+                    jImg = $(img);
+                    jImg.data('href', jImg.attr('src').replace(
+                        /s\.jpg$/, 'm.jpg')).click(imgClick);
+                });
+            }
         } else if (match.imageshack) {
-            thisA.siblings('img').data('href', href).click(imgClick);
+            if (!my.isIphone) {
+                thisA.siblings('img').data('href', href).click(imgClick);
+            }
         } else if (match.imgur) {
-            thisA.siblings('img').data('href', href).click(imgClick);
+            if (!my.isIphone) {
+                thisA.siblings('img').data('href', href).click(imgClick);
+            }
         } else if (match.mp3) {
             thisA.before(objectTag(swf, 20, 200, [
                 { name : 'bgcolor', value : '#000000' },
@@ -215,7 +221,7 @@ var Murlsh = function (config, $, navigator, window) {
                 { name : 'movie', value : swf }
             ]));
         } else if (match.s3) {
-            if (!match.s3[1].match(/^pdf$/i)) {
+            if (!(match.s3[1].match(/^pdf$/i) || my.isIphone)) {
                 thisA.siblings('img').data('href', href).click(imgClick);
             }
         } else if (match.twitter) {
@@ -252,8 +258,10 @@ var Murlsh = function (config, $, navigator, window) {
                 jsonpCallback : 'vimeoCallback' + match.vimeo[1]
             });
         } else if (match.youtube) {
-            thisA.siblings('img').data('id', match.youtube[1]).click(
-                youtubeClick);
+            if (!isIphone) {
+                thisA.siblings('img').data('id', match.youtube[1]).click(
+                    youtubeClick);
+            }
         }
     };
 

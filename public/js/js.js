@@ -30,8 +30,7 @@ var Murlsh = function (config, $, navigator, window) {
                 /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
             youtube :
                 /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
-        },
-        isIphone = navigator.userAgent.match(/i(phone|pod)/i);
+        };
 
     function autoLink(s) {
         // turn urls into links
@@ -109,7 +108,7 @@ var Murlsh = function (config, $, navigator, window) {
 
     function thumbInsert(img, clickFunction, a) {
         if (img) {
-            if (my.isIphone) {
+            if (my.isIphone()) {
                 a.prepend(img);
             } else {
                 if (clickFunction) {
@@ -199,7 +198,7 @@ var Murlsh = function (config, $, navigator, window) {
         });
 
         if (match.flickr) {
-            if (!my.isIphone) {
+            if (!my.isIphone()) {
                 thisA.siblings('img').each(function (i, img) {
                     jImg = $(img);
                     jImg.data('href', jImg.attr('src').replace(
@@ -207,11 +206,11 @@ var Murlsh = function (config, $, navigator, window) {
                 });
             }
         } else if (match.imageshack) {
-            if (!my.isIphone) {
+            if (!my.isIphone()) {
                 thisA.siblings('img').data('href', href).click(imgClick);
             }
         } else if (match.imgur) {
-            if (!my.isIphone) {
+            if (!my.isIphone()) {
                 thisA.siblings('img').data('href', href).click(imgClick);
             }
         } else if (match.mp3) {
@@ -221,7 +220,7 @@ var Murlsh = function (config, $, navigator, window) {
                 { name : 'movie', value : swf }
             ]));
         } else if (match.s3) {
-            if (!(match.s3[1].match(/^pdf$/i) || my.isIphone)) {
+            if (!(match.s3[1].match(/^pdf$/i) || my.isIphone())) {
                 thisA.siblings('img').data('href', href).click(imgClick);
             }
         } else if (match.twitter) {
@@ -258,7 +257,7 @@ var Murlsh = function (config, $, navigator, window) {
                 jsonpCallback : 'vimeoCallback' + match.vimeo[1]
             });
         } else if (match.youtube) {
-            if (!isIphone) {
+            if (!my.isIphone()) {
                 thisA.siblings('img').data('id', match.youtube[1]).click(
                     youtubeClick);
             }
@@ -303,6 +302,10 @@ var Murlsh = function (config, $, navigator, window) {
             href : '#bottom',
             text : 'bottom'
         }));
+    };
+
+    my.isIphone = function () {
+        return navigator.userAgent.match(/i(phone|pod)/i);
     };
 
     return my;

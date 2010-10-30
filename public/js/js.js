@@ -89,8 +89,8 @@ var Murlsh = function (config, $, navigator, window) {
         var result = autoLink(s);
 
         result = result.replace(
-            /(^|[\s,(])@([0-9a-z_]+)($|[\s,.):])/gi,
-            '$1<a href="http://twitter.com/$2">@$2</a>$3');
+            /(^|RT|[\s,.(])@([0-9a-z_]{1,20})(?=$|[\s,.):&])/gi,
+            '$1<a href="http://twitter.com/$2">@$2</a>');
 
         return result;
     }

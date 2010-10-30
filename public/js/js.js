@@ -3,14 +3,6 @@
 "use strict";
 
 var Murlsh = function (config, $, navigator, window) {
-    function compileRegexMap(regexMap) {
-        var result = {};
-        $.each(regexMap, function (reStr) {
-            result[reStr] = new RegExp('^' + reStr + '$', 'i');
-        });
-
-        return result;
-    }
 
     var my = {},
         hrefRes = {

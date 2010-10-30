@@ -20,8 +20,6 @@ var Murlsh = function (config, $, navigator, window) {
                 /^http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.jpe?g|gif|png$/i,
             imgur :
                 /^http:\/\/(?:i\.)?imgur\.com\/[a-z\d]+\.(?:jpe?g|gif|png)$/i,
-            mp3 :
-                /\.mp3$/i,
             s3 :
                 /^http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w\-]+\.(jpe?g|gif|pdf|png)$/i,
             twitter :
@@ -39,10 +37,6 @@ var Murlsh = function (config, $, navigator, window) {
             '<a href="$&">$&</a>');
 
         return result;
-    }
-
-    function escapeXml(s) {
-        return s.replace(/&/g, '&amp;');
     }
 
     function makeIframe(src) {
@@ -73,23 +67,6 @@ var Murlsh = function (config, $, navigator, window) {
             e.width(Math.round(width * scale));
             e.height(Math.round(height * scale));
         }
-    }
-
-    function objectTag(data, height, width, params) {
-        // this does not use jQuery to build tags because building object
-        // tags is broken in IE
-        var result = '<object data="' + escapeXml(data) +
-            '" height="' + height +
-            '" type="application/x-shockwave-flash" width="' + width + '">';
-
-        $.each(params, function (i, v) {
-            result += '<param name="' + v.name + '" value="' +
-                escapeXml(v.value) + '" />';
-        });
-
-        result += '</object>';
-
-        return result;
     }
 
     function closerAdd(x, header) {
@@ -175,7 +152,6 @@ var Murlsh = function (config, $, navigator, window) {
             href = thisA.attr('href'),
             match = {},
             jImg,
-            swf = 'swf/player_mp3_mini.swf',
             thumb,
             tweetMatch,
             tweetLink,
@@ -201,12 +177,6 @@ var Murlsh = function (config, $, navigator, window) {
             if (!my.isIphone()) {
                 thisA.siblings('img').data('href', href).click(imgClick);
             }
-        } else if (match.mp3) {
-            thisA.before(objectTag(swf, 20, 200, [
-                { name : 'bgcolor', value : '#000000' },
-                { name : 'FlashVars', value : 'mp3=' + href },
-                { name : 'movie', value : swf }
-            ]));
         } else if (match.s3) {
             if (!(match.s3[1].match(/^pdf$/i) || my.isIphone())) {
                 thisA.siblings('img').data('href', href).click(imgClick);

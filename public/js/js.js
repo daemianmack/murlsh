@@ -23,7 +23,7 @@ var Murlsh = function (config, $, navigator, window) {
             mp3 :
                 /\.mp3$/i,
             s3 :
-                /^http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w\-]+\.(jpe?g|gif|pdf|png)$/i,
+                /^http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w\-]+\.(?:jpe?g|gif|pdf|png)$/i,
             twitter :
                 /^https?:\/\/twitter\.com\/\w+\/status(?:es)?\/\d+$/i,
             vimeo :

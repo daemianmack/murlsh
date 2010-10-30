@@ -22,6 +22,12 @@ var Murlsh = function (config, $, navigator, window) {
                 /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
         };
 
+    function setupClickHandler(jQueryObject, dataKey, dataValue, handler) {
+        if (!my.isIphone()) {
+            jQueryObject.data(dataKey, dataValue).click(handler);
+        }
+    }
+
     function autoLink(s) {
         // turn urls into links
         var result = s.replace(
@@ -153,24 +159,17 @@ var Murlsh = function (config, $, navigator, window) {
         });
 
         if (match.flickr) {
-            if (!my.isIphone()) {
-                thisA.siblings('img').each(function (i, img) {
-                    jImg = $(img);
-                    jImg.data('href', jImg.attr('src').replace(
-                        /s\.jpg$/, 'm.jpg')).click(imgClick);
-                });
-            }
-        } else if (match.imageshack) {
-            if (!my.isIphone()) {
-                thisA.siblings('img').data('href', href).click(imgClick);
-            }
-        } else if (match.imgur) {
-            if (!my.isIphone()) {
-                thisA.siblings('img').data('href', href).click(imgClick);
-            }
+            thisA.siblings('img').each(function (i, img) {
+                jImg = $(img);
+                setupClickHandler(jImg, 'href',
+                    jImg.attr('src').replace(/s\.jpg$/, 'm.jpg'), imgClick);
+            });
+        } else if (match.imageshack || match.imgur) {
+            setupClickHandler(thisA.siblings('img'), 'href', href, imgClick);
         } else if (match.s3) {
-            if (!(match.s3[1].match(/^pdf$/i) || my.isIphone())) {
-                thisA.siblings('img').data('href', href).click(imgClick);
+            if (!(match.s3[1].match(/^pdf$/i))) {
+                setupClickHandler(thisA.siblings('img'), 'href', href,
+                    imgClick);
             }
         } else if (match.twitter) {
             thisA.siblings('img').addClass('twitter');
@@ -188,15 +187,11 @@ var Murlsh = function (config, $, navigator, window) {
                 thisA.replaceWith(formattedTweet);
             }
         } else if (match.vimeo) {
-            if (!my.isIphone()) {
-                thisA.siblings('img').data('id', match.vimeo[1]).click(
-                    vimeoClick);
-            }
+            setupClickHandler(thisA.siblings('img'), 'id', match.vimeo[1],
+                vimeoClick);
         } else if (match.youtube) {
-            if (!my.isIphone()) {
-                thisA.siblings('img').data('id', match.youtube[1]).click(
-                    youtubeClick);
-            }
+            setupClickHandler(thisA.siblings('img'), 'id', match.youtube[1],
+                youtubeClick);
         }
     };
 

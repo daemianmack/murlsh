@@ -144,7 +144,6 @@ var Murlsh = function (config, $, navigator, window) {
             href = thisA.attr('href'),
             match = {},
             jImg,
-            thumb,
             tweetMatch,
             tweetLink,
             formattedTweet;
@@ -174,6 +173,7 @@ var Murlsh = function (config, $, navigator, window) {
                 thisA.siblings('img').data('href', href).click(imgClick);
             }
         } else if (match.twitter) {
+            thisA.siblings('img').addClass('twitter');
             tweetMatch = /^(@[0-9a-z_]+?): (.+)$/i.exec(thisA.text());
             if (tweetMatch) {
                 tweetLink = $('<a />', {

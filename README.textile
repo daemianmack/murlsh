@@ -84,9 +84,7 @@ This will make updates to your feed show up in Google Reader instantly.
 
 h1. Design Goals
 
-* make site fast and very cacheable, caching wrapper around calls to third party JSON APIs
 * low effort required to add a url, get metadata programatically instead of requiring user to specify
-* heavy lifting on the client side
 * allow customization with config and plugins
 * full regex search for finding saved urls
 * simple security (no sessions, no cookies)

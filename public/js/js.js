@@ -106,19 +106,6 @@ var Murlsh = function (config, $, navigator, window) {
         closerAdd(img($(event.target).data('href')));
     }
 
-    function thumbInsert(img, clickFunction, a) {
-        if (img) {
-            if (my.isIphone()) {
-                a.prepend(img);
-            } else {
-                if (clickFunction) {
-                    img.click(clickFunction);
-                }
-                a.before(img);
-            }
-        }
-    }
-
     function twitterAddLinks(s) {
         // turn urls into links and Twitter usernames into links to Twitter
         var result = autoLink(s);
@@ -131,11 +118,12 @@ var Murlsh = function (config, $, navigator, window) {
     }
 
     function vimeoClick(event) {
-        closerAdd($(event.target).data('embedHtml'));
-    }
+        var iframe = $('<iframe />').attr({
+            src: 'http://player.vimeo.com/video/' + $(event.target).data('id'),
+            frameborder: 0
+        });
 
-    function vimeoThumb(d) {
-        return img(d.thumbnail_medium, d.title).addClass('thumb vimeo');
+        closerAdd(iframe);
     }
 
     function youtubeClick(event) {
@@ -238,24 +226,10 @@ var Murlsh = function (config, $, navigator, window) {
                 thisA.replaceWith(formattedTweet);
             }
         } else if (match.vimeo) {
-            $.ajax({
-                // url : 'http://vimeo.com/api/v2/video/' + match.vimeo[1] +
-                //     '.json',
-                url : '/vimeo/api/v2/video/' + match.vimeo[1] + '.json',
-                dataType : 'jsonp',
-                success : function (d) {
-                    var video = d[0],
-                        movie = 'http://vimeo.com/moogaloop.swf?clip_id=' +
-                        video.id;
-
-                    thumbInsert(vimeoThumb(video).data('embedHtml',
-                        objectTag(movie, video.height, video.width, [
-                            { name : 'movie', value : movie }
-                        ])), vimeoClick, $(this));
-                },
-                context : thisA,
-                jsonpCallback : 'vimeoCallback' + match.vimeo[1]
-            });
+            if (!my.isIphone()) {
+                thisA.siblings('img').data('id', match.vimeo[1]).click(
+                    vimeoClick);
+            }
         } else if (match.youtube) {
             if (!my.isIphone()) {
                 thisA.siblings('img').data('id', match.youtube[1]).click(

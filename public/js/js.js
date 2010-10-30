@@ -45,6 +45,15 @@ var Murlsh = function (config, $, navigator, window) {
         return s.replace(/&/g, '&amp;');
     }
 
+    function makeIframe(src) {
+        return $('<iframe />').attr({
+            src: src,
+            width: 640,
+            height: 385,
+            frameborder: 0
+        });
+    }
+
     function img(src, text) {
         text = text || '';
         return $('<img />', {
@@ -118,29 +127,20 @@ var Murlsh = function (config, $, navigator, window) {
     }
 
     function vimeoClick(event) {
-        var iframe = $('<iframe />').attr({
-            src: 'http://player.vimeo.com/video/' + $(event.target).data('id'),
-            frameborder: 0
-        });
+        var iframe = makeIframe(
+            'http://player.vimeo.com/video/' + $(event.target).data('id'));
 
         closerAdd(iframe);
     }
 
     function youtubeClick(event) {
-        var movie = 'http://www.youtube.com/v/' + $(event.target).data('id') +
-            '?' + $.param({
-                fs : 1,
-                hd : 1,
-                hl : 'en',
-                iv_load_policy : 3,
-                showinfo : 0,
-                showsearch : 0
-            });
+        var iframe = makeIframe(
+            'http://www.youtube.com/embed/' + $(event.target).data('id')).attr({
+            'class': 'youtube-player',
+            type: 'text/html'
+        });
 
-        closerAdd(objectTag(movie, 505, 640, [{
-            name : 'movie',
-            value : movie
-        }]));
+        closerAdd(iframe);
     }
 
     my.addComments = function (link, comments) {

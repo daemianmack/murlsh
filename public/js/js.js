@@ -6,8 +6,6 @@ var Murlsh = function (config, $, navigator, window) {
 
     var my = {},
         hrefRes = {
-            flickr :
-                /^http:\/\/(?:www\.)?flickr\.com\/photos\/[@\w\-]+?\/[\d]+/i,
             imageshack :
                 /^http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.jpe?g|gif|png$/i,
             imgur :
@@ -149,7 +147,6 @@ var Murlsh = function (config, $, navigator, window) {
         var thisA = $(this),
             href = thisA.attr('href'),
             match = {},
-            jImg,
             tweetMatch,
             tweetLink,
             formattedTweet;
@@ -158,13 +155,7 @@ var Murlsh = function (config, $, navigator, window) {
             return !(match[x] = re.exec(href));
         });
 
-        if (match.flickr) {
-            thisA.siblings('img').each(function (i, img) {
-                jImg = $(img);
-                setupClickHandler(jImg, 'href',
-                    jImg.attr('src').replace(/s\.jpg$/, 'm.jpg'), imgClick);
-            });
-        } else if (match.imageshack || match.imgur) {
+        if (match.imageshack || match.imgur) {
             setupClickHandler(thisA.siblings('img'), 'href', href, imgClick);
         } else if (match.s3) {
             if (!(match.s3[1].match(/^pdf$/i))) {

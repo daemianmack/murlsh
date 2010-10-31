@@ -1,4 +1,6 @@
 %w{
+cgi
+
 murlsh
 }.each { |m| require m }
 
@@ -14,7 +16,15 @@ module Murlsh
     def self.run(url, config)
       if match = S3ImageRe.match(url.url)
         extension = match[3].downcase == 'pdf' ? 'png' : match[3]
-        url.thumbnail_url = "#{match[1]}#{match[2]}.th.#{extension}"
+
+        storage_dir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
+          'thumb')
+        thumb_storage = Murlsh::ImgStore.new(storage_dir,
+          :user_agent => config['user_agent'])
+        stored_filename = thumb_storage.store(
+          "#{match[1]}#{match[2]}.th.#{extension}")
+
+        url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
         url.title = match[2]
       end
     end

@@ -1,4 +1,5 @@
 %w{
+cgi
 flickraw
 
 murlsh
@@ -20,7 +21,13 @@ module Murlsh
           info = flickr.photos.getInfo(:photo_id => photo_id)
 
           url.title = "#{info.title} by #{info.owner.username}"
-          url.thumbnail_url = FlickRaw.url_s(info)
+
+          storage_dir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
+            'thumb')
+          thumb_storage = Murlsh::ImgStore.new(storage_dir,
+            :user_agent => config['user_agent'])
+          stored_filename = thumb_storage.store(FlickRaw.url_s(info))
+          url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
         end
       end
     end

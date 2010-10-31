@@ -1,4 +1,6 @@
 %w{
+cgi
+
 vimeo
 
 murlsh
@@ -18,7 +20,13 @@ module Murlsh
         info = Vimeo::Simple::Video.info(id)[0]
 
         url.title = "#{info['title']} by #{info['user_name']}"
-        url.thumbnail_url = info['thumbnail_small']
+
+        storage_dir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
+          'thumb')
+        thumb_storage = Murlsh::ImgStore.new(storage_dir,
+          :user_agent => config['user_agent'])
+        stored_filename = thumb_storage.store(info['thumbnail_small'])
+        url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
       end
     end
 

@@ -1,4 +1,6 @@
 %w{
+cgi
+
 murlsh
 }.each { |m| require m }
 
@@ -14,7 +16,13 @@ module Murlsh
 
     def self.run(url, config)
       if match = ImageshackRe.match(url.url)
-        url.thumbnail_url = "#{match[1]}#{match[2]}.th.#{match[3]}"
+        storage_dir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
+          'thumb')
+        thumb_storage = Murlsh::ImgStore.new(storage_dir,
+          :user_agent => config['user_agent'])
+        stored_filename = thumb_storage.store(
+          "#{match[1]}#{match[2]}.th.#{match[3]}")
+        url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
       end
     end
 

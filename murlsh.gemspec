@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-10-26}
+  s.date = %q{2010-10-31}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -35,22 +35,19 @@ Gem::Specification.new do |s|
      "lib/murlsh/etag_add_encoding.rb",
      "lib/murlsh/failproof.rb",
      "lib/murlsh/far_future_expires.rb",
-     "lib/murlsh/flickr_server.rb",
      "lib/murlsh/head_from_get.rb",
+     "lib/murlsh/img_store.rb",
      "lib/murlsh/markup.rb",
      "lib/murlsh/must_revalidate.rb",
      "lib/murlsh/openlock.rb",
      "lib/murlsh/plugin.rb",
      "lib/murlsh/sqlite3_adapter.rb",
      "lib/murlsh/time_ago.rb",
-     "lib/murlsh/twitter_server.rb",
-     "lib/murlsh/unwrap_jsonp.rb",
      "lib/murlsh/uri.rb",
      "lib/murlsh/uri_ask.rb",
      "lib/murlsh/url.rb",
      "lib/murlsh/url_body.rb",
      "lib/murlsh/url_server.rb",
-     "lib/murlsh/vimeo_server.rb",
      "lib/murlsh/yaml_ordered_hash.rb",
      "murlsh.gemspec",
      "plugins/add_post_50_update_feed.rb",
@@ -59,16 +56,24 @@ Gem::Specification.new do |s|
      "plugins/add_post_60_notify_hubs.rb",
      "plugins/add_pre_40_convert_mobile.rb",
      "plugins/add_pre_50_lookup_content_type_title.rb",
+     "plugins/add_pre_60_flickr.rb",
      "plugins/add_pre_60_github_title.rb",
      "plugins/add_pre_60_google_code_title.rb",
-     "plugins/add_pre_60_twitter_title.rb",
+     "plugins/add_pre_60_imageshack.rb",
+     "plugins/add_pre_60_imgur.rb",
+     "plugins/add_pre_60_s3_image.rb",
+     "plugins/add_pre_60_twitter.rb",
+     "plugins/add_pre_60_vimeo.rb",
+     "plugins/add_pre_60_youtube.rb",
      "plugins/html_parse_50_hpricot.rb",
+     "plugins/url_display_add_45_mp3.rb",
      "plugins/url_display_add_50_hostrec.rb",
      "plugins/url_display_add_55_content_type.rb",
      "plugins/url_display_add_60_via.rb",
      "plugins/url_display_add_65_time.rb",
      "public/css/jquery.jgrowl.css",
      "public/css/screen.css",
+     "public/img/thumb/README",
      "public/js/comments.json",
      "public/js/jquery-1.4.3.min.js",
      "public/js/jquery.jgrowl_compressed.js",
@@ -78,7 +83,6 @@ Gem::Specification.new do |s|
      "spec/dispatch_spec.rb",
      "spec/doc_spec.rb",
      "spec/markup_spec.rb",
-     "spec/unwrap_json_spec.rb",
      "spec/uri_ask_spec.rb",
      "spec/uri_spec.rb",
      "spec/url_spec.rb",
@@ -92,7 +96,6 @@ Gem::Specification.new do |s|
   s.test_files = [
     "spec/auth_spec.rb",
      "spec/yaml_ordered_hash_spec.rb",
-     "spec/unwrap_json_spec.rb",
      "spec/uri_ask_spec.rb",
      "spec/dispatch_spec.rb",
      "spec/markup_spec.rb",
@@ -109,6 +112,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<activerecord>, [">= 2.3.4"])
       s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
       s.add_runtime_dependency(%q<builder>, [">= 2.1.2"])
+      s.add_runtime_dependency(%q<flickraw>, [">= 0.8.3"])
       s.add_runtime_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_runtime_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_runtime_dependency(%q<json>, [">= 1.2.3"])
@@ -119,10 +123,13 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<rack-throttle>, [">= 0.3.0"])
       s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
       s.add_runtime_dependency(%q<tinyatom>, [">= 0.2.0"])
+      s.add_runtime_dependency(%q<twitter>, [">= 0.9.12"])
+      s.add_runtime_dependency(%q<vimeo>, [">= 1.2.2"])
     else
       s.add_dependency(%q<activerecord>, [">= 2.3.4"])
       s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
       s.add_dependency(%q<builder>, [">= 2.1.2"])
+      s.add_dependency(%q<flickraw>, [">= 0.8.3"])
       s.add_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_dependency(%q<json>, [">= 1.2.3"])
@@ -133,11 +140,14 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rack-throttle>, [">= 0.3.0"])
       s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
       s.add_dependency(%q<tinyatom>, [">= 0.2.0"])
+      s.add_dependency(%q<twitter>, [">= 0.9.12"])
+      s.add_dependency(%q<vimeo>, [">= 1.2.2"])
     end
   else
     s.add_dependency(%q<activerecord>, [">= 2.3.4"])
     s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
     s.add_dependency(%q<builder>, [">= 2.1.2"])
+    s.add_dependency(%q<flickraw>, [">= 0.8.3"])
     s.add_dependency(%q<hpricot>, [">= 0.8.1"])
     s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
     s.add_dependency(%q<json>, [">= 1.2.3"])
@@ -148,6 +158,8 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rack-throttle>, [">= 0.3.0"])
     s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
     s.add_dependency(%q<tinyatom>, [">= 0.2.0"])
+    s.add_dependency(%q<twitter>, [">= 0.9.12"])
+    s.add_dependency(%q<vimeo>, [">= 1.2.2"])
   end
 end
 

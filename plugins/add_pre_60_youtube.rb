@@ -13,12 +13,12 @@ module Murlsh
 
     YoutubeRe =
       %r{^http://(?:(?:www|uk)\.)?youtube\.com/watch\?v=([\w\-]+)(?:&|$)}i
+    StorageDir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
+      'thumb')
 
     def self.run(url, config)
       if youtube_id = url.url[YoutubeRe, 1]
-        storage_dir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
-          'thumb')
-        thumb_storage = Murlsh::ImgStore.new(storage_dir,
+        thumb_storage = Murlsh::ImgStore.new(StorageDir,
           :user_agent => config['user_agent'])
         stored_filename = thumb_storage.store(
           "http://img.youtube.com/vi/#{youtube_id}/default.jpg")

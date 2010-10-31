@@ -12,14 +12,14 @@ module Murlsh
     @hook = 'add_pre'
 
     S3ImageRe = %r{^(http://static\.mmb\.s3\.amazonaws\.com/)([\w\-]+)\.(jpe?g|gif|pdf|png)$}i
+    StorageDir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
+      'thumb')
 
     def self.run(url, config)
       if match = S3ImageRe.match(url.url)
         extension = match[3].downcase == 'pdf' ? 'png' : match[3]
 
-        storage_dir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
-          'thumb')
-        thumb_storage = Murlsh::ImgStore.new(storage_dir,
+        thumb_storage = Murlsh::ImgStore.new(StorageDir,
           :user_agent => config['user_agent'])
         stored_filename = thumb_storage.store(
           "#{match[1]}#{match[2]}.th.#{extension}")

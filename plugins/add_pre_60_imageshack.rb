@@ -13,12 +13,12 @@ module Murlsh
 
     ImageshackRe =
       %r{^(http://img\d+\.imageshack\.us/img\d+/\d+/)(\w+)\.(jpe?g|gif|png)$}i
+    StorageDir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
+      'thumb')
 
     def self.run(url, config)
       if match = ImageshackRe.match(url.url)
-        storage_dir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
-          'thumb')
-        thumb_storage = Murlsh::ImgStore.new(storage_dir,
+        thumb_storage = Murlsh::ImgStore.new(StorageDir,
           :user_agent => config['user_agent'])
         stored_filename = thumb_storage.store(
           "#{match[1]}#{match[2]}.th.#{match[3]}")

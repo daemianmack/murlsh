@@ -12,14 +12,14 @@ module Murlsh
     @hook = 'add_pre'
 
     ImgurRe = %r{^(http://(?:i\.)?imgur\.com/)([a-z\d]+)(\.(?:jpe?g|gif|png))$}i
+    StorageDir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
+      'thumb')
 
     def self.run(url, config)
       if match = ImgurRe.match(url.url)
         url.title = "imgur/#{match[2]}s#{match[3]}"
 
-        storage_dir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
-          'thumb')
-        thumb_storage = Murlsh::ImgStore.new(storage_dir,
+        thumb_storage = Murlsh::ImgStore.new(StorageDir,
           :user_agent => config['user_agent'])
         stored_filename = thumb_storage.store(
           "#{match[1]}#{match[2]}s#{match[3]}")

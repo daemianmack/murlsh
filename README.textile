@@ -12,10 +12,6 @@ Site for sharing and archiving links.
 * rack interface
 * Gravatar support
 
-!http://static.mmb.s3.amazonaws.com/murlsh_screenshot.jpg!
-
-!http://static.mmb.s3.amazonaws.com/murlsh_iphone_screenshot.jpg!
-
 See "http://urls.matthewm.boedicker.org/":http://urls.matthewm.boedicker.org/ for example.
 
 h1. Installation

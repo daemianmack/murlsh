@@ -343,6 +343,7 @@ begin
       bcrypt-ruby 2.1.2
       builder 2.1.2
       flickraw 0.8.3
+      flog 2.5.0
       hpricot 0.8.1
       htmlentities 4.2.0
       json 1.2.3
@@ -356,7 +357,7 @@ begin
       twitter 0.9.12
       vimeo 1.2.2
       }.each_slice(2) { |g,v| gemspec.add_dependency(g, ">= #{v}") }
-
+      gemspec.add_dependency('rspec',  '~> 1.3')
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-10-31}
+  s.date = %q{2010-11-03}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -78,6 +78,7 @@ Gem::Specification.new do |s|
      "public/js/jquery-1.4.3.min.js",
      "public/js/jquery.jgrowl_compressed.js",
      "public/js/js.js",
+     "public/js/twitter-text-1.0.3.js",
      "public/swf/player_mp3_mini.swf",
      "spec/auth_spec.rb",
      "spec/dispatch_spec.rb",
@@ -115,6 +116,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
       s.add_runtime_dependency(%q<builder>, [">= 2.1.2"])
       s.add_runtime_dependency(%q<flickraw>, [">= 0.8.3"])
+      s.add_runtime_dependency(%q<flog>, [">= 2.5.0"])
       s.add_runtime_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_runtime_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_runtime_dependency(%q<json>, [">= 1.2.3"])
@@ -127,11 +129,13 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<tinyatom>, [">= 0.2.0"])
       s.add_runtime_dependency(%q<twitter>, [">= 0.9.12"])
       s.add_runtime_dependency(%q<vimeo>, [">= 1.2.2"])
+      s.add_runtime_dependency(%q<rspec>, ["~> 1.3"])
     else
       s.add_dependency(%q<activerecord>, [">= 2.3.4"])
       s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
       s.add_dependency(%q<builder>, [">= 2.1.2"])
       s.add_dependency(%q<flickraw>, [">= 0.8.3"])
+      s.add_dependency(%q<flog>, [">= 2.5.0"])
       s.add_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_dependency(%q<json>, [">= 1.2.3"])
@@ -144,12 +148,14 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<tinyatom>, [">= 0.2.0"])
       s.add_dependency(%q<twitter>, [">= 0.9.12"])
       s.add_dependency(%q<vimeo>, [">= 1.2.2"])
+      s.add_dependency(%q<rspec>, ["~> 1.3"])
     end
   else
     s.add_dependency(%q<activerecord>, [">= 2.3.4"])
     s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
     s.add_dependency(%q<builder>, [">= 2.1.2"])
     s.add_dependency(%q<flickraw>, [">= 0.8.3"])
+    s.add_dependency(%q<flog>, [">= 2.5.0"])
     s.add_dependency(%q<hpricot>, [">= 0.8.1"])
     s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
     s.add_dependency(%q<json>, [">= 1.2.3"])
@@ -162,6 +168,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<tinyatom>, [">= 0.2.0"])
     s.add_dependency(%q<twitter>, [">= 0.9.12"])
     s.add_dependency(%q<vimeo>, [">= 1.2.2"])
+    s.add_dependency(%q<rspec>, ["~> 1.3"])
   end
 end
 

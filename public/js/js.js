@@ -88,17 +88,6 @@ var Murlsh = function (config, $, navigator, window) {
         closerAdd(img($(event.target).data('href')));
     }
 
-    function twitterAddLinks(s) {
-        // turn urls into links and Twitter usernames into links to Twitter
-        var result = autoLink(s);
-
-        result = result.replace(
-            /(^|RT|[\s,.(])@([0-9a-z_]{1,20})(?=$|[\s,.):&])/gi,
-            '$1<a href="http://twitter.com/$2">@$2</a>');
-
-        return result;
-    }
-
     function vimeoClick(event) {
         var iframe = makeIframe(
             'http://player.vimeo.com/video/' + $(event.target).data('id'));
@@ -172,8 +161,8 @@ var Murlsh = function (config, $, navigator, window) {
                 });
 
                 formattedTweet = $('<span />').addClass('tweet').append(
-                    tweetLink).append(': ').append(twitterAddLinks(
-                    tweetMatch[2]));
+                    tweetLink).append(': ').append(
+                    twttr.txt.autoLink(tweetMatch[2]));
 
                 thisA.replaceWith(formattedTweet);
             }

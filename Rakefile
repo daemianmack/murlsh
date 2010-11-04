@@ -339,25 +339,30 @@ begin
     # gemspec.cert_chain = %w{/home/mmb/src/keys/gem-public_cert.pem}
 
     %w{
-      activerecord 2.3.4
-      bcrypt-ruby 2.1.2
-      builder 2.1.2
-      flickraw 0.8.3
-      flog 2.5.0
-      hpricot 0.8.1
-      htmlentities 4.2.0
-      json 1.2.3
-      push-notify 0.1.0
-      rack 1.0.0
-      rack-cache 0.5.2
-      rack-rewrite 1.0.2
-      rack-throttle 0.3.0
-      sqlite3-ruby 1.2.1
-      tinyatom 0.2.0
-      twitter 0.9.12
-      vimeo 1.2.2
-      }.each_slice(2) { |g,v| gemspec.add_dependency(g, ">= #{v}") }
-      gemspec.add_dependency('rspec',  '~> 1.3')
+      activerecord >= 2.3.4
+      bcrypt-ruby >= 2.1.2
+      builder >= 2.1.2
+      flickraw >= 0.8.3
+      hpricot >= 0.8.1
+      htmlentities >= 4.2.0
+      json >= 1.2.3
+      push-notify >= 0.1.0
+      rack >= 1.0.0
+      rack-cache >= 0.5.2
+      rack-rewrite >= 1.0.2
+      rack-throttle >= 0.3.0
+      sqlite3-ruby >= 1.2.1
+      tinyatom >= 0.2.0
+      twitter >= 0.9.12
+      vimeo >= 1.2.2
+      }.each_slice(3) { |g,o,v| gemspec.add_dependency(g, "#{o} #{v}") }
+    %w{
+      flog >= 2.5.0
+      metric_fu >= 1.5.1
+      rspec ~> 1.3
+      }.each_slice(3) do |g,o,v|
+      gemspec.add_development_dependency(g, "#{o} #{v}")
+    end
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"

@@ -1,3 +1,30 @@
+Copyright (c) 2010 Matthew M. Boedicker
+
+All code is licensed under the GPLv3 with the following exceptions, which are
+included third-party libraries:
+
+- jQuery by John Resig
+
+License: MIT or GPLv2
+
+Files:
+public/js/jquery-1.4.3.min.js
+
+- jGrowl by Stan Lemon
+
+License: MIT or GPLv2
+
+Files:
+public/css/jquery.jgrowl.css
+public/js/jquery.jgrowl_compressed.js
+
+- twitter-text-js by Twitter, Inc.
+
+License: Apache 2.0
+
+Files:
+public/js/twitter-text-1.0.3.js
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 

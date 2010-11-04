@@ -8,17 +8,14 @@ pp
 uri
 yaml
 
-flog
-spec/rake/spectask
 sqlite3
 
 murlsh
 }.each { |d| require d }
 
-# optional libraries
-%w{
-metric_fu
-}.each { |d| Murlsh::failproof { require d } }
+def gem_not_found(gem_name)
+  puts "#{gem_name} not found, install it with: gem install #{gem_name}"
+end
 
 config = YAML.load_file('config.yaml')
 
@@ -37,7 +34,7 @@ end
 desc 'Combine and compress static files.'
 task :compress => %w{css:compress js:compress}
 
-desc "Test remote content type fetch for a URL and show errors."
+desc 'Test remote content type fetch for a URL and show errors.'
 task :content_type, :url do |t, args|
   puts URI(args.url).extend(Murlsh::UriAsk).content_type(:failproof => false,
     :debug => STDOUT)
@@ -56,12 +53,12 @@ namespace :db do
     last.destroy if %w{y yes}.include?(response.downcase)
   end
 
-  desc "Check for duplicate URLs."
+  desc 'Check for duplicate URLs.'
   task :dupcheck do
     db = SQLite3::Database.new(config.fetch('db_file'))
     db.results_as_hash = true
     h = {}
-    db.execute("SELECT * FROM urls").each do |r|
+    db.execute('SELECT * FROM urls').each do |r|
       h[r['url']] = h.fetch(r['url'], []).push([r['id'], r['time']])
     end
     h.select { |k,v| v.size > 1 }.each do |k,v|
@@ -70,11 +67,11 @@ namespace :db do
     end
   end
 
-  desc "Create an empty database."
+  desc 'Create an empty database.'
   task :init do
     puts "creating #{config.fetch('db_file')}"
     db = SQLite3::Database.new(config.fetch('db_file'))
-    db.execute("CREATE TABLE urls (
+    db.execute('CREATE TABLE urls (
       id INTEGER PRIMARY KEY,
       time TIMESTAMP,
       url TEXT,
@@ -85,7 +82,7 @@ namespace :db do
       content_type TEXT,
       via TEXT,
       thumbnail_url TEXT);
-      ")
+      ')
   end
 
   desc 'Interact with the database.'
@@ -106,29 +103,43 @@ namespace :passenger do
 
 end
 
-desc "Run flog on ruby and report on complexity."
+desc 'Run flog on ruby and report on complexity.'
 task :flog do
-  flog = Flog.new
-  flog.flog('lib')
-  flog.report
-end
+  begin
+    require 'flog'
 
-desc "Run test suite."
-Spec::Rake::SpecTask.new('test') do |t|
-  t.spec_files = FileList['spec/*_spec.rb']
-  t.spec_opts = %w{--color}
-  # list of places to check for unicode_formatter.rb and use it if found
-  %w{unicode_formatter.rb}.map { |x| File.expand_path(x) }.each do |f|
-    if File.exists?(f)
-      t.spec_opts.push(*%W{--require #{f} --format UnicodeFormatter})
-      break
-    end
+    flog = Flog.new
+    flog.flog('lib')
+    flog.report
+  rescue LoadError
+    gem_not_found('flog')
   end
-  t.verbose = true
-  t.warning = true
 end
 
-desc "Test remote title fetch for a URL and show errors."
+desc 'Run test suite.'
+begin
+  require 'spec/rake/spectask'
+
+  Spec::Rake::SpecTask.new('test') do |t|
+    t.spec_files = FileList['spec/*_spec.rb']
+    t.spec_opts = %w{--color}
+    # list of places to check for unicode_formatter.rb and use it if found
+    %w{unicode_formatter.rb}.map { |x| File.expand_path(x) }.each do |f|
+      if File.exists?(f)
+        t.spec_opts.push(*%W{--require #{f} --format UnicodeFormatter})
+        break
+      end
+    end
+    t.verbose = true
+    t.warning = true
+  end
+rescue LoadError
+  task :test do
+    gem_not_found('rspec')
+  end
+end
+
+desc 'Test remote title fetch for a URL and show errors.'
 task :title, :url do |t, args|
   puts URI(args.url).extend(Murlsh::UriAsk).title(:failproof => false,
     :debug => STDOUT)
@@ -148,7 +159,7 @@ end
 
 namespace :user do
 
-  desc "Add a new user."
+  desc 'Add a new user.'
   task :add do
     puts "adding to #{config.fetch('auth_file')}"
     username = ask(:username)
@@ -358,7 +369,6 @@ begin
       }.each_slice(3) { |g,o,v| gemspec.add_dependency(g, "#{o} #{v}") }
     %w{
       flog >= 2.5.0
-      metric_fu >= 1.5.1
       rspec ~> 1.3
       }.each_slice(3) do |g,o,v|
       gemspec.add_development_dependency(g, "#{o} #{v}")

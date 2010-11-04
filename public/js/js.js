@@ -1,4 +1,4 @@
-/*global $, document, navigator, window*/
+/*global $, document, navigator, window, twttr*/
 
 "use strict";
 

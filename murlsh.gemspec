@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-11-04}
+  s.date = %q{2010-11-05}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -124,6 +124,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<rack-cache>, [">= 0.5.2"])
       s.add_runtime_dependency(%q<rack-rewrite>, [">= 1.0.2"])
       s.add_runtime_dependency(%q<rack-throttle>, [">= 0.3.0"])
+      s.add_runtime_dependency(%q<rmagick>, [">= 2.13.1"])
       s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
       s.add_runtime_dependency(%q<tinyatom>, [">= 0.2.0"])
       s.add_runtime_dependency(%q<twitter>, [">= 0.9.12"])
@@ -143,6 +144,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rack-cache>, [">= 0.5.2"])
       s.add_dependency(%q<rack-rewrite>, [">= 1.0.2"])
       s.add_dependency(%q<rack-throttle>, [">= 0.3.0"])
+      s.add_dependency(%q<rmagick>, [">= 2.13.1"])
       s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
       s.add_dependency(%q<tinyatom>, [">= 0.2.0"])
       s.add_dependency(%q<twitter>, [">= 0.9.12"])
@@ -163,6 +165,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rack-cache>, [">= 0.5.2"])
     s.add_dependency(%q<rack-rewrite>, [">= 1.0.2"])
     s.add_dependency(%q<rack-throttle>, [">= 0.3.0"])
+    s.add_dependency(%q<rmagick>, [">= 2.13.1"])
     s.add_dependency(%q<sqlite3-ruby>, [">= 1.2.1"])
     s.add_dependency(%q<tinyatom>, [">= 0.2.0"])
     s.add_dependency(%q<twitter>, [">= 0.9.12"])

@@ -8,6 +8,7 @@ pp
 uri
 yaml
 
+RMagick
 sqlite3
 
 murlsh
@@ -330,6 +331,28 @@ namespace :js do
 
 end
 
+namespace :thumb do
+
+  desc 'Check that thumbnail file extensions match file contents.'
+  task :check_ext do
+    ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
+      :database => config.fetch('db_file'))
+
+    Murlsh::Url.where('thumbnail_url is not null').each do |u|
+      path = File.join(%w{public}.concat(File.split(u.thumbnail_url)))
+      img_data = open(path) { |f| f.read }
+      img = Magick::ImageList.new.from_blob(img_data)[0]
+
+      ext = File.extname(path)
+      expected_ext = Murlsh::ImgStore.format_to_extension(img.format)
+      if ext != expected_ext
+        puts "#{path} has an extension of '#{ext}' but is actually a '#{expected_ext}'"
+      end
+    end
+  end
+
+end
+
 def ask(prompt, sep=':')
   print "#{prompt}#{sep} "
   return STDIN.gets.chomp
@@ -362,6 +385,7 @@ begin
       rack-cache >= 0.5.2
       rack-rewrite >= 1.0.2
       rack-throttle >= 0.3.0
+      rmagick >= 2.13.1
       sqlite3-ruby >= 1.2.1
       tinyatom >= 0.2.0
       twitter >= 0.9.12

@@ -4,6 +4,8 @@ digest/md5
 open-uri
 uri
 
+RMagick
+
 murlsh
 }.each { |m| require m }
 
@@ -29,11 +31,13 @@ module Murlsh
     # The filename will be the md5sum of the contents plus the original
     # extension.
     def store(url)
-      extension = File.extname(URI(url).path)
-
       open(url, headers) do |fin|
         img_data = fin.read
         md5sum = Digest::MD5.hexdigest(img_data)
+
+        img = Magick::ImageList.new.from_blob(img_data)[0]
+        extension = ImgStore.format_to_extension(img.format)
+
         local_file = "#{md5sum}#{extension}"
         local_path = File.join(storage_dir, local_file)
         unless File.exists?(local_path)
@@ -41,6 +45,14 @@ module Murlsh
         end
         local_file
       end
+    end
+
+    def self.format_to_extension(format)
+      {
+        'GIF' => '.gif',
+        'JPEG' => '.jpg',
+        'PNG' => '.png',
+      }[format]
     end
 
     attr_reader :storage_dir

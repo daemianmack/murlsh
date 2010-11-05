@@ -25,7 +25,7 @@ use Rack::ConditionalGet
 use Murlsh::EtagAddEncoding
 use Rack::Deflater
 use Murlsh::FarFutureExpires, :patterns => [
-  %r{/img/thumb/[\da-z]{32}}i,
+  %r{[\da-z]{32}\.(?:gif|jpe?g|png)$}i,
   %r{\.gen\.(css|js)$}
 ]
 

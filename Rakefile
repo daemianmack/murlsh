@@ -337,8 +337,7 @@ namespace :thumb do
   task :check_ext do
     ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
       :database => config.fetch('db_file'))
-
-    Murlsh::Url.where('thumbnail_url is not null').each do |u|
+    Murlsh::Url.all(:conditions => 'thumbnail_url is not null').each do |u|
       path = File.join(%w{public}.concat(File.split(u.thumbnail_url)))
       img_data = open(path) { |f| f.read }
       img = Magick::ImageList.new.from_blob(img_data)[0]

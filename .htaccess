@@ -13,7 +13,7 @@ AddOutputFilterByType DEFLATE text/html
   FileETag None
 </FilesMatch>
 
-<FilesMatch "(?i)/img/thumb/[\da-z]{32}">
+<FilesMatch "[\da-z]{32}\.(gif|jpe?g|png)$">
   Header add Expires "Wed, 22 Jun 2019 20:07:00 GMT"
   FileETag None
 </FilesMatch>

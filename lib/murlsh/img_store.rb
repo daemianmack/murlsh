@@ -3,6 +3,8 @@ cgi
 digest/md5
 open-uri
 uri
+
+murlsh
 }.each { |m| require m }
 
 module Murlsh
@@ -34,7 +36,9 @@ module Murlsh
         md5sum = Digest::MD5.hexdigest(img_data)
         local_file = "#{md5sum}#{extension}"
         local_path = File.join(storage_dir, local_file)
-        open(local_path, 'w') { |fout| fout.write(img_data) }
+        unless File.exists?(local_path)
+          Murlsh::openlock(local_path, 'w') { |fout| fout.write(img_data) }
+        end
         local_file
       end
     end

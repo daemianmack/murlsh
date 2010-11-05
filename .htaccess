@@ -12,3 +12,8 @@ AddOutputFilterByType DEFLATE text/html
   Header add Expires "Wed, 22 Jun 2019 20:07:00 GMT"
   FileETag None
 </FilesMatch>
+
+<FilesMatch "(?i)/img/thumb/[\da-z]{32}">
+  Header add Expires "Wed, 22 Jun 2019 20:07:00 GMT"
+  FileETag None
+</FilesMatch>

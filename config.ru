@@ -24,7 +24,10 @@ end
 use Rack::ConditionalGet
 use Murlsh::EtagAddEncoding
 use Rack::Deflater
-use Murlsh::FarFutureExpires, :patterns => %r{\.gen\.(css|js)$}
+use Murlsh::FarFutureExpires, :patterns => [
+  %r{/img/thumb/[\da-z]{32}}i,
+  %r{\.gen\.(css|js)$}
+]
 
 feed_url = URI.join(config.fetch('root_url'), config.fetch('feed_file'))
 use Murlsh::MustRevalidate, :patterns => %r{^#{Regexp.escape(feed_url.path)}$}

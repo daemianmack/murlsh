@@ -1,6 +1,8 @@
 %w{
 cgi
+digest/md5
 open-uri
+uri
 }.each { |m| require m }
 
 module Murlsh
@@ -21,13 +23,20 @@ module Murlsh
     end
 
     # Fetch an image from a url and store it locally.
+    #
+    # The filename will be the md5sum of the contents plus the original
+    # extension.
     def store(url)
-      local_file = CGI.escape(url)
-      local_path = File.join(storage_dir, local_file)
+      extension = File.extname(URI(url).path)
+
       open(url, headers) do |fin|
-        open(local_path, 'w') { |fout| fout.write(fin.read) }
+        img_data = fin.read
+        md5sum = Digest::MD5.hexdigest(img_data)
+        local_file = "#{md5sum}#{extension}"
+        local_path = File.join(storage_dir, local_file)
+        open(local_path, 'w') { |fout| fout.write(img_data) }
+        local_file
       end
-      local_file
     end
 
     attr_reader :storage_dir

@@ -333,19 +333,28 @@ end
 
 namespace :thumb do
 
-  desc 'Check that thumbnail file extensions match file contents.'
-  task :check_ext do
+  desc 'Check that local thumbnails in database are consistent with filesystem.'
+  task :check do
     ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
       :database => config.fetch('db_file'))
-    Murlsh::Url.all(:conditions => 'thumbnail_url is not null').each do |u|
-      path = File.join(%w{public}.concat(File.split(u.thumbnail_url)))
-      img_data = open(path) { |f| f.read }
-      img = Magick::ImageList.new.from_blob(img_data)[0]
+    Murlsh::Url.all(
+      :conditions => "thumbnail_url like 'img/thumb/%'").each do |u|
+      identity = "url #{u.id} (#{u.url})"
 
-      ext = File.extname(path)
-      expected_ext = Murlsh::ImgStore.format_to_extension(img.format)
-      if ext != expected_ext
-        puts "#{path} has an extension of '#{ext}' but is actually a '#{expected_ext}'"
+      path = File.join(%w{public}.concat(File.split(u.thumbnail_url)))
+      if File.readable?(path)
+        img_data = open(path) { |f| f.read }
+        img = Magick::ImageList.new.from_blob(img_data)[0]
+
+        ext = File.extname(path)
+
+        expected_ext = Murlsh::ImgStore.format_to_extension(img.format)
+        if ext != expected_ext
+          puts "#{identity} thumbnail #{path} has an extension of '#{ext}' but is actually a '#{expected_ext}'"
+
+        end
+      else
+        puts "#{identity} thumbnail #{path} does not exist or is not readable"
       end
     end
   end

@@ -109,7 +109,7 @@ module Murlsh
     def search_form
       form(:action => '', :method => 'get') {
         fieldset {
-          form_input(:id => 'q', :size => 32, :value => @q)
+          form_input(:type =>'search', :id => 'q', :size => 32, :value => @q)
           form_input(:type => 'submit', :value => 'Regex Search')
         }
       }
@@ -119,11 +119,17 @@ module Murlsh
     def add_form
       form(:action => '', :method => 'post') {
         fieldset(:id => 'add') {
-          self.p { form_input(:id => 'url', :label => 'Add URL', :size => 32) }
-          self.p { form_input(:id => 'via', :label => 'Via', :size => 32) }
           self.p {
-            form_input(:id => 'auth', :label => 'Password', :size => 16,
-              :type => 'password')
+            form_input(:type => 'url', :id => 'url', :label => 'Add URL',
+              :size => 32)
+          }
+          self.p {
+            form_input(:type => 'url', :id => 'via', :label => 'Via',
+              :size => 32)
+          }
+          self.p {
+            form_input(:type => 'password', :id => 'auth', :label => 'Password',
+              :size => 16)
             form_input(:id => 'submit', :type => 'button', :value => 'Add')
           }
         }

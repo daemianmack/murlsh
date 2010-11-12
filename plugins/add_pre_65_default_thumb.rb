@@ -23,12 +23,16 @@ module Murlsh
           chooser = Plumnailer::Chooser.new
           choice = chooser.choose(url.url)
 
-          choice.each { |i| i.resize_to_fit!(MaxWidth) if i.columns > MaxWidth }
+          if choice
+            choice.each do |i|
+              i.resize_to_fit!(MaxWidth) if i.columns > MaxWidth
+            end
 
-          thumb_storage = Murlsh::ImgStore.new(StorageDir)
+            thumb_storage = Murlsh::ImgStore.new(StorageDir)
 
-          stored_filename = thumb_storage.store_img_data(choice.to_blob)
-          url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
+            stored_filename = thumb_storage.store_img_data(choice.to_blob)
+            url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
+          end
         end
       end
     end

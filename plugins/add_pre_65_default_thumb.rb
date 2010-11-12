@@ -1,5 +1,5 @@
 %w{
-digest/md5
+cgi
 
 plumnailer
 

@@ -15,7 +15,7 @@ module Murlsh
 
     StorageDir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
       'thumb')
-    MaxWidth = 64
+    MaxSide = 64
 
     def self.run(url, config)
       unless url.thumbnail_url
@@ -25,7 +25,9 @@ module Murlsh
 
           if choice
             choice.each do |i|
-              i.resize_to_fit!(MaxWidth) if i.columns > MaxWidth
+              if i.columns > MaxSide or i.rows > MaxSide
+                i.resize_to_fit!(MaxSide, MaxSide)
+              end
             end
 
             thumb_storage = Murlsh::ImgStore.new(StorageDir)

@@ -74,7 +74,7 @@ Gem::Specification.new do |s|
      "plugins/url_display_add_65_time.rb",
      "public/css/jquery.jgrowl.css",
      "public/css/screen.css",
-     "public/img/thumb/README",
+     "public/img/thumb/.gitignore",
      "public/js/comments.json",
      "public/js/jquery-1.4.3.min.js",
      "public/js/jquery.jgrowl_compressed.js",

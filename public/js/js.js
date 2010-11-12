@@ -2,7 +2,7 @@
 
 "use strict";
 
-var Murlsh = function (config, $, navigator, window) {
+var Murlsh = function (config, $, navigator, window, twtter) {
 
     var my = {},
         hrefRes = {
@@ -224,7 +224,7 @@ var Murlsh = function (config, $, navigator, window) {
 
 $(document).ready(function () {
     $.getJSON('config', function (config) {
-        var murlsh = new Murlsh(config, $, navigator, window),
+	    var murlsh = new Murlsh(config, $, navigator, window, twttr),
             urls;
 
         if (murlsh.isIphone()) {

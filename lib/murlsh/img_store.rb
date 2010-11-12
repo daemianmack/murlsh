@@ -31,20 +31,25 @@ module Murlsh
     # The filename will be the md5sum of the contents plus the original
     # extension.
     def store(url)
-      open(url, headers) do |fin|
-        img_data = fin.read
-        md5sum = Digest::MD5.hexdigest(img_data)
+      open(url, headers) { |fin| store_img_data(fin.read) }
+    end
 
-        img = Magick::ImageList.new.from_blob(img_data)[0]
-        extension = ImgStore.format_to_extension(img.format)
+    # Accept a blob of image data and store it locally.
+    #
+    # The filename will be the md5sum of the contents plus the original
+    # extension.
+    def store_img_data(img_data)
+      md5sum = Digest::MD5.hexdigest(img_data)
 
-        local_file = "#{md5sum}#{extension}"
-        local_path = File.join(storage_dir, local_file)
-        unless File.exists?(local_path)
-          Murlsh::openlock(local_path, 'w') { |fout| fout.write(img_data) }
-        end
-        local_file
+      img = Magick::ImageList.new.from_blob(img_data)
+      extension = ImgStore.format_to_extension(img.format)
+
+      local_file = "#{md5sum}#{extension}"
+      local_path = File.join(storage_dir, local_file)
+      unless File.exists?(local_path)
+        Murlsh::openlock(local_path, 'w') { |fout| fout.write(img_data) }
       end
+      local_file
     end
 
     def self.format_to_extension(format)

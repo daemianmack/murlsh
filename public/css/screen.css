@@ -55,11 +55,6 @@ img.thumb, li object {
   margin-right : 10px;
 }
 
-img.thumb.twitter {
-  height : 48px;
-  width : 48px;
-}
-
 span.host {
   color : #808080;
   font-family : monospace;

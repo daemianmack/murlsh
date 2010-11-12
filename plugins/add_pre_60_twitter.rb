@@ -1,6 +1,4 @@
 %w{
-cgi
-
 twitter
 
 murlsh
@@ -14,19 +12,12 @@ module Murlsh
     @hook = 'add_pre'
 
     TwitterRe = %r{^https?://twitter\.com/\w+/status(?:es)?/(\d+)$}i
-    StorageDir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
-      'thumb')
 
     def self.run(url, config)
       if tweet_id = url.url[TwitterRe, 1]
         tweet = Twitter.status(tweet_id)
 
         url.title = "@#{tweet.user.screen_name}: #{tweet.text}"
-
-        thumb_storage = Murlsh::ImgStore.new(StorageDir,
-          :user_agent => config['user_agent'])
-        stored_filename = thumb_storage.store(tweet.user.profile_image_url)
-        url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
       end
     end
 

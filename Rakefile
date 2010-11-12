@@ -394,7 +394,7 @@ begin
       rack-cache >= 0.5.2
       rack-rewrite >= 1.0.2
       rack-throttle >= 0.3.0
-      rmagick >= 2.13.1
+      rmagick >= 1.15.14
       sqlite3-ruby >= 1.2.1
       tinyatom >= 0.2.0
       twitter >= 0.9.12

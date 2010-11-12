@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-11-05}
+  s.date = %q{2010-11-11}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -65,6 +65,7 @@ Gem::Specification.new do |s|
      "plugins/add_pre_60_twitter.rb",
      "plugins/add_pre_60_vimeo.rb",
      "plugins/add_pre_60_youtube.rb",
+     "plugins/add_pre_65_default_thumb.rb",
      "plugins/html_parse_50_hpricot.rb",
      "plugins/url_display_add_45_mp3.rb",
      "plugins/url_display_add_50_hostrec.rb",
@@ -78,6 +79,7 @@ Gem::Specification.new do |s|
      "public/js/jquery-1.4.3.min.js",
      "public/js/jquery.jgrowl_compressed.js",
      "public/js/js.js",
+     "public/js/modernizr-1.6.min.js",
      "public/js/twitter-text-1.0.3.js",
      "public/swf/player_mp3_mini.swf",
      "spec/auth_spec.rb",
@@ -119,6 +121,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_runtime_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_runtime_dependency(%q<json>, [">= 1.2.3"])
+      s.add_runtime_dependency(%q<plumnailer>, [">= 0.0.4"])
       s.add_runtime_dependency(%q<push-notify>, [">= 0.1.0"])
       s.add_runtime_dependency(%q<rack>, [">= 1.0.0"])
       s.add_runtime_dependency(%q<rack-cache>, [">= 0.5.2"])
@@ -139,6 +142,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_dependency(%q<json>, [">= 1.2.3"])
+      s.add_dependency(%q<plumnailer>, [">= 0.0.4"])
       s.add_dependency(%q<push-notify>, [">= 0.1.0"])
       s.add_dependency(%q<rack>, [">= 1.0.0"])
       s.add_dependency(%q<rack-cache>, [">= 0.5.2"])
@@ -160,6 +164,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<hpricot>, [">= 0.8.1"])
     s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
     s.add_dependency(%q<json>, [">= 1.2.3"])
+    s.add_dependency(%q<plumnailer>, [">= 0.0.4"])
     s.add_dependency(%q<push-notify>, [">= 0.1.0"])
     s.add_dependency(%q<rack>, [">= 1.0.0"])
     s.add_dependency(%q<rack-cache>, [">= 0.5.2"])

@@ -15,7 +15,6 @@ module Murlsh
 
     StorageDir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
       'thumb')
-    MaxSide = 64
 
     def self.run(url, config)
       unless url.thumbnail_url
@@ -24,9 +23,10 @@ module Murlsh
           choice = chooser.choose(url.url)
 
           if choice
+            max_side = config.fetch('thumbnail_max_side', 90)
             choice.each do |i|
-              if i.columns > MaxSide or i.rows > MaxSide
-                i.resize_to_fit!(MaxSide, MaxSide)
+              if i.columns > max_side or i.rows > max_side
+                i.resize_to_fit!(max_side, max_side)
               end
             end
 

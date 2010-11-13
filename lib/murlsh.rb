@@ -1,6 +1,23 @@
 require 'murlsh/head_from_get'
 
-Dir.glob(File.join(File.dirname(__FILE__), 'murlsh', '*.rb')).
-  map { |f| File.join('murlsh', File.basename(f, '.rb')) }.
-  sort.
-  each { |m| require m }
+require 'murlsh/auth'
+require 'murlsh/config_server'
+require 'murlsh/dispatch'
+require 'murlsh/doc'
+require 'murlsh/etag_add_encoding'
+require 'murlsh/failproof'
+require 'murlsh/far_future_expires'
+require 'murlsh/image_list'
+require 'murlsh/img_store'
+require 'murlsh/markup'
+require 'murlsh/must_revalidate'
+require 'murlsh/openlock'
+require 'murlsh/plugin'
+require 'murlsh/sqlite3_adapter'
+require 'murlsh/time_ago'
+require 'murlsh/uri_ask'
+require 'murlsh/uri'
+require 'murlsh/url_body'
+require 'murlsh/url'
+require 'murlsh/url_server'
+require 'murlsh/yaml_ordered_hash'

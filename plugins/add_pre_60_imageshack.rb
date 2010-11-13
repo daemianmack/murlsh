@@ -10,7 +10,7 @@ module Murlsh
     @hook = 'add_pre'
 
     ImageshackRe =
-      %r{^http://img\d+\.imageshack\.us/img\d+/\d+/\w+\.(jpe?g|gif|png)$}i
+      %r{^http://img\d+\.imageshack\.us/img\d+/\d+/\w+\.(?:jpe?g|gif|png)$}i
     StorageDir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
       'thumb')
 

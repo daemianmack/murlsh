@@ -4,12 +4,12 @@ require 'murlsh'
 
 module Murlsh
 
-  # show the domain of the url
+  # Show the domain of the url.
   class UrlDisplayAdd50HostRec < Plugin
 
     @hook = 'url_display_add'
 
-    # show the domain of the url
+    # Show the domain of the url.
     def self.run(markup, url, config)
       if domain = Murlsh::failproof { URI(url.url).domain }
         # show domain if not already contained in title and not on skip list

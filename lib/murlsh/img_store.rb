@@ -1,4 +1,5 @@
 require 'cgi'
+require 'digest/md5'
 require 'open-uri'
 require 'uri'
 
@@ -25,7 +26,7 @@ module Murlsh
 
     # Fetch an image from a url and store it locally.
     #
-    # The filename will be the md5sum of the contents plus the original
+    # The filename will be the md5sum of the contents plus the correct
     # extension.
     #
     # If a block is given the Magick::ImageList created will be yielded
@@ -36,7 +37,7 @@ module Murlsh
 
     # Accept a blob of image data and store it locally.
     #
-    # The filename will be the md5sum of the contents plus the original
+    # The filename will be the md5sum of the contents plus the correct
     # extension.
     #
     # If a block is given the Magick::ImageList created will be yielded
@@ -49,21 +50,19 @@ module Murlsh
 
     # Accept a Magick::ImageList and store it locally.
     #
-    # The filename will be the md5sum of the contents plus the original
+    # The filename will be the md5sum of the contents plus the correct
     # extension.
     def store_img(img)
-      local_file = self.class.local_file_name(img)
+      img.extend(Murlsh::ImageList)
+      img_data = img.to_blob
+      md5 = Digest::MD5.hexdigest(img_data)
+
+      local_file = "#{md5}#{img.preferred_extension}"
       local_path = File.join(storage_dir, local_file)
       unless File.exists?(local_path)
-        Murlsh::openlock(local_path, 'w') { |fout| img.write(fout) }
+        Murlsh::openlock(local_path, 'w') { |fout| fout.write(img_data) }
       end
       local_file
-    end
-
-    # Generate the local filename for an image.
-    def self.local_file_name(img)
-      img.extend(Murlsh::ImageList)
-      "#{img.md5}#{img.preferred_extension}"
     end
 
     attr_reader :storage_dir

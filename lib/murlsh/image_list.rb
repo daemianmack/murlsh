@@ -1,5 +1,3 @@
-require 'digest/md5'
-
 module Murlsh
 
   # Magick::ImageList mixin.
@@ -12,9 +10,6 @@ module Murlsh
         i.resize_to_fit!(max_side, max_side)
       end
     end
-
-    # Return the hex MD5 sum of this image data.
-    def md5; Digest::MD5.hexdigest(to_blob); end
 
     # Get the preferred extension for this image.
     def preferred_extension; FormatExtensions[self.format]; end

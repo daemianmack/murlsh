@@ -12,6 +12,9 @@ module Murlsh
   # Fetch images from urls and store them locally.
   class ImgStore
 
+    # Fetch images from urls and store them locally.
+    # Options:
+    # * :user_agent - user agent to send with http requests
     def initialize(storage_dir, options={})
       @storage_dir = storage_dir
       @user_agent = options[:user_agent]

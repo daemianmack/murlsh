@@ -342,14 +342,19 @@ namespace :thumb do
       path = File.join(%w{public}.concat(File.split(u.thumbnail_url)))
       if File.readable?(path)
         img_data = open(path) { |f| f.read }
-        img = Magick::ImageList.new.from_blob(img_data)[0]
 
-        ext = File.extname(path)
+        unless img_data.empty?
+          img = Magick::ImageList.new.from_blob(img_data).extend(
+            Murlsh::ImageList)
 
-        expected_ext = Murlsh::ImgStore.format_to_extension(img.format)
-        if ext != expected_ext
-          puts "#{identity} thumbnail #{path} has an extension of '#{ext}' but is actually a '#{expected_ext}'"
+          ext = File.extname(path)
+          expected_ext = img.preferred_extension
+          if ext != expected_ext
+            puts "#{identity} thumbnail #{path} has an extension of '#{ext}' but is actually a '#{expected_ext}'"
 
+          end
+        else
+          puts "#{identity} thumbnail #{path} is empty"
         end
       else
         puts "#{identity} thumbnail #{path} does not exist or is not readable"

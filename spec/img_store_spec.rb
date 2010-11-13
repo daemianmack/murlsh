@@ -1,4 +1,3 @@
-require 'cgi'
 require 'digest/md5'
 require 'fileutils'
 require 'open-uri'
@@ -30,7 +29,7 @@ describe Murlsh::ImgStore do
       end
 
       it 'should create a local file with the correct contents' do
-        md5 = Digest::MD5.hexdigest(open(@local_path) { |f| f.read })
+        md5 = Digest::MD5.file(@local_path).hexdigest
         md5.should == '089d0d10e322c3afb6dbfc2106f76e31'
       end
 

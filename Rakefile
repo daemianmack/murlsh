@@ -1,18 +1,16 @@
 $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
-%w{
-cgi
-digest/md5
-net/http
-pp
-uri
-yaml
+require 'cgi'
+require 'digest/md5'
+require 'net/http'
+require 'pp'
+require 'uri'
+require 'yaml'
 
-RMagick
-sqlite3
+require 'RMagick'
+require 'sqlite3'
 
-murlsh
-}.each { |d| require d }
+require 'murlsh'
 
 def gem_not_found(gem_name)
   puts "#{gem_name} not found, install it with: gem install #{gem_name}"

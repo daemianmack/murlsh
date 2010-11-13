@@ -1,14 +1,12 @@
 $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
-%w{
-yaml
+require 'yaml'
 
-rack/cache
-rack/rewrite
-rack/throttle
+require 'rack/cache'
+require 'rack/rewrite'
+require 'rack/throttle'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 config = YAML.load_file('config.yaml')
 

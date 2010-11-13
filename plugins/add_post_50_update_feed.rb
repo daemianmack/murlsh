@@ -1,10 +1,8 @@
-%w{
-uri
+require 'uri'
 
-tinyatom
+require 'tinyatom'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 module Murlsh
 

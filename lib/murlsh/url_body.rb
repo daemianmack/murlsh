@@ -1,6 +1,4 @@
-%w{
-builder
-}.each { |m| require m }
+require 'builder'
 
 module Murlsh
 

@@ -1,6 +1,4 @@
-%w{
-uri
-}.each { |m| require m }
+require 'uri'
 
 # Extra methods added to URI class.
 class URI::Generic

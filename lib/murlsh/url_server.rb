@@ -1,7 +1,5 @@
-%w{
-active_record
-rack
-}.each { |m| require m }
+require 'active_record'
+require 'rack'
 
 module Murlsh
 

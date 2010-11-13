@@ -1,10 +1,8 @@
-%w{
-cgi
+require 'cgi'
 
-plumnailer
+require 'plumnailer'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 module Murlsh
 

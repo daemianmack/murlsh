@@ -1,12 +1,10 @@
-%w{
-cgi
-digest/sha1
-fileutils
-open-uri
-tempfile
+require 'cgi'
+require 'digest/sha1'
+require 'fileutils'
+require 'open-uri'
+require 'tempfile'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 describe Murlsh::ImgStore do
 

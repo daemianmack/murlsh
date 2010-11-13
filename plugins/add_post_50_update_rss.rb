@@ -1,9 +1,7 @@
-%w{
-rss/maker
-uri
+require 'rss/maker'
+require 'uri'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 module Murlsh
 

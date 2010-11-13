@@ -1,9 +1,7 @@
-%w{
-digest/sha1
+require 'digest/sha1'
 
-json
-rack
-}.each { |m| require m }
+require 'json'
+require 'rack'
 
 module Murlsh
 

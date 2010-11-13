@@ -1,6 +1,4 @@
-%w{
-time
-}.each { |m| require m }
+require 'time'
 
 module Murlsh
 

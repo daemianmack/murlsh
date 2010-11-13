@@ -1,8 +1,6 @@
-%w{
-flickraw
+require 'flickraw'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 module Murlsh
 

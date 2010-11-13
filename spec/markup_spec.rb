@@ -1,6 +1,4 @@
-%w{
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 class MarkupMixer < Builder::XmlMarkup
   include Murlsh::Markup

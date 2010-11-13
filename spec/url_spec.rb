@@ -1,12 +1,8 @@
-$:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'tempfile'
 
-%w{
-tempfile
+require 'sqlite3'
 
-sqlite3
-
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 describe Murlsh::Url do
 

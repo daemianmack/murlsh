@@ -1,9 +1,7 @@
-%w{
-csv
-digest/md5
+require 'csv'
+require 'digest/md5'
 
-bcrypt
-}.each { |m| require m }
+require 'bcrypt'
 
 module Murlsh
 

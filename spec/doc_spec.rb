@@ -1,8 +1,6 @@
-%w{
-hpricot
+require 'hpricot'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 describe Murlsh::Doc do
 

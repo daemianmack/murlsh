@@ -1,6 +1,4 @@
-%w{
-rack/utils
-}.each { |m| require m }
+require 'rack/utils'
 
 module Murlsh
 

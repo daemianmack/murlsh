@@ -1,8 +1,6 @@
-%w{
-tempfile
+require 'tempfile'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 describe Murlsh::Auth do
 

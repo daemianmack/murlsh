@@ -1,6 +1,4 @@
-%w{
-yaml
-}.each { |m| require m }
+require 'yaml'
 
 module Murlsh
 

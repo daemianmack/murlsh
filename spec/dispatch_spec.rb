@@ -1,8 +1,6 @@
-%w{
-rack/test
+require 'rack/test'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 describe Murlsh::Dispatch do
   include Rack::Test::Methods

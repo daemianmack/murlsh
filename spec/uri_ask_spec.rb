@@ -1,8 +1,6 @@
-%w{
-uri
+require 'uri'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 Dir['plugins/*.rb'].each { |p| load p }
 

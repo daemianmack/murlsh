@@ -12,7 +12,7 @@ module Murlsh
       super(:indent => @config['html_indent'] || 0)
     end
 
-    # Fetch urls base on query string parameters.
+    # Fetch urls based on query string parameters.
     def urls
       Murlsh::Url.all(:conditions => search_conditions, :order => 'id DESC',
         :limit =>  @req.params['n'] ? @req.params['n'].to_i :

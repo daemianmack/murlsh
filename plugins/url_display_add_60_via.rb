@@ -4,7 +4,7 @@ require 'murlsh'
 
 module Murlsh
 
-  # show a via link for the url
+  # Show a via link for the url.
   class UrlDisplayAdd60Via < Plugin
 
     @hook = 'url_display_add'
@@ -16,7 +16,7 @@ module Murlsh
     TwitterRe = %r{^twitter\.com/(\w+)}i
     TumblrRe = %r{^([a-z\d][a-z\d-]{0,61}[a-z\d])\.tumblr\.com/}i
 
-    # show a via link for the url
+    # Show a via link for the url.
     def self.run(markup, url, config)
       if url.via
         if via_uri = Murlsh::failproof { URI(url.via) }

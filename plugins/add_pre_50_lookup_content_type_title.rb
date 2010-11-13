@@ -4,7 +4,7 @@ require 'murlsh'
 
 module Murlsh
 
-  # try to fetch the content length, content type and title of a url
+  # Try to fetch the content length, content type and title of a url.
   class AddPre50LookupContentTypeTitle < Plugin
 
     @hook = 'add_pre'

@@ -1,5 +1,5 @@
 require 'cgi'
-require 'digest/sha1'
+require 'digest/md5'
 require 'fileutils'
 require 'open-uri'
 require 'tempfile'
@@ -21,17 +21,17 @@ describe Murlsh::ImgStore do
       before(:all) do
         @image_url =
           'http://static.mmb.s3.amazonaws.com/2010_10_8_bacon_pancakes.jpg'
-        @local_file = @img_store.store(@image_url)
+        @local_file = @img_store.store_url(@image_url)
         @local_path = File.join(@thumb_dir, @local_file)
       end
 
       it 'should return the correct filename' do
-        @local_file.should == CGI.escape(@image_url)
+        @local_file.should == '089d0d10e322c3afb6dbfc2106f76e31.jpg'
       end
 
       it 'should create a local file with the correct contents' do
-        sha1 = Digest::SHA1.hexdigest(open(@local_path) { |f| f.read })
-        sha1.should == '2749b80537cbf15f1c432c576b4d9e109a8ab565'
+        md5 = Digest::MD5.hexdigest(open(@local_path) { |f| f.read })
+        md5.should == '089d0d10e322c3afb6dbfc2106f76e31'
       end
 
     end
@@ -40,7 +40,7 @@ describe Murlsh::ImgStore do
 
       it 'should raise OpenURI::HTTPError 404 Not Found' do
         lambda {
-          @img_store.store('http://matthewm.boedicker.org/does_not_exist') }.
+          @img_store.store_url('http://matthewm.boedicker.org/does_not_exist') }.
           should raise_error(OpenURI::HTTPError, '404 Not Found')
       end
 

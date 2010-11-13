@@ -4,7 +4,7 @@ require 'murlsh'
 
 module Murlsh
 
-  # Set title to entire tweet and set thumbnail url.
+  # Set title of twitter status urls to entire tweet.
   class AddPre60Twitter < Plugin
 
     @hook = 'add_pre'

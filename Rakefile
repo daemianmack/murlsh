@@ -353,6 +353,11 @@ namespace :thumb do
             puts "#{identity} thumbnail #{path} has an extension of '#{ext}' but is actually a '#{expected_ext}'"
 
           end
+
+          md5 = Digest::MD5.hexdigest(img_data)
+          if File.basename(path, ext) != md5
+            puts "#{identity} thumbnail #{path} filename does not match file content md5 (#{md5})"
+          end
         else
           puts "#{identity} thumbnail #{path} is empty"
         end

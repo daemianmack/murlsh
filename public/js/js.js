@@ -7,7 +7,7 @@ var Murlsh = function (config, $, navigator, window, twtter) {
     var my = {},
         hrefRes = {
             imageshack :
-                /^http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.jpe?g|gif|png$/i,
+                /^http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.(?:jpe?g|gif|png)$/i,
             imgur :
                 /^http:\/\/(?:i\.)?imgur\.com\/[a-z\d]+\.(?:jpe?g|gif|png)$/i,
             s3 :

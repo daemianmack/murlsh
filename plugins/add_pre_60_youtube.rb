@@ -19,7 +19,10 @@ module Murlsh
         thumb_storage = Murlsh::ImgStore.new(StorageDir,
           :user_agent => config['user_agent'])
         stored_filename = thumb_storage.store_url(
-          "http://img.youtube.com/vi/#{youtube_id}/default.jpg")
+          "http://img.youtube.com/vi/#{youtube_id}/default.jpg") do |i|
+          max_side = config.fetch('thumbnail_max_side', 90)
+          i.extend(Murlsh::ImageList).resize_down!(max_side)
+        end
         url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
       end
     end

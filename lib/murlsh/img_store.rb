@@ -27,16 +27,24 @@ module Murlsh
     #
     # The filename will be the md5sum of the contents plus the original
     # extension.
-    def store_url(url)
-      open(url, headers) { |fin| store_img_data(fin.read) }
+    #
+    # If a block is given the Magick::ImageList created will be yielded
+    # before storage.
+    def store_url(url, &block)
+      open(url, headers) { |fin| store_img_data(fin.read, &block) }
     end
 
     # Accept a blob of image data and store it locally.
     #
     # The filename will be the md5sum of the contents plus the original
     # extension.
-    def store_img_data(img_data)
-      store_img(Magick::ImageList.new.from_blob(img_data))
+    #
+    # If a block is given the Magick::ImageList created will be yielded
+    # before storage.
+    def store_img_data(img_data, &block)
+      img = Magick::ImageList.new.from_blob(img_data)
+      yield img if block_given?
+      store_img(img)
     end
 
     # Accept a Magick::ImageList and store it locally.

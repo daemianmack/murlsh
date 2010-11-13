@@ -23,7 +23,10 @@ module Murlsh
 
         thumb_storage = Murlsh::ImgStore.new(StorageDir,
           :user_agent => config['user_agent'])
-        stored_filename = thumb_storage.store_url(info['thumbnail_small'])
+        stored_filename = thumb_storage.store_url(info['thumbnail_small']) do |i|
+          max_side = config.fetch('thumbnail_max_side', 90)
+          i.extend(Murlsh::ImageList).resize_down!(max_side)
+        end
         url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
       end
     end

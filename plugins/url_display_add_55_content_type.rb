@@ -2,12 +2,12 @@ require 'murlsh'
 
 module Murlsh
 
-  # warn of content types that launch external apps
+  # Warn of content types that launch external apps.
   class UrlDisplayAdd55ContentType < Plugin
 
     @hook = 'url_display_add'
 
-    # warn of content types that launch external apps
+    # Warn of content types that launch external apps.
     def self.run(markup, url, config)
       content_type_display = case url.content_type
         when 'application/pdf' then 'pdf'

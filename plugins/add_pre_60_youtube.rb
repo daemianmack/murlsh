@@ -1,8 +1,6 @@
-%w{
-cgi
+require 'cgi'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 module Murlsh
 
@@ -20,7 +18,7 @@ module Murlsh
       if youtube_id = url.url[YoutubeRe, 1]
         thumb_storage = Murlsh::ImgStore.new(StorageDir,
           :user_agent => config['user_agent'])
-        stored_filename = thumb_storage.store(
+        stored_filename = thumb_storage.store_url(
           "http://img.youtube.com/vi/#{youtube_id}/default.jpg")
         url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
       end

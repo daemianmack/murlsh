@@ -1,8 +1,6 @@
-%w{
-cgi
+require 'cgi'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 module Murlsh
 
@@ -21,7 +19,7 @@ module Murlsh
 
         thumb_storage = Murlsh::ImgStore.new(StorageDir,
           :user_agent => config['user_agent'])
-        stored_filename = thumb_storage.store(
+        stored_filename = thumb_storage.store_url(
           "#{match[1]}#{match[2]}.th.#{extension}")
 
         url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"

@@ -1,13 +1,10 @@
-%w{
-cgi
-digest/md5
-open-uri
-uri
+require 'cgi'
+require 'open-uri'
+require 'uri'
 
-RMagick
+require 'RMagick'
 
-murlsh
-}.each { |m| require m }
+require 'murlsh'
 
 module Murlsh
 
@@ -30,7 +27,7 @@ module Murlsh
     #
     # The filename will be the md5sum of the contents plus the original
     # extension.
-    def store(url)
+    def store_url(url)
       open(url, headers) { |fin| store_img_data(fin.read) }
     end
 
@@ -39,26 +36,23 @@ module Murlsh
     # The filename will be the md5sum of the contents plus the original
     # extension.
     def store_img_data(img_data)
-      md5sum = Digest::MD5.hexdigest(img_data)
+      store_img(Magick::ImageList.new.from_blob(img_data))
+    end
 
-      img = Magick::ImageList.new.from_blob(img_data)
-      extension = ImgStore.format_to_extension(img.format)
-
-      local_file = "#{md5sum}#{extension}"
+    # Accept a Magick::ImageList and store it locally.
+    #
+    # The filename will be the md5sum of the contents plus the original
+    # extension.
+    def store_img(img)
+      local_file = self.class.local_file_name(img)
       local_path = File.join(storage_dir, local_file)
       unless File.exists?(local_path)
-        Murlsh::openlock(local_path, 'w') { |fout| fout.write(img_data) }
+        Murlsh::openlock(local_path, 'w') { |fout| img.write(fout) }
       end
       local_file
     end
 
-    def self.format_to_extension(format)
-      {
-        'GIF' => '.gif',
-        'JPEG' => '.jpg',
-        'PNG' => '.png',
-      }[format]
-    end
+    def self.local_file_name(img); "#{img.md5}#{img.preferred_extension}"; end
 
     attr_reader :storage_dir
   end

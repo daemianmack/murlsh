@@ -28,7 +28,7 @@ module Murlsh
 
             thumb_storage = Murlsh::ImgStore.new(StorageDir)
 
-            stored_filename = thumb_storage.store_img_data(choice.to_blob)
+            stored_filename = thumb_storage.store_img(choice)
             url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
           end
         end

@@ -52,7 +52,11 @@ module Murlsh
       local_file
     end
 
-    def self.local_file_name(img); "#{img.md5}#{img.preferred_extension}"; end
+    # Generate the local filename for an image.
+    def self.local_file_name(img)
+      img.extend(Murlsh::ImageList)
+      "#{img.md5}#{img.preferred_extension}"
+    end
 
     attr_reader :storage_dir
   end

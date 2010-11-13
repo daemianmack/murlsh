@@ -4,7 +4,7 @@ require 'murlsh'
 
 module Murlsh
 
-  # Add YouTube thumbnail.
+  # Set the thumbnail of imgur images.
   class AddPre60Imgur < Plugin
 
     @hook = 'add_pre'

@@ -24,11 +24,7 @@ module Murlsh
 
           if choice
             max_side = config.fetch('thumbnail_max_side', 90)
-            choice.each do |i|
-              if i.columns > max_side or i.rows > max_side
-                i.resize_to_fit!(max_side, max_side)
-              end
-            end
+            choice.extend(Murlsh::ImageList).resize_down!(max_side)
 
             thumb_storage = Murlsh::ImgStore.new(StorageDir)
 

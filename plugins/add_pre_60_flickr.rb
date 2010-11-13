@@ -4,7 +4,7 @@ require 'murlsh'
 
 module Murlsh
 
-  # Set the title and thumbnail url of Flickr photos.
+  # Set the title of Flickr photos.
   class AddPre60Flickr < Plugin
 
     @hook = 'add_pre'

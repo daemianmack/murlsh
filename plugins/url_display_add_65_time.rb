@@ -2,12 +2,12 @@ require 'murlsh'
 
 module Murlsh
 
-  # show the time the url was posted
+  # Show the time the url was posted.
   class UrlDisplayAdd65Time < Plugin
 
     @hook = 'url_display_add'
 
-    # show the time the url was posted
+    # Show the time the url was posted.
     def self.run(markup, url, config)
       if url.time
         display_time = url.time.extend(Murlsh::TimeAgo).ago

@@ -4,7 +4,7 @@ require 'murlsh'
 
 module Murlsh
 
-  # Add YouTube thumbnail.
+  # Set the thumbnail url for youtube urls.
   class AddPre60Youtube < Plugin
 
     @hook = 'add_pre'

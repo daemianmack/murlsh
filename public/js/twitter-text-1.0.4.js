@@ -1,5 +1,5 @@
 /*!
- * twitter-text-js 1.0.3
+ * twitter-text-js 1.0.4
  *
  * Copyright 2010 Twitter, Inc.
  * 
@@ -518,6 +518,8 @@ if (!window.twttr) {
         chunkCursor = hitSpot;
         if (index % 2 === 0) {
           startInChunk = true;
+        } else {
+          startInChunk = false;
         }
       }
     }

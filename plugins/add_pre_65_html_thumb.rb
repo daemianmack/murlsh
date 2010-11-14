@@ -6,16 +6,19 @@ require 'murlsh'
 
 module Murlsh
 
-  # Get thumbnail with plumnailer if not already set.
-  class AddPre65DefaultThumb < Plugin
+  # Get thumbnail for HTML page urls with plumnailer if not already set.
+  class AddPre65HtmlThumb < Plugin
 
     @hook = 'add_pre'
 
     StorageDir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
       'thumb')
 
+    MarkupContentTypeRe = %r{^text/html|application/xhtml\+xml}
+
     def self.run(url, config)
-      unless url.thumbnail_url
+      if !url.thumbnail_url and url.content_type and
+        url.content_type[MarkupContentTypeRe]
         Murlsh::failproof do
           chooser = Plumnailer::Chooser.new
           choice = chooser.choose(url.url)

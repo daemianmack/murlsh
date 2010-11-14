@@ -56,7 +56,7 @@ module Murlsh
     # The filename will be the md5sum of the contents plus the correct
     # extension.
     def store_img(img)
-      img.extend(Murlsh::ImageList)
+      img.extend(Murlsh::ImageList) unless img.is_a?(Murlsh::ImageList)
       img_data = img.to_blob
       md5 = Digest::MD5.hexdigest(img_data)
 

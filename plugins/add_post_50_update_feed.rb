@@ -46,6 +46,20 @@ module Murlsh
           end
         end
 
+        if mu.thumbnail_url
+          begin
+            # add root url to relative urls
+            tu = URI(mu.thumbnail_url)
+            abs_url = if tu.is_a?(URI::HTTP)
+              tu
+            else
+              URI.join(config['root_url'], tu)
+            end
+            options.merge!(:media_thumbnail_url => abs_url)
+          rescue URI::InvalidURIError
+          end
+        end
+
         Murlsh::failproof do
           if mu.via
             options.merge!(

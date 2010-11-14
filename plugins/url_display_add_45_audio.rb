@@ -14,11 +14,12 @@ module Murlsh
       }
 
     def self.run(markup, url, config)
-      if AudioContentTypes.include?(url.content_type)
+      if AudioContentTypes.include? url.content_type
+        markup.text! ' '
         markup.audio(
           :controls => 'controls',
           :preload => 'none',
-          :src => url.url)
+          :src => url.url) { }
       end
     end
 

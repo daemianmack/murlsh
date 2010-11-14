@@ -404,7 +404,7 @@ begin
       rack-throttle >= 0.3.0
       rmagick >= 1.15.14
       sqlite3-ruby >= 1.2.1
-      tinyatom >= 0.3.1
+      tinyatom >= 0.3.2
       twitter >= 0.9.12
       vimeo >= 1.2.2
       }.each_slice(3) { |g,o,v| gemspec.add_dependency(g, "#{o} #{v}") }

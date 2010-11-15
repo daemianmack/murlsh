@@ -22,7 +22,8 @@ var Murlsh = function (config, $, navigator, window, twtter) {
 
     function setupClickHandler(jQueryObject, dataKey, dataValue, handler) {
         if (!my.isIphone()) {
-            jQueryObject.data(dataKey, dataValue).click(handler);
+            jQueryObject.data(dataKey, dataValue).click(handler).addClass(
+                'clickable');
         }
     }
 
@@ -224,7 +225,7 @@ var Murlsh = function (config, $, navigator, window, twtter) {
 
 $(document).ready(function () {
     $.getJSON('config', function (config) {
-	    var murlsh = new Murlsh(config, $, navigator, window, twttr),
+        var murlsh = new Murlsh(config, $, navigator, window, twttr),
             urls;
 
         if (murlsh.isIphone()) {

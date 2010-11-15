@@ -55,6 +55,10 @@ img.thumb, li object {
   margin-right : 10px;
 }
 
+.clickable {
+  border-right : 4px solid green;
+}
+
 span.host {
   color : #808080;
   font-family : monospace;

@@ -49,7 +49,7 @@ namespace :db do
     last = Murlsh::Url.find(:last, :order => 'time')
     pp last
     response = ask('Delete this url', '?')
-    last.destroy if %w{y yes}.include?(response.downcase)
+    last.destroy  if %w{y yes}.include?(response.downcase)
   end
 
   desc 'Check for duplicate URLs.'
@@ -60,7 +60,7 @@ namespace :db do
     db.execute('SELECT * FROM urls').each do |r|
       h[r['url']] = h.fetch(r['url'], []).push([r['id'], r['time']])
     end
-    h.select { |k,v| v.size > 1 }.each do |k,v|
+    h.find_all { |k,v| v.size > 1 }.each do |k,v|
       puts k
       v.each { |id,time| puts "  #{id} #{time}" }
     end
@@ -108,10 +108,10 @@ task :flog do
     require 'flog'
 
     flog = Flog.new
-    flog.flog('lib')
+    flog.flog 'lib'
     flog.report
   rescue LoadError
-    gem_not_found('flog')
+    gem_not_found 'flog'
   end
 end
 
@@ -134,7 +134,7 @@ begin
   end
 rescue LoadError
   task :test do
-    gem_not_found('rspec')
+    gem_not_found 'rspec'
   end
 end
 
@@ -178,7 +178,7 @@ def validate(check_url, options={})
     :validator_port => 80,
     :validator_path =>
       "/check?uri=#{CGI::escape(check_url)}&charset=(detect+automatically)&doctype=Inline&group=0",
-  }.merge(options)
+  }.merge options
 
   net_http = Net::HTTP.new(opts[:validator_host], opts[:validator_port])
   # net_http.set_debug_output(STDOUT)
@@ -239,7 +239,7 @@ def cat(in_files, sep=nil)
   in_files.each do |fname|
     open(fname) do |h|
       while (line = h.gets) do; result << line; end
-      result << sep if sep
+      result << sep  if sep
     end
   end
   result
@@ -333,8 +333,8 @@ namespace :thumb do
 
   desc 'Check that local thumbnails in database are consistent with filesystem.'
   task :check do
-    ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
-      :database => config.fetch('db_file'))
+    ActiveRecord::Base.establish_connection :adapter => 'sqlite3',
+      :database => config.fetch('db_file')
     Murlsh::Url.all(
       :conditions => "thumbnail_url like 'img/thumb/%'").each do |u|
       identity = "url #{u.id} (#{u.url})"
@@ -371,7 +371,7 @@ end
 
 def ask(prompt, sep=':')
   print "#{prompt}#{sep} "
-  return STDIN.gets.chomp
+  STDIN.gets.chomp
 end
 
 begin

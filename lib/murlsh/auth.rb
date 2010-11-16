@@ -20,7 +20,7 @@ module Murlsh
     # Authenticate a user by password. Return their name and email if correct.
     def auth(password)
       CSV::Reader.parse(open(@file)) do |row|
-        return { :name => row[0], :email => row[1] } if
+        return { :name => row[0], :email => row[1] }  if
           BCrypt::Password.new(row[2]) == password
       end
     end
@@ -28,8 +28,8 @@ module Murlsh
     # Add a user to the authentication file.
     def add_user(username, email, password)
       Murlsh::openlock(@file, 'a') do |f|
-        f.write("#{[username, Digest::MD5.hexdigest(email),
-          BCrypt::Password.create(password)].join(',')}\n")
+        f.write "#{[username, Digest::MD5.hexdigest(email),
+          BCrypt::Password.create(password)].join(',')}\n"
       end
     end
 

@@ -21,8 +21,8 @@ describe Murlsh::Url do
       via TEXT);
       ")
 
-    ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
-      :database => @db_file.path)
+    ActiveRecord::Base.establish_connection :adapter => 'sqlite3',
+      :database => @db_file.path
 
     @url = Murlsh::Url.new
   end

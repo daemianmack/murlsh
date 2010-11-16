@@ -19,7 +19,7 @@ module Murlsh
       }
 
     def self.run(url, config)
-      if !url.thumbnail_url and url.content_type and
+      if not url.thumbnail_url and url.content_type and
         ImageContentType.include?(url.content_type)
         Murlsh::failproof do
           thumb_storage = Murlsh::ImgStore.new(StorageDir,

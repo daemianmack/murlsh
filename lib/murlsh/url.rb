@@ -11,10 +11,10 @@ module Murlsh
     # Get the title of this url.
     def title
       ta = read_attribute(:title)
-      ta = nil if ta and ta.empty?
+      ta = nil  if ta and ta.empty?
       
       ua = read_attribute(:url)
-      ua = nil if ua and ua.empty?
+      ua = nil  if ua and ua.empty?
 
       ta || ua || 'title missing'
     end

@@ -17,7 +17,7 @@ module Murlsh
     MarkupContentTypeRe = %r{^text/html|application/xhtml\+xml}
 
     def self.run(url, config)
-      if !url.thumbnail_url and url.content_type and
+      if not url.thumbnail_url and url.content_type and
         url.content_type[MarkupContentTypeRe]
         Murlsh::failproof do
           chooser = Plumnailer::Chooser.new

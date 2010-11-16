@@ -23,7 +23,7 @@ module Murlsh
     # Build headers to send with request.
     def headers
       result = {}
-      result['User-Agent'] = @user_agent if @user_agent
+      result['User-Agent'] = @user_agent  if @user_agent
       result
     end
 
@@ -35,7 +35,7 @@ module Murlsh
     # If a block is given the Magick::ImageList created will be yielded
     # before storage.
     def store_url(url, &block)
-      open(url, headers) { |fin| store_img_data(fin.read, &block) }
+      open(url, headers) { |fin| store_img_data fin.read, &block }
     end
 
     # Accept a blob of image data and store it locally.
@@ -48,7 +48,7 @@ module Murlsh
     def store_img_data(img_data, &block)
       img = Magick::ImageList.new.from_blob(img_data)
       yield img if block_given?
-      store_img(img)
+      store_img img
     end
 
     # Accept a Magick::ImageList and store it locally.
@@ -56,14 +56,14 @@ module Murlsh
     # The filename will be the md5sum of the contents plus the correct
     # extension.
     def store_img(img)
-      img.extend(Murlsh::ImageList) unless img.is_a?(Murlsh::ImageList)
+      img.extend(Murlsh::ImageList)  unless img.is_a?(Murlsh::ImageList)
       img_data = img.to_blob
       md5 = Digest::MD5.hexdigest(img_data)
 
       local_file = "#{md5}#{img.preferred_extension}"
       local_path = File.join(storage_dir, local_file)
       unless File.exists?(local_path)
-        Murlsh::openlock(local_path, 'w') { |fout| fout.write(img_data) }
+        Murlsh::openlock(local_path, 'w') { |fout| fout.write img_data }
       end
       local_file
     end

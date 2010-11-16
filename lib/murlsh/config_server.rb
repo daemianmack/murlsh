@@ -25,7 +25,7 @@ module Murlsh
     end
 
     # Serve a JSON subset of the configuration.
-    def get(req); Rack::Response.new(@config_json, 200, @headers); end
+    def get(req); Rack::Response.new @config_json, 200, @headers; end
 
   end
 

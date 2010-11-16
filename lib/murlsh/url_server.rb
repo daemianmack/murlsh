@@ -37,23 +37,23 @@ module Murlsh
       auth = req.params['auth']
       if user = auth.empty? ? nil : Murlsh::Auth.new(
         @config.fetch('auth_file')).auth(auth)
-        ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
-          :database => @config.fetch('db_file'))
+        ActiveRecord::Base.establish_connection :adapter => 'sqlite3',
+          :database => @config.fetch('db_file')
 
         mu = Murlsh::Url.new do |u|
           u.time = Time.now.gmtime
           u.url = req.params['url']
           u.email = user[:email]
           u.name = user[:name]
-          u.via = req.params['via'] unless (req.params['via'] || []).empty?
+          u.via = req.params['via']  unless (req.params['via'] || []).empty?
         end
 
         begin
           # validate before add_pre plugins have run and also after (in save!)
-          raise ActiveRecord::RecordInvalid.new(mu) unless mu.valid?
-          Murlsh::Plugin.hooks('add_pre') { |p| p.run(mu, @config) }
+          raise ActiveRecord::RecordInvalid.new(mu)  unless mu.valid?
+          Murlsh::Plugin.hooks('add_pre') { |p| p.run mu, @config }
           mu.save!
-          Murlsh::Plugin.hooks('add_post') { |p| p.run(mu, @config) }
+          Murlsh::Plugin.hooks('add_post') { |p| p.run mu, @config }
           response_body, response_code = [mu], 200
         rescue ActiveRecord::RecordInvalid => error
           response_body = {

@@ -49,11 +49,11 @@ module Murlsh
 
     # Called if the request is not found.
     def not_found(req)
-      Rack::Response.new("<p>#{req.url} not found</p>
+      Rack::Response.new "<p>#{req.url} not found</p>
 
 <p><a href=\"#{@config['root_url']}\">root<a></p>
 ",
-        404, { 'Content-Type' => 'text/html' })
+        404, { 'Content-Type' => 'text/html' }
     end
 
   end

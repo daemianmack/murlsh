@@ -48,20 +48,20 @@ module Murlsh
                 unless mu.same_author?(last)
                   div(:class => 'icon') {
                     gravatar(mu.email, 's' => gravatar_size, :text => mu.name)
-                  } if mu.email and gravatar_size > 0
-                  div(mu.name, :class => 'name') if
+                  }  if mu.email and gravatar_size > 0
+                  div(mu.name, :class => 'name')  if
                     @config.fetch('show_names', false) and mu.name
                 end
 
                 if mu.thumbnail_url
-                  murlsh_img(:src => mu.thumbnail_url,
-                    :text => mu.title_stripped, :class => 'thumb')
+                  murlsh_img :src => mu.thumbnail_url,
+                    :text => mu.title_stripped, :class => 'thumb'
                 end
 
-                a(mu.title_stripped, :href => mu.url, :class => 'm')
+                a mu.title_stripped, :href => mu.url, :class => 'm'
 
                 Murlsh::Plugin.hooks('url_display_add') do |p|
-                  p.run(self, mu, @config)
+                  p.run self, mu, @config
                 end
 
                 last = mu
@@ -74,7 +74,7 @@ module Murlsh
           clear
           powered_by
           js
-          div('', :id => 'bottom')
+          div '', :id => 'bottom'
         }
       }
     end
@@ -84,10 +84,10 @@ module Murlsh
       head {
         titlee
         meta :'http-equiv' => 'Content-Type', :content => @content_type
-        metas(@config.select { |k,v| k =~ /^meta_tag_/ and v }.
+        metas(@config.find_all { |k,v| k =~ /^meta_tag_/ and v }.
           map { |k,v| [k.sub('meta_tag_', ''), v] })
         css(@config['css_compressed'] || @config['css_files'])
-        atom(@config.fetch('feed_file'))
+        atom @config.fetch('feed_file')
       }
     end
 
@@ -107,8 +107,8 @@ module Murlsh
     def search_form
       form(:action => '', :method => 'get') {
         fieldset {
-          form_input(:id => 'q', :size => 32, :value => @q)
-          form_input(:type => 'submit', :value => 'Regex Search')
+          form_input :id => 'q', :size => 32, :value => @q
+          form_input :type => 'submit', :value => 'Regex Search'
         }
       }
     end
@@ -117,12 +117,12 @@ module Murlsh
     def add_form
       form(:action => '', :method => 'post') {
         fieldset(:id => 'add') {
-          self.p { form_input(:id => 'url', :label => 'Add URL', :size => 32) }
-          self.p { form_input(:id => 'via', :label => 'Via', :size => 32) }
+          self.p { form_input :id => 'url', :label => 'Add URL', :size => 32 }
+          self.p { form_input :id => 'via', :label => 'Via', :size => 32 }
           self.p {
-            form_input(:type => 'password', :id => 'auth', :label => 'Password',
-              :size => 16)
-            form_input(:id => 'submit', :type => 'button', :value => 'Add')
+            form_input :type => 'password', :id => 'auth', :label => 'Password',
+              :size => 16
+            form_input :id => 'submit', :type => 'button', :value => 'Add'
           }
         }
       }
@@ -135,7 +135,7 @@ module Murlsh
     def powered_by
       self.p {
         text! 'powered by '
-        a('murlsh', :href => 'http://github.com/mmb/murlsh/')
+        a 'murlsh', :href => 'http://github.com/mmb/murlsh/'
       }
     end
 

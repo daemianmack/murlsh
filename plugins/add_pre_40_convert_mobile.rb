@@ -13,12 +13,9 @@ module Murlsh
 
     def self.run(url, config)
       url.url = case
-        when match = TwitterRe.match(url.url)
-          "#{match[1]}#{match[2]}"
-        when match = WikipediaRe.match(url.url)
-          "#{match[1]}#{match[2]}"
-        else
-          url.url
+        when match = TwitterRe.match(url.url); "#{match[1]}#{match[2]}"
+        when match = WikipediaRe.match(url.url); "#{match[1]}#{match[2]}"
+        else; url.url
       end
     end
 

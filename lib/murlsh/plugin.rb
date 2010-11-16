@@ -21,7 +21,7 @@ module Murlsh
 
     # Get registered plugins by hook (add_pre, add_post, etc.)
     def self.hooks(name)
-      matches = registered.select { |p| p.hook == name }.
+      matches = registered.find_all { |p| p.hook == name }.
         sort { |a,b| a.to_s <=> b.to_s }
 
       if block_given?

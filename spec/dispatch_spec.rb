@@ -7,7 +7,7 @@ describe Murlsh::Dispatch do
 
   def app
     config = YAML.load_file('config.yaml')
-    Murlsh::Dispatch.new(config)
+    Murlsh::Dispatch.new config
   end
 
   it 'should return ok for GET /' do

@@ -12,7 +12,7 @@ module Murlsh
     def self.run(url, config)
       ask = URI(url.url).extend(Murlsh::UriAsk)
       headers = {}
-      headers['User-Agent'] = config['user_agent'] if config['user_agent']
+      headers['User-Agent'] = config['user_agent']  if config['user_agent']
 
       content_length = ask.content_length(:headers => headers)
       if content_length and not content_length.empty?

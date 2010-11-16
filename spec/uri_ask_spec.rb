@@ -30,17 +30,17 @@ describe Murlsh::UriAsk do
   end
 
   it 'should return text/html for the content type of a valid URI that is text/html' do
-    content_type('http://www.google.com/').should match /^text\/html/
+    content_type('http://www.google.com/').should match(/^text\/html/)
   end
 
   it 'should return text/html for the content type of a valid https URI that is text/html' do
     content_type('https://msp.f-secure.com/web-test/common/test.html'
-      ).should match /^text\/html/
+      ).should match(/^text\/html/)
   end
 
   it 'should return text/html for the content type of a URI that returns HTTP 203' do
     content_type('http://www.youtube.com/watch?v=Vxq9yj2pVWk'
-      ).should match /^text\/html/
+      ).should match(/^text\/html/)
   end
 
   it 'should return an empty string for the content type of an invalid URI when given failproof option true' do

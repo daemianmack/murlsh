@@ -9,8 +9,8 @@ module Murlsh
     # * :prefix - prefix to append to all script urls
     def javascript(sources, options={})
       [*sources].each do |src|
-        script('', :type => 'text/javascript',
-          :src => "#{options[:prefix]}#{src}")
+        script '', :type => 'text/javascript',
+          :src => "#{options[:prefix]}#{src}"
       end
     end
 
@@ -24,23 +24,23 @@ module Murlsh
     #
     # Any other options in hash will be added as attributes.
     def murlsh_img(options={})
-      img_convert_prefix(options)
-      img_convert_size(options)
-      img_convert_text(options)
+      img_convert_prefix options
+      img_convert_size options
+      img_convert_text options
 
       if options[:href]
         a(:href => options[:href]) {
-          options.delete(:href)
-          img(options)
+          options.delete :href
+          img options
         }
       else
-        img(options)
+        img options
       end
     end
 
     # ATOM feed link builder.
     def atom(href)
-      link(:rel => 'alternate', :type => 'application/atom+xml', :href => href)
+      link :rel => 'alternate', :type => 'application/atom+xml', :href => href
     end
 
     # CSS link builder.
@@ -54,14 +54,14 @@ module Murlsh
           :href => "#{options[:prefix]}#{href}",
           :rel => 'stylesheet',
         }
-        attrs[:media] = options[:media] if options[:media]
-        link(attrs)
+        attrs[:media] = options[:media]  if options[:media]
+        link attrs
       end
     end
 
     # Meta tag builder. Takes a hash of name => content.
     def metas(tags)
-      tags.each { |k,v| meta(:name => k, :content => v) }
+      tags.each { |k,v| meta :name => k, :content => v }
     end
 
     # Gravatar builder. Takes MD5 hash of email address.
@@ -76,19 +76,19 @@ module Murlsh
         (k == 'r' and %w{g pg r x}.include?(v)))
       end
 
-      return if query['s'] and query['s'] < 1
+      return  if query['s'] and query['s'] < 1
 
-      options.reject! { |k,v| %w{d s r}.include?(k) }
+      options.reject! { |k,v| %w{d s r}.include? k }
       options[:src] = URI.join('http://www.gravatar.com/avatar/',
         email_hash + build_query(query))
 
-      murlsh_img(options)
+      murlsh_img options
     end
 
     # Query string builder. Takes hash of query string variables.
     def build_query(h)
       h.empty? ? '' :
-        '?' + h.map { |k,v| URI.escape("#{k}=#{v}") }.join('&')
+        '?' + h.map { |k,v| URI.escape "#{k}=#{v}" }.join('&')
     end
 
     # Form input builder.
@@ -101,7 +101,7 @@ module Murlsh
         options[:name] ||= options[:id]
       end
 
-      options.delete(:label)
+      options.delete :label
 
       input({
         :type => 'text',
@@ -113,7 +113,7 @@ module Murlsh
     def img_convert_prefix(options)
       if options.has_key?(:prefix) and options.has_key?(:src)
         options[:src] = options[:prefix] + options[:src]
-        options.delete(:prefix)
+        options.delete :prefix
       end
     end
 
@@ -124,14 +124,14 @@ module Murlsh
         else
           options[:width] = options[:height] = options[:size]
         end
-        options.delete(:size)
+        options.delete :size
       end
     end
 
     def img_convert_text(options)
       if options.has_key?(:text)
         options[:alt] = options[:title] = options[:text]
-        options.delete(:text)
+        options.delete :text
       end
     end
 

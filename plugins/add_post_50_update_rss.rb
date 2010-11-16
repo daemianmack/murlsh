@@ -10,7 +10,7 @@ module Murlsh
 
     @hook = 'add_post'
 
-    # content types to add an enclosure for
+    # Content types to add an enclosure for.
     EnclosureContentTypes = %w{
       application/pdf
       audio/mpeg

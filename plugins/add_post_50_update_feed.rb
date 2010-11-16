@@ -6,12 +6,12 @@ require 'murlsh'
 
 module Murlsh
 
-  # regenerate atom feed after a new url has been added
+  # Regenerate atom feed after a new url has been added.
   class AddPost50UpdateFeed < Plugin
 
     @hook = 'add_post'
 
-    # content types to add an enclosure for
+    # Content types to add an enclosure for.
     EnclosureContentTypes = %w{
       application/pdf
       audio/mpeg
@@ -42,20 +42,20 @@ module Murlsh
             :enclosure_title => mu.title
             )
           if mu.content_length
-            options.merge!(:enclosure_length => mu.content_length)
+            options.merge! :enclosure_length => mu.content_length
           end
         end
 
         if mu.thumbnail_url
           begin
-            # add root url to relative urls
+            # Add root url to relative urls.
             tu = URI(mu.thumbnail_url)
             abs_url = if tu.is_a?(URI::HTTP)
               tu
             else
-              URI.join(config['root_url'], tu)
+              URI.join config['root_url'], tu
             end
-            options.merge!(:media_thumbnail_url => abs_url)
+            options.merge! :media_thumbnail_url => abs_url
           rescue URI::InvalidURIError
           end
         end
@@ -70,11 +70,11 @@ module Murlsh
           end
         end
 
-        feed.add_entry(mu.id, mu.title_stripped, mu.time, mu.url, options)
+        feed.add_entry mu.id, mu.title_stripped, mu.time, mu.url, options
       end
 
       Murlsh::openlock(config.fetch('feed_file'), 'w') do |f|
-        feed.make(:target => f)
+        feed.make :target => f
       end
 
     end

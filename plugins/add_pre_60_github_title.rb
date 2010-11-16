@@ -15,7 +15,7 @@ module Murlsh
     def self.run(url, config)
       if url.url[GithubRe]
         ask = URI(url.url).extend(Murlsh::UriAsk)
-        url.title << " - #{ask.description}" unless ask.description.empty?
+        url.title << " - #{ask.description}"  unless ask.description.empty?
       end
     end
 

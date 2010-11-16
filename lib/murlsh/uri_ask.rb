@@ -17,14 +17,14 @@ module Murlsh
     # Options:
     # * :failproof - if true hide all exceptions and return empty string on failure
     # * :headers - hash of headers to send in request
-    def content_length(options={}); header('content-length', options); end
+    def content_length(options={}); header 'content-length', options; end
 
     # Get the content type.
     #
     # Options:
     # * :failproof - if true hide all exceptions and return empty string on failure
     # * :headers - hash of headers to send in request
-    def content_type(options={}); header('content-type', options); end
+    def content_type(options={}); header 'content-type', options; end
 
     # Get the HTML title.
     #
@@ -32,15 +32,13 @@ module Murlsh
     # * :failproof - if true hide all exceptions and return url on failure
     # * :headers - hash of headers to send in request
     def title(options={})
-      return @title if defined?(@title)
+      return @title  if defined?(@title)
 
       @title = to_s
 
       d = doc(options)
 
-      if d and d.title and !d.title.empty?
-        @title = decode(d.title)
-      end
+      if d and d.title and not d.title.empty?; @title = decode(d.title); end
 
       @title
     end
@@ -51,13 +49,13 @@ module Murlsh
     # * :failproof - if true hide all exceptions and return empty string on failure
     # * :headers - hash of headers to send in request
     def description(options={})
-      return @description if defined?(@description)
+      return @description  if defined?(@description)
 
       @description = ''
 
       d = doc(options)
 
-      if d and d.description and !d.description.empty?
+      if d and d.description and not d.description.empty?
         @description = decode(d.description)
       end
 
@@ -73,7 +71,7 @@ module Murlsh
     # * :failproof - if true hide all exceptions and return empty string on failure
     # * :headers - hash of headers to send in request
     def doc(options={})
-      return @doc if defined?(@doc)
+      return @doc  if defined?(@doc)
       options[:headers] = default_headers.merge(options.fetch(:headers, {}))
 
       @doc = nil
@@ -91,6 +89,7 @@ module Murlsh
           end
         end
       end
+
       @doc
     end
 
@@ -107,10 +106,10 @@ module Murlsh
       result
     end
 
+    HtmlContentTypePattern = %r{^text/html}i
+
     # Return true if the content type is HTML.
-    def html?(options={})
-      content_type(options)[/^text\/html/]
-    end
+    def html?(options={}); content_type(options)[HtmlContentTypePattern]; end
 
     # Convert from the character set of this url to utf-8 and decode HTML
     # entities.
@@ -125,7 +124,7 @@ module Murlsh
     # * :headers - hash of headers to send in request
     def header(header_name, options={})
       result = [*head_headers(options)[header_name]][0]
-      result = get_headers(options)[header_name] if !result or result.empty?
+      result = get_headers(options)[header_name]  if not result or result.empty?
       result || ''
     end
 
@@ -137,7 +136,7 @@ module Murlsh
     # * :failproof - if true hide all exceptions and return empty hash on failure
     # * :headers - hash of headers to send in request
     def head_headers(options={})
-      return @head_headers if defined?(@head_headers)
+      return @head_headers  if defined?(@head_headers)
 
       request_headers = default_headers.merge(options.fetch(:headers, {}))
 
@@ -151,8 +150,8 @@ module Murlsh
         if Net::HTTPSuccess === resp
           response_headers = resp.to_hash
         end
-
       end
+
       @head_headers = response_headers
     end
 
@@ -164,7 +163,7 @@ module Murlsh
     # * :failproof - if true hide all exceptions and return empty hash on failure
     # * :headers - hash of headers to send in request
     def get_headers(options={})
-      return @get_headers if defined?(@get_headers)
+      return @get_headers  if defined?(@get_headers)
 
       request_headers = default_headers.merge(options.fetch(:headers, {}))
 
@@ -173,6 +172,7 @@ module Murlsh
       Murlsh::failproof(options) do
         response_headers = self.open(request_headers) { |f| f.meta }
       end
+
       @get_headers = response_headers
     end
 

@@ -9,8 +9,8 @@ describe Murlsh::Auth do
 
     @a = Murlsh::Auth.new(@f.path)
 
-    @a.add_user('test1', 'test1@test.com', 'secret1')
-    @a.add_user('test2', 'test2@test.com', 'secret2')
+    @a.add_user 'test1', 'test1@test.com', 'secret1'
+    @a.add_user 'test2', 'test2@test.com', 'secret2'
   end
 
   after do; @f.close!; end

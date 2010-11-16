@@ -7,7 +7,7 @@ module Murlsh
     # that the longest side = max_side.
     def resize_down!(max_side)
       reject { |i| i.columns <= max_side and i.rows <= max_side }.each do |i|
-        i.resize_to_fit!(max_side, max_side)
+        i.resize_to_fit! max_side, max_side
       end
     end
 

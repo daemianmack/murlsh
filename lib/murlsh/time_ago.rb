@@ -11,11 +11,11 @@ module Murlsh
        days_ago = (Time.now.to_i - to_i) / 86400
 
        case days_ago
-         when 0 then 'today'
-         when 1 then 'yesterday'
-         when (2..4) then "#{days_ago} days ago"
-         when (5..7) then strftime('%a %e %b')
-         when (8..180) then strftime('%e %b').strip
+         when 0; 'today'
+         when 1; 'yesterday'
+         when (2..4); "#{days_ago} days ago"
+         when (5..7); strftime('%a %e %b')
+         when (8..180); strftime('%e %b').strip
          else strftime('%e %b %Y').strip
       end
     end

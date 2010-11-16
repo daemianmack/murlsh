@@ -9,7 +9,7 @@ describe Murlsh::ImgStore do
 
   before(:all) do
     @thumb_dir = File.join(Dir::tmpdir, 'img_store_test')
-    FileUtils.mkdir_p(@thumb_dir)
+    FileUtils.mkdir_p @thumb_dir
     @img_store = Murlsh::ImgStore.new(@thumb_dir)
   end
 

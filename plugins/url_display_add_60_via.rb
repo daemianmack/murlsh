@@ -24,22 +24,17 @@ module Murlsh
           search = via_uri_s.gsub(HttpRe, '')
 
           display_via = case
-            when m = search.match(HackerNewsRe)
-              'hacker news'
-            when m = search.match(RedditRe)
-              "#{m[1]}.reddit"
-            when m = search.match(DeliciousRe)
-              "delicious/#{m[1]}"
-            when m = search.match(TwitterRe)
-              "twitter/#{m[1]}"
-            when m = search.match(TumblrRe)
-              "#{m[1]}.tumblr"
-            else
-              via_uri.domain || via_uri_s
+            when search.match(HackerNewsRe); 'hacker news'
+            when m = search.match(RedditRe); "#{m[1]}.reddit"
+            when m = search.match(DeliciousRe); "delicious/#{m[1]}"
+            when m = search.match(TwitterRe); "twitter/#{m[1]}"
+            when m = search.match(TumblrRe); "#{m[1]}.tumblr"
+            else via_uri.domain || via_uri_s
           end
 
           markup.span(:class => 'via') do
-            markup.text!(' via '); markup.a(display_via, :href => via_uri_s)
+            markup.text! ' via '
+            markup.a display_via, :href => via_uri_s
           end
         end
       end

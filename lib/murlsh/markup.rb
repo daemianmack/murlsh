@@ -27,6 +27,7 @@ module Murlsh
       img_convert_prefix options
       img_convert_size options
       img_convert_text options
+      img_convert_data_uri options
 
       if options[:href]
         a(:href => options[:href]) {
@@ -132,6 +133,38 @@ module Murlsh
       if options.has_key?(:text)
         options[:alt] = options[:title] = options[:text]
         options.delete :text
+      end
+    end
+
+    # If given options[:data_uri_prefix], render the image as a data uri with
+    # the base64 encoded image data directly in the src attribute.
+    #
+    # Only works if options[:src] is a relative url.
+    #
+    # Local image file path is site root (current working directory) +
+    # options[:data_uri_prefix] + options[:src].
+    #
+    # Options:
+    # * :src - image src
+    # * :data_uri_prefix - prefix for finding images on local filesystem
+    # * :max_size - images larger than this will not be converted to data uris
+    def img_convert_data_uri(options)
+      if options[:data_uri_prefix]
+        Murlsh::failproof do
+          # try to prevent getting outside current working directory
+          img_path = File.join(Dir.getwd, File.expand_path(
+            File.join(options[:data_uri_prefix], options[:src]), '/'))
+          img_size = File.size(img_path)
+
+          unless size == 0 or 
+            (options[:max_size] and size > options[:max_size])
+            options[:src] = Magick::ImageList.new(img_path).extend(
+              Murlsh::ImageList).data_uri
+
+            options.delete :data_uri_prefix
+            options.delete :max_size
+          end
+        end
       end
     end
 

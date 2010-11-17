@@ -1,3 +1,5 @@
+require 'base64'
+
 module Murlsh
 
   # Magick::ImageList mixin.
@@ -13,6 +15,8 @@ module Murlsh
 
     # Get the preferred extension for this image.
     def preferred_extension; FormatExtensions[self.format]; end
+
+    def data_uri; "data:#{mime_type};base64,#{Base64.encode64(to_blob)}"; end
 
     FormatExtensions = {
       'GIF' => '.gif',

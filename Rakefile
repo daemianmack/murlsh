@@ -94,10 +94,10 @@ namespace :db do
     ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
       :database => config.fetch('db_file'))
 
-    Murlsh::Url.where(
+    Murlsh::Url.all(:conditions => [
       'MURLSHMATCH(title, :search) OR MURLSHMATCH(url, :search)',
-      :search => args.search).each do |url|
-      puts "#{url.id} #{url.url}"
+      { :search => args.search }]).each do |url|
+      puts "#{url.id} #{url.url} #{url.title}"
     end
   end
 end

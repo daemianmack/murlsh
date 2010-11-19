@@ -89,6 +89,17 @@ namespace :db do
     exec "sqlite3 #{config['db_file']}"
   end
 
+  desc 'Search urls and titles in the database.'
+  task :grep, :search do |t,args|
+    ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
+      :database => config.fetch('db_file'))
+
+    Murlsh::Url.where(
+      'MURLSHMATCH(title, :search) OR MURLSHMATCH(url, :search)',
+      :search => args.search).each do |url|
+      puts "#{url.id} #{url.url}"
+    end
+  end
 end
 
 directory 'tmp'

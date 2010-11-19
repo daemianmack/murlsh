@@ -26,13 +26,9 @@ describe Murlsh::ImgStore do
         @local_path = File.join(@thumb_dir, @local_file)
       end
 
-      it 'should return the correct filename' do
-        @local_file.should == '089d0d10e322c3afb6dbfc2106f76e31.jpg'
-      end
-
-      it 'should create a local file with the correct contents' do
+      it 'should be named with the md5 sum of its contents' do
         md5 = Digest::MD5.file(@local_path).hexdigest
-        md5.should == '089d0d10e322c3afb6dbfc2106f76e31'
+        @local_file.should == "#{md5}.jpg"
       end
 
     end
@@ -62,13 +58,9 @@ describe Murlsh::ImgStore do
         @local_path = File.join(@thumb_dir, @local_file)
       end
 
-      it 'should return the correct filename' do
-        @local_file.should == '089d0d10e322c3afb6dbfc2106f76e31.jpg'
-      end
-
-      it 'should create a local file with the correct contents' do
+      it 'should be named with the md5 sum of its contents' do
         md5 = Digest::MD5.file(@local_path).hexdigest
-        md5.should == '089d0d10e322c3afb6dbfc2106f76e31'
+        @local_file.should == "#{md5}.jpg"
       end
 
     end

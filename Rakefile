@@ -407,7 +407,7 @@ begin
       hpricot >= 0.8.1
       htmlentities >= 4.2.0
       json >= 1.2.3
-      plumnailer >= 0.0.4
+      plumnailer >= 0.1.0
       push-notify >= 0.1.0
       rack >= 1.0.0
       rack-cache >= 0.5.2
@@ -415,7 +415,7 @@ begin
       rack-throttle >= 0.3.0
       rmagick >= 1.15.14
       sqlite3-ruby >= 1.2.1
-      tinyatom >= 0.3.2
+      tinyatom >= 0.3.3
       twitter >= 0.9.12
       vimeo >= 1.2.2
       }.each_slice(3) { |g,o,v| gemspec.add_dependency(g, "#{o} #{v}") }

@@ -12,7 +12,7 @@ module Murlsh
       @config, @db = config, db
       ActiveRecord::Base.default_timezone = :utc
 
-      Dir['plugins/*.rb'].each { |p| load p }
+      Dir['plugins/*.rb'].each { |p| require p }
     end
 
     # Respond to a GET request. Return a page of urls based on the query

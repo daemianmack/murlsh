@@ -6,9 +6,9 @@ module Murlsh
   class UrlBody < Builder::XmlMarkup
     include Murlsh::Markup
 
-    def initialize(config, db, req, content_type='text/html')
-      @config, @db, @req, @q, @content_type =
-        config, db, req, req.params['q'], content_type
+    def initialize(config, req, content_type='text/html')
+      @config, @req, @q, @content_type =
+        config, req, req.params['q'], content_type
       super(:indent => @config['html_indent'] || 0)
     end
 

@@ -8,10 +8,8 @@ module Murlsh
 
     include HeadFromGet
 
-    def initialize(config, db)
-      @config, @db = config, db
-      ActiveRecord::Base.default_timezone = :utc
-
+    def initialize(config)
+      @config = config
       Dir['plugins/*.rb'].each { |p| require p }
     end
 
@@ -27,7 +25,7 @@ module Murlsh
       resp['ETag'] = "W/\"#{last_db_update.to_i}#{req.params.sort}\""
       resp['Last-Modified'] = last_db_update.httpdate
 
-      resp.body = Murlsh::UrlBody.new(@config, @db, req, resp['Content-Type'])
+      resp.body = Murlsh::UrlBody.new(@config, req, resp['Content-Type'])
 
       resp
     end
@@ -37,8 +35,6 @@ module Murlsh
       auth = req.params['auth']
       if user = auth.empty? ? nil : Murlsh::Auth.new(
         @config.fetch('auth_file')).auth(auth)
-        ActiveRecord::Base.establish_connection :adapter => 'sqlite3',
-          :database => @config.fetch('db_file')
 
         mu = Murlsh::Url.new do |u|
           u.time = Time.now.gmtime

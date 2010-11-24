@@ -1,3 +1,5 @@
+require 'uri'
+
 require 'active_record'
 require 'rack'
 
@@ -12,29 +14,32 @@ module Murlsh
     def initialize(config)
       @config = config
 
-      ActiveRecord::Base.establish_connection(
-        :adapter => 'sqlite3', :database => @config.fetch('db_file'))
-      ActiveRecord::Base.include_root_in_json = false
+      url_server = Murlsh::UrlServer.new(config)
+      config_server = Murlsh::ConfigServer.new(config)
+      root_path = URI(config.fetch('root_url')).path
 
-      db = ActiveRecord::Base.connection.instance_variable_get(:@connection)
-
-      url_server = Murlsh::UrlServer.new(@config, db)
-      config_server = Murlsh::ConfigServer.new(@config)
-
-      root_path = URI(@config.fetch('root_url')).path
-
-      @dispatch = [
+      @routes = [
         [%r{^HEAD #{root_path}(url)?$}, url_server.method(:head)],
         [%r{^GET #{root_path}(url)?$}, url_server.method(:get)],
         [%r{^POST #{root_path}(url)?$}, url_server.method(:post)],
         [%r{^HEAD #{root_path}config$}, config_server.method(:head)],
         [%r{^GET #{root_path}config$}, config_server.method(:get)],
       ]
+
+      db_init
+    end
+
+    def db_init
+      ActiveRecord::Base.establish_connection(
+        :adapter => 'sqlite3', :database => @config.fetch('db_file'))
+
+      ActiveRecord::Base.default_timezone = :utc
+      ActiveRecord::Base.include_root_in_json = false
     end
 
     # Figure out which method will handle request.
     def dispatch(req)
-      method_match = @dispatch.find do |rule|
+      method_match = routes.find do |rule|
         rule[0].match("#{req.request_method} #{req.path}")
       end
 
@@ -56,6 +61,7 @@ module Murlsh
         404, { 'Content-Type' => 'text/html' }
     end
 
+    attr_accessor :routes
   end
 
 end

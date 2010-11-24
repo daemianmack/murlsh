@@ -41,4 +41,6 @@ end
 
 # use Rack::Lint
 
+Dir['plugins/*.rb'].each { |p| require p }
+
 run Murlsh::Dispatch.new(config)

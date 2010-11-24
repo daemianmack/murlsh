@@ -10,7 +10,6 @@ module Murlsh
 
     def initialize(config)
       @config = config
-      Dir['plugins/*.rb'].each { |p| require p }
     end
 
     # Respond to a GET request. Return a page of urls based on the query

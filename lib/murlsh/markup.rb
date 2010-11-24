@@ -65,33 +65,6 @@ module Murlsh
       tags.each { |k,v| meta :name => k, :content => v }
     end
 
-    # Gravatar builder. Takes MD5 hash of email address.
-    # Options:
-    # * 'd' - default Gravatar (identicon, monsterid, or wavatar)
-    # * 's' - size (0 - 512)
-    # * 'r' - rating (g, pg, r or x)
-    def gravatar(email_hash, options={})
-      query = options.reject do |k,v|
-        not ((k == 'd' and %w{identicon monsterid wavatar}.include?(v)) or
-        (k =='s' and (0..512).include?(v)) or
-        (k == 'r' and %w{g pg r x}.include?(v)))
-      end
-
-      return  if query['s'] and query['s'] < 1
-
-      options.reject! { |k,v| %w{d s r}.include? k }
-      options[:src] = URI.join('http://www.gravatar.com/avatar/',
-        email_hash + build_query(query))
-
-      murlsh_img options
-    end
-
-    # Query string builder. Takes hash of query string variables.
-    def build_query(h)
-      h.empty? ? '' :
-        '?' + h.map { |k,v| URI.escape "#{k}=#{v}" }.join('&')
-    end
-
     # Form input builder.
     def form_input(options)
       if options[:id]

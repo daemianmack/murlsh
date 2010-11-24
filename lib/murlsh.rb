@@ -1,6 +1,7 @@
 require 'murlsh/head_from_get'
 
 require 'murlsh/auth'
+require 'murlsh/build_query'
 require 'murlsh/config_server'
 require 'murlsh/dispatch'
 require 'murlsh/doc'

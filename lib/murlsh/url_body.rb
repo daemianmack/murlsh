@@ -40,15 +40,17 @@ module Murlsh
           ul(:id => 'urls') {
             li { feed_icon ; search_form }
 
-            gravatar_size = @config.fetch('gravatar_size', 0)
-
             last = nil
             urls.each do |mu|
               li {
                 unless mu.same_author?(last)
+                  avatar_url = Murlsh::Plugin.hooks('avatar').inject(
+                    nil) do |url_so_far,plugin|
+                    plugin.run(url_so_far, mu, @config)
+                  end
                   div(:class => 'icon') {
-                    gravatar(mu.email, 's' => gravatar_size, :text => mu.name)
-                  }  if mu.email and gravatar_size > 0
+                    murlsh_img :src => avatar_url, :text => mu.name
+                  }  if avatar_url
                   div(mu.name, :class => 'name')  if
                     @config.fetch('show_names', false) and mu.name
                 end

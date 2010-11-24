@@ -56,6 +56,7 @@ Plugin hooks
 |Hook|Description|run() arguments|Returns|
 |add_pre|called before a new url is saved|url, config hash|undefined|
 |add_post|called after a new url is saved|url, config hash|undefined|
+|avatar|called to get an avatar url from an email md5 sum|avatar url, url, config hash|avatar url|
 |html_parse|parse HTML using something like Hpricot or Nokogiri|parseable|parsed HTML, only first plugin is run (cannot be chained)|
 |url_display_add|called to display additional information after urls|markup builder, url, config hash|undefined|
 

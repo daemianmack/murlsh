@@ -1,5 +1,6 @@
 $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
+require 'uri'
 require 'yaml'
 
 require 'rack/cache'

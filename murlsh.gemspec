@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-11-21}
+  s.date = %q{2010-11-27}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
     "config.yaml",
     "lib/murlsh.rb",
     "lib/murlsh/auth.rb",
+    "lib/murlsh/build_query.rb",
     "lib/murlsh/config_server.rb",
     "lib/murlsh/dispatch.rb",
     "lib/murlsh/doc.rb",
@@ -43,8 +44,9 @@ Gem::Specification.new do |s|
     "lib/murlsh/plugin.rb",
     "lib/murlsh/sqlite3_adapter.rb",
     "lib/murlsh/time_ago.rb",
-    "lib/murlsh/uri.rb",
     "lib/murlsh/uri_ask.rb",
+    "lib/murlsh/uri_domain.rb",
+    "lib/murlsh/uri_get_path_query.rb",
     "lib/murlsh/url.rb",
     "lib/murlsh/url_body.rb",
     "lib/murlsh/url_server.rb",
@@ -66,6 +68,7 @@ Gem::Specification.new do |s|
     "plugins/add_pre_60_youtube.rb",
     "plugins/add_pre_65_html_thumb.rb",
     "plugins/add_pre_65_img_thumb.rb",
+    "plugins/avatar_50_gravatar.rb",
     "plugins/html_parse_50_hpricot.rb",
     "plugins/url_display_add_45_audio.rb",
     "plugins/url_display_add_50_hostrec.rb",
@@ -86,7 +89,7 @@ Gem::Specification.new do |s|
     "spec/img_store_spec.rb",
     "spec/markup_spec.rb",
     "spec/uri_ask_spec.rb",
-    "spec/uri_spec.rb",
+    "spec/uri_domain_spec.rb",
     "spec/url_spec.rb",
     "spec/yaml_ordered_hash_spec.rb"
   ]
@@ -101,7 +104,7 @@ Gem::Specification.new do |s|
     "spec/img_store_spec.rb",
     "spec/markup_spec.rb",
     "spec/uri_ask_spec.rb",
-    "spec/uri_spec.rb",
+    "spec/uri_domain_spec.rb",
     "spec/url_spec.rb",
     "spec/yaml_ordered_hash_spec.rb"
   ]
@@ -119,6 +122,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_runtime_dependency(%q<json>, [">= 1.2.3"])
       s.add_runtime_dependency(%q<plumnailer>, [">= 0.1.0"])
+      s.add_runtime_dependency(%q<public_suffix_service>, ["~> 0.0"])
       s.add_runtime_dependency(%q<push-notify>, [">= 0.1.0"])
       s.add_runtime_dependency(%q<rack>, [">= 1.0.0"])
       s.add_runtime_dependency(%q<rack-cache>, [">= 0.5.2"])
@@ -140,6 +144,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_dependency(%q<json>, [">= 1.2.3"])
       s.add_dependency(%q<plumnailer>, [">= 0.1.0"])
+      s.add_dependency(%q<public_suffix_service>, ["~> 0.0"])
       s.add_dependency(%q<push-notify>, [">= 0.1.0"])
       s.add_dependency(%q<rack>, [">= 1.0.0"])
       s.add_dependency(%q<rack-cache>, [">= 0.5.2"])
@@ -162,6 +167,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
     s.add_dependency(%q<json>, [">= 1.2.3"])
     s.add_dependency(%q<plumnailer>, [">= 0.1.0"])
+    s.add_dependency(%q<public_suffix_service>, ["~> 0.0"])
     s.add_dependency(%q<push-notify>, [">= 0.1.0"])
     s.add_dependency(%q<rack>, [">= 1.0.0"])
     s.add_dependency(%q<rack-cache>, [">= 0.5.2"])

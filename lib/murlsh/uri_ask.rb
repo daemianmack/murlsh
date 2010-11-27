@@ -3,7 +3,7 @@ require 'net/https'
 require 'open-uri'
 require 'uri'
 
-require 'hpricot'
+require 'nokogiri'
 require 'htmlentities'
 require 'iconv'
 
@@ -80,7 +80,7 @@ module Murlsh
           self.open(options[:headers]) do |f|
             html_parse_plugins = Murlsh::Plugin.hooks('html_parse')
             @doc = if html_parse_plugins.empty?
-              Hpricot(f).extend(Murlsh::Doc)
+              Nokogiri(f).extend(Murlsh::Doc)
             else
               html_parse_plugins.first.run(f).extend(Murlsh::Doc)
             end

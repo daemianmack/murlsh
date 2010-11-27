@@ -1,4 +1,4 @@
-require 'hpricot'
+require 'nokogiri'
 
 require 'murlsh'
 
@@ -18,7 +18,7 @@ describe Murlsh::Doc do
 </body>
 </html>
 eos
-      Hpricot(html).extend(Murlsh::Doc)
+      Nokogiri(html).extend(Murlsh::Doc)
     end
 
     its(:charset) { should == 'utf-8' }
@@ -37,7 +37,7 @@ eos
 </body>
 </html>
 eos
-      Hpricot(html).extend(Murlsh::Doc)
+      Nokogiri(html).extend(Murlsh::Doc)
     end
 
     its(:charset) { should be_nil }

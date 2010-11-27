@@ -1,6 +1,6 @@
 module Murlsh
 
-  # Hpricot:Doc mixin.
+  # Nokogiri / Hpricot doc mixin.
   module Doc
 
     # Get the character set of the document.

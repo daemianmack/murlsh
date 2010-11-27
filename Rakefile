@@ -404,9 +404,9 @@ begin
       bcrypt-ruby >= 2.1.2
       builder >= 2.1.2
       flickraw >= 0.8.3
-      hpricot >= 0.8.1
       htmlentities >= 4.2.0
       json >= 1.2.3
+      nokogiri ~> 1.0
       plumnailer >= 0.1.0
       public_suffix_service ~> 0.0
       push-notify >= 0.1.0

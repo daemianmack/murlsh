@@ -69,7 +69,7 @@ Gem::Specification.new do |s|
     "plugins/add_pre_65_html_thumb.rb",
     "plugins/add_pre_65_img_thumb.rb",
     "plugins/avatar_50_gravatar.rb",
-    "plugins/html_parse_50_hpricot.rb",
+    "plugins/html_parse_50_nokogiri.rb",
     "plugins/url_display_add_45_audio.rb",
     "plugins/url_display_add_50_hostrec.rb",
     "plugins/url_display_add_55_content_type.rb",
@@ -118,9 +118,9 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
       s.add_runtime_dependency(%q<builder>, [">= 2.1.2"])
       s.add_runtime_dependency(%q<flickraw>, [">= 0.8.3"])
-      s.add_runtime_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_runtime_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_runtime_dependency(%q<json>, [">= 1.2.3"])
+      s.add_runtime_dependency(%q<nokogiri>, ["~> 1.0"])
       s.add_runtime_dependency(%q<plumnailer>, [">= 0.1.0"])
       s.add_runtime_dependency(%q<public_suffix_service>, ["~> 0.0"])
       s.add_runtime_dependency(%q<push-notify>, [">= 0.1.0"])
@@ -140,9 +140,9 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
       s.add_dependency(%q<builder>, [">= 2.1.2"])
       s.add_dependency(%q<flickraw>, [">= 0.8.3"])
-      s.add_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
       s.add_dependency(%q<json>, [">= 1.2.3"])
+      s.add_dependency(%q<nokogiri>, ["~> 1.0"])
       s.add_dependency(%q<plumnailer>, [">= 0.1.0"])
       s.add_dependency(%q<public_suffix_service>, ["~> 0.0"])
       s.add_dependency(%q<push-notify>, [">= 0.1.0"])
@@ -163,9 +163,9 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
     s.add_dependency(%q<builder>, [">= 2.1.2"])
     s.add_dependency(%q<flickraw>, [">= 0.8.3"])
-    s.add_dependency(%q<hpricot>, [">= 0.8.1"])
     s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
     s.add_dependency(%q<json>, [">= 1.2.3"])
+    s.add_dependency(%q<nokogiri>, ["~> 1.0"])
     s.add_dependency(%q<plumnailer>, [">= 0.1.0"])
     s.add_dependency(%q<public_suffix_service>, ["~> 0.0"])
     s.add_dependency(%q<push-notify>, [">= 0.1.0"])

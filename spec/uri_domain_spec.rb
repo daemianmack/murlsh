@@ -2,7 +2,7 @@ require 'uri'
 
 require 'murlsh'
 
-describe URI do
+describe Murlsh::URIDomain do
 
   def uri_domain(s); URI(s).extend(Murlsh::URIDomain).domain; end
 

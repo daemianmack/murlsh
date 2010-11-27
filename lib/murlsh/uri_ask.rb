@@ -145,7 +145,8 @@ module Murlsh
         http = Net::HTTP.new(host, port)
         http.use_ssl = (scheme == 'https')
 
-        resp = http.request_head(path_query, request_headers)
+        extend(Murlsh::URIGetPathQuery)
+        resp = http.request_head(get_path_query, request_headers)
 
         if Net::HTTPSuccess === resp
           response_headers = resp.to_hash

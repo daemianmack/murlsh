@@ -65,7 +65,7 @@ module Murlsh
             options.merge!(
               :via_type => 'text/html',
               :via_href => mu.via,
-              :via_title => URI(mu.via).domain
+              :via_title => URI(mu.via).extend(Murlsh::URIDomain).domain
               )
           end
         end

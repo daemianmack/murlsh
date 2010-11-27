@@ -29,7 +29,7 @@ module Murlsh
             when m = search.match(DeliciousRe); "delicious/#{m[1]}"
             when m = search.match(TwitterRe); "twitter/#{m[1]}"
             when m = search.match(TumblrRe); "#{m[1]}.tumblr"
-            else via_uri.domain || via_uri_s
+            else via_uri.extend(Murlsh::URIDomain).domain || via_uri_s
           end
 
           markup.span(:class => 'via') do

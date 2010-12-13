@@ -12,7 +12,7 @@ describe Murlsh::URIDomain do
 
   it 'should have its domain set nil if it is not a valid HTTP URI' do
     uri_domain('foo').should be_nil
-    uri_domain('http://foo.com.').should be_nil
+    uri_domain('http://foo.bar/').should be_nil
   end
 
   it 'should handle two letter top-level domains' do

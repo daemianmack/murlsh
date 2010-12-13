@@ -67,7 +67,6 @@ Gem::Specification.new do |s|
     "plugins/add_pre_60_s3_image.rb",
     "plugins/add_pre_60_twitter.rb",
     "plugins/add_pre_60_vimeo.rb",
-    "plugins/add_pre_60_youtube.rb",
     "plugins/add_pre_65_html_thumb.rb",
     "plugins/add_pre_65_img_thumb.rb",
     "plugins/avatar_50_gravatar.rb",

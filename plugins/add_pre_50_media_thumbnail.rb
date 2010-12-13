@@ -15,7 +15,7 @@ module Murlsh
     def self.run(url, config)
       if not url.thumbnail_url
         url.ask.doc.xpath_search("//meta[@rel='media:thumbnail']") do |node|
-          if node and node['href']
+          if node and node['href'] and not node['href'].empty?
             Murlsh::failproof do
               thumb_storage = Murlsh::ImgStore.new(StorageDir,
                 :user_agent => config['user_agent'])

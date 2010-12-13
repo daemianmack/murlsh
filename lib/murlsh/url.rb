@@ -29,6 +29,13 @@ module Murlsh
         email and name and email == other.email and name == other.name
     end
 
+    def ask
+      if !defined?(@ask) or @ask.to_s != url
+        @ask = URI(url).extend(Murlsh::UriAsk)
+      end
+      @ask
+    end
+
   end
 
 end

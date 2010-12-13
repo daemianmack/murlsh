@@ -15,8 +15,7 @@ module Murlsh
 
     def self.run(url, config)
       if url.url[SlideshareRe]
-        ask = URI(url.url).extend(Murlsh::UriAsk)
-        ask.doc.xpath_search("//meta[@rel='media:thumbnail']") do |node|
+        url.ask.doc.xpath_search("//meta[@rel='media:thumbnail']") do |node|
           if node and node['href']
             Murlsh::failproof do
               thumb_storage = Murlsh::ImgStore.new(StorageDir,

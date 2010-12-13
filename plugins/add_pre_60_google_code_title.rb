@@ -14,10 +14,9 @@ module Murlsh
 
     def self.run(url, config)
       if url.url[GoogleCodeRe]
-        ask = URI(url.url).extend(Murlsh::UriAsk)
-        ask.doc.xpath_search("//a[@id='project_summary_link']") do |node|
+        url.ask.doc.xpath_search("//a[@id='project_summary_link']") do |node|
           summary = node ? node.inner_html : nil
-          url.title << " - #{ask.decode(summary)}"  unless not summary or
+          url.title << " - #{url.ask.decode(summary)}"  unless not summary or
             summary.empty?
         end
       end

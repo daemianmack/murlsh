@@ -13,17 +13,19 @@ module Murlsh
       'thumb')
 
     def self.run(url, config)
-      url.ask.doc.xpath_search("//meta[@rel='media:thumbnail']") do |node|
-        if node and node['href']
-          Murlsh::failproof do
-            thumb_storage = Murlsh::ImgStore.new(StorageDir,
-              :user_agent => config['user_agent'])
+      if not url.thumbnail_url
+        url.ask.doc.xpath_search("//meta[@rel='media:thumbnail']") do |node|
+          if node and node['href']
+            Murlsh::failproof do
+              thumb_storage = Murlsh::ImgStore.new(StorageDir,
+                :user_agent => config['user_agent'])
 
-            stored_filename = thumb_storage.store_url(node['href']) do |i|
-              max_side = config.fetch('thumbnail_max_side', 90)
-              i.extend(Murlsh::ImageList).resize_down!(max_side)
+              stored_filename = thumb_storage.store_url(node['href']) do |i|
+                max_side = config.fetch('thumbnail_max_side', 90)
+                i.extend(Murlsh::ImageList).resize_down!(max_side)
+              end
+              url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
             end
-            url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
           end
         end
       end

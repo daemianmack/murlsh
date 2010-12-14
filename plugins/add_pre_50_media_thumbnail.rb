@@ -13,7 +13,7 @@ module Murlsh
       'thumb')
 
     def self.run(url, config)
-      if not url.thumbnail_url
+      if not url.thumbnail_url and url.ask.doc
         url.ask.doc.xpath_search("//meta[@rel='media:thumbnail']") do |node|
           if node and node['href'] and not node['href'].empty?
             Murlsh::failproof do

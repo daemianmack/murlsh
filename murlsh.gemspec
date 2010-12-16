@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{murlsh}
-  s.version = "1.1.0"
+  s.version = "1.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-12-12}
+  s.date = %q{2010-12-16}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}

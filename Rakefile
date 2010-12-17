@@ -70,7 +70,7 @@ namespace :db do
   task :init do
     puts "creating #{config.fetch('db_file')}"
     db = SQLite3::Database.new(config.fetch('db_file'))
-    db.execute('CREATE TABLE urls (
+    db.execute 'CREATE TABLE urls (
       id INTEGER PRIMARY KEY,
       time TIMESTAMP,
       url TEXT,
@@ -81,7 +81,8 @@ namespace :db do
       content_type TEXT,
       via TEXT,
       thumbnail_url TEXT);
-      ')
+      '
+    db.execute 'CREATE INDEX IF NOT EXISTS urls_time_desc ON urls (time DESC);'
   end
 
   desc 'Interact with the database.'

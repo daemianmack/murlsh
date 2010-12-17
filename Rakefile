@@ -7,6 +7,7 @@ require 'pp'
 require 'uri'
 require 'yaml'
 
+require 'nokogiri'
 require 'RMagick'
 require 'sqlite3'
 
@@ -375,6 +376,27 @@ namespace :thumb do
         end
       else
         puts "#{identity} thumbnail #{path} does not exist or is not readable"
+      end
+    end
+  end
+
+end
+
+namespace :import do
+
+  desc 'Import a Netscape bookmark file.'
+  task :bookmarks, :path do |t, args|
+    doc = Nokogiri::HTML(open(args.path))
+
+    doc.xpath('//dt').each do |dt|
+      unless (a = dt.xpath('a')).empty?
+        text = dt.xpath('(following-sibling::dd/text())[1]')
+        pp({
+          :private => a[0]['private'],
+          :text => text[0].to_s.strip || '',
+          :time => a[0]['add_date'],
+          :url => a[0]['href'],
+        })
       end
     end
   end

@@ -35,6 +35,7 @@ module Murlsh
 
       ActiveRecord::Base.default_timezone = :utc
       ActiveRecord::Base.include_root_in_json = false
+      # ActiveRecord::Base.logger = Logger.new(STDERR)
     end
 
     # Figure out which method will handle request.

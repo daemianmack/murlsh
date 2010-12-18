@@ -14,9 +14,16 @@ module Murlsh
 
     # Fetch urls based on query string parameters.
     def urls
-      Murlsh::Url.all(:conditions => search_conditions, :order => 'time DESC',
-        :limit =>  @req.params['n'] ? @req.params['n'].to_i :
-          @config.fetch('num_posts_page', 100))
+      limit = if @req.params['n']
+        @req.params['n'].to_i
+      else
+        @config.fetch('num_posts_page', 100)
+      end
+
+      order = limit < 0 ? 'ASC' : 'DESC'
+
+      Murlsh::Url.all(:conditions => search_conditions,
+        :order => "time #{order}", :limit => limit.abs)
     end
 
     # Search conditions builder for ActiveRecord conditions.

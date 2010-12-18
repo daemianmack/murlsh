@@ -27,7 +27,7 @@ module Murlsh
         f.channel.link = URI.join(config.fetch('root_url'), output_file)
         f.items.do_sort = true
   
-        Murlsh::Url.all(:order => 'id DESC',
+        Murlsh::Url.all(:order => 'time DESC',
           :limit => config.fetch('num_posts_feed', 25)).each do |mu|
           i = f.items.new_item
           i.title = mu.title_stripped

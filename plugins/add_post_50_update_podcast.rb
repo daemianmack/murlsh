@@ -21,7 +21,7 @@ module Murlsh
           f.items.do_sort = true
   
           Murlsh::Url.all(:conditions => { :content_type => 'audio/mpeg' },
-            :order => 'id DESC',
+            :order => 'time DESC',
             :limit => config.fetch('num_posts_feed', 25)).each do |mu|
             i = f.items.new_item
             i.title = mu.title_stripped

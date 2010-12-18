@@ -26,7 +26,7 @@ module Murlsh
         :hubs => config.fetch('pubsubhubbub_hubs', []).
           map { |x| x['subscribe_url'] } )
 
-      latest = Murlsh::Url.all(:order => 'id DESC',
+      latest = Murlsh::Url.all(:order => 'time DESC',
         :limit => config.fetch('num_posts_feed', 25))
 
       latest.each do |mu|

@@ -8,7 +8,6 @@ require 'uri'
 require 'yaml'
 
 require 'active_record'
-require 'nokogiri'
 require 'RMagick'
 require 'sqlite3'
 
@@ -386,52 +385,19 @@ end
 namespace :import do
 
   desc 'Import a Netscape bookmark file.'
-  task :bookmarks, :file_path, :email, :username do |t, args|
-    unless args.file_path and args.email and args.username    
-      puts 'usage: rake import:bookmarks[bookmark_file_path,email,username]'
+  task :bookmarks, :source, :email, :username do |t, args|
+    unless args.source and args.email and args.username
+      puts 'usage: rake import:bookmarks[source,email,username]'
     else
       ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
         :database => config.fetch('db_file'))
       ActiveRecord::Base.default_timezone = :utc
 
-      Dir['plugins/*.rb'].each { |p| require p }
+      Dir['plugins/add_pre*.rb'].each { |p| require p }
 
-      doc = Nokogiri::HTML(open(args.file_path))
-
-      doc.xpath('//dt').each do |dt|
-        unless (a = dt.xpath('a')).empty?
-          print url = a[0]['href']
-
-          text = dt.xpath('(following-sibling::dd/text())[1]')
-          via = CGI::unescapeHTML(text.to_s).strip.chomp(')')[
-            %r{via\s+([^\s]+)}, 1]
-
-          if a[0]['private'] != '0'
-            print " private (skipped)\n"
-            next
-          end
-
-          mu = Murlsh::Url.new do |u|
-            u.time = Time.at(a[0]['add_date'].to_i).gmtime
-            u.url = url
-            u.email = Digest::MD5.hexdigest(args.email)
-            u.name = args.username
-            if via and via[URI.regexp]
-              u.via = via
-            end
-          end
-
-          begin
-            raise ActiveRecord::RecordInvalid.new(mu)  unless mu.valid?
-            Murlsh::Plugin.hooks('add_pre') { |p| p.run mu, config }
-            mu.save!
-            Murlsh::Plugin.hooks('add_post') { |p| p.run mu, config }
-            print " ok\n"
-          rescue ActiveRecord::RecordInvalid => error
-            print " error\n"
-          end
-        end
-      end
+      importer = Murlsh::BookmarksImporter.new(config, args.email,
+        args.username)
+      importer.import(args.source)
     end
   end
 

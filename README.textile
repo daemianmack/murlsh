@@ -11,6 +11,7 @@ Site for sharing and archiving links.
 * plugin interface
 * rack interface
 * Gravatar support
+* imports Netscape bookmark format files
 
 See "http://urls.matthewm.boedicker.org/":http://urls.matthewm.boedicker.org/ for example.
 

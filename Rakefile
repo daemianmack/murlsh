@@ -7,6 +7,7 @@ require 'pp'
 require 'uri'
 require 'yaml'
 
+require 'active_record'
 require 'nokogiri'
 require 'RMagick'
 require 'sqlite3'
@@ -185,7 +186,7 @@ namespace :user do
 end
 
 # Validate a document with the W3C validation service.
-def validate(check_url, options={})
+def validate_html(check_url, options={})
   opts = {
     :validator_host => 'validator.w3.org',
     :validator_port => 80,
@@ -219,7 +220,7 @@ namespace :validate do
   task :html do
     check_url = config['root_url']
     print "validating #{check_url} : "
-    result = validate(check_url)
+    result = validate_html(check_url)
     if Net::HTTPSuccess === result[:response]
       puts "#{result[:status]} (#{result[:errors]} errors, #{result[:warnings]} warnings)"
     else
@@ -385,18 +386,51 @@ end
 namespace :import do
 
   desc 'Import a Netscape bookmark file.'
-  task :bookmarks, :path do |t, args|
-    doc = Nokogiri::HTML(open(args.path))
+  task :bookmarks, :file_path, :email, :username do |t, args|
+    unless args.file_path and args.email and args.username    
+      puts 'usage: rake import:bookmarks[bookmark_file_path,email,username]'
+    else
+      ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
+        :database => config.fetch('db_file'))
+      ActiveRecord::Base.default_timezone = :utc
 
-    doc.xpath('//dt').each do |dt|
-      unless (a = dt.xpath('a')).empty?
-        text = dt.xpath('(following-sibling::dd/text())[1]')
-        pp({
-          :private => a[0]['private'],
-          :text => text[0].to_s.strip || '',
-          :time => a[0]['add_date'],
-          :url => a[0]['href'],
-        })
+      Dir['plugins/*.rb'].each { |p| require p }
+
+      doc = Nokogiri::HTML(open(args.file_path))
+
+      doc.xpath('//dt').each do |dt|
+        unless (a = dt.xpath('a')).empty?
+          print url = a[0]['href']
+
+          text = dt.xpath('(following-sibling::dd/text())[1]')
+          via = CGI::unescapeHTML(text.to_s).strip.chomp(')')[
+            %r{via\s+([^\s]+)}, 1]
+
+          if a[0]['private'] != '0'
+            print " private (skipped)\n"
+            next
+          end
+
+          mu = Murlsh::Url.new do |u|
+            u.time = Time.at(a[0]['add_date'].to_i).gmtime
+            u.url = url
+            u.email = Digest::MD5.hexdigest(args.email)
+            u.name = args.username
+            if via and via[URI.regexp]
+              u.via = via
+            end
+          end
+
+          begin
+            raise ActiveRecord::RecordInvalid.new(mu)  unless mu.valid?
+            Murlsh::Plugin.hooks('add_pre') { |p| p.run mu, config }
+            mu.save!
+            Murlsh::Plugin.hooks('add_post') { |p| p.run mu, config }
+            print " ok\n"
+          rescue ActiveRecord::RecordInvalid => error
+            print " error\n"
+          end
+        end
       end
     end
   end

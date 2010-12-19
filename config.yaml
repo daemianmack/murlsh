@@ -20,7 +20,7 @@ meta_tag_description: URLs found interesting by Matthew M. Boedicker
 meta_tag_verify-v1: 
 meta_tag_viewport: width=device-width,minimum-scale=1.0,maximum-scale=1.0
 num_posts_feed: 25
-num_posts_page: 100
+num_posts_page: 25
 page_title: mmb url share
 pubsubhubbub_hubs: []
 

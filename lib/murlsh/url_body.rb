@@ -9,14 +9,44 @@ module Murlsh
     def initialize(config, req, content_type='text/html')
       @config, @req, @q, @content_type =
         config, req, req.params['q'], content_type
+      @page = [req.params['p'].to_i, 1].max
+
+      @first_href, @prev_href, @next_href = page_href(1), nil, nil
+ 
+      @total_entries, @total_pages = 0, 0
+
+      @per_page = @req.params['pp'] ? @req.params['pp'].to_i :
+        config.fetch('num_posts_page', 25)
+
       super(:indent => @config['html_indent'] || 0)
+    end
+
+    # Get the href of a page in the same result set as this page.
+    def page_href(page)
+      query = @req.params.dup
+      query['p'] = page
+      Murlsh.build_query(query)
     end
 
     # Fetch urls based on query string parameters.
     def urls
+      search = search_conditions
+
+      @total_entries = Murlsh::Url.count(:conditions => search)
+      @total_pages = (@total_entries / @per_page.to_f).ceil
+
+      if @page > 1 and @page <= @total_pages
+        @prev_href = page_href(@page - 1)
+      end
+
+      if @page < @total_pages
+        @next_href = page_href(@page + 1)
+      end
+
+      offset = (@page - 1) * @per_page
+
       Murlsh::Url.all(:conditions => search_conditions, :order => 'time DESC',
-        :limit =>  @req.params['n'] ? @req.params['n'].to_i :
-          @config.fetch('num_posts_page', 100))
+        :limit => @per_page, :offset => offset)
     end
 
     # Search conditions builder for ActiveRecord conditions.
@@ -32,6 +62,8 @@ module Murlsh
 
     # Url list page body builder.
     def each
+      mus = urls
+
       declare! :DOCTYPE, :html
 
       yield html(:lang => 'en') {
@@ -41,7 +73,8 @@ module Murlsh
             li { feed_icon ; search_form }
 
             last = nil
-            urls.each do |mu|
+
+            mus.each do |mu|
               li {
                 unless mu.same_author?(last)
                   avatar_url = Murlsh::Plugin.hooks('avatar').inject(
@@ -70,6 +103,8 @@ module Murlsh
               }
             end
 
+            li { paging_nav }
+
             li { add_form }
           }
 
@@ -90,6 +125,9 @@ module Murlsh
           map { |k,v| [k.sub('meta_tag_', ''), v] })
         css(@config['css_compressed'] || @config['css_files'])
         atom @config.fetch('feed_file')
+        link :rel => 'first', :href => @first_href
+        link :rel => 'prev', :href => @prev_href  if @prev_href
+        link :rel => 'next', :href => @next_href  if @next_href
       }
     end
 
@@ -113,6 +151,17 @@ module Murlsh
           form_input :type => 'submit', :value => 'Regex Search'
         }
       }
+    end
+
+    # Paging navigation.
+    def paging_nav
+      text! "Page #{@page}/#{@total_pages}"
+      if @prev_href
+        text! ' | '; a 'previous', :href => @prev_href
+      end
+      if @next_href
+        text! ' | '; a 'next', :href => @next_href
+      end
     end
 
     # Url add form builder.

@@ -9,7 +9,10 @@ module Murlsh
 
     TwitterAjaxRe = %r{^(https?://twitter\.com/)#!/}i
 
-    def self.run(url, config); url.url.sub!(TwitterAjaxRe, '\1'); end
+    def self.run(url, config)
+      url.url.sub!(TwitterAjaxRe, '\1')
+      url.via.sub!(TwitterAjaxRe, '\1')  if url.via
+    end
 
   end
 

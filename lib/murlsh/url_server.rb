@@ -36,7 +36,11 @@ module Murlsh
         @config.fetch('auth_file')).auth(auth)
 
         mu = Murlsh::Url.new do |u|
-          u.time = Time.now.gmtime
+          u.time = if req.params['time']
+            Time.at(req.params['time'].to_i).gmtime
+          else
+            Time.now.gmtime
+          end
           u.url = req.params['url']
           u.email = user[:email]
           u.name = user[:name]

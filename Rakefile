@@ -384,20 +384,29 @@ end
 
 namespace :import do
 
-  desc 'Import a Netscape bookmark file.'
-  task :bookmarks, :source, :email, :username do |t, args|
-    unless args.source and args.email and args.username
-      puts 'usage: rake import:bookmarks[source,email,username]'
-    else
-      ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
-        :database => config.fetch('db_file'))
-      ActiveRecord::Base.default_timezone = :utc
+  desc 'Convert a delicious xml export into an import shell script.'
+  task :delicious, :source do |t, args|
+    puts <<EOS
+#!/bin/sh
 
-      Dir['plugins/add_pre*.rb'].each { |p| require p }
+# murlsh import, source #{args.source}
 
-      importer = Murlsh::BookmarksImporter.new(config, args.email,
-        args.username)
-      importer.import(args.source)
+PASSWORD="$1"
+if [ -z "${PASSWORD}" ] ; then
+    echo 'Password not set, pass as command line argument or hardcode in script'
+    exit 1
+fi
+
+SITE_URL='#{config.fetch('root_url')}'
+
+EOS
+    Murlsh.delicious_parse(args.source) do |b|
+      # escape single quotes because these will be in single quotes in output
+      href_escaped = b[:href].to_s.gsub("'", "'\"'\"'")
+      via_url_escaped = b[:via_url].to_s.gsub("'", "'\"'\"'")
+      puts <<EOS
+curl --data-urlencode 'url=#{href_escaped}' --data-urlencode "auth=${PASSWORD}" --data-urlencode 'via=#{via_url_escaped}' ${SITE_URL}
+EOS
     end
   end
 

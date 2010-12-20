@@ -405,7 +405,7 @@ EOS
       href_escaped = b[:href].to_s.gsub("'", "'\"'\"'")
       via_url_escaped = b[:via_url].to_s.gsub("'", "'\"'\"'")
       puts <<EOS
-curl --data-urlencode 'url=#{href_escaped}' --data-urlencode "auth=${PASSWORD}" --data-urlencode 'via=#{via_url_escaped}' ${SITE_URL}
+curl --data-urlencode 'url=#{href_escaped}' --data-urlencode "auth=${PASSWORD}" --data-urlencode 'via=#{via_url_escaped}' --data-urlencode 'time=#{b[:time].to_i}' ${SITE_URL}
 EOS
     end
   end

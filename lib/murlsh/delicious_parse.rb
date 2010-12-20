@@ -19,7 +19,7 @@ module Murlsh
       p.each { |k,v| result[k.to_sym] = v }
 
       result[:tag] = result[:tag].split
-      result[:time] = Time.at(result[:time].to_i)
+      result[:time] = Time.parse(result[:time])
 
       # extract via information from extended
       result[:via] = result[:extended].chomp(')')[%r{via\s+([^\s]+)}, 1]

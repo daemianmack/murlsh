@@ -37,14 +37,14 @@ module Murlsh
 
         mu = Murlsh::Url.new do |u|
           u.time = if req.params['time']
-            Time.at(req.params['time'].to_i).gmtime
+            Time.at(req.params['time'].to_f).utc
           else
-            Time.now.gmtime
+            Time.now.utc
           end
           u.url = req.params['url']
           u.email = user[:email]
           u.name = user[:name]
-          u.via = req.params['via']  unless (req.params['via'] || []).empty?
+          u.via = req.params['via']  unless req.params['via'].to_s.empty?
         end
 
         begin

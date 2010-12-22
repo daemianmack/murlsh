@@ -4,6 +4,7 @@ require 'cgi'
 require 'digest/md5'
 require 'net/http'
 require 'pp'
+require 'set'
 require 'uri'
 require 'yaml'
 
@@ -348,11 +349,13 @@ namespace :thumb do
   task :check do
     ActiveRecord::Base.establish_connection :adapter => 'sqlite3',
       :database => config.fetch('db_file')
+    used_thumbnails = Set.new
     Murlsh::Url.all(
       :conditions => "thumbnail_url like 'img/thumb/%'").each do |u|
       identity = "url #{u.id} (#{u.url})"
 
       path = File.join(%w{public}.concat(File.split(u.thumbnail_url)))
+      used_thumbnails.add(path)
       if File.readable?(path)
         img_data = open(path) { |f| f.read }
 
@@ -377,6 +380,10 @@ namespace :thumb do
       else
         puts "#{identity} thumbnail #{path} does not exist or is not readable"
       end
+    end
+    # check if all thumbnail files that exist are in the database
+    (Dir['public/img/thumb/*'] - used_thumbnails.to_a).each do |t|
+      puts "thumbnail #{t} is not used"
     end
   end
 

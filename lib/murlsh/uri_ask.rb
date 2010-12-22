@@ -99,7 +99,7 @@ module Murlsh
         'User-Agent' =>
           'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624',
         }
-      if (host || '')[/^www\.nytimes\.com/]
+      if host.to_s[/^www\.nytimes\.com/]
         result['Referer'] = 'http://news.google.com/'
       end
 
@@ -125,7 +125,7 @@ module Murlsh
     def header(header_name, options={})
       result = [*head_headers(options)[header_name]][0]
       result = get_headers(options)[header_name]  if not result or result.empty?
-      result || ''
+      result.to_s
     end
 
     # Get and cache response headers returned by HTTP HEAD for this URI.

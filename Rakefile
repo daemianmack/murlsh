@@ -461,6 +461,7 @@ begin
       }.each_slice(3) { |g,o,v| gemspec.add_dependency(g, "#{o} #{v}") }
     %w{
       flog >= 2.5.0
+      rack-test ~> 0.5
       rspec ~> 1.3
       }.each_slice(3) do |g,o,v|
       gemspec.add_development_dependency(g, "#{o} #{v}")

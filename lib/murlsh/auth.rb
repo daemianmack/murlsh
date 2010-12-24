@@ -17,9 +17,20 @@ module Murlsh
 
     def initialize(file); @file = file; end
 
+    # Handle differences in csv interface between ruby 1.8 and 1.9.
+    def self.csv_iter(csv_file, &block)
+      if defined?(CSV::Reader)
+        # ruby 1.8
+        CSV::Reader.parse(open(csv_file), &block)
+      else
+        # ruby 1.9
+        CSV.foreach(csv_file, &block)
+      end
+    end
+
     # Authenticate a user by password. Return their name and email if correct.
     def auth(password)
-      CSV::Reader.parse(open(@file)) do |row|
+      self.class.csv_iter(@file) do |row|
         return { :name => row[0], :email => row[1] }  if
           BCrypt::Password.new(row[2]) == password
       end

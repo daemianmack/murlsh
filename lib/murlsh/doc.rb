@@ -10,7 +10,7 @@ module Murlsh
         unless content_type.nil?
           content = content_type['content']
           unless content.nil?
-            charset = content[/charset=([\w_.:-]+)/, 1]
+            charset = content[/charset=([\w.:-]+)/, 1]
             return charset  if charset
           end
         end

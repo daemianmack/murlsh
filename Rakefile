@@ -131,17 +131,12 @@ end
 
 desc 'Run test suite.'
 begin
-  require 'spec/rake/spectask'
+  require 'rspec/core/rake_task'
 
-  Spec::Rake::SpecTask.new('test') do |t|
-    t.spec_files = FileList['spec/*_spec.rb']
-    t.spec_opts = %w{--color}
+  RSpec::Core::RakeTask.new('test') do |t|
+    t.pattern = 'spec/**/*_spec.rb'
+    t.rspec_opts = %w{--color}
     t.verbose = true
-    t.warning = true
-  end
-rescue LoadError
-  task :test do
-    gem_not_found 'rspec'
   end
 end
 
@@ -455,7 +450,7 @@ begin
     %w{
       flog >= 2.5.0
       rack-test ~> 0.5
-      rspec ~> 1.3
+      rspec ~> 2.0
       }.each_slice(3) do |g,o,v|
       gemspec.add_development_dependency(g, "#{o} #{v}")
     end

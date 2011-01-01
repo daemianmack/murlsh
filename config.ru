@@ -31,7 +31,7 @@ use Murlsh::FarFutureExpires, :patterns => [
 feed_url = URI.join(config.fetch('root_url'), config.fetch('feed_file'))
 use Murlsh::MustRevalidate, :patterns => %r{^#{Regexp.escape(feed_url.path)}$}
 
-use Rack::Static, :urls => %w{/css /img /js /swf}, :root => 'public'
+use Rack::Static, :urls => %w{/css /img /js}, :root => 'public'
 use Rack::Static, :urls => %w{/atom.atom /podcast.rss /rss.rss}
 
 use Rack::Rewrite do

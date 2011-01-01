@@ -16,6 +16,7 @@ module Murlsh
 
       url_server = Murlsh::UrlServer.new(config)
       config_server = Murlsh::ConfigServer.new(config)
+      json_server = Murlsh::JsonServer.new(config)
       root_path = URI(config.fetch('root_url')).path
 
       @routes = [
@@ -24,6 +25,8 @@ module Murlsh
         [%r{^POST #{root_path}(url)?$}, url_server.method(:post)],
         [%r{^HEAD #{root_path}config$}, config_server.method(:head)],
         [%r{^GET #{root_path}config$}, config_server.method(:get)],
+        [%r{^HEAD #{root_path}json\.json$}, json_server.method(:head)],
+        [%r{^GET #{root_path}json\.json$}, json_server.method(:get)],
       ]
 
       db_init

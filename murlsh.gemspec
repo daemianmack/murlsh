@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2010-12-23}
+  s.date = %q{2011-01-01}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -39,10 +39,14 @@ Gem::Specification.new do |s|
     "lib/murlsh/head_from_get.rb",
     "lib/murlsh/image_list.rb",
     "lib/murlsh/img_store.rb",
+    "lib/murlsh/json_body.rb",
+    "lib/murlsh/json_server.rb",
+    "lib/murlsh/jsonp_body.rb",
     "lib/murlsh/markup.rb",
     "lib/murlsh/must_revalidate.rb",
     "lib/murlsh/openlock.rb",
     "lib/murlsh/plugin.rb",
+    "lib/murlsh/search_conditions.rb",
     "lib/murlsh/sqlite3_adapter.rb",
     "lib/murlsh/time_ago.rb",
     "lib/murlsh/uri_ask.rb",
@@ -138,7 +142,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<vimeo>, [">= 1.2.2"])
       s.add_development_dependency(%q<flog>, [">= 2.5.0"])
       s.add_development_dependency(%q<rack-test>, ["~> 0.5"])
-      s.add_development_dependency(%q<rspec>, ["~> 1.3"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.0"])
     else
       s.add_dependency(%q<activerecord>, [">= 2.3.4"])
       s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
@@ -161,7 +165,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<vimeo>, [">= 1.2.2"])
       s.add_dependency(%q<flog>, [">= 2.5.0"])
       s.add_dependency(%q<rack-test>, ["~> 0.5"])
-      s.add_dependency(%q<rspec>, ["~> 1.3"])
+      s.add_dependency(%q<rspec>, ["~> 2.0"])
     end
   else
     s.add_dependency(%q<activerecord>, [">= 2.3.4"])
@@ -185,7 +189,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<vimeo>, [">= 1.2.2"])
     s.add_dependency(%q<flog>, [">= 2.5.0"])
     s.add_dependency(%q<rack-test>, ["~> 0.5"])
-    s.add_dependency(%q<rspec>, ["~> 1.3"])
+    s.add_dependency(%q<rspec>, ["~> 2.0"])
   end
 end
 

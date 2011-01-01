@@ -45,6 +45,9 @@ module Murlsh
           u.email = user[:email]
           u.name = user[:name]
           u.via = req.params['via']  unless req.params['via'].to_s.empty?
+          unless req.params['thumbnail'].to_s.empty?
+            u.thumbnail_url = req.params['thumbnail']
+          end
         end
 
         begin

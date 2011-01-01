@@ -5,6 +5,7 @@ module Murlsh
   # Url list page builder.
   class UrlBody < Builder::XmlMarkup
     include Murlsh::Markup
+    include Murlsh::SearchConditions
 
     def initialize(config, req, content_type='text/html')
       @config, @req, @q, @content_type =
@@ -47,17 +48,6 @@ module Murlsh
 
       Murlsh::Url.all(:conditions => search_conditions, :order => 'time DESC',
         :limit => @per_page, :offset => offset)
-    end
-
-    # Search conditions builder for ActiveRecord conditions.
-    def search_conditions
-      if @q
-        search_cols = %w{name title url}
-        [search_cols.map { |x| "MURLSHMATCH(#{x}, ?)" }.join(' OR ')].push(
-          *[@q] * search_cols.size)
-      else
-        []
-      end
     end
 
     # Url list page body builder.

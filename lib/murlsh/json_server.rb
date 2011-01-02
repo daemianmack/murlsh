@@ -1,3 +1,5 @@
+require 'time'
+
 require 'rack'
 
 module Murlsh
@@ -12,13 +14,13 @@ module Murlsh
     # Respond to a GET request. Return json of recent urls or jsonp if
     # if callback parameter is sent.
     def get(req)
-      latest = Murlsh::Url.first(:order => 'time DESC')
+      last_update = Murlsh::Url.maximum('time')
 
       resp = Rack::Response.new
 
       resp['Cache-Control'] = 'must-revalidate, max-age=0'
-      resp['ETag'] = "W/\"#{latest.time.to_i}#{req.params.sort}\""
-      resp['Last-Modified'] = latest.time.httpdate
+      resp['ETag'] = "W/\"#{last_update.to_i}#{req.params.sort.join}\""
+      resp['Last-Modified'] = last_update.httpdate  if last_update
 
       if req['callback']
         resp['Content-Type'] = 'application/javascript'

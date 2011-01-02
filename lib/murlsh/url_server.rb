@@ -15,14 +15,14 @@ module Murlsh
     # Respond to a GET request. Return a page of urls based on the query
     # string parameters.
     def get(req)
-      last_db_update = File::Stat.new(@config['db_file']).mtime
+      last_update = Murlsh::Url.maximum('time')
 
       resp = Rack::Response.new
 
       resp['Cache-Control'] = 'must-revalidate, max-age=0'
       resp['Content-Type'] = 'text/html; charset=utf-8'
-      resp['ETag'] = "W/\"#{last_db_update.to_i}#{req.params.sort}\""
-      resp['Last-Modified'] = last_db_update.httpdate
+      resp['ETag'] = "W/\"#{last_update.to_i}#{req.params.sort.join}\""
+      resp['Last-Modified'] = last_update.httpdate  if last_update
 
       resp.body = Murlsh::UrlBody.new(@config, req, resp['Content-Type'])
 

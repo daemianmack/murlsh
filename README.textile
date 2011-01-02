@@ -6,7 +6,7 @@ Site for sharing and archiving links.
 * generates Atom and RSS feeds
 * generates json and jsonp feeds for client-side inclusion in other sites
 * regex search
-* embeds Flash mp3 player for mp3 urls
+* uses HTML5 audio for mp3 and ogg urls
 * looks good on iPhone
 * PubSubHubbub notification
 * plugin interface

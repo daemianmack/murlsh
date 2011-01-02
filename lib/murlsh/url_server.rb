@@ -1,3 +1,5 @@
+require 'time'
+
 require 'active_record'
 require 'rack'
 

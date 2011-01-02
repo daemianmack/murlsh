@@ -1,3 +1,5 @@
+require 'uri'
+
 module Murlsh
 
   # Recent urls json response builder.
@@ -12,18 +14,18 @@ module Murlsh
     def urls
       Murlsh::Url.all(:conditions => search_conditions, :order => 'time DESC',
         :limit => @config.fetch('num_posts_feed', 25)).map do |mu|
-        {
-          :content_length => mu.content_length,
-          :content_type => mu.content_type,
-          :email => mu.email,
-          :id => mu.id,
-          :name => mu.name,
-          :thumbnail_url => mu.thumbnail_url,
-          :time => mu.time,
-          :title => mu.title_stripped,
-          :url => mu.url,
-          :via => mu.via,
-        }
+        h = mu.attributes
+
+        h['title'] = mu.title_stripped
+
+        # add site root url to relative thumbnail urls
+        if h['thumbnail_url'] and
+          not URI(h['thumbnail_url']).scheme.to_s.downcase[/https?/]
+          h['thumbnail_url'] = URI.join(@config['root_url'],
+            h['thumbnail_url']).to_s
+        end
+
+        h
       end
     end
 

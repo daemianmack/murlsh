@@ -14,7 +14,7 @@ module Murlsh
 
       @first_href, @prev_href, @next_href = page_href(1), nil, nil
  
-      @total_entries, @total_pages = 0, 0
+      @total_entries, @total_pages = 0, 1
 
       @per_page = @req.params['pp'] ? @req.params['pp'].to_i :
         config.fetch('num_posts_page', 25)
@@ -34,7 +34,7 @@ module Murlsh
       search = search_conditions
 
       @total_entries = Murlsh::Url.count(:conditions => search)
-      @total_pages = (@total_entries / @per_page.to_f).ceil
+      @total_pages = [(@total_entries / @per_page.to_f).ceil, 1].max
 
       if @page > 1 and @page <= @total_pages
         @prev_href = page_href(@page - 1)

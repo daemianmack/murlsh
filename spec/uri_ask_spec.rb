@@ -2,7 +2,7 @@ require 'uri'
 
 require 'murlsh'
 
-Dir['plugins/*.rb'].each { |p| require p }
+Dir['plugins/*.rb'].each { |p| require "./#{p}" }
 
 describe Murlsh::UriAsk do
 

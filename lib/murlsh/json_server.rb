@@ -14,7 +14,13 @@ module Murlsh
     # Respond to a GET request. Return json of recent urls or jsonp if
     # if callback parameter is sent.
     def get(req)
-      last_update = Murlsh::Url.maximum('time')
+      conditions = Murlsh::SearchConditions.new(req['q']).conditions
+      page = 1
+      per_page = @config.fetch('num_posts_feed', 25)
+
+      result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
+
+      last_update = result_set.last_update
 
       resp = Rack::Response.new
 
@@ -24,10 +30,10 @@ module Murlsh
 
       if req['callback']
         resp['Content-Type'] = 'application/javascript'
-        resp.body = Murlsh::JsonpBody.new(@config, req)
+        resp.body = Murlsh::JsonpBody.new(@config, req, result_set)
       else
         resp['Content-Type'] = 'application/json'
-        resp.body = Murlsh::JsonBody.new(@config, req)
+        resp.body = Murlsh::JsonBody.new(@config, req, result_set)
       end
 
       resp

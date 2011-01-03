@@ -5,55 +5,32 @@ module Murlsh
   # Url list page builder.
   class UrlBody < Builder::XmlMarkup
     include Murlsh::Markup
-    include Murlsh::SearchConditions
 
-    def initialize(config, req, content_type='text/html')
-      @config, @req, @q, @content_type =
-        config, req, req.params['q'], content_type
-      @page = [req.params['p'].to_i, 1].max
-
-      @first_href, @prev_href, @next_href = page_href(1), nil, nil
- 
-      @total_entries, @total_pages = 0, 1
-
-      @per_page = @req.params['pp'] ? @req.params['pp'].to_i :
-        config.fetch('num_posts_page', 25)
-
+    def initialize(config, req, result_set, content_type='text/html')
+      @config, @req, @result_set, @content_type = config, req, result_set,
+        content_type
       super(:indent => @config['html_indent'] || 0)
     end
 
     # Get the href of a page in the same result set as this page.
+    #
+    # Return nil if page is invalid.
     def page_href(page)
-      query = @req.params.dup
-      query['p'] = page
-      Murlsh.build_query(query)
+      if page.to_i >= 1
+        query = @req.params.dup
+        query['p'] = page
+        Murlsh.build_query(query)
+      end
     end
 
-    # Fetch urls based on query string parameters.
-    def urls
-      search = search_conditions
+    # Get the url of the previous page or nil if this is the first.
+    def prev_href; page_href(@result_set.prev_page); end
 
-      @total_entries = Murlsh::Url.count(:conditions => search)
-      @total_pages = [(@total_entries / @per_page.to_f).ceil, 1].max
-
-      if @page > 1 and @page <= @total_pages
-        @prev_href = page_href(@page - 1)
-      end
-
-      if @page < @total_pages
-        @next_href = page_href(@page + 1)
-      end
-
-      offset = (@page - 1) * @per_page
-
-      Murlsh::Url.all(:conditions => search_conditions, :order => 'time DESC',
-        :limit => @per_page, :offset => offset)
-    end
+    # Get the url of the next page or nil if this is the last.
+    def next_href; page_href(@result_set.next_page); end
 
     # Url list page body builder.
     def each
-      mus = urls
-
       declare! :DOCTYPE, :html
 
       yield html(:lang => 'en') {
@@ -64,7 +41,7 @@ module Murlsh
 
             last = nil
 
-            mus.each do |mu|
+            @result_set.results.each do |mu|
               li {
                 unless mu.same_author?(last)
                   avatar_url = Murlsh::Plugin.hooks('avatar').inject(
@@ -115,7 +92,7 @@ module Murlsh
           map { |k,v| [k.sub('meta_tag_', ''), v] })
         css(@config['css_compressed'] || @config['css_files'])
         atom @config.fetch('feed_file')
-        link :rel => 'first', :href => @first_href
+        link :rel => 'first', :href => page_href(1)
         link :rel => 'prev', :href => @prev_href  if @prev_href
         link :rel => 'next', :href => @next_href  if @next_href
       }
@@ -123,7 +100,8 @@ module Murlsh
 
     # Title builder.
     def titlee
-      title(@config.fetch('page_title', '') + (@q ? " /#{@q}" : ''))
+      title(@config.fetch('page_title', '') +
+        (@req['q'] ? " /#{@req['q']}" : ''))
     end
 
     # Feed icon builder.
@@ -137,7 +115,7 @@ module Murlsh
     def search_form
       form(:action => '', :method => 'get') {
         fieldset {
-          form_input :id => 'q', :size => 32, :value => @q
+          form_input :id => 'q', :size => 32, :value => @req['q']
           form_input :type => 'submit', :value => 'Regex Search'
         }
       }
@@ -145,12 +123,12 @@ module Murlsh
 
     # Paging navigation.
     def paging_nav
-      text! "Page #{@page}/#{@total_pages}"
-      if @prev_href
-        text! ' | '; a 'previous', :href => @prev_href
+      text! "Page #{@result_set.page}/#{@result_set.total_pages}"
+      if p_href = prev_href
+        text! ' | '; a 'previous', :href => p_href
       end
-      if @next_href
-        text! ' | '; a 'next', :href => @next_href
+      if n_href = next_href
+        text! ' | '; a 'next', :href => n_href
       end
     end
 

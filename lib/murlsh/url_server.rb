@@ -10,14 +10,19 @@ module Murlsh
 
     include HeadFromGet
 
-    def initialize(config)
-      @config = config
-    end
+    def initialize(config); @config = config; end
 
     # Respond to a GET request. Return a page of urls based on the query
     # string parameters.
     def get(req)
-      last_update = Murlsh::Url.maximum('time')
+      conditions = Murlsh::SearchConditions.new(req['q']).conditions
+      page = [req.params['p'].to_i, 1].max
+      per_page = req.params['pp'] ? req.params['pp'].to_i :
+        @config.fetch('num_posts_page', 25)
+
+      result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
+
+      last_update = result_set.last_update
 
       resp = Rack::Response.new
 
@@ -26,7 +31,8 @@ module Murlsh
       resp['ETag'] = "W/\"#{last_update.to_i}#{req.params.sort.join}\""
       resp['Last-Modified'] = last_update.httpdate  if last_update
 
-      resp.body = Murlsh::UrlBody.new(@config, req, resp['Content-Type'])
+      resp.body = Murlsh::UrlBody.new(@config, req, result_set,
+        resp['Content-Type'])
 
       resp
     end

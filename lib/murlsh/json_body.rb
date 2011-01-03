@@ -4,16 +4,14 @@ module Murlsh
 
   # Recent urls json response builder.
   class JsonBody
-    include Murlsh::SearchConditions
 
-    def initialize(config, req)
-      @config, @req, @q = config, req, req.params['q']
+    def initialize(config, req, result_set)
+      @config, @req, @result_set = config, req, result_set
     end
 
-    # Fetch urls based on query string parameters.
-    def urls
-      Murlsh::Url.all(:conditions => search_conditions, :order => 'time DESC',
-        :limit => @config.fetch('num_posts_feed', 25)).map do |mu|
+    # Recent urls json response builder.
+    def each
+      urls = @result_set.results.map do |mu|
         h = mu.attributes
 
         h['title'] = mu.title_stripped
@@ -27,10 +25,8 @@ module Murlsh
 
         h
       end
+      yield urls.to_json
     end
-
-    # Recent urls json response builder.
-    def each; yield urls.to_json; end
 
   end
 

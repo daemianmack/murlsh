@@ -16,8 +16,8 @@ module Murlsh
     # string parameters.
     def get(req)
       conditions = Murlsh::SearchConditions.new(req['q']).conditions
-      page = [req.params['p'].to_i, 1].max
-      per_page = req.params['pp'] ? req.params['pp'].to_i :
+      page = [req['p'].to_i, 1].max
+      per_page = req['pp'] ? req['pp'].to_i :
         @config.fetch('num_posts_page', 25)
 
       result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
@@ -39,32 +39,32 @@ module Murlsh
 
     # Respond to a POST request. Add the new url and return json.
     def post(req)
-      auth = req.params['auth']
+      auth = req['auth']
       if user = auth.empty? ? nil : Murlsh::Auth.new(
         @config.fetch('auth_file')).auth(auth)
 
         mu = Murlsh::Url.new do |u|
-          u.url = req.params['url']
+          u.url = req['url']
           u.email = user[:email]
           u.name = user[:name]
 
           # optional parameters
-          unless req.params['thumbnail'].to_s.empty?
-            u.thumbnail_url = req.params['thumbnail']
+          unless req['thumbnail'].to_s.empty?
+            u.thumbnail_url = req['thumbnail']
           end
 
-          u.time = if req.params['time']
-            Time.at(req.params['time'].to_f).utc
+          u.time = if req['time']
+            Time.at(req['time'].to_f).utc
           else
             Time.now.utc
           end
 
-          unless req.params['title'].to_s.empty?
-            u.title = req.params['title']
+          unless req['title'].to_s.empty?
+            u.title = req['title']
             u.user_supplied_title = true
           end
 
-          u.via = req.params['via']  unless req.params['via'].to_s.empty?
+          u.via = req['via']  unless req['via'].to_s.empty?
         end
 
         begin

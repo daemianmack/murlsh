@@ -36,6 +36,8 @@ module Murlsh
       @ask
     end
 
+    attr_accessor :user_supplied_title
+    alias :user_supplied_title? :user_supplied_title
   end
 
 end

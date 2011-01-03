@@ -38,18 +38,27 @@ module Murlsh
         @config.fetch('auth_file')).auth(auth)
 
         mu = Murlsh::Url.new do |u|
+          u.url = req.params['url']
+          u.email = user[:email]
+          u.name = user[:name]
+
+          # optional parameters
+          unless req.params['thumbnail'].to_s.empty?
+            u.thumbnail_url = req.params['thumbnail']
+          end
+
           u.time = if req.params['time']
             Time.at(req.params['time'].to_f).utc
           else
             Time.now.utc
           end
-          u.url = req.params['url']
-          u.email = user[:email]
-          u.name = user[:name]
-          u.via = req.params['via']  unless req.params['via'].to_s.empty?
-          unless req.params['thumbnail'].to_s.empty?
-            u.thumbnail_url = req.params['thumbnail']
+
+          unless req.params['title'].to_s.empty?
+            u.title = req.params['title']
+            u.user_supplied_title = true
           end
+
+          u.via = req.params['via']  unless req.params['via'].to_s.empty?
         end
 
         begin

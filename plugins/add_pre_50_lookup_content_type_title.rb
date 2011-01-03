@@ -19,7 +19,10 @@ module Murlsh
       end
 
       url.content_type = url.ask.content_type(:headers => headers)
-      url.title = url.ask.title(:headers => headers)
+
+      unless url.user_supplied_title?
+        url.title = url.ask.title(:headers => headers)
+      end
     end
 
   end

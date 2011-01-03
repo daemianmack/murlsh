@@ -12,7 +12,7 @@ module Murlsh
     TwitterRe = %r{^https?://twitter\.com/\w+/status(?:es)?/(\d+)$}i
 
     def self.run(url, config)
-      if tweet_id = url.url[TwitterRe, 1]
+      if not url.user_supplied_title? and tweet_id = url.url[TwitterRe, 1]
         tweet = Twitter.status(tweet_id)
 
         url.title = "@#{tweet.user.screen_name}: #{tweet.text}"

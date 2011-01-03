@@ -26,7 +26,7 @@ module Murlsh
         end
 
         url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
-        url.title = match[2]
+        url.title = match[2]  unless url.user_supplied_title?
       end
     end
 

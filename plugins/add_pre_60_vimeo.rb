@@ -19,7 +19,9 @@ module Murlsh
       if id = url.url[VimeoRe, 1]
         info = Vimeo::Simple::Video.info(id)[0]
 
-        url.title = "#{info['title']} by #{info['user_name']}"
+        unless url.user_supplied_title?
+          url.title = "#{info['title']} by #{info['user_name']}"
+        end
 
         thumb_storage = Murlsh::ImgStore.new(StorageDir,
           :user_agent => config['user_agent'])

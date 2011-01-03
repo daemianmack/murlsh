@@ -10,7 +10,7 @@ module Murlsh
     ImgurRe = %r{^http://(?:i\.)?imgur\.com/([a-z\d]+)(\.(?:jpe?g|gif|png))$}i
 
     def self.run(url, config)
-      if match = ImgurRe.match(url.url)
+      if not url.user_supplied_title? and match = ImgurRe.match(url.url)
         url.title = "imgur/#{match[1]}s#{match[2]}"
       end
     end

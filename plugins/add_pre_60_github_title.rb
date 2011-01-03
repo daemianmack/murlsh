@@ -13,7 +13,7 @@ module Murlsh
     GithubRe = %r{^https?://github\.com/\w+/[\w.-]+$}i
 
     def self.run(url, config)
-      if url.url[GithubRe]
+      if not url.user_supplied_title? and url.url.to_s[GithubRe]
         unless url.ask.description.empty?
           url.title << " - #{url.ask.description}"
         end

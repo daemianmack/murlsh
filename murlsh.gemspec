@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2011-01-01}
+  s.date = %q{2011-01-02}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -63,6 +63,7 @@ Gem::Specification.new do |s|
     "plugins/add_post_60_notify_hubs.rb",
     "plugins/add_pre_40_convert_mobile.rb",
     "plugins/add_pre_41_unajax_twitter.rb",
+    "plugins/add_pre_45_supplied_thumbnail.rb",
     "plugins/add_pre_50_lookup_content_type_title.rb",
     "plugins/add_pre_50_media_thumbnail.rb",
     "plugins/add_pre_50_open_graph_image.rb",

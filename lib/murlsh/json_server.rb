@@ -25,7 +25,7 @@ module Murlsh
       resp = Rack::Response.new
 
       resp['Cache-Control'] = 'must-revalidate, max-age=0'
-      resp['ETag'] = "W/\"#{last_update.to_i}#{req.params.sort.join}\""
+      resp['ETag'] = "W/\"#{last_update.to_i}\""
       resp['Last-Modified'] = last_update.httpdate  if last_update
 
       if req['callback']

@@ -28,7 +28,7 @@ module Murlsh
 
       resp['Cache-Control'] = 'must-revalidate, max-age=0'
       resp['Content-Type'] = 'text/html; charset=utf-8'
-      resp['ETag'] = "W/\"#{last_update.to_i}#{req.params.sort.join}\""
+      resp['ETag'] = "W/\"#{last_update.to_i}\""
       resp['Last-Modified'] = last_update.httpdate  if last_update
 
       resp.body = Murlsh::UrlBody.new(@config, req, result_set,

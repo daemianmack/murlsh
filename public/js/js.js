@@ -1,8 +1,7 @@
 /*global $, document, navigator, window, twttr*/
 
-"use strict";
-
 var Murlsh = function ($, navigator, window, twtter) {
+    "use strict";
 
     var my = {},
         hrefRes = {
@@ -224,6 +223,7 @@ var Murlsh = function ($, navigator, window, twtter) {
 };
 
 $(document).ready(function () {
+    "use strict";
     var murlsh = new Murlsh($, navigator, window, twttr), urls;
 
     if (murlsh.isIphone()) {

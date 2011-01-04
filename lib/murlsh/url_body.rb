@@ -4,6 +4,7 @@ module Murlsh
 
   # Url list page builder.
   class UrlBody < Builder::XmlMarkup
+    include Murlsh::BuildMd5
     include Murlsh::Markup
 
     def initialize(config, req, result_set, content_type='text/html')
@@ -29,58 +30,65 @@ module Murlsh
     # Get the url of the next page or nil if this is the last.
     def next_href; page_href(@result_set.next_page); end
 
+    # Yield body for Rack.
+    def each; yield build; end
+
     # Url list page body builder.
-    def each
-      declare! :DOCTYPE, :html
+    def build
+      if defined?(@body)
+        @body
+      else
+        declare! :DOCTYPE, :html
 
-      yield html(:lang => 'en') {
-        headd
-        body {
-          ul(:id => 'urls') {
-            li { feed_icon ; search_form }
+        @body = html(:lang => 'en') {
+          headd
+          body {
+            ul(:id => 'urls') {
+              li { feed_icon ; search_form }
 
-            last = nil
+              last = nil
 
-            @result_set.results.each do |mu|
-              li {
-                unless mu.same_author?(last)
-                  avatar_url = Murlsh::Plugin.hooks('avatar').inject(
-                    nil) do |url_so_far,plugin|
-                    plugin.run(url_so_far, mu, @config)
+              @result_set.results.each do |mu|
+                li {
+                  unless mu.same_author?(last)
+                    avatar_url = Murlsh::Plugin.hooks('avatar').inject(
+                      nil) do |url_so_far,plugin|
+                      plugin.run(url_so_far, mu, @config)
+                    end
+                    div(:class => 'icon') {
+                      murlsh_img :src => avatar_url, :text => mu.name
+                    }  if avatar_url
+                    div(mu.name, :class => 'name')  if
+                      @config.fetch('show_names', false) and mu.name
                   end
-                  div(:class => 'icon') {
-                    murlsh_img :src => avatar_url, :text => mu.name
-                  }  if avatar_url
-                  div(mu.name, :class => 'name')  if
-                    @config.fetch('show_names', false) and mu.name
-                end
 
-                if mu.thumbnail_url
-                  murlsh_img :src => mu.thumbnail_url,
-                    :text => mu.title_stripped, :class => 'thumb'
-                end
+                  if mu.thumbnail_url
+                    murlsh_img :src => mu.thumbnail_url,
+                      :text => mu.title_stripped, :class => 'thumb'
+                  end
 
-                a mu.title_stripped, :href => mu.url, :class => 'm'
+                  a mu.title_stripped, :href => mu.url, :class => 'm'
 
-                Murlsh::Plugin.hooks('url_display_add') do |p|
-                  p.run self, mu, @config
-                end
+                  Murlsh::Plugin.hooks('url_display_add') do |p|
+                    p.run self, mu, @config
+                  end
 
-                last = mu
-              }
-            end
+                  last = mu
+                }
+              end
 
-            li { paging_nav }
+              li { paging_nav }
 
-            li { add_form }
+              li { add_form }
+            }
+
+            clear
+            powered_by
+            js
+            div '', :id => 'bottom'
           }
-
-          clear
-          powered_by
-          js
-          div '', :id => 'bottom'
         }
-      }
+      end
     end
 
     # Head builder.

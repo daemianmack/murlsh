@@ -75,7 +75,6 @@ namespace :db do
     db.execute 'CREATE TABLE urls (
       id INTEGER PRIMARY KEY,
       time TIMESTAMP,
-      updated_at TIMESTAMP,
       url TEXT,
       email TEXT,
       name TEXT,
@@ -86,7 +85,6 @@ namespace :db do
       thumbnail_url TEXT);
       '
     db.execute 'CREATE INDEX IF NOT EXISTS urls_time_desc ON urls (time DESC);'
-    db.execute 'CREATE INDEX IF NOT EXISTS urls_updated_at_desc ON urls (updated_at DESC);'
   end
 
   desc 'Interact with the database.'

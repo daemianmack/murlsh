@@ -1,5 +1,3 @@
-require 'time'
-
 require 'active_record'
 require 'rack'
 
@@ -22,17 +20,14 @@ module Murlsh
 
       result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
 
-      last_update = result_set.last_update
-
       resp = Rack::Response.new
-
-      resp['Cache-Control'] = 'must-revalidate, max-age=0'
-      resp['Content-Type'] = 'text/html; charset=utf-8'
-      resp['ETag'] = "W/\"#{last_update.to_i}\""
-      resp['Last-Modified'] = last_update.httpdate  if last_update
 
       resp.body = Murlsh::UrlBody.new(@config, req, result_set,
         resp['Content-Type'])
+
+      resp['Cache-Control'] = 'must-revalidate, max-age=0'
+      resp['Content-Type'] = 'text/html; charset=utf-8'
+      resp['ETag'] = "\"#{resp.body.md5}\""
 
       resp
     end

@@ -17,17 +17,6 @@ module Murlsh
 
     def offset; @offset ||= (page - 1) * per_page; end
 
-    def last_update
-      # activerecord maximum doesn't seem to work with order
-      if defined?(@last_update)
-        @last_update
-      else
-        @last_update = Murlsh::Url.all(:select => 'updated_at',
-        :conditions => conditions, :order => order, :limit => per_page,
-        :offset => offset).compact.map(&:updated_at).max
-      end
-    end
-
     def results
       Murlsh::Url.all(:conditions => conditions, :order => order,
         :limit => per_page, :offset => offset)

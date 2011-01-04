@@ -1,5 +1,3 @@
-require 'time'
-
 require 'rack'
 
 module Murlsh
@@ -20,13 +18,7 @@ module Murlsh
 
       result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
 
-      last_update = result_set.last_update
-
       resp = Rack::Response.new
-
-      resp['Cache-Control'] = 'must-revalidate, max-age=0'
-      resp['ETag'] = "W/\"#{last_update.to_i}\""
-      resp['Last-Modified'] = last_update.httpdate  if last_update
 
       if req['callback']
         resp['Content-Type'] = 'application/javascript'
@@ -35,6 +27,9 @@ module Murlsh
         resp['Content-Type'] = 'application/json'
         resp.body = Murlsh::JsonBody.new(@config, req, result_set)
       end
+
+      resp['Cache-Control'] = 'must-revalidate, max-age=0'
+      resp['ETag'] = "\"#{resp.body.md5}\""
 
       resp
     end

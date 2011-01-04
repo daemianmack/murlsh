@@ -2,6 +2,7 @@ require 'murlsh/head_from_get'
 require 'murlsh/search_conditions'
 
 require 'murlsh/auth'
+require 'murlsh/build_md5'
 require 'murlsh/build_query'
 require 'murlsh/delicious_parse'
 require 'murlsh/dispatch'

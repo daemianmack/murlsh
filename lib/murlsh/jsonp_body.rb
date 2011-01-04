@@ -4,7 +4,13 @@ module Murlsh
   class JsonpBody < Murlsh::JsonBody
 
     # Recent urls jsonp response builder.
-    def each; super { |json| yield "#{@req['callback']}(#{json})" }; end
+    def build
+      if defined?(@body)
+        @body
+      else
+        @body = "#{@req['callback']}(#{super})"
+      end
+    end
 
   end
 

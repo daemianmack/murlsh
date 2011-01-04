@@ -29,7 +29,6 @@ Gem::Specification.new do |s|
     "lib/murlsh.rb",
     "lib/murlsh/auth.rb",
     "lib/murlsh/build_query.rb",
-    "lib/murlsh/config_server.rb",
     "lib/murlsh/delicious_parse.rb",
     "lib/murlsh/dispatch.rb",
     "lib/murlsh/doc.rb",

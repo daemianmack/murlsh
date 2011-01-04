@@ -2,7 +2,7 @@
 
 "use strict";
 
-var Murlsh = function (config, $, navigator, window, twtter) {
+var Murlsh = function ($, navigator, window, twtter) {
 
     var my = {},
         hrefRes = {
@@ -224,45 +224,42 @@ var Murlsh = function (config, $, navigator, window, twtter) {
 };
 
 $(document).ready(function () {
-    $.getJSON('config', function (config) {
-        var murlsh = new Murlsh(config, $, navigator, window, twttr),
-            urls;
+    var murlsh = new Murlsh($, navigator, window, twttr), urls;
 
-        if (murlsh.isIphone()) {
-            murlsh.iphoneInit();
-        }
+    if (murlsh.isIphone()) {
+        murlsh.iphoneInit();
+    }
 
-        $('#submit').click(function () {
-            $.post('url', {
-                url : $('#url').val(),
-                via : $('#via').val(),
-                auth : $('#auth').val()
-            }, function (d) {
-                $.each(d, function (i, v) {
-                    var li = murlsh.formatLi(v);
-                    $('#urls > li:first').after(li);
-                    $(li).children('a:first').each(murlsh.addExtra);
-                });
-                $('#url').val('');
-                $('#via').val('');
-            }, 'json');
-        });
-
-        urls = $('a.m');
-
-        urls.each(murlsh.addExtra);
-
-        /*
-        // experimental comment support, to enable uncomment and edit
-        // comments.json
-        $.getJSON('/js/comments.json', function (data) {
-            urls.each(function () {
-                var href = $(this).attr('href');
-                if (href in data) {
-                    murlsh.addComments($(this), data[href]);
-                }
+    $('#submit').click(function () {
+        $.post('url', {
+            url : $('#url').val(),
+            via : $('#via').val(),
+            auth : $('#auth').val()
+        }, function (d) {
+            $.each(d, function (i, v) {
+                var li = murlsh.formatLi(v);
+                $('#urls > li:first').after(li);
+                $(li).children('a:first').each(murlsh.addExtra);
             });
-        });
-        */
+            $('#url').val('');
+            $('#via').val('');
+        }, 'json');
     });
+
+    urls = $('a.m');
+
+    urls.each(murlsh.addExtra);
+
+    /*
+    // experimental comment support, to enable uncomment and edit
+    // comments.json
+    $.getJSON('/js/comments.json', function (data) {
+        urls.each(function () {
+            var href = $(this).attr('href');
+            if (href in data) {
+                murlsh.addComments($(this), data[href]);
+            }
+        });
+    });
+    */
 });

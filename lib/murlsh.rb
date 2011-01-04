@@ -3,7 +3,6 @@ require 'murlsh/search_conditions'
 
 require 'murlsh/auth'
 require 'murlsh/build_query'
-require 'murlsh/config_server'
 require 'murlsh/delicious_parse'
 require 'murlsh/dispatch'
 require 'murlsh/doc'

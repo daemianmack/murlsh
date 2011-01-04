@@ -2,8 +2,6 @@
 auth_file: murlsh_users
 cache_entitystore: file:tmp/cache/rack/body
 cache_metastore: file:tmp/cache/rack/meta
-config_js: []
-
 css_files: 
 - css/jquery.jgrowl.css
 - css/screen.css

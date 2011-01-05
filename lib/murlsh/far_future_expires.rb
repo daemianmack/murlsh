@@ -1,3 +1,5 @@
+require 'time'
+
 require 'rack'
 require 'rack/utils'
 
@@ -10,7 +12,9 @@ module Murlsh
     def initialize(app, options={})
       @app = app
       @patterns = options[:patterns] ? [*options[:patterns]] : []
-      @future = options[:future] || 'Wed, 22 Jun 2019 20:07:00 GMT'
+      # rfc2616 HTTP/1.1 servers SHOULD NOT send Expires dates more than one
+      # year in the future.
+      @future = options[:future] || (Time.now + 31536000).httpdate
     end
 
     def call(env)

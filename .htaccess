@@ -9,11 +9,13 @@ AddOutputFilterByType DEFLATE text/css
 AddOutputFilterByType DEFLATE text/html
 
 <FilesMatch "\.gen\.(css|js)$">
-  Header add Expires "Wed, 22 Jun 2019 20:07:00 GMT"
+  ExpiresActive On
+  ExpiresDefault "now plus 1 years"
   FileETag None
 </FilesMatch>
 
 <FilesMatch "[\da-z]{32}\.(gif|jpe?g|png)$">
-  Header add Expires "Wed, 22 Jun 2019 20:07:00 GMT"
+  ExpiresActive On
+  ExpiresDefault "now plus 1 years"
   FileETag None
 </FilesMatch>

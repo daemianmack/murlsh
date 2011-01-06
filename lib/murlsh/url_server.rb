@@ -22,11 +22,11 @@ module Murlsh
 
       resp = Rack::Response.new
 
+      resp['Content-Type'] = 'text/html; charset=utf-8'
       resp.body = Murlsh::UrlBody.new(@config, req, result_set,
         resp['Content-Type'])
 
       resp['Cache-Control'] = 'must-revalidate, max-age=0'
-      resp['Content-Type'] = 'text/html; charset=utf-8'
       resp['ETag'] = "\"#{resp.body.md5}\""
 
       resp

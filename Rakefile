@@ -3,6 +3,7 @@ $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 require 'cgi'
 require 'digest/md5'
 require 'net/http'
+require 'open-uri'
 require 'pp'
 require 'set'
 require 'uri'
@@ -315,9 +316,17 @@ namespace :js do
 
   desc 'Run javascript through jslint.'
   task :jslint do
+    local_jslint = 'jslint_rhino.js'
+    open(local_jslint, 'w') do |f|
+      f.write(cat(%w{
+        https://github.com/AndyStricker/JSLint/raw/rhinocmdline/fulljslint.js
+        https://github.com/AndyStricker/JSLint/raw/rhinocmdline/rhino.js
+      }))
+    end
+
     MURLSH_JS.each do |jsf|
       puts jsf
-      puts `rhino http://www.jslint.com/rhino/jslint.js #{jsf}`
+      puts `rhino #{local_jslint} #{jsf}`
     end
   end
 

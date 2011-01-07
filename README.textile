@@ -48,6 +48,16 @@ the murlsh command again from your web directory to update plugins, javascript
 and css. It will prompt before overwriting anything in case you have made
 modifications.
 
+h1. API
+
+h2. Recent urls
+
+* http://your_root/atom.atom
+* http://your_root/rss.rss
+* http://your_root/podcast.rss (urls with audio/mpeg content type)
+* http://your_root/json.json
+* http://your_root/json.json?callback=x (jsonp)
+
 h1. Plugins
 
 Classes in the plugins directory can be used to change behavior at certain

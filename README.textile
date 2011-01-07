@@ -33,8 +33,13 @@ rake init
 </code>
 </pre>
 
-For development, check out the code, edit config.yaml, rake init, rackup,
-open http://localhost:9292/
+h2. Development
+
+* Create a fork and check it out
+* edit config.yaml
+* rake init
+* rackup
+* open http://localhost:9292/
 
 h1. Updating
 

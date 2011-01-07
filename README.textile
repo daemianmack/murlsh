@@ -33,6 +33,8 @@ rake init
 </code>
 </pre>
 
+For development, check out the code, run rackup and open http://localhost:9292/
+
 h1. Updating
 
 If you are using the gem and it gets updated to a new version you should run

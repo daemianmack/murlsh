@@ -36,7 +36,7 @@ var Murlsh = function ($, navigator, window, twtter) {
     }
 
     function makeIframe(src) {
-        return $('<iframe />').attr({
+        return $('<iframe />', {
             src: src,
             width: 640,
             height: 385,
@@ -110,7 +110,7 @@ var Murlsh = function ($, navigator, window, twtter) {
             comment,
             commentElement,
             i,
-            ul = $('<ul />').addClass('comments').appendTo(link.parent());
+            ul = $('<ul />', { className : 'comments' }).appendTo(link.parent());
 
         for (i = 0; i < comments.length; i += 1) {
             comment = comments[i];
@@ -118,7 +118,7 @@ var Murlsh = function ($, navigator, window, twtter) {
             if (comment.authorAvatar.length > 0) {
                 avatar = img(comment.authorAvatar).appendTo(commentElement);
                 if (comment.authorUrl.length > 0) {
-                    avatar.wrapAll($('<a />').attr('href', comment.authorUrl));
+                    avatar.wrapAll($('<a />', { href : comment.authorUrl }));
                 }
                 commentElement.append(' ');
             }
@@ -160,7 +160,7 @@ var Murlsh = function ($, navigator, window, twtter) {
                     text : tweetMatch[1]
                 });
 
-                formattedTweet = $('<span />').addClass('tweet').append(
+                formattedTweet = $('<span />', { className : 'tweet' }).append(
                     tweetLink).append(': ').append(
                     twttr.txt.autoLink(tweetMatch[2]));
 
@@ -183,11 +183,14 @@ var Murlsh = function ($, navigator, window, twtter) {
             }));
 
         if (d.name) {
-            li.prepend($('<div />', { text : d.name }).addClass('name'));
+            li.prepend($('<div />', {
+                className : 'name',
+                text : d.name
+            }));
         }
 
         if (d.email) {
-            li.prepend($('<div />').addClass('icon').append(
+            li.prepend($('<div />', { className : 'icon' }).append(
                 img('http://www.gravatar.com/avatar/' + d.email + '?s=' +
                     iconSize, d.name).attr({
                     width : iconSize,
@@ -222,7 +225,7 @@ var Murlsh = function ($, navigator, window, twtter) {
     return my;
 };
 
-$(document).ready(function () {
+$(function () {
     "use strict";
     var murlsh = new Murlsh($, navigator, window, twttr), urls;
 

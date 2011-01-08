@@ -50,10 +50,11 @@ cp_r_safe(
 
 FileUtils.mkdir_p('tmp', :verbose => true)
 
+cd_command = File.expand_path(dest_dir) == Dir.pwd ? '' : "cd #{dest_dir}\n"
+
 puts <<eos
 Next steps:
 
-cd #{dest_dir}
-edit config.yaml
+#{cd_command}edit config.yaml
 rake init
 eos

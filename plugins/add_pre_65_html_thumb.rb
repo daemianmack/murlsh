@@ -23,7 +23,7 @@ module Murlsh
           chooser = Plumnailer::Chooser.new
           choice = chooser.choose(url.url)
 
-          if choice
+          if choice and choice.columns > 31 and choice.rows > 31
             max_side = config.fetch('thumbnail_max_side', 90)
             choice.extend(Murlsh::ImageList).resize_down!(max_side)
 

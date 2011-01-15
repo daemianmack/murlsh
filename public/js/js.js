@@ -203,9 +203,9 @@ var Murlsh = function ($, navigator, window, twtter) {
 
     my.iphoneInit = function () {
         window.onorientationchange = function () {
-            var width = 450;
+            var width = 442;
             if (window.orientation === 0 || window.orientation === 180) {
-                width = 290;
+                width = 282;
             }
             $('#urls').width(width);
         };

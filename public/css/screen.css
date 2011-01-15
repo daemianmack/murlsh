@@ -103,8 +103,6 @@ div.jGrowl div.jGrowl-closer {
 @media screen and (max-device-width : 480px) {
 
   body {
-    margin : 0;
-    padding : 0;
     font-size : 1.25em;
     line-height : normal;
   }
@@ -112,7 +110,7 @@ div.jGrowl div.jGrowl-closer {
   #urls {
     margin : 0;
     padding-left : 0;
-    width : 290px;
+    width : 282px;
   }
 
   #urls>li {

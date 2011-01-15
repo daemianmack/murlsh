@@ -1,4 +1,5 @@
 require 'builder'
+require 'uri'
 
 module Murlsh
 
@@ -43,9 +44,12 @@ module Murlsh
         @body = html(:lang => 'en') {
           headd
           body {
+            search_form
+            self.p {
+              predefined_searches
+              feed_link
+            }
             ul(:id => 'urls') {
-              li { feed_icon ; search_form }
-
               last = nil
 
               @result_set.results.each do |mu|
@@ -76,14 +80,14 @@ module Murlsh
                   last = mu
                 }
               end
-
-              li { paging_nav }
-
-              li { add_form }
             }
 
             clear
+
+            paging_nav
+            add_form
             powered_by
+
             js
             div '', :id => 'bottom'
           }
@@ -106,17 +110,26 @@ module Murlsh
       }
     end
 
+    # Predefined search list builder.
+    def predefined_searches
+      if @config['predefined_searches']
+        text! 'search: '
+        @config['predefined_searches'].each do |k,v|
+          a "/#{k}", :href => "?q=#{URI.escape(v)}" ; text! ' '
+        end
+        text! '| '
+      end
+    end
+
     # Title builder.
     def titlee
       title(@config.fetch('page_title', '') +
         (@req['q'] ? " /#{@req['q']}" : ''))
     end
 
-    # Feed icon builder.
-    def feed_icon
-      div(:class => 'icon') {
-        a('feed', :href => @config.fetch('feed_file'), :class => 'feed')
-      }
+    # Feed link builder.
+    def feed_link
+      a('feed', :href => @config.fetch('feed_file'), :class => 'feed')
     end
 
     # Search form builder.
@@ -131,13 +144,15 @@ module Murlsh
 
     # Paging navigation.
     def paging_nav
-      text! "Page #{@result_set.page}/#{@result_set.total_pages}"
-      if p_href = prev_href
-        text! ' | '; a 'previous', :href => p_href
-      end
-      if n_href = next_href
-        text! ' | '; a 'next', :href => n_href
-      end
+      self.p {
+        text! "Page #{@result_set.page}/#{@result_set.total_pages}"
+        if p_href = prev_href
+          text! ' | '; a 'previous', :href => p_href
+        end
+        if n_href = next_href
+          text! ' | '; a 'next', :href => n_href
+        end
+      }
     end
 
     # Url add form builder.

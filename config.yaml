@@ -22,7 +22,7 @@ num_posts_page: 25
 page_title: mmb url share
 pubsubhubbub_hubs: []
 
-quick_search:
+quick_search: 
   audio: \.(mp3|ogg)$
   code: (code\.google|github)\.com/
   images: \.(png|gif|jpe?g)$

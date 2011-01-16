@@ -31,4 +31,4 @@ quick_search:
   code: (code\.google|github)\.com/
   images: \.(png|gif|jpe?g)$
   tweets: twitter\.com/
-  video: (youtube|vimeo)\.com/
+  video: (hulu|youtube|vimeo)\.com/

@@ -22,13 +22,13 @@ num_posts_page: 25
 page_title: mmb url share
 pubsubhubbub_hubs: []
 
-root_url: http://urls.matthewm.boedicker.org/
-show_names: true
-thumbnail_max_side: 90
-user_agent: murlsh (http://github.com/mmb/murlsh)
 quick_search:
   audio: \.(mp3|ogg)$
   code: (code\.google|github)\.com/
   images: \.(png|gif|jpe?g)$
   tweets: twitter\.com/
   video: (hulu|youtube|vimeo)\.com/
+root_url: http://urls.matthewm.boedicker.org/
+show_names: true
+thumbnail_max_side: 90
+user_agent: murlsh (http://github.com/mmb/murlsh)

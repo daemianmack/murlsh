@@ -241,7 +241,7 @@ $(function () {
         }, function (d) {
             $.each(d, function (i, v) {
                 var li = murlsh.formatLi(v);
-                $('#urls > li:first').after(li);
+                $('#urls').prepend(li);
                 $(li).children('a:first').each(murlsh.addExtra);
             });
             $('#url').val('');

@@ -212,7 +212,7 @@ var Murlsh = function ($, navigator, window, twtter) {
 
         window.onorientationchange();
 
-        $('a.feed').replaceWith($('<a />', {
+        $('#menu').append(' | ').append($('<a />', {
             href : '#bottom',
             text : 'bottom'
         }));

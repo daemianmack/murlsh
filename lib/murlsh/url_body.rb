@@ -44,11 +44,9 @@ module Murlsh
         @body = html(:lang => 'en') {
           headd
           body {
+            self.p(:id => 'menu') { home_link ; text! ' | ' ; feed_link }
             search_form
-            self.p {
-              predefined_searches
-              feed_link
-            }
+            quick_search
             ul(:id => 'urls') {
               last = nil
 
@@ -110,16 +108,6 @@ module Murlsh
       }
     end
 
-    # Predefined search list builder.
-    def predefined_searches
-      if @config['predefined_searches']
-        text! 'search: '
-        @config['predefined_searches'].each do |k,v|
-          a "/#{k}", :href => "?q=#{URI.escape(v)}" ; text! ' '
-        end
-        text! '| '
-      end
-    end
 
     # Title builder.
     def titlee
@@ -127,9 +115,24 @@ module Murlsh
         (@req['q'] ? " /#{@req['q']}" : ''))
     end
 
+    # Home link builder.
+    def home_link; a 'home', :href => @config.fetch('root_url'); end
+
     # Feed link builder.
     def feed_link
-      a('feed', :href => @config.fetch('feed_file'), :class => 'feed')
+      a 'feed', :href => @config.fetch('feed_file'), :class => 'feed'
+    end
+
+    # Quick search list builder.
+    def quick_search
+      if @config['quick_search']
+        self.p {
+          text! 'quick search: '
+          @config['quick_search'].each do |k,v|
+            a "/#{k}", :href => "?q=#{URI.escape(v)}" ; text! ' '
+          end
+        }
+      end
     end
 
     # Search form builder.

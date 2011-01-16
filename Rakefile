@@ -270,6 +270,9 @@ namespace :css do
     unless config['css_compressed'] == compressed_url
       config['css_compressed'] = compressed_url
       config.extend(Murlsh::YamlOrderedHash)
+      config.each_value do |v|
+        v.extend(Murlsh::YamlOrderedHash)  if v.is_a?(Hash)
+      end
       open('config.yaml', 'w') { |f| YAML.dump(config, f) }
       puts "updated config with css_compressed = #{compressed_url}"
     end
@@ -309,6 +312,9 @@ namespace :js do
     unless config['js_compressed'] == compressed_url
       config['js_compressed'] = compressed_url
       config.extend(Murlsh::YamlOrderedHash)
+      config.each_value do |v|
+        v.extend(Murlsh::YamlOrderedHash)  if v.is_a?(Hash)
+      end
       open('config.yaml', 'w') { |f| YAML.dump(config, f) }
       puts "updated config with js_compressed = #{compressed_url}"
     end

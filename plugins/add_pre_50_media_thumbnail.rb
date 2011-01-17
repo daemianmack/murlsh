@@ -4,7 +4,7 @@ require 'murlsh'
 
 module Murlsh
 
-  # If document has <meta rel="media:thumbnail"> use it as the thumbnail.
+  # If document has meta or link media:thumbnail use it as the thumbnail.
   class AddPre50MediaThumbnail < Plugin
 
     @hook = 'add_pre'
@@ -14,8 +14,11 @@ module Murlsh
 
     def self.run(url, config)
       if not url.thumbnail_url and url.ask.doc
-        url.ask.doc.xpath_search("//meta[@rel='media:thumbnail']") do |node|
-          if node and node['href'] and not node['href'].empty?
+        url.ask.doc.xpath_search(%w{
+          //meta[@rel='media:thumbnail']
+          //link[@rel='media:thumbnail']
+          }) do |node|
+          if node and not node['href'].to_s.empty?
             Murlsh::failproof do
               thumb_storage = Murlsh::ImgStore.new(StorageDir,
                 :user_agent => config['user_agent'])

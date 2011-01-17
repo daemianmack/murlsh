@@ -457,7 +457,7 @@ begin
       rack-rewrite >= 1.0.2
       rack-throttle >= 0.3.0
       rmagick >= 1.15.14
-      sqlite3-ruby >= 1.2.1
+      sqlite3 ~> 1.3
       tinyatom >= 0.3.3
       twitter >= 0.9.12
       vimeo >= 1.2.2

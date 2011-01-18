@@ -445,7 +445,6 @@ begin
       activerecord >= 2.3.4
       bcrypt-ruby >= 2.1.2
       builder >= 2.1.2
-      flickraw >= 0.8.3
       htmlentities >= 4.2.0
       json >= 1.2.3
       nokogiri ~> 1.0

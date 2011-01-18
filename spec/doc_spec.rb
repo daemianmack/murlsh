@@ -21,7 +21,7 @@ eos
       Nokogiri(html).extend(Murlsh::Doc)
     end
 
-    its(:charset) { should == 'utf-8' }
+    its(:encoding) { should == 'utf-8' }
     its(:title) { should == 'the title' }
     its(:description) { should == 'the description' }
   end
@@ -40,7 +40,6 @@ eos
       Nokogiri(html).extend(Murlsh::Doc)
     end
 
-    its(:charset) { should be_nil }
     its(:title) { should be_nil }
     its(:description) { should be_nil }
   end

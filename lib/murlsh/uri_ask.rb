@@ -77,9 +77,9 @@ module Murlsh
           self.open(options[:headers]) do |f|
             data = f.read
             @doc = Nokogiri(data, to_s)
-            # encoding unknown, reparse with f.charset, default to UTF-8
+            # encoding unknown, reparse with f.charset, default to utf-8
             unless @doc.encoding
-              @doc = Nokogiri(data, to_s, f.charset || 'UTF-8')
+              @doc = Nokogiri(data, to_s, f.charset || 'utf-8')
             end
             @doc.extend(Murlsh::Doc)
           end

@@ -9,8 +9,6 @@ module Murlsh
   #   run arguments (config hash)
   # * avatar - called to get an avatar url from an email md5 sum
   #   run arguments (avatar url, url, config hash)
-  # * html_parse - called to parse HTML using something like Hpricot or Nokogiri
-  #   run arguments (parseable)
   # * url_display_add - called to display additional information after urls
   #   run arguments (markup builder, url, config hash)
   class Plugin

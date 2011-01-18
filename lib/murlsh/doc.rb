@@ -1,22 +1,7 @@
 module Murlsh
 
-  # Nokogiri / Hpricot doc mixin.
+  # Nokogiri doc mixin.
   module Doc
-
-    # Get the character set of the document.
-    def charset
-      %w{content-type Content-Type}.each do |ct|
-        content_type = at("meta[@http-equiv='#{ct}']")
-        unless content_type.nil?
-          content = content_type['content']
-          unless content.nil?
-            charset = content[/charset=([\w.:-]+)/, 1]
-            return charset  if charset
-          end
-        end
-      end
-      nil
-    end
 
     # Check a list of xpaths in order and yield and return the node matching
     # the first one that is not nil

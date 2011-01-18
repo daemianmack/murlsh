@@ -62,10 +62,7 @@ module Murlsh
       @description
     end
 
-    # Get the parsed doc at this url.
-    #
-    # Doc can be an Hpricot or Nokogiri doc or anything that supports the
-    # methods in Murlsh::Doc.
+    # Get the parsed Nokogiri doc at this url.
     #
     # Options:
     # * :failproof - if true hide all exceptions and return empty string on failure
@@ -78,14 +75,13 @@ module Murlsh
       if html?(options)
         Murlsh::failproof(options) do
           self.open(options[:headers]) do |f|
-            html_parse_plugins = Murlsh::Plugin.hooks('html_parse')
-            @doc = if html_parse_plugins.empty?
-              Nokogiri(f).extend(Murlsh::Doc)
-            else
-              html_parse_plugins.first.run(f).extend(Murlsh::Doc)
+            data = f.read
+            @doc = Nokogiri(data, to_s)
+            # encoding unknown, reparse with f.charset, default to UTF-8
+            unless @doc.encoding
+              @doc = Nokogiri(data, to_s, f.charset || 'UTF-8')
             end
-
-            @charset = @doc.charset || f.charset
+            @doc.extend(Murlsh::Doc)
           end
         end
       end
@@ -114,7 +110,7 @@ module Murlsh
     # Convert from the character set of this url to utf-8 and decode HTML
     # entities.
     def decode(s)
-      HTMLEntities.new.decode(Iconv.conv('utf-8', @charset, s))
+      HTMLEntities.new.decode(Iconv.conv('utf-8', doc.encoding, s))
     end
 
     # Get the value of a response header.

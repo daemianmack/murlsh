@@ -460,7 +460,6 @@ begin
       sqlite3 ~> 1.3
       tinyatom >= 0.3.3
       twitter >= 0.9.12
-      vimeo >= 1.2.2
       }.each_slice(3) { |g,o,v| gemspec.add_dependency(g, "#{o} #{v}") }
     %w{
       flog >= 2.5.0

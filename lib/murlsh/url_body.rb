@@ -140,7 +140,7 @@ module Murlsh
       form(:action => '', :method => 'get') {
         fieldset {
           form_input :id => 'q', :size => 32, :value => @req['q']
-          form_input :type => 'submit', :value => 'Regex Search'
+          form_input :type => 'submit', :value => 'Search'
         }
       }
     end

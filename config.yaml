@@ -22,11 +22,11 @@ page_title: mmb url share
 pubsubhubbub_hubs: []
 
 quick_search: 
-  audio: \.(mp3|ogg)$
-  code: (code\.google|github)\.com/
-  images: \.(png|gif|jpe?g)$
-  tweets: twitter\.com/
-  video: (hulu|youtube|vimeo)\.com/
+  audio: .mp3 .ogg
+  code: code.google.com github.com
+  images: .png .gif .jpeg .jpg
+  tweets: twitter.com
+  video: hulu.com youtube.com vimeo.com
 root_url: http://urls.matthewm.boedicker.org/
 show_names: true
 thumbnail_max_side: 90

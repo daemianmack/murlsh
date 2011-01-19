@@ -1,0 +1,34 @@
+module Murlsh
+
+  grammar SearchGrammar
+
+    rule query
+      (quoted_string / whitespace / string)* {
+        def content; elements.map { |e| e.content }.compact.uniq; end
+      }
+    end
+
+    rule quoted_string
+      '"' [^"]* '"' {
+        def content
+          result = text_value[1..-2]
+          result.empty? ? nil : result
+        end
+      }
+    end
+
+    rule whitespace
+      [\s]+ {
+        def content; end;
+      }
+    end
+
+    rule string
+      [^\s]+ {
+        def content; text_value; end
+      }
+    end
+
+  end
+
+end

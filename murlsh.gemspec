@@ -47,7 +47,8 @@ Gem::Specification.new do |s|
     "lib/murlsh/openlock.rb",
     "lib/murlsh/plugin.rb",
     "lib/murlsh/search_conditions.rb",
-    "lib/murlsh/sqlite3_adapter.rb",
+    "lib/murlsh/search_grammar.rb",
+    "lib/murlsh/search_grammar.treetop",
     "lib/murlsh/time_ago.rb",
     "lib/murlsh/uri_ask.rb",
     "lib/murlsh/uri_domain.rb",
@@ -135,6 +136,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<rmagick>, [">= 1.15.14"])
       s.add_runtime_dependency(%q<sqlite3>, ["~> 1.3"])
       s.add_runtime_dependency(%q<tinyatom>, [">= 0.3.3"])
+      s.add_runtime_dependency(%q<treetop>, ["~> 1.4"])
       s.add_runtime_dependency(%q<twitter>, [">= 0.9.12"])
       s.add_development_dependency(%q<flog>, [">= 2.5.0"])
       s.add_development_dependency(%q<rack-test>, ["~> 0.5"])
@@ -156,6 +158,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rmagick>, [">= 1.15.14"])
       s.add_dependency(%q<sqlite3>, ["~> 1.3"])
       s.add_dependency(%q<tinyatom>, [">= 0.3.3"])
+      s.add_dependency(%q<treetop>, ["~> 1.4"])
       s.add_dependency(%q<twitter>, [">= 0.9.12"])
       s.add_dependency(%q<flog>, [">= 2.5.0"])
       s.add_dependency(%q<rack-test>, ["~> 0.5"])
@@ -178,6 +181,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rmagick>, [">= 1.15.14"])
     s.add_dependency(%q<sqlite3>, ["~> 1.3"])
     s.add_dependency(%q<tinyatom>, [">= 0.3.3"])
+    s.add_dependency(%q<treetop>, ["~> 1.4"])
     s.add_dependency(%q<twitter>, [">= 0.9.12"])
     s.add_dependency(%q<flog>, [">= 2.5.0"])
     s.add_dependency(%q<rack-test>, ["~> 0.5"])

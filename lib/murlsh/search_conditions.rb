@@ -1,3 +1,5 @@
+require 'treetop'
+
 module Murlsh
 
   # Search conditions builder for ActiveRecord conditions.
@@ -8,9 +10,17 @@ module Murlsh
     # Search conditions builder for ActiveRecord conditions.
     def conditions
       if q
+        parser = Murlsh::SearchGrammarParser.new
+        tokens = parser.parse(q).content
         search_cols = %w{name title url}
-        [search_cols.map { |x| "MURLSHMATCH(#{x}, ?)" }.join(' OR ')].push(
-          *[q] * search_cols.size)
+
+        likes = []
+        params = []
+        search_cols.product(tokens).each do |col,tok|
+          likes << "#{col} LIKE ?"
+          params << "%#{tok}%"
+        end
+        [likes.join(' OR ')].push(*params)
       else
         []
       end

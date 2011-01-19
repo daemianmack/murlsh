@@ -5,7 +5,7 @@ Site for sharing and archiving links.
 * converts Twitter status urls to their full text and adds user thumbnail
 * generates Atom and RSS feeds
 * generates json and jsonp feeds for client-side inclusion in other sites
-* regex search
+* search
 * uses HTML5 audio for mp3 and ogg urls
 * looks good on iPhone
 * PubSubHubbub notification
@@ -102,7 +102,6 @@ h1. Design Goals
 
 * low effort required to add a url, get metadata programatically instead of requiring user to specify
 * allow customization with config and plugins
-* full regex search for finding saved urls
 * simple security (no sessions, no cookies)
 
 Questions and comments: "matthewm@boedicker.org":mailto:matthewm@boedicker.org

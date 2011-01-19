@@ -16,7 +16,7 @@ module Murlsh
 
         likes = []
         params = []
-        search_cols.product(tokens).each do |col,tok|
+        search_cols.product(tokens) do |col,tok|
           likes << "#{col} LIKE ?"
           params << "%#{tok}%"
         end

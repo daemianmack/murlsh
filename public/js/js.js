@@ -214,7 +214,7 @@ var Murlsh = function ($, navigator, window, twtter) {
 
         $('#menu').append(' | ').append($('<a />', {
             href : '#bottom',
-            text : 'bottom'
+            text : 'Bottom'
         }));
     };
 

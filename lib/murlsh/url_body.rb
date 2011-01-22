@@ -103,8 +103,12 @@ module Murlsh
         css(@config['css_compressed'] || @config['css_files'])
         atom @config.fetch('feed_file')
         link :rel => 'first', :href => page_href(1)
-        link :rel => 'prev', :href => @prev_href  if @prev_href
-        link :rel => 'next', :href => @next_href  if @next_href
+        if p_href = prev_href
+          link :rel => 'prev', :href => p_href
+        end
+        if n_href = next_href
+          link :rel => 'next', :href => n_href
+        end
       }
     end
 

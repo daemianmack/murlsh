@@ -22,9 +22,19 @@ module Murlsh
         :limit => per_page, :offset => offset)
     end
 
-    def prev_page; @prev_page ||= page - 1  if (2..total_pages) === page; end
+    def prev_page
+      unless instance_variable_defined? :@prev_page
+        @prev_page = page - 1  if (2..total_pages) === page
+      end
+      @prev_page
+    end
 
-    def next_page; @next_page ||= page + 1  if page < total_pages; end
+    def next_page
+      unless instance_variable_defined? :@next_page
+        @next_page = page + 1  if page < total_pages
+      end
+      @next_page
+    end
 
     attr_reader :conditions
     attr_reader :page

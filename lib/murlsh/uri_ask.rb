@@ -102,10 +102,10 @@ module Murlsh
       result
     end
 
-    HtmlContentTypePattern = %r{^text/html}i
+    HtmlContentTypeRe = %r{^text/html|application/xhtml\+xml}
 
     # Return true if the content type is HTML.
-    def html?(options={}); content_type(options)[HtmlContentTypePattern]; end
+    def html?(options={}); content_type(options)[HtmlContentTypeRe]; end
 
     # Convert from the character set of this url to utf-8 and decode HTML
     # entities.

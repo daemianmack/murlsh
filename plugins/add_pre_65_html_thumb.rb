@@ -14,11 +14,9 @@ module Murlsh
     StorageDir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
       'thumb')
 
-    MarkupContentTypeRe = %r{^text/html|application/xhtml\+xml}
-
     def self.run(url, config)
       if not url.thumbnail_url and url.content_type and
-        url.content_type[MarkupContentTypeRe]
+        url.content_type[Murlsh::UriAsk::HtmlContentTypeRe]
         Murlsh::failproof do
           chooser = Plumnailer::Chooser.new
           choice = chooser.choose(url.url)

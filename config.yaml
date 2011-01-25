@@ -26,7 +26,7 @@ quick_search:
   code: code.google.com github.com
   images: .png .gif .jpeg .jpg
   tweets: twitter.com
-  video: hulu.com youtube.com vimeo.com
+  video: hulu.com vimeo.com youtube.com
 root_url: http://urls.matthewm.boedicker.org/
 show_names: true
 thumbnail_max_side: 90

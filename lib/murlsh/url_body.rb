@@ -132,7 +132,7 @@ module Murlsh
       if @config['quick_search']
         self.p {
           text! 'Quick search: '
-          @config['quick_search'].each do |k,v|
+          @config['quick_search'].sort.each do |k,v|
             a "/#{k}", :href => "?q=#{URI.escape(v)}" ; text! ' '
           end
         }

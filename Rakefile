@@ -457,6 +457,7 @@ begin
       twitter >= 0.9.12
       }.each_slice(3) { |g,o,v| gemspec.add_dependency(g, "#{o} #{v}") }
     %w{
+      fakeweb ~> 1.3
       flog >= 2.5.0
       rack-test ~> 0.5
       rspec ~> 2.0

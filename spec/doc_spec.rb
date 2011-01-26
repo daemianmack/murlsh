@@ -1,3 +1,6 @@
+require 'open-uri'
+
+require 'fakeweb'
 require 'nokogiri'
 
 require 'murlsh'
@@ -18,7 +21,9 @@ describe Murlsh::Doc do
 </body>
 </html>
 eos
-      Nokogiri(html).extend(Murlsh::Doc)
+      fake_url = 'http://everything.com/'
+      FakeWeb.register_uri(:get, fake_url, :body => html)
+      Nokogiri(open(fake_url)).extend(Murlsh::Doc)
     end
 
     its(:encoding) { should == 'utf-8' }
@@ -37,7 +42,9 @@ eos
 </body>
 </html>
 eos
-      Nokogiri(html).extend(Murlsh::Doc)
+      fake_url = 'http://nothing.com/'
+      FakeWeb.register_uri(:get, fake_url, :body => html)
+      Nokogiri(open(fake_url)).extend(Murlsh::Doc)
     end
 
     its(:title) { should be_nil }

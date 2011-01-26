@@ -136,7 +136,7 @@ module Murlsh
           # key, those keys will be first in given order, any keys not there
           # will follow in natural sorted order
           order = @config['quick_search_order'] || []
-          order.push(*(@config['quick_search'].keys - order).sort)
+          order += (@config['quick_search'].keys - order).sort
           order.each do |k|
             if v = @config['quick_search'][k]
               a "/#{k}", :href => "?q=#{URI.escape(v)}" ; text! ' '

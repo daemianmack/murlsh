@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2011-01-18}
+  s.date = %q{2011-01-25}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -27,9 +27,11 @@ Gem::Specification.new do |s|
     "config.ru",
     "config.yaml",
     "lib/murlsh.rb",
+    "lib/murlsh/ask.rb",
     "lib/murlsh/auth.rb",
     "lib/murlsh/build_md5.rb",
     "lib/murlsh/build_query.rb",
+    "lib/murlsh/cp_r_safe.rb",
     "lib/murlsh/delicious_parse.rb",
     "lib/murlsh/dispatch.rb",
     "lib/murlsh/doc.rb",

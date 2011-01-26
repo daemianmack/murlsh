@@ -51,7 +51,7 @@ namespace :db do
 
     last = Murlsh::Url.find(:last, :order => 'time')
     pp last
-    response = ask('Delete this url', '?')
+    response = Murlsh.ask('Delete this url?', 'n')
     last.destroy  if %w{y yes}.include?(response.downcase)
   end
 
@@ -420,11 +420,6 @@ EOS
     end
   end
 
-end
-
-def ask(prompt, sep=':')
-  print "#{prompt}#{sep} "
-  STDIN.gets.chomp
 end
 
 begin

@@ -1,9 +1,11 @@
 require 'murlsh/head_from_get'
 require 'murlsh/search_conditions'
 
+require 'murlsh/ask'
 require 'murlsh/auth'
 require 'murlsh/build_md5'
 require 'murlsh/build_query'
+require 'murlsh/cp_r_safe'
 require 'murlsh/delicious_parse'
 require 'murlsh/dispatch'
 require 'murlsh/doc'

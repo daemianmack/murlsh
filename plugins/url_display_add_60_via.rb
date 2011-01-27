@@ -9,12 +9,13 @@ module Murlsh
 
     @hook = 'url_display_add'
 
-    HttpRe = %r{^http://}i
+    HttpRe = %r{^https?://}i
     HackerNewsRe = %r{^news\.ycombinator\.com}i
     RedditRe = %r{^www\.reddit\.com/r/([a-z\d]+?)/}i
     DeliciousRe = %r{^(?:www\.)?delicious\.com/(\w+)}i
     TwitterRe = %r{^twitter\.com/(\w+)}i
     TumblrRe = %r{^([a-z\d][a-z\d-]{0,61}[a-z\d])\.tumblr\.com/}i
+    PinboardRe = %r{^pinboard\.in/(popular|[tu]:[^/]+(?:/t:[^/]+)?)/?$}i
 
     # Show a via link for the url.
     def self.run(markup, url, config)
@@ -29,6 +30,7 @@ module Murlsh
             when m = search.match(DeliciousRe); "delicious/#{m[1]}"
             when m = search.match(TwitterRe); "twitter/#{m[1]}"
             when m = search.match(TumblrRe); "#{m[1]}.tumblr"
+            when m = search.match(PinboardRe); "pinboard/#{m[1]}"
             else via_uri.extend(Murlsh::URIDomain).domain || via_uri_s
           end
 
@@ -43,3 +45,4 @@ module Murlsh
   end
 
 end
+

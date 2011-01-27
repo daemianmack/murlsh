@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2011-01-25}
+  s.date = %q{2011-01-26}
   s.default_executable = %q{murlsh}
   s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
   s.email = %q{matthewm@boedicker.org}
@@ -62,6 +62,7 @@ Gem::Specification.new do |s|
     "lib/murlsh/yaml_ordered_hash.rb",
     "murlsh.gemspec",
     "plugins/add_post_50_update_feed.rb",
+    "plugins/add_post_50_update_m3u.rb",
     "plugins/add_post_50_update_podcast.rb",
     "plugins/add_post_50_update_rss.rb",
     "plugins/add_post_60_notify_hubs.rb",

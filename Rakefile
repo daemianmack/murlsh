@@ -426,8 +426,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
     gemspec.name = 'murlsh'
-    gemspec.summary = 'url sharing site framework'
-    gemspec.description = 'url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding'
+    gemspec.summary = 'Host your own bookmarks or maintain a link blog'
+    gemspec.description = 'Host your bookmarks or maintain a link blog'
     gemspec.email = 'matthewm@boedicker.org'
     gemspec.homepage = 'http://github.com/mmb/murlsh'
     gemspec.authors = ['Matthew M. Boedicker']

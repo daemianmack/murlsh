@@ -1,9 +1,10 @@
-Site for sharing and archiving links.
+Host your bookmarks or maintain a link blog.
 
-* fetches url titles and generates thumbnails
-* jGrowls embedded versions of Imageshack, Vimeo and YouTube urls
+* fetches url titles and generates thumbnails from page
+* jGrowls embedded versions of Imageshack, Imgur, Vimeo and YouTube urls
 * converts Twitter status urls to their full text and adds user thumbnail
 * generates Atom and RSS feeds
+* generates podcast RSS feed and m3u file for all audio urls
 * generates json and jsonp feeds for client-side inclusion in other sites
 * search
 * uses HTML5 audio for mp3 and ogg urls
@@ -55,6 +56,7 @@ h2. Recent urls
 * http://your_root/atom.atom
 * http://your_root/rss.rss
 * http://your_root/podcast.rss (urls with audio/mpeg content type)
+* http://your_root/m3u.m3u (urls with audio content types)
 * http://your_root/json.json
 * http://your_root/json.json?callback=x (jsonp)
 
@@ -97,11 +99,5 @@ publish_url is where the notifications get sent
 subscribe_url is what gets put in the feed as link rel="hub"
 
 This will make updates to your feed show up in Google Reader instantly.
-
-h1. Design Goals
-
-* low effort required to add a url, get metadata programatically instead of requiring user to specify
-* allow customization with config and plugins
-* simple security (no sessions, no cookies)
 
 Questions and comments: "matthewm@boedicker.org":mailto:matthewm@boedicker.org

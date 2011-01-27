@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors = ["Matthew M. Boedicker"]
   s.date = %q{2011-01-26}
   s.default_executable = %q{murlsh}
-  s.description = %q{url sharing site framework with easy adding, title lookup, atom feed, thumbnails and embedding}
+  s.description = %q{Host your bookmarks or maintain a link blog}
   s.email = %q{matthewm@boedicker.org}
   s.executables = ["murlsh"]
   s.extra_rdoc_files = [
@@ -106,7 +106,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/mmb/murlsh}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.4.2}
-  s.summary = %q{url sharing site framework}
+  s.summary = %q{Host your own bookmarks or maintain a link blog}
   s.test_files = [
     "spec/auth_spec.rb",
     "spec/dispatch_spec.rb",

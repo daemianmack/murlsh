@@ -426,7 +426,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
     gemspec.name = 'murlsh'
-    gemspec.summary = 'Host your own bookmarks or maintain a link blog'
+    gemspec.summary = 'Host your bookmarks or maintain a link blog'
     gemspec.description = 'Host your bookmarks or maintain a link blog'
     gemspec.email = 'matthewm@boedicker.org'
     gemspec.homepage = 'http://github.com/mmb/murlsh'

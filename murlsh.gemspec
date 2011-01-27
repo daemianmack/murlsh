@@ -106,7 +106,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/mmb/murlsh}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.4.2}
-  s.summary = %q{Host your own bookmarks or maintain a link blog}
+  s.summary = %q{Host your bookmarks or maintain a link blog}
   s.test_files = [
     "spec/auth_spec.rb",
     "spec/dispatch_spec.rb",

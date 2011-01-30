@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'fileutils'
-
 require 'murlsh'
 
 def usage
@@ -17,11 +15,7 @@ if ARGV.empty?; usage; exit 1; end
 
 dest_dir = ARGV[0]
 
-Murlsh.cp_r_safe(
-  %w{.htaccess config.ru config.yaml plugins/ public/ Rakefile}.map { |x| 
-    File.join(File.dirname(__FILE__), '..', x) }, dest_dir, :verbose => true)
-
-FileUtils.mkdir_p('tmp', :verbose => true)
+Murlsh.install(dest_dir)
 
 cd_command = File.expand_path(dest_dir) == Dir.pwd ? '' : "cd #{dest_dir}\n"
 

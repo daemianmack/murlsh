@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2011-01-26}
+  s.date = %q{2011-01-30}
   s.default_executable = %q{murlsh}
   s.description = %q{Host your bookmarks or maintain a link blog}
   s.email = %q{matthewm@boedicker.org}
@@ -41,6 +41,7 @@ Gem::Specification.new do |s|
     "lib/murlsh/head_from_get.rb",
     "lib/murlsh/image_list.rb",
     "lib/murlsh/img_store.rb",
+    "lib/murlsh/install.rb",
     "lib/murlsh/json_body.rb",
     "lib/murlsh/json_server.rb",
     "lib/murlsh/jsonp_body.rb",
@@ -88,7 +89,6 @@ Gem::Specification.new do |s|
     "public/css/jquery.jgrowl.css",
     "public/css/screen.css",
     "public/img/thumb/.gitignore",
-    "public/js/comments.json",
     "public/js/jquery-1.4.4.min.js",
     "public/js/jquery.jgrowl_compressed.js",
     "public/js/js.js",

@@ -105,33 +105,6 @@ var Murlsh = function ($, navigator, window, twtter) {
         closerAdd(iframe);
     }
 
-    my.addComments = function (link, comments) {
-        var avatar,
-            comment,
-            commentElement,
-            i,
-            ul = $('<ul />', { className : 'comments' }).appendTo(link.parent());
-
-        for (i = 0; i < comments.length; i += 1) {
-            comment = comments[i];
-            commentElement = $('<li />');
-            if (comment.authorAvatar.length > 0) {
-                avatar = img(comment.authorAvatar).appendTo(commentElement);
-                if (comment.authorUrl.length > 0) {
-                    avatar.wrapAll($('<a />', { href : comment.authorUrl }));
-                }
-                commentElement.append(' ');
-            }
-            commentElement
-                .append($('<span />').append(comment.authorName).addClass(
-                    'comment-name'))
-                .append(' : ')
-                .append($('<span />').append(autoLink(comment.comment))
-                    .addClass('comment-comment'))
-                .appendTo(ul);
-        }
-    };
-
     my.addExtra = function () {
         var thisA = $(this),
             href = thisA.attr('href'),
@@ -252,17 +225,4 @@ $(function () {
     urls = $('a.m');
 
     urls.each(murlsh.addExtra);
-
-    /*
-    // experimental comment support, to enable uncomment and edit
-    // comments.json
-    $.getJSON('/js/comments.json', function (data) {
-        urls.each(function () {
-            var href = $(this).attr('href');
-            if (href in data) {
-                murlsh.addComments($(this), data[href]);
-            }
-        });
-    });
-    */
 });

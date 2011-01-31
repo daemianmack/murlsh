@@ -67,6 +67,7 @@ Gem::Specification.new do |s|
     "plugins/add_post_50_update_podcast.rb",
     "plugins/add_post_50_update_rss.rb",
     "plugins/add_post_60_notify_hubs.rb",
+    "plugins/add_pre_35_url_clean.rb",
     "plugins/add_pre_40_convert_mobile.rb",
     "plugins/add_pre_41_unajax_twitter.rb",
     "plugins/add_pre_45_supplied_thumbnail.rb",
@@ -130,6 +131,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<json>, [">= 1.2.3"])
       s.add_runtime_dependency(%q<nokogiri>, ["~> 1.0"])
       s.add_runtime_dependency(%q<plumnailer>, [">= 0.1.0"])
+      s.add_runtime_dependency(%q<postrank-uri>, ["~> 1.0"])
       s.add_runtime_dependency(%q<public_suffix_service>, ["~> 0.0"])
       s.add_runtime_dependency(%q<push-notify>, [">= 0.1.0"])
       s.add_runtime_dependency(%q<rack>, [">= 1.0.0"])
@@ -153,6 +155,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<json>, [">= 1.2.3"])
       s.add_dependency(%q<nokogiri>, ["~> 1.0"])
       s.add_dependency(%q<plumnailer>, [">= 0.1.0"])
+      s.add_dependency(%q<postrank-uri>, ["~> 1.0"])
       s.add_dependency(%q<public_suffix_service>, ["~> 0.0"])
       s.add_dependency(%q<push-notify>, [">= 0.1.0"])
       s.add_dependency(%q<rack>, [">= 1.0.0"])
@@ -177,6 +180,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<json>, [">= 1.2.3"])
     s.add_dependency(%q<nokogiri>, ["~> 1.0"])
     s.add_dependency(%q<plumnailer>, [">= 0.1.0"])
+    s.add_dependency(%q<postrank-uri>, ["~> 1.0"])
     s.add_dependency(%q<public_suffix_service>, ["~> 0.0"])
     s.add_dependency(%q<push-notify>, [">= 0.1.0"])
     s.add_dependency(%q<rack>, [">= 1.0.0"])

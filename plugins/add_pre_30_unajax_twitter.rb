@@ -3,7 +3,7 @@ require 'murlsh'
 module Murlsh
 
   # Convert Ajax friendly Twitter urls (with #!) into usable urls.
-  class AddPre41UnajaxTwitter < Plugin
+  class AddPre30UnajaxTwitter < Plugin
 
     @hook = 'add_pre'
 

@@ -164,9 +164,9 @@ namespace :user do
   desc 'Add a new user.'
   task :add do
     puts "adding to #{config.fetch('auth_file')}"
-    username = Murlsh.ask('Username: ')
-    email = Murlsh.ask('Email: ')
-    password = Murlsh.ask('Password: ')
+    username = Murlsh.ask('Username:')
+    email = Murlsh.ask('Email:')
+    password = Murlsh.ask('Password:')
 
     Murlsh::Auth.new(config.fetch('auth_file')).add_user(username, email,
       password)

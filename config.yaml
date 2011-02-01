@@ -9,7 +9,7 @@ db_file: murlsh.db
 feed_file: atom.atom
 gravatar_size: 32
 js_files: 
-- js/jquery-1.4.4.min.js
+- js/jquery-1.5.min.js
 - js/jquery.jgrowl_compressed.js
 - js/twitter-text-1.0.4.js
 - js/js.js

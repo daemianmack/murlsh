@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{murlsh}
-  s.version = "1.4.0"
+  s.version = "1.4.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2011-01-31}
+  s.date = %q{2011-02-01}
   s.default_executable = %q{murlsh}
   s.description = %q{Host your bookmarks or maintain a link blog}
   s.email = %q{matthewm@boedicker.org}

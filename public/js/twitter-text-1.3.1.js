@@ -1,5 +1,5 @@
 /*!
- * twitter-text-js 1.0.4
+ * twitter-text-js 1.3.1
  *
  * Copyright 2010 Twitter, Inc.
  * 
@@ -100,7 +100,7 @@ if (!window.twttr) {
   twttr.txt.regexen.spaces = regexSupplant("[" + UNICODE_SPACES.join("") + "]");
   twttr.txt.regexen.punct = /\!'#%&'\(\)*\+,\\\-\.\/:;<=>\?@\[\]\^_{|}~/;
   twttr.txt.regexen.atSigns = /[@＠]/;
-  twttr.txt.regexen.extractMentions = regexSupplant(/(^|[^a-zA-Z0-9_])#{atSigns}([a-zA-Z0-9_]{1,20})(?=(.|$))/g);
+  twttr.txt.regexen.extractMentions = regexSupplant(/(^|[^a-zA-Z0-9_])(#{atSigns})([a-zA-Z0-9_]{1,20})(?=(.|$))/g);
   twttr.txt.regexen.extractReply = regexSupplant(/^(?:#{spaces})*#{atSigns}([a-zA-Z0-9_]{1,20})/);
   twttr.txt.regexen.listName = /[a-zA-Z][a-zA-Z0-9_\-\u0080-\u00ff]{0,24}/;
 
@@ -120,33 +120,31 @@ if (!window.twttr) {
   twttr.txt.regexen.validPrecedingChars = regexSupplant(/(?:[^-\/"':!=A-Za-z0-9_@＠]|^|\:)/);
   twttr.txt.regexen.validDomain = regexSupplant(/(?:[^#{punct}\s][\.-](?=[^#{punct}\s])|[^#{punct}\s]){1,}\.[a-z]{2,}(?::[0-9]+)?/i);
 
-  // For protocol-less URLs, we'll accept them if they end in one of a handful of likely TLDs
-  twttr.txt.regexen.probableTld = /\.(?:com|net|org|gov|edu)$/i;
-
-  twttr.txt.regexen.www = /www\./i;
-
   twttr.txt.regexen.validGeneralUrlPathChars = /[a-z0-9!\*';:=\+\$\/%#\[\]\-_,~]/i;
   // Allow URL paths to contain balanced parens
   //  1. Used in Wikipedia URLs like /Primer_(film)
   //  2. Used in IIS sessions like /S(dfd346)/
   twttr.txt.regexen.wikipediaDisambiguation = regexSupplant(/(?:\(#{validGeneralUrlPathChars}+\))/i);
   // Allow @ in a url, but only in the middle. Catch things like http://example.com/@user
-  twttr.txt.regexen.validUrlPathChars = regexSupplant(/(?:#{wikipediaDisambiguation}|@#{validGeneralUrlPathChars}+\/|[\.\,]?#{validGeneralUrlPathChars})/i);
+  twttr.txt.regexen.validUrlPathChars = regexSupplant(/(?:#{wikipediaDisambiguation}|@#{validGeneralUrlPathChars}+\/|[\.,]?#{validGeneralUrlPathChars})/i);
 
   // Valid end-of-path chracters (so /foo. does not gobble the period).
   // 1. Allow =&# for empty URL parameters and other URL-join artifacts
-  twttr.txt.regexen.validUrlPathEndingChars = /[a-z0-9=#\/]/i;
+  twttr.txt.regexen.validUrlPathEndingChars = regexSupplant(/(?:[a-z0-9=_#\/]|#{wikipediaDisambiguation})/i);
   twttr.txt.regexen.validUrlQueryChars = /[a-z0-9!\*'\(\);:&=\+\$\/%#\[\]\-_\.,~]/i;
-  twttr.txt.regexen.validUrlQueryEndingChars = /[a-z0-9_&=#]/i;
+  twttr.txt.regexen.validUrlQueryEndingChars = /[a-z0-9_&=#\/]/i;
   twttr.txt.regexen.validUrl = regexSupplant(
     '('                                                            + // $1 total match
       '(#{validPrecedingChars})'                                   + // $2 Preceeding chracter
       '('                                                          + // $3 URL
-        '((?:https?:\\/\\/|www\\.)?)'                              + // $4 Protocol or beginning
+        '(https?:\\/\\/)'                                          + // $4 Protocol
         '(#{validDomain})'                                         + // $5 Domain(s) and optional post number
-        '('                                                        + // $6 URL Path
-          '\\/#{validUrlPathChars}*'                               +
-          '#{validUrlPathEndingChars}?'                            +
+        '(\\/'                                                     + // $6 URL Path
+           '(?:'                                                   +
+             '#{validUrlPathChars}+#{validUrlPathEndingChars}|'    +
+             '#{validUrlPathChars}+#{validUrlPathEndingChars}?|'   +
+             '#{validUrlPathEndingChars}'                          +
+           ')?'                                                    +
         ')?'                                                       +
         '(\\?#{validUrlQueryChars}*#{validUrlQueryEndingChars})?'  + // $7 Query String
       ')'                                                          +
@@ -293,22 +291,22 @@ if (!window.twttr) {
     delete options.suppressDataScreenName;
 
     return text.replace(twttr.txt.regexen.validUrl, function(match, all, before, url, protocol, domain, path, queryString) {
-      if (protocol || domain.match(twttr.txt.regexen.probableTld)) {
+      var tldComponents;
+
+      if (protocol) {
         var htmlAttrs = "";
         for (var k in options) {
           htmlAttrs += stringSupplant(" #{k}=\"#{v}\" ", {k: k, v: options[k].toString().replace(/"/, "&quot;").replace(/</, "&lt;").replace(/>/, "&gt;")});
         }
         options.htmlAttrs || "";
-        var fullUrl = ((!protocol || protocol.match(twttr.txt.regexen.www)) ? stringSupplant("http://#{url}", {url: url}) : url);
 
         var d = {
           before: before,
-          fullUrl: twttr.txt.htmlEscape(fullUrl),
           htmlAttrs: htmlAttrs,
           url: twttr.txt.htmlEscape(url)
         };
 
-        return stringSupplant("#{before}<a href=\"#{fullUrl}\"#{htmlAttrs}>#{url}</a>", d);
+        return stringSupplant("#{before}<a href=\"#{url}\"#{htmlAttrs}>#{url}</a>", d);
       } else {
         return all;
       }
@@ -335,9 +333,9 @@ if (!window.twttr) {
     var possibleScreenNames = [],
         position = 0;
 
-    text.replace(twttr.txt.regexen.extractMentions, function(match, before, screenName, after) {
+    text.replace(twttr.txt.regexen.extractMentions, function(match, before, atSign, screenName, after) {
       if (!after.match(twttr.txt.regexen.endScreenNameMatch)) {
-        var startPosition = text.indexOf(screenName, position) - 1;
+        var startPosition = text.indexOf(atSign + screenName, position);
         position = startPosition + screenName.length + 1;
         possibleScreenNames.push({
           screenName: screenName,
@@ -382,12 +380,14 @@ if (!window.twttr) {
         position = 0;
 
     text.replace(twttr.txt.regexen.validUrl, function(match, all, before, url, protocol, domain, path, query) {
-      if (protocol || domain.match(twttr.txt.regexen.probableTld)) {
+      var tldComponents;
+
+      if (protocol) {
         var startPosition = text.indexOf(url, position),
             position = startPosition + url.length;
 
         urls.push({
-          url: ((!protocol || protocol.match(twttr.txt.regexen.www)) ? stringSupplant("http://#{url}", {url: url}) : url),
+          url: url,
           indices: [startPosition, position]
         });
       }
@@ -521,6 +521,9 @@ if (!window.twttr) {
         } else {
           startInChunk = false;
         }
+      } else if(!placed) {
+        placed = true;
+        result += tag;
       }
     }
 

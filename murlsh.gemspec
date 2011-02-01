@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{murlsh}
-  s.version = "1.3.1"
+  s.version = "1.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2011-01-30}
+  s.date = %q{2011-01-31}
   s.default_executable = %q{murlsh}
   s.description = %q{Host your bookmarks or maintain a link blog}
   s.email = %q{matthewm@boedicker.org}
@@ -67,9 +67,9 @@ Gem::Specification.new do |s|
     "plugins/add_post_50_update_podcast.rb",
     "plugins/add_post_50_update_rss.rb",
     "plugins/add_post_60_notify_hubs.rb",
+    "plugins/add_pre_30_unajax_twitter.rb",
     "plugins/add_pre_35_url_clean.rb",
     "plugins/add_pre_40_convert_mobile.rb",
-    "plugins/add_pre_41_unajax_twitter.rb",
     "plugins/add_pre_45_supplied_thumbnail.rb",
     "plugins/add_pre_50_lookup_content_type_title.rb",
     "plugins/add_pre_50_media_thumbnail.rb",
@@ -90,10 +90,10 @@ Gem::Specification.new do |s|
     "public/css/jquery.jgrowl.css",
     "public/css/screen.css",
     "public/img/thumb/.gitignore",
-    "public/js/jquery-1.4.4.min.js",
+    "public/js/jquery-1.5.min.js",
     "public/js/jquery.jgrowl_compressed.js",
     "public/js/js.js",
-    "public/js/twitter-text-1.0.4.js",
+    "public/js/twitter-text-1.3.1.js",
     "spec/auth_spec.rb",
     "spec/dispatch_spec.rb",
     "spec/doc_spec.rb",

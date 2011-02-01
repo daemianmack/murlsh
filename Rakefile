@@ -139,6 +139,8 @@ begin
     t.rspec_opts = %w{--color}
     t.verbose = true
   end
+rescue LoadError
+  puts 'rspec gem ~> 2.0 not found, to enable test task: gem install rspec'
 end
 
 desc 'Test remote title fetch for a URL and show errors.'

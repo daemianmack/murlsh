@@ -74,7 +74,7 @@ var Murlsh = function ($, navigator, window, twtter) {
             header : header,
             sticky : true,
             beforeOpen : function (e) {
-                e.find('.message img').load(function () {
+                e.find('.jGrowl-message img').load(function () {
                     makeFit($(this), Math.round($(window).width() / 2),
                         Math.round($(window).height() - 100));
                 });

@@ -238,25 +238,14 @@ curl \\
 EOS
 end
 
-# Concatenate some files and return the result as a string.
-def cat(in_files, sep=nil)
-  result = ''
-  in_files.each do |fname|
-    open(fname) do |h|
-      while (line = h.gets) do; result << line; end
-      result << sep  if sep
-    end
-  end
-  result
-end
-
 directory 'public/css'
 
 namespace :css do
 
   desc 'Combine and compress css.'
   task :compress => ['public/css'] do
-    combined = cat(config['css_files'].map { |x| "public/#{x}" }, "\n")
+    combined = Murlsh.cat_files(
+      config['css_files'].map { |x| "public/#{x}" }, "\n")
 
     md5sum = Digest::MD5.hexdigest(combined)
 
@@ -290,7 +279,8 @@ namespace :js do
 
   desc 'Combine and compress javascript.'
   task :compress => ['public/js'] do
-    combined = cat(config['js_files'].map { |x| "public/#{x}" } )
+    combined = Murlsh.cat_files(
+      config['js_files'].map { |x| "public/#{x}" } )
 
     compressed = Net::HTTP.post_form(
       URI.parse('http://closure-compiler.appspot.com/compile'), {
@@ -326,7 +316,7 @@ namespace :js do
   task :jslint do
     local_jslint = 'jslint_rhino.js'
     open(local_jslint, 'w') do |f|
-      f.write(cat(%w{
+      f.write(Murlsh.cat_files(%w{
         https://github.com/AndyStricker/JSLint/raw/rhinocmdline/fulljslint.js
         https://github.com/AndyStricker/JSLint/raw/rhinocmdline/rhino.js
       }))

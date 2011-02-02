@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
     "lib/murlsh/auth.rb",
     "lib/murlsh/build_md5.rb",
     "lib/murlsh/build_query.rb",
+    "lib/murlsh/cat_files.rb",
     "lib/murlsh/cp_r_safe.rb",
     "lib/murlsh/delicious_parse.rb",
     "lib/murlsh/dispatch.rb",
@@ -95,6 +96,7 @@ Gem::Specification.new do |s|
     "public/js/js.js",
     "public/js/twitter-text-1.3.1.js",
     "spec/auth_spec.rb",
+    "spec/cat_files_spec.rb",
     "spec/dispatch_spec.rb",
     "spec/doc_spec.rb",
     "spec/img_store_spec.rb",
@@ -110,6 +112,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Host your bookmarks or maintain a link blog}
   s.test_files = [
     "spec/auth_spec.rb",
+    "spec/cat_files_spec.rb",
     "spec/dispatch_spec.rb",
     "spec/doc_spec.rb",
     "spec/img_store_spec.rb",

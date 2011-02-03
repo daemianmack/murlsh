@@ -15,7 +15,7 @@ require 'sqlite3'
 require 'murlsh'
 
 def gem_not_found(gem_name)
-  puts "#{gem_name} not found, install it with: gem install #{gem_name}"
+  puts "#{gem_name} gem not found"
 end
 
 config = YAML.load_file('config.yaml')
@@ -139,7 +139,7 @@ begin
     t.verbose = true
   end
 rescue LoadError
-  puts 'rspec gem ~> 2.0 not found, to enable test task: gem install rspec'
+  gem_not_found 'rspec'
 end
 
 desc 'Test remote title fetch for a URL and show errors.'

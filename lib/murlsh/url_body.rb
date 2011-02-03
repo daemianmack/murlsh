@@ -120,7 +120,7 @@ module Murlsh
     end
 
     # Home link builder.
-    def home_link; a 'Home', :href => @config.fetch('root_url'); end
+    def home_link; a 'Home', :href => @config['root_url']; end
 
     # Feed link builder.
     def feed_link
@@ -148,7 +148,7 @@ module Murlsh
 
     # Search form builder.
     def search_form
-      form(:action => '', :method => 'get') {
+      form(:action => @config['root_url'], :method => 'get') {
         fieldset {
           form_input :id => 'q', :size => 32, :value => @req['q']
           form_input :type => 'submit', :value => 'Search'
@@ -171,7 +171,7 @@ module Murlsh
 
     # Url add form builder.
     def add_form
-      form(:action => '', :method => 'post') {
+      form(:action => 'url', :method => 'post') {
         fieldset(:id => 'add') {
           self.p { form_input :id => 'url', :label => 'Add URL', :size => 32 }
           self.p { form_input :id => 'via', :label => 'Via', :size => 32 }

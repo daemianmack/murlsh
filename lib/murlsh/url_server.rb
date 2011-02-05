@@ -16,18 +16,15 @@ module Murlsh
       per_page = req['pp'] ? req['pp'].to_i :
         @config.fetch('num_posts_page', 25)
 
+      content_type = 'text/html; charset=utf-8'
       result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
 
-      resp = Rack::Response.new
+      body = Murlsh::UrlBody.new(@config, req, result_set, content_type)
 
-      resp['Content-Type'] = 'text/html; charset=utf-8'
-      resp.body = Murlsh::UrlBody.new(@config, req, result_set,
-        resp['Content-Type'])
-
-      resp['Cache-Control'] = 'must-revalidate, max-age=0'
-      resp['ETag'] = "\"#{resp.body.md5}\""
-
-      resp
+      Rack::Response.new body, 200,
+        'Cache-Control' => 'must-revalidate, max-age=0',
+        'Content-Type' => content_type,
+        'ETag' => "\"#{body.md5}\""
     end
 
     # Respond to a POST request. Add the new url and return json.

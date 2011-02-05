@@ -19,8 +19,7 @@ module Murlsh
         url = config['root_url']
       end
 
-      resp = Rack::Response.new
-      resp.body = "<a href=\"#{url}\">#{url}</a>"
+      resp = Rack::Response.new "<a href=\"#{url}\">#{url}</a>"
       resp.redirect(url)
 
       resp

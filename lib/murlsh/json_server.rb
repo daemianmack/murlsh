@@ -16,20 +16,18 @@ module Murlsh
 
       result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
 
-      resp = Rack::Response.new
-
       if req['callback']
-        resp['Content-Type'] = 'application/javascript'
-        resp.body = Murlsh::JsonpBody.new(@config, req, result_set)
+        content_type = 'application/javascript'
+        body = Murlsh::JsonpBody.new(@config, req, result_set)
       else
-        resp['Content-Type'] = 'application/json'
-        resp.body = Murlsh::JsonBody.new(@config, req, result_set)
+        content_type = 'application/json'
+        body = Murlsh::JsonBody.new(@config, req, result_set)
       end
 
-      resp['Cache-Control'] = 'must-revalidate, max-age=0'
-      resp['ETag'] = "\"#{resp.body.md5}\""
-
-      resp
+      Rack::Response.new body, 200,
+        'Cache-Control' => 'must-revalidate, max-age=0',
+        'Content-Type' => content_type,
+        'ETag' => "\"#{body.md5}\""
     end
 
   end

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2011-02-02}
+  s.date = %q{2011-02-04}
   s.default_executable = %q{murlsh}
   s.description = %q{Host your bookmarks or maintain a link blog}
   s.email = %q{matthewm@boedicker.org}
@@ -50,6 +50,7 @@ Gem::Specification.new do |s|
     "lib/murlsh/must_revalidate.rb",
     "lib/murlsh/openlock.rb",
     "lib/murlsh/plugin.rb",
+    "lib/murlsh/random_server.rb",
     "lib/murlsh/search_conditions.rb",
     "lib/murlsh/search_grammar.rb",
     "lib/murlsh/search_grammar.treetop",
@@ -109,7 +110,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/mmb/murlsh}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.4.2}
+  s.rubygems_version = %q{1.5.0}
   s.summary = %q{Host your bookmarks or maintain a link blog}
   s.test_files = [
     "spec/auth_spec.rb",

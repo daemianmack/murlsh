@@ -4,7 +4,7 @@ require 'murlsh'
 
 module Murlsh
 
-  # Temporary redirect to a random url from the database.
+  # Redirect to a random url from the database.
   class RandomServer
 
     include HeadFromGet

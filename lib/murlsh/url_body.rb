@@ -44,7 +44,7 @@ module Murlsh
         @body = html(:lang => 'en') {
           headd
           body {
-            self.p(:id => 'menu') { home_link ; text! ' | ' ; feed_link }
+            menu
             search_form
             quick_search
             ul(:id => 'urls') {
@@ -119,6 +119,15 @@ module Murlsh
         (@req['q'] ? " /#{@req['q']}" : ''))
     end
 
+    # Menu builder.
+    def menu
+      self.p(:id => 'menu') {
+        home_link ; text! ' | '
+        feed_link ; text! ' | '
+        random_link
+      }
+    end
+
     # Home link builder.
     def home_link; a 'Home', :href => @config['root_url']; end
 
@@ -126,6 +135,9 @@ module Murlsh
     def feed_link
       a 'Feed', :href => @config.fetch('feed_file'), :class => 'feed'
     end
+
+    # Random link builder.
+    def random_link; a 'Random', :href => 'random'; end
 
     # Quick search list builder.
     def quick_search

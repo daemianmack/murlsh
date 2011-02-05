@@ -17,6 +17,7 @@ module Murlsh
       url_server = Murlsh::UrlServer.new(config)
       json_server = Murlsh::JsonServer.new(config)
       root_path = URI(config.fetch('root_url')).path
+      random_server = Murlsh::RandomServer.new
 
       @routes = [
         [%r{^HEAD #{root_path}(url)?$}, url_server.method(:head)],
@@ -24,6 +25,7 @@ module Murlsh
         [%r{^POST #{root_path}(url)?$}, url_server.method(:post)],
         [%r{^HEAD #{root_path}json\.json$}, json_server.method(:head)],
         [%r{^GET #{root_path}json\.json$}, json_server.method(:get)],
+        [%r{^GET #{root_path}random$}, random_server.method(:get)],
       ]
 
       db_init

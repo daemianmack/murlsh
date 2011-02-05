@@ -11,11 +11,11 @@ module Murlsh
 
     def initialize(config); @config = config; end
 
-    # Redirect to a random url from the database.
+    # Redirect to a random url from the database optionally matching a query.
     #
-    # Redirect to root url if there are no urls.
+    # Redirect to root url if no urls match.
     def get(req)
-      if choice = random_url
+      if choice = random_url(Murlsh::SearchConditions.new(req['q']).conditions)
         url = choice.url
       else
         url = config['root_url']
@@ -25,12 +25,14 @@ module Murlsh
         'Location' => url }
     end
 
-    # Select a random url from the database.
+    # Select a random url from the database optionally matching a query.
     #
-    # Return nil if there are no urls.
-    def random_url
-      count = Murlsh::Url.count
-      Murlsh::Url.first(:offset => rand(count))  if count > 0
+    # Return nil if no urls match.
+    def random_url(conditions=[])
+      count = Murlsh::Url.count(:conditions => conditions)
+      if count > 0
+        Murlsh::Url.first(:conditions => conditions, :offset => rand(count))
+      end
     end
 
     attr_reader :config

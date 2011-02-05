@@ -3,6 +3,7 @@ $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 require 'uri'
 require 'yaml'
 
+require 'rack'
 require 'rack/cache'
 require 'rack/rewrite'
 require 'rack/throttle'
@@ -23,6 +24,7 @@ end
 use Rack::ConditionalGet
 use Murlsh::EtagAddEncoding
 use Rack::Deflater
+use Rack::Head
 use Murlsh::FarFutureExpires, :patterns => [
   %r{[\da-z]{32}\.(?:gif|jpe?g|png)$}i,
   %r{\.gen\.(css|js)$}

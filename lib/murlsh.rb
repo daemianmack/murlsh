@@ -1,4 +1,3 @@
-require 'murlsh/head_from_get'
 require 'murlsh/search_conditions'
 
 require 'murlsh/ask'

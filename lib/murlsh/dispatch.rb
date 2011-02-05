@@ -20,13 +20,10 @@ module Murlsh
       random_server = Murlsh::RandomServer.new(config)
 
       @routes = [
-        [%r{^HEAD #{root_path}(url)?$}, url_server.method(:head)],
-        [%r{^GET #{root_path}(url)?$}, url_server.method(:get)],
+        [%r{^(?:HEAD|GET) #{root_path}(url)?$}, url_server.method(:get)],
         [%r{^POST #{root_path}(url)?$}, url_server.method(:post)],
-        [%r{^HEAD #{root_path}json\.json$}, json_server.method(:head)],
-        [%r{^GET #{root_path}json\.json$}, json_server.method(:get)],
-        [%r{^HEAD #{root_path}random$}, random_server.method(:head)],
-        [%r{^GET #{root_path}random$}, random_server.method(:get)],
+        [%r{^(?:HEAD|GET) #{root_path}json\.json$}, json_server.method(:get)],
+        [%r{^(?:HEAD|GET) #{root_path}random$}, random_server.method(:get)],
       ]
 
       db_init

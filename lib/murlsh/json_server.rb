@@ -5,8 +5,6 @@ module Murlsh
   # Serve most recent urls in json and jsonp.
   class JsonServer
 
-    include Murlsh::HeadFromGet
-
     def initialize(config); @config = config; end
 
     # Respond to a GET request. Return json of recent urls or jsonp if

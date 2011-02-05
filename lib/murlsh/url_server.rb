@@ -6,8 +6,6 @@ module Murlsh
   # Build responses for HTTP requests.
   class UrlServer
 
-    include HeadFromGet
-
     def initialize(config); @config = config; end
 
     # Respond to a GET request. Return a page of urls based on the query

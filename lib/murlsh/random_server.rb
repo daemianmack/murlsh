@@ -7,8 +7,6 @@ module Murlsh
   # Redirect to a random url from the database.
   class RandomServer
 
-    include HeadFromGet
-
     def initialize(config); @config = config; end
 
     # Redirect to a random url from the database optionally matching a query.
@@ -21,8 +19,11 @@ module Murlsh
         url = config['root_url']
       end
 
-      Rack::Response.new "<a href=\"#{url}\">#{url}</a>", 302, {
-        'Location' => url }
+      resp = Rack::Response.new
+      resp.body = "<a href=\"#{url}\">#{url}</a>"
+      resp.redirect(url)
+
+      resp
     end
 
     # Select a random url from the database optionally matching a query.

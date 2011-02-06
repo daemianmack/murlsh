@@ -25,6 +25,7 @@ use Rack::ConditionalGet
 use Murlsh::EtagAddEncoding
 use Rack::Deflater
 use Rack::Head
+use Rack::ETag
 use Murlsh::FarFutureExpires, :patterns => [
   %r{[\da-z]{32}\.(?:gif|jpe?g|png)$}i,
   %r{\.gen\.(css|js)$}

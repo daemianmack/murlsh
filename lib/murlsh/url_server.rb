@@ -25,7 +25,6 @@ module Murlsh
       resp.write(body.build)
       resp['Cache-Control'] = 'must-revalidate, max-age=0'
       resp['Content-Type'] = content_type
-      resp['ETag'] = "\"#{body.md5}\""
 
       resp
     end

@@ -29,7 +29,6 @@ Gem::Specification.new do |s|
     "lib/murlsh.rb",
     "lib/murlsh/ask.rb",
     "lib/murlsh/auth.rb",
-    "lib/murlsh/build_md5.rb",
     "lib/murlsh/build_query.rb",
     "lib/murlsh/cat_files.rb",
     "lib/murlsh/cp_r_safe.rb",

@@ -2,7 +2,6 @@ require 'murlsh/search_conditions'
 
 require 'murlsh/ask'
 require 'murlsh/auth'
-require 'murlsh/build_md5'
 require 'murlsh/build_query'
 require 'murlsh/cat_files'
 require 'murlsh/cp_r_safe'

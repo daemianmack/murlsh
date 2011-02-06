@@ -4,7 +4,6 @@ module Murlsh
 
   # Recent urls json response builder.
   class JsonBody
-    include Murlsh::BuildMd5
 
     def initialize(config, req, result_set)
       @config, @req, @result_set = config, req, result_set

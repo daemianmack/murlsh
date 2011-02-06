@@ -26,8 +26,7 @@ module Murlsh
 
       Rack::Response.new body, 200,
         'Cache-Control' => 'must-revalidate, max-age=0',
-        'Content-Type' => content_type,
-        'ETag' => "\"#{body.md5}\""
+        'Content-Type' => content_type
     end
 
   end

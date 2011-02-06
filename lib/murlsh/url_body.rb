@@ -5,7 +5,6 @@ module Murlsh
 
   # Url list page builder.
   class UrlBody < Builder::XmlMarkup
-    include Murlsh::BuildMd5
     include Murlsh::Markup
 
     def initialize(config, req, result_set, content_type='text/html')

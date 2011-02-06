@@ -21,10 +21,13 @@ module Murlsh
 
       body = Murlsh::UrlBody.new(@config, req, result_set, content_type)
 
-      Rack::Response.new body, 200,
-        'Cache-Control' => 'must-revalidate, max-age=0',
-        'Content-Type' => content_type,
-        'ETag' => "\"#{body.md5}\""
+      resp = Rack::Response.new
+      resp.write(body.build)
+      resp['Cache-Control'] = 'must-revalidate, max-age=0'
+      resp['Content-Type'] = content_type
+      resp['ETag'] = "\"#{body.md5}\""
+
+      resp
     end
 
     # Respond to a POST request. Add the new url and return json.

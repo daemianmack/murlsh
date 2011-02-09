@@ -60,6 +60,20 @@ h2. Recent urls
 * http://your_root/json.json
 * http://your_root/json.json?callback=x (jsonp)
 
+h1. Thumbnails
+
+Thumbnail images are generated from added urls using plumnailer. They are
+scaled down to 'thumbnail_max_side' in config.yaml and stored locally.
+
+Thumbnails can also be manually specified by passing their url as the
+'thumbnail' parameter when adding a url. They are also scaled and stored
+locally.
+
+The config.yaml 'thumbnail_shortcuts' hash can be used to give symbolic
+names to thumbnail image urls and those names can be passed in as the
+'thumbnail' parameter when adding a url. The keys are the symbolic names
+and the values are urls.
+
 h1. Plugins
 
 Classes in the plugins directory can be used to change behavior at certain

@@ -12,16 +12,16 @@ module Murlsh
     def get(req)
       conditions = Murlsh::SearchConditions.new(req['q']).conditions
       page = 1
-      per_page = @config.fetch('num_posts_feed', 25)
+      per_page = config.fetch('num_posts_feed', 25)
 
       result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
 
       if req['callback']
         content_type = 'application/javascript'
-        body = Murlsh::JsonpBody.new(@config, req, result_set)
+        body = Murlsh::JsonpBody.new(config, req, result_set)
       else
         content_type = 'application/json'
-        body = Murlsh::JsonBody.new(@config, req, result_set)
+        body = Murlsh::JsonBody.new(config, req, result_set)
       end
 
       Rack::Response.new body, 200,
@@ -29,6 +29,7 @@ module Murlsh
         'Content-Type' => content_type
     end
 
+    attr_reader :config
   end
 
 end

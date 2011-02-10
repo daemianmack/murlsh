@@ -31,10 +31,7 @@ module Murlsh
 
     # Respond to a POST request. Add the new url and return json.
     def post(req)
-      auth = req['auth']
-      if user = auth.empty? ? nil : Murlsh::Auth.new(
-        @config.fetch('auth_file')).auth(auth)
-
+      if user = auth_from_req(req)
         mu = Murlsh::Url.new do |u|
           u.url = req['url']
           u.email = user[:email]
@@ -84,6 +81,14 @@ module Murlsh
 
       Rack::Response.new(response_body.to_json, response_code, {
         'Content-Type' => 'application/json' })
+    end
+
+    # Authorize a user from a request.
+    def auth_from_req(req)
+      secret = req['auth']
+ 
+      secret.to_s.empty? ? nil : Murlsh::Auth.new(
+        @config['auth_file']).auth(secret)
     end
 
   end

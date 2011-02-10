@@ -14,12 +14,12 @@ module Murlsh
       conditions = Murlsh::SearchConditions.new(req['q']).conditions
       page = [req['p'].to_i, 1].max
       per_page = req['pp'] ? req['pp'].to_i :
-        @config.fetch('num_posts_page', 25)
+        config.fetch('num_posts_page', 25)
 
       content_type = 'text/html; charset=utf-8'
       result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
 
-      body = Murlsh::UrlBody.new(@config, req, result_set, content_type)
+      body = Murlsh::UrlBody.new(config, req, result_set, content_type)
 
       resp = Rack::Response.new
       resp.write(body.build)
@@ -39,7 +39,7 @@ module Murlsh
 
           # optional parameters
           unless req['thumbnail'].to_s.empty?
-            if thumbnail_url = @config.fetch('thumbnail_shortcuts', {})[req[
+            if thumbnail_url = config.fetch('thumbnail_shortcuts', {})[req[
               'thumbnail']]
               u.thumbnail_url = thumbnail_url
             else
@@ -64,9 +64,9 @@ module Murlsh
         begin
           # validate before add_pre plugins have run and also after (in save!)
           raise ActiveRecord::RecordInvalid.new(mu)  unless mu.valid?
-          Murlsh::Plugin.hooks('add_pre') { |p| p.run mu, @config }
+          Murlsh::Plugin.hooks('add_pre') { |p| p.run mu, config }
           mu.save!
-          Murlsh::Plugin.hooks('add_post') { |p| p.run mu, @config }
+          Murlsh::Plugin.hooks('add_post') { |p| p.run mu, config }
           response_body, response_code = [mu], 200
         rescue ActiveRecord::RecordInvalid => error
           response_body = {
@@ -88,9 +88,10 @@ module Murlsh
       secret = req['auth']
  
       secret.to_s.empty? ? nil : Murlsh::Auth.new(
-        @config['auth_file']).auth(secret)
+        config['auth_file']).auth(secret)
     end
 
+    attr_reader :config
   end
 
 end

@@ -69,10 +69,8 @@ Thumbnails can also be manually specified by passing their url as the
 'thumbnail' parameter when adding a url. They are also scaled and stored
 locally.
 
-The config.yaml 'thumbnail_shortcuts' hash can be used to give symbolic
-names to thumbnail image urls and those names can be passed in as the
-'thumbnail' parameter when adding a url. The keys are the symbolic names
-and the values are urls.
+The plugin add_pre_40_thumbnail_shortcuts.rb can be used to specify
+short names for frequently used thumbnail urls that can be passed in instead.
 
 h1. Plugins
 

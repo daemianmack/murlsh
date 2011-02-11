@@ -39,12 +39,7 @@ module Murlsh
 
           # optional parameters
           unless req['thumbnail'].to_s.empty?
-            if thumbnail_url = config.fetch('thumbnail_shortcuts', {})[req[
-              'thumbnail']]
-              u.thumbnail_url = thumbnail_url
-            else
               u.thumbnail_url = req['thumbnail']
-            end
           end
 
           u.time = if req['time']

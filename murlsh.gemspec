@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2011-02-05}
+  s.date = %q{2011-02-10}
   s.default_executable = %q{murlsh}
   s.description = %q{Host your bookmarks or maintain a link blog}
   s.email = %q{matthewm@boedicker.org}
@@ -71,6 +71,7 @@ Gem::Specification.new do |s|
     "plugins/add_pre_30_unajax_twitter.rb",
     "plugins/add_pre_35_url_clean.rb",
     "plugins/add_pre_40_convert_mobile.rb",
+    "plugins/add_pre_40_thumbnail_shortcuts.rb",
     "plugins/add_pre_45_supplied_thumbnail.rb",
     "plugins/add_pre_50_lookup_content_type_title.rb",
     "plugins/add_pre_50_media_thumbnail.rb",

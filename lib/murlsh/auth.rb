@@ -44,6 +44,18 @@ module Murlsh
       end
     end
 
+    # Look up a user by email address.
+    #
+    # Return nil if not found.
+    def by_email(email)
+      hash = Digest::MD5.hexdigest(email)
+
+      self.class.csv_iter(@file) do |row|
+        return { :name => row[0], :email => row[1] }  if hash == row[1]
+      end
+
+    end
+
   end
 
 end

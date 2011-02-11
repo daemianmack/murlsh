@@ -30,4 +30,11 @@ describe Murlsh::Auth do
     @a.auth('not there').should be_nil
   end
 
+  it 'should be able to find user by email address' do
+    @a.by_email('test1@test.com').should == {
+      :name => 'test1',
+      :email => Digest::MD5.hexdigest('test1@test.com')
+      }
+  end
+
 end

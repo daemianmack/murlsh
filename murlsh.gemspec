@@ -48,6 +48,7 @@ Gem::Specification.new do |s|
     "lib/murlsh/must_revalidate.rb",
     "lib/murlsh/openlock.rb",
     "lib/murlsh/plugin.rb",
+    "lib/murlsh/pop_server.rb",
     "lib/murlsh/random_server.rb",
     "lib/murlsh/search_conditions.rb",
     "lib/murlsh/search_grammar.rb",
@@ -143,6 +144,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<rack-rewrite>, [">= 1.0.2"])
       s.add_runtime_dependency(%q<rack-throttle>, [">= 0.3.0"])
       s.add_runtime_dependency(%q<rmagick>, [">= 1.15.14"])
+      s.add_runtime_dependency(%q<rmail>, ["~> 1.0"])
       s.add_runtime_dependency(%q<sqlite3>, ["~> 1.3"])
       s.add_runtime_dependency(%q<tinyatom>, [">= 0.3.3"])
       s.add_runtime_dependency(%q<treetop>, ["~> 1.4"])
@@ -167,6 +169,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rack-rewrite>, [">= 1.0.2"])
       s.add_dependency(%q<rack-throttle>, [">= 0.3.0"])
       s.add_dependency(%q<rmagick>, [">= 1.15.14"])
+      s.add_dependency(%q<rmail>, ["~> 1.0"])
       s.add_dependency(%q<sqlite3>, ["~> 1.3"])
       s.add_dependency(%q<tinyatom>, [">= 0.3.3"])
       s.add_dependency(%q<treetop>, ["~> 1.4"])
@@ -192,6 +195,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rack-rewrite>, [">= 1.0.2"])
     s.add_dependency(%q<rack-throttle>, [">= 0.3.0"])
     s.add_dependency(%q<rmagick>, [">= 1.15.14"])
+    s.add_dependency(%q<rmail>, ["~> 1.0"])
     s.add_dependency(%q<sqlite3>, ["~> 1.3"])
     s.add_dependency(%q<tinyatom>, [">= 0.3.3"])
     s.add_dependency(%q<treetop>, ["~> 1.4"])

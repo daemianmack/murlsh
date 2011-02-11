@@ -414,6 +414,7 @@ begin
       rack-rewrite >= 1.0.2
       rack-throttle >= 0.3.0
       rmagick >= 1.15.14
+      rmail ~> 1.0
       sqlite3 ~> 1.3
       tinyatom >= 0.3.3
       treetop ~> 1.4

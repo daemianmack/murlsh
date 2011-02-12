@@ -16,6 +16,7 @@ module Murlsh
 
       atom_server = Murlsh::AtomServer.new(config)
       json_server = Murlsh::JsonServer.new(config)
+      podcast_server = Murlsh::PodcastServer.new(config)
       pop_server = Murlsh::PopServer.new(config)
       random_server = Murlsh::RandomServer.new(config)
       rss_server = Murlsh::RssServer.new(config)
@@ -26,6 +27,7 @@ module Murlsh
       @routes = [
         [%r{^(?:HEAD|GET) #{root_path}atom\.atom$}, atom_server.method(:get)],
         [%r{^(?:HEAD|GET) #{root_path}json\.json$}, json_server.method(:get)],
+        [%r{^(?:HEAD|GET) #{root_path}podcast\.rss$}, podcast_server.method(:get)],
         [%r{^POST #{root_path}pop$}, pop_server.method(:post)],
         [%r{^(?:HEAD|GET) #{root_path}random$}, random_server.method(:get)],
         [%r{^(?:HEAD|GET) #{root_path}rss\.rss$}, rss_server.method(:get)],

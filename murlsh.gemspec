@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2011-02-10}
+  s.date = %q{2011-02-12}
   s.default_executable = %q{murlsh}
   s.description = %q{Host your bookmarks or maintain a link blog}
   s.email = %q{matthewm@boedicker.org}
@@ -28,6 +28,8 @@ Gem::Specification.new do |s|
     "config.yaml",
     "lib/murlsh.rb",
     "lib/murlsh/ask.rb",
+    "lib/murlsh/atom_body.rb",
+    "lib/murlsh/atom_server.rb",
     "lib/murlsh/auth.rb",
     "lib/murlsh/build_query.rb",
     "lib/murlsh/cat_files.rb",
@@ -38,6 +40,7 @@ Gem::Specification.new do |s|
     "lib/murlsh/etag_add_encoding.rb",
     "lib/murlsh/failproof.rb",
     "lib/murlsh/far_future_expires.rb",
+    "lib/murlsh/feed_body.rb",
     "lib/murlsh/image_list.rb",
     "lib/murlsh/img_store.rb",
     "lib/murlsh/install.rb",
@@ -64,7 +67,6 @@ Gem::Specification.new do |s|
     "lib/murlsh/validate_html.rb",
     "lib/murlsh/yaml_ordered_hash.rb",
     "murlsh.gemspec",
-    "plugins/add_post_50_update_feed.rb",
     "plugins/add_post_50_update_m3u.rb",
     "plugins/add_post_50_update_podcast.rb",
     "plugins/add_post_50_update_rss.rb",

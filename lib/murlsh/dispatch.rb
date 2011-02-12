@@ -14,18 +14,21 @@ module Murlsh
     def initialize(config)
       @config = config
 
-      url_server = Murlsh::UrlServer.new(config)
+      atom_server = Murlsh::AtomServer.new(config)
       json_server = Murlsh::JsonServer.new(config)
-      root_path = URI(config.fetch('root_url')).path
-      random_server = Murlsh::RandomServer.new(config)
       pop_server = Murlsh::PopServer.new(config)
+      random_server = Murlsh::RandomServer.new(config)
+      url_server = Murlsh::UrlServer.new(config)
+
+      root_path = URI(config.fetch('root_url')).path
 
       @routes = [
+        [%r{^(?:HEAD|GET) #{root_path}atom\.atom$}, atom_server.method(:get)],
+        [%r{^(?:HEAD|GET) #{root_path}json\.json$}, json_server.method(:get)],
+        [%r{^POST #{root_path}pop$}, pop_server.method(:post)],
+        [%r{^(?:HEAD|GET) #{root_path}random$}, random_server.method(:get)],
         [%r{^(?:HEAD|GET) #{root_path}(url)?$}, url_server.method(:get)],
         [%r{^POST #{root_path}(url)?$}, url_server.method(:post)],
-        [%r{^(?:HEAD|GET) #{root_path}json\.json$}, json_server.method(:get)],
-        [%r{^(?:HEAD|GET) #{root_path}random$}, random_server.method(:get)],
-        [%r{^POST #{root_path}pop$}, pop_server.method(:post)],
       ]
 
       db_init

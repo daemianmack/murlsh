@@ -15,8 +15,7 @@ module Murlsh
       if defined?(@body)
         @body
       else
-        feed = TinyAtom::Feed.new(config['root_url'], feed_title,
-          URI.join(config['root_url'], config['feed_file']),
+        feed = TinyAtom::Feed.new(config['root_url'], feed_title, feed_url,
           :hubs => config.fetch('pubsubhubbub_hubs', []).
             map { |x| x['subscribe_url'] })
 

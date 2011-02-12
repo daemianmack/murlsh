@@ -1,3 +1,5 @@
+require 'uri'
+
 require 'rack'
 
 require 'murlsh'
@@ -18,7 +20,8 @@ module Murlsh
       result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
       urls = result_set.results
 
-      body = Murlsh::RssBody.new(config, req, urls)
+      feed_url = URI.join(config['root_url'], 'rss.rss')
+      body = Murlsh::RssBody.new(config, req, feed_url, urls)
 
       resp = Rack::Response.new(body, 200,
         'Cache-Control' => 'must-revalidate, max-age=0',

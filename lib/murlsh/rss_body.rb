@@ -16,7 +16,8 @@ module Murlsh
       else
         feed = RSS::Maker.make('2.0') do |f|
           f.channel.title = f.channel.description = feed_title
-          f.channel.link = URI.join(config.fetch('root_url'), 'rss.rss')
+          f.channel.link = feed_url
+
           f.items.do_sort = true
 
           urls.each do |mu|

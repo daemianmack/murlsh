@@ -12,8 +12,8 @@ module Murlsh
       image/png
       }
 
-    def initialize(config, req, urls)
-      @config, @req, @urls = config, req, urls
+    def initialize(config, req, feed_url, urls)
+      @config, @req, @feed_url, @urls = config, req, feed_url, urls
       @updated = nil
     end
 
@@ -28,6 +28,7 @@ module Murlsh
 
     attr_reader :config
     attr_reader :req
+    attr_reader :feed_url
     attr_reader :urls
     attr_reader :updated
   end

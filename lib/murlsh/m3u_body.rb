@@ -9,7 +9,7 @@ module Murlsh
       if defined?(@body)
         @body
       else
-        result = "# #{config['root_url']}\r\n\r\n"
+        result = "# #{feed_url}\r\n\r\n"
         urls.each do |mu|
           result << "#{mu.url}\r\n"
           @updated = @updated ? [@updated, mu.time].max : mu.time

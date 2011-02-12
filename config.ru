@@ -35,7 +35,6 @@ feed_url = URI.join(config.fetch('root_url'), config.fetch('feed_file'))
 use Murlsh::MustRevalidate, :patterns => %r{^#{Regexp.escape(feed_url.path)}$}
 
 use Rack::Static, :urls => %w{/css/ /img/ /js/}, :root => 'public'
-use Rack::Static, :urls => %w{/m3u.m3u}
 
 use Rack::Rewrite do
   r301 '/atom.xml', feed_url.to_s

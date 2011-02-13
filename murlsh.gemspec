@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "bin/murlsh",
     "config.ru",
     "config.yaml",
+    "db/migrate/20110213023123_init.rb",
     "lib/murlsh.rb",
     "lib/murlsh/ask.rb",
     "lib/murlsh/atom_body.rb",

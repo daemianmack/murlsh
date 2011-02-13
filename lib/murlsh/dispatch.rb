@@ -41,9 +41,7 @@ module Murlsh
     end
 
     def db_init
-      ActiveRecord::Base.establish_connection(
-        :adapter => 'sqlite3', :database => @config.fetch('db_file'))
-
+      ActiveRecord::Base.establish_connection config.fetch('db')
       ActiveRecord::Base.default_timezone = :utc
       ActiveRecord::Base.include_root_in_json = false
       # ActiveRecord::Base.logger = Logger.new(STDERR)
@@ -71,12 +69,13 @@ module Murlsh
       else
         Rack::Response.new "<p>#{req.url} not found</p>
 
-<p><a href=\"#{@config['root_url']}\">root<a></p>
+<p><a href=\"#{config.fetch('root_url')}\">root<a></p>
 ",
           404, { 'Content-Type' => 'text/html' }
       end
     end
 
+    attr_reader :config
     attr_accessor :routes
   end
 

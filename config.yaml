@@ -5,7 +5,9 @@ cache_metastore: file:tmp/cache/rack/meta
 css_files: 
 - css/jquery.jgrowl.css
 - css/screen.css
-db_file: murlsh.db
+db: 
+  adapter: sqlite3
+  database: murlsh.db
 feed_file: atom.atom
 gravatar_size: 32
 js_files: 

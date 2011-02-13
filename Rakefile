@@ -2,6 +2,7 @@ $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
 require 'digest/md5'
 require 'net/http'
+require 'logger'
 require 'open-uri'
 require 'pp'
 require 'set'
@@ -10,7 +11,6 @@ require 'yaml'
 
 require 'active_record'
 require 'RMagick'
-require 'sqlite3'
 
 require 'murlsh'
 
@@ -21,7 +21,7 @@ end
 config = YAML.load_file('config.yaml')
 
 desc 'Initialize a new installation.'
-task :init => %w{db:init user:add compress} do
+task :init => %w{db:migrate user:add compress} do
   puts <<-eos
 
 Things you might want to do now:
@@ -45,8 +45,7 @@ namespace :db do
 
   desc 'Delete the last url added.'
   task :delete_last_url do
-    ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
-      :database => config.fetch('db_file'))
+    ActiveRecord::Base.establish_connection config.fetch('db')
 
     last = Murlsh::Url.find(:last, :order => 'time')
     pp last
@@ -56,46 +55,43 @@ namespace :db do
 
   desc 'Check for duplicate URLs.'
   task :dupcheck do
-    db = SQLite3::Database.new(config.fetch('db_file'))
-    db.results_as_hash = true
+    ActiveRecord::Base.establish_connection config.fetch('db')
+
     h = {}
-    db.execute('SELECT * FROM urls').each do |r|
-      h[r['url']] = h.fetch(r['url'], []).push([r['id'], r['time']])
+    Murlsh::Url.all.each do |mu|
+      h[mu.url] = h.fetch(mu.url, []).push([mu.id, mu.time])
     end
     h.find_all { |k,v| v.size > 1 }.each do |k,v|
       puts k
-      v.each { |id,time| puts "  #{id} #{time}" }
+      v.each { |id,time| puts "  id #{id} (#{time})" }
     end
   end
 
-  desc 'Create an empty database.'
-  task :init do
-    puts "creating #{config.fetch('db_file')}"
-    db = SQLite3::Database.new(config.fetch('db_file'))
-    db.execute 'CREATE TABLE urls (
-      id INTEGER PRIMARY KEY,
-      time TIMESTAMP,
-      url TEXT,
-      email TEXT,
-      name TEXT,
-      title TEXT,
-      content_length INTEGER,
-      content_type TEXT,
-      via TEXT,
-      thumbnail_url TEXT);
-      '
-    db.execute 'CREATE INDEX IF NOT EXISTS urls_time_desc ON urls (time DESC);'
+  desc 'Migrate the database.'
+  task :migrate do
+    ActiveRecord::Base.establish_connection config.fetch('db')
+    ActiveRecord::Base.logger = Logger.new($stdout)
+    ActiveRecord::Migration.verbose = true
+    ActiveRecord::Migrator.migrate 'db/migrate'
   end
 
   desc 'Interact with the database.'
   task :shell do
-    exec "sqlite3 #{config['db_file']}"
+    db = config.fetch('db')
+    command = case db.fetch('adapter')
+      when 'sqlite3'; "sqlite3 #{db.fetch('database')}"
+    end
+
+    if command
+      exec command
+    else
+      puts "Don't know how to launch shell for database '#{db.fetch('adapter')}'"
+    end
   end
 
   desc 'Search urls and titles in the database.'
   task :grep, :search do |t,args|
-    ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
-      :database => config.fetch('db_file'))
+    ActiveRecord::Base.establish_connection config.fetch('db')
 
     like = "%#{args.search}%"
     Murlsh::Url.all(:conditions =>
@@ -150,8 +146,7 @@ end
 
 desc 'Try to fetch the title for a url and update it in the database.'
 task :title_fetch, :url_id do |t, args|
-  ActiveRecord::Base.establish_connection(:adapter => 'sqlite3',
-    :database => config.fetch('db_file'))
+  ActiveRecord::Base.establish_connection config.fetch('db')
   url = Murlsh::Url.find(args.url_id)
   puts "Url: #{url.url}"
   puts "Previous title: #{url.title}"
@@ -312,8 +307,7 @@ namespace :thumb do
 
   desc 'Check that local thumbnails in database are consistent with filesystem.'
   task :check do
-    ActiveRecord::Base.establish_connection :adapter => 'sqlite3',
-      :database => config.fetch('db_file')
+    ActiveRecord::Base.establish_connection config.fetch('db')
     used_thumbnails = Set.new
     Murlsh::Url.all(
       :conditions => "thumbnail_url like 'img/thumb/%'").each do |u|

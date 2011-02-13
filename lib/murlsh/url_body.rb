@@ -136,7 +136,7 @@ module Murlsh
     end
 
     # Random link builder.
-    def random_link; a 'Random', :href => 'random'; end
+    def random_link; a 'Random', :href => 'random', :rel => 'nofollow'; end
 
     # Quick search list builder.
     def quick_search

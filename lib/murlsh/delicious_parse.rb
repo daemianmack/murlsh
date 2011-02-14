@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'time'
 require 'uri'
 
 require 'nokogiri'

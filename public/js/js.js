@@ -9,8 +9,6 @@ var Murlsh = function ($, navigator, window, twtter) {
                 /^http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.(?:jpe?g|gif|png)$/i,
             imgur :
                 /^http:\/\/(?:i\.)?imgur\.com\/[a-z\d]+\.(?:jpe?g|gif|png)$/i,
-            s3 :
-                /^http:\/\/static\.mmb\.s3\.amazonaws\.com\/[\w\-]+\.(jpe?g|gif|pdf|png)$/i,
             twitter :
                 /^https?:\/\/twitter\.com\/\w+\/status(?:es)?\/\d+$/i,
             vimeo :
@@ -119,11 +117,6 @@ var Murlsh = function ($, navigator, window, twtter) {
 
         if (match.imageshack || match.imgur) {
             setupClickHandler(thisA.siblings('img'), 'href', href, imgClick);
-        } else if (match.s3) {
-            if (!(match.s3[1].match(/^pdf$/i))) {
-                setupClickHandler(thisA.siblings('img'), 'href', href,
-                    imgClick);
-            }
         } else if (match.twitter) {
             thisA.siblings('img').addClass('twitter');
             tweetMatch = /^(@[0-9a-z_]+?): (.+)$/i.exec(thisA.text());

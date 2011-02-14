@@ -1,4 +1,3 @@
-require 'cgi'
 require 'uri'
 
 require 'murlsh'
@@ -10,9 +9,6 @@ module Murlsh
 
     @hook = 'add_pre'
 
-    StorageDir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
-      'thumb')
-
     def self.run(url, config)
       if not url.thumbnail_url and url.ask.doc
         url.ask.doc.xpath_search("//meta[@property='og:image']") do |node|
@@ -23,14 +19,14 @@ module Murlsh
               if og_image_url[%r{^//}]
                 og_image_url = "#{URI(url.url).scheme}:#{og_image_url}"
               end
-              thumb_storage = Murlsh::ImgStore.new(StorageDir,
-                :user_agent => config['user_agent'])
+              thumb_storage = Murlsh::ImgStore.new(config)
 
-              stored_filename = thumb_storage.store_url(og_image_url) do |i|
+              stored_url = thumb_storage.store_url(og_image_url) do |i|
                 max_side = config.fetch('thumbnail_max_side', 90)
                 i.extend(Murlsh::ImageList).resize_down!(max_side)
               end
-              url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
+
+              url.thumbnail_url = stored_url  if stored_url
             end
           end
         end

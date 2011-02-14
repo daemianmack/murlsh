@@ -7,12 +7,28 @@ require 'RMagick'
 
 require 'murlsh'
 
+module Murlsh
+
+  class StoreAsset50Test < Plugin
+
+    @hook = 'store_asset'
+
+    def self.run(name, data, config)
+      local_path = File.join(Dir::tmpdir, 'img_store_test', name)
+      FileUtils.mkdir_p(File.dirname(local_path))
+      Murlsh::openlock(local_path, 'w') { |fout| fout.write data }
+      name
+    end
+
+  end
+
+end
+
 describe Murlsh::ImgStore do
 
   before(:all) do
     @thumb_dir = File.join(Dir::tmpdir, 'img_store_test')
-    FileUtils.mkdir_p @thumb_dir
-    @img_store = Murlsh::ImgStore.new(@thumb_dir)
+    @img_store = Murlsh::ImgStore.new({})
   end
 
   describe :store_url do
@@ -22,13 +38,13 @@ describe Murlsh::ImgStore do
       before(:all) do
         image_url =
           'http://static.mmb.s3.amazonaws.com/2010_10_8_bacon_pancakes.jpg'
-        @local_file = @img_store.store_url(image_url)
-        @local_path = File.join(@thumb_dir, @local_file)
+        @stored_url = @img_store.store_url(image_url)
+        @local_path = File.join(@thumb_dir, @stored_url)
       end
 
       it 'should be named with the md5 sum of its contents' do
         md5 = Digest::MD5.file(@local_path).hexdigest
-        @local_file.should == "#{md5}.jpg"
+        @stored_url.should == "img/thumb/#{md5}.jpg"
       end
 
     end
@@ -54,13 +70,13 @@ describe Murlsh::ImgStore do
           'http://static.mmb.s3.amazonaws.com/2010_10_8_bacon_pancakes.jpg') do |f|
           f.read
         end
-        @local_file = @img_store.store_img_data(img_data)
-        @local_path = File.join(@thumb_dir, @local_file)
+        @stored_url = @img_store.store_img_data(img_data)
+        @local_path = File.join(@thumb_dir, @stored_url)
       end
 
       it 'should be named with the md5 sum of its contents' do
         md5 = Digest::MD5.file(@local_path).hexdigest
-        @local_file.should == "#{md5}.jpg"
+        @stored_url.should == "img/thumb/#{md5}.jpg"
       end
 
     end

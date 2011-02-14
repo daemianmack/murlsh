@@ -1,5 +1,3 @@
-require 'cgi'
-
 require 'plumnailer'
 
 require 'murlsh'
@@ -10,9 +8,6 @@ module Murlsh
   class AddPre65HtmlThumb < Plugin
 
     @hook = 'add_pre'
-
-    StorageDir = File.join(File.dirname(__FILE__), '..', 'public', 'img',
-      'thumb')
 
     def self.run(url, config)
       if not url.thumbnail_url and url.content_type and
@@ -25,10 +20,10 @@ module Murlsh
             max_side = config.fetch('thumbnail_max_side', 90)
             choice.extend(Murlsh::ImageList).resize_down!(max_side)
 
-            thumb_storage = Murlsh::ImgStore.new(StorageDir)
+            thumb_storage = Murlsh::ImgStore.new(config)
 
-            stored_filename = thumb_storage.store_img(choice)
-            url.thumbnail_url = "img/thumb/#{CGI.escape(stored_filename)}"
+            stored_url = thumb_storage.store_img(choice)
+            url.thumbnail_url = stored_url  if stored_url
           end
         end
       end

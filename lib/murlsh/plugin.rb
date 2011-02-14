@@ -9,6 +9,8 @@ module Murlsh
   #   run arguments (config hash)
   # * avatar - called to get an avatar url from an email md5 sum
   #   run arguments (avatar url, url, config hash)
+  # * store_asset - store an asset somewhere where it can be loaded by url
+  #   run arguments (name, data, config hash)
   # * url_display_add - called to display additional information after urls
   #   run arguments (markup builder, url, config hash)
   class Plugin

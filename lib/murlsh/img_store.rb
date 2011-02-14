@@ -1,7 +1,5 @@
-require 'cgi'
 require 'digest/md5'
 require 'open-uri'
-require 'uri'
 
 require 'RMagick'
 
@@ -9,66 +7,67 @@ require 'murlsh'
 
 module Murlsh
 
-  # Fetch images from urls and store them locally.
+  # Store images from various sources in asset storage.
+  #
+  # Storage is determined by store_asset plugins.
   class ImgStore
 
-    # Fetch images from urls and store them locally.
-    # Options:
-    # * :user_agent - user agent to send with http requests
-    def initialize(storage_dir, options={})
-      @storage_dir = storage_dir
-      @user_agent = options[:user_agent]
+    # Store images from various sources in asset storage.
+    #
+    # Storage is determined by store_asset plugins.
+    def initialize(config)
+      @config = config
     end
 
     # Build headers to send with request.
     def headers
       result = {}
-      result['User-Agent'] = @user_agent  if @user_agent
+      result['User-Agent'] = config['user_agent']  if config['user_agent']
       result
     end
 
-    # Fetch an image from a url and store it locally.
-    #
-    # The filename will be the md5sum of the contents plus the correct
-    # extension.
+    # Fetch an image from a url and store it in asset storage.
     #
     # If a block is given the Magick::ImageList created will be yielded
     # before storage.
+    #
+    # Returns image url.
     def store_url(url, &block)
       open(url, headers) { |fin| store_img_data fin.read, &block }
     end
 
-    # Accept a blob of image data and store it locally.
-    #
-    # The filename will be the md5sum of the contents plus the correct
-    # extension.
+    # Store a blob of image data in asset storage.
     #
     # If a block is given the Magick::ImageList created will be yielded
     # before storage.
+    #
+    # Returns image url.
     def store_img_data(img_data, &block)
       img = Magick::ImageList.new.from_blob(img_data)
       yield img if block_given?
       store_img img
     end
 
-    # Accept a Magick::ImageList and store it locally.
+    # Store a Magick::ImageList in asset storage.
     #
-    # The filename will be the md5sum of the contents plus the correct
-    # extension.
+    # Returns image url.
     def store_img(img)
       img.extend(Murlsh::ImageList)  unless img.is_a?(Murlsh::ImageList)
       img_data = img.to_blob
       md5 = Digest::MD5.hexdigest(img_data)
 
-      local_file = "#{md5}#{img.preferred_extension}"
-      local_path = File.join(storage_dir, local_file)
-      unless File.exists?(local_path)
-        Murlsh::openlock(local_path, 'w') { |fout| fout.write img_data }
+      name = "img/thumb/#{md5}#{img.preferred_extension}"
+
+      Murlsh::Plugin.hooks('store_asset') do |p|
+        # run until one returns something
+        if url = p.run(name, img_data, config)
+          return url
+        end
       end
-      local_file
+      nil
     end
 
-    attr_reader :storage_dir
+    attr_reader :config
   end
 
 end

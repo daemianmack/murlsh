@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2011-02-12}
+  s.date = %q{2011-02-13}
   s.default_executable = %q{murlsh}
   s.description = %q{Host your bookmarks or maintain a link blog}
   s.email = %q{matthewm@boedicker.org}
@@ -85,11 +85,12 @@ Gem::Specification.new do |s|
     "plugins/add_pre_60_github_title.rb",
     "plugins/add_pre_60_google_code_title.rb",
     "plugins/add_pre_60_imgur.rb",
-    "plugins/add_pre_60_s3_image.rb",
     "plugins/add_pre_60_twitter.rb",
     "plugins/add_pre_65_html_thumb.rb",
     "plugins/add_pre_65_img_thumb.rb",
     "plugins/avatar_50_gravatar.rb",
+    "plugins/store_asset_40_s3.rb",
+    "plugins/store_asset_50_local.rb",
     "plugins/url_display_add_45_audio.rb",
     "plugins/url_display_add_50_hostrec.rb",
     "plugins/url_display_add_55_content_type.rb",
@@ -135,6 +136,7 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activerecord>, [">= 2.3.4"])
+      s.add_runtime_dependency(%q<aws-s3>, ["~> 0.6"])
       s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
       s.add_runtime_dependency(%q<builder>, [">= 2.1.2"])
       s.add_runtime_dependency(%q<htmlentities>, [">= 4.2.0"])
@@ -160,6 +162,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, ["~> 2.0"])
     else
       s.add_dependency(%q<activerecord>, [">= 2.3.4"])
+      s.add_dependency(%q<aws-s3>, ["~> 0.6"])
       s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
       s.add_dependency(%q<builder>, [">= 2.1.2"])
       s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
@@ -186,6 +189,7 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<activerecord>, [">= 2.3.4"])
+    s.add_dependency(%q<aws-s3>, ["~> 0.6"])
     s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
     s.add_dependency(%q<builder>, [">= 2.1.2"])
     s.add_dependency(%q<htmlentities>, [">= 4.2.0"])

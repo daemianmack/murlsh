@@ -394,6 +394,7 @@ begin
 
     %w{
       activerecord >= 2.3.4
+      aws-s3 ~> 0.6
       bcrypt-ruby >= 2.1.2
       builder >= 2.1.2
       htmlentities >= 4.2.0

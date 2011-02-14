@@ -1,5 +1,4 @@
 require 'rss/maker'
-require 'uri'
 
 require 'murlsh'
 

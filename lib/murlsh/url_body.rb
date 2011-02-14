@@ -54,7 +54,7 @@ module Murlsh
                   unless mu.same_author?(last)
                     avatar_url = Murlsh::Plugin.hooks('avatar').inject(
                       nil) do |url_so_far,plugin|
-                      plugin.run(url_so_far, mu, @config)
+                      plugin.run url_so_far, mu, @config
                     end
                     div(:class => 'icon') {
                       murlsh_img :src => avatar_url, :text => mu.name

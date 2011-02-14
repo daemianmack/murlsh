@@ -4,7 +4,7 @@ module Murlsh
 
   # Query string builder. Takes hash of query string variables.
   def build_query(h)
-    h.empty? ? '' : '?' + h.map { |k,v| URI.escape "#{k}=#{v}" }.join('&')
+    h.empty? ? '' : '?' + h.map { |k,v| URI.escape("#{k}=#{v}") }.join('&')
   end
 
 end

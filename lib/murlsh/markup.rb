@@ -70,7 +70,7 @@ module Murlsh
       if options[:id]
         if options[:label]
           label_suffix = options[:label_suffix] || ':'
-          label("#{options[:label]}#{label_suffix}", :for => options[:id])
+          label "#{options[:label]}#{label_suffix}", :for => options[:id]
         end
         options[:name] ||= options[:id]
       end

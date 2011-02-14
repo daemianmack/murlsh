@@ -25,7 +25,7 @@ module Murlsh
             :summary => mu.title_stripped
           }
 
-          if EnclosureContentTypes.include? mu.content_type
+          if EnclosureContentTypes.include?(mu.content_type)
             options.merge!(
               :enclosure_type => mu.content_type,
               :enclosure_href => mu.url,

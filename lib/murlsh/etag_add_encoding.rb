@@ -14,7 +14,7 @@ module Murlsh
       headers = Rack::Utils::HeaderHash.new(headers)
 
       if headers['ETag']
-        headers['ETag'].sub!(/(")?$/, "#{headers['Content-Encoding']}\\1")
+        headers['ETag'].sub! /(")?$/, "#{headers['Content-Encoding']}\\1"
       end
 
       [status, headers, body]

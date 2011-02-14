@@ -17,14 +17,14 @@ module Murlsh
     # Options:
     # * :failproof - if true hide all exceptions and return empty string on failure
     # * :headers - hash of headers to send in request
-    def content_length(options={}); header 'content-length', options; end
+    def content_length(options={}); header('content-length', options); end
 
     # Get the content type.
     #
     # Options:
     # * :failproof - if true hide all exceptions and return empty string on failure
     # * :headers - hash of headers to send in request
-    def content_type(options={}); header 'content-type', options; end
+    def content_type(options={}); header('content-type', options); end
 
     # Get the HTML title.
     #

@@ -33,7 +33,7 @@ module Murlsh
     #
     # Returns image url.
     def store_url(url, &block)
-      open(url, headers) { |fin| store_img_data fin.read, &block }
+      open(url, headers) { |fin| store_img_data(fin.read, &block) }
     end
 
     # Store a blob of image data in asset storage.

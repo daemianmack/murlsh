@@ -16,7 +16,7 @@ module Murlsh
       if choice = random_url(Murlsh::SearchConditions.new(req['q']).conditions)
         url = choice.url
       else
-        url = config['root_url']
+        url = config.fetch('root_url')
       end
 
       resp = Rack::Response.new "<a href=\"#{url}\">#{url}</a>"

@@ -15,9 +15,9 @@ module Murlsh
       if defined?(@body)
         @body
       else
-        feed = TinyAtom::Feed.new(config['root_url'], feed_title, feed_url,
-          :hubs => config.fetch('pubsubhubbub_hubs', []).
-            map { |x| x['subscribe_url'] })
+        feed = TinyAtom::Feed.new(config.fetch('root_url'), feed_title,
+          feed_url, :hubs => config.fetch('pubsubhubbub_hubs', []).
+          map { |x| x['subscribe_url'] })
 
         urls.each do |mu|
           options = {
@@ -43,7 +43,7 @@ module Murlsh
               abs_url = if tu.is_a?(URI::HTTP)
                 tu
               else
-                URI.join config['root_url'], tu
+                URI.join config.fetch('root_url'), tu
               end
               options.merge! :media_thumbnail_url => abs_url
             rescue URI::InvalidURIError

@@ -15,9 +15,10 @@ module Murlsh
       unless hubs.empty?
         require 'push-notify'
 
-        feed_url = URI.join(config['root_url'], config['feed_file'])
+        feed_url = URI.join(config.fetch('root_url'), config.fetch('feed_file'))
         begin
-          PushNotify::Content.new(feed_url).tell(*hubs.map { |h| h['publish_url'] })
+          PushNotify::Content.new(feed_url).tell(
+            *hubs.map { |h| h.fetch('publish_url') })
         rescue Exception
         end
       end

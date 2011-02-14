@@ -18,8 +18,8 @@ module Murlsh
 
       if req['secret'] == config['pop_secret']
         Net::POP3.enable_ssl OpenSSL::SSL::VERIFY_NONE
-        Net::POP3.start(config['pop_server'], config['pop_port'],
-          config['pop_user'], config['pop_password']) do |pop|
+        Net::POP3.start(config.fetch('pop_server'), config.fetch('pop_port'),
+          config.fetch('pop_user'), config.fetch('pop_password')) do |pop|
           pop.each_mail do |mail|
             begin
               response_body << process_mail(mail.pop)
@@ -41,7 +41,7 @@ module Murlsh
     def process_mail(mail)
       parsed_mail = parse_mail(mail)
 
-      if user = Murlsh::Auth.new(config['auth_file']).by_email(
+      if user = Murlsh::Auth.new(config.fetch('auth_file')).by_email(
         parsed_mail[:from])
         parsed_mail[:uris].each do |uri|
           mu = Murlsh::Url.new do |u|

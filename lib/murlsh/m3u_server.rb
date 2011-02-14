@@ -32,7 +32,7 @@ module Murlsh
       result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
       urls = result_set.results
 
-      feed_url = URI.join(config['root_url'], 'm3u.m3u')
+      feed_url = URI.join(config.fetch('root_url'), 'm3u.m3u')
       body = Murlsh::M3uBody.new(config, req, feed_url, urls)
 
       resp = Rack::Response.new(body, 200,

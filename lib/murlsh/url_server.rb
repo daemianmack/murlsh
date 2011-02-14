@@ -83,7 +83,7 @@ module Murlsh
       secret = req['auth']
  
       secret.to_s.empty? ? nil : Murlsh::Auth.new(
-        config['auth_file']).auth(secret)
+        config.fetch('auth_file')).auth(secret)
     end
 
     attr_reader :config

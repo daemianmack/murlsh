@@ -25,7 +25,7 @@ module Murlsh
           # add site root url to relative thumbnail urls
           if h['thumbnail_url'] and
             not URI(h['thumbnail_url']).scheme.to_s.downcase[/https?/]
-            h['thumbnail_url'] = URI.join(@config['root_url'],
+            h['thumbnail_url'] = URI.join(@config.fetch('root_url'),
               h['thumbnail_url']).to_s
           end
 

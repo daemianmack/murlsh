@@ -6,7 +6,7 @@ Host your bookmarks or maintain a link blog.
 * generates Atom and RSS feeds
 * generates podcast RSS feed and m3u file for all audio urls
 * generates json and jsonp feeds for client-side inclusion in other sites
-* search
+* search, all output formats can be filtered by search criteria
 * uses HTML5 audio for mp3 and ogg urls
 * looks good on iPhone
 * PubSubHubbub notification
@@ -14,6 +14,7 @@ Host your bookmarks or maintain a link blog.
 * rack interface
 * Gravatar support
 * generates import scripts from delicious api exports
+* optionally store thumbnails in S3
 
 See "http://urls.matthewm.boedicker.org/":http://urls.matthewm.boedicker.org/ for example.
 
@@ -41,6 +42,48 @@ h2. Development
 * rake init
 * rackup
 * open http://localhost:9292/
+
+h2. Heroku
+
+<pre>
+<code>
+gem install heroku
+heroku keys:add
+</code>
+</pre>
+
+Create a fork on github and check it out or
+
+<pre>
+<code>
+git clone git@github.com:mmb/murlsh.git
+
+cd murlsh
+rake heroku:config
+
+heroku create
+</code>
+</pre>
+
+Edit config.yaml, change:
+
+* meta_tag_description
+* page_title
+* root_url
+* s3_bucket, s3_id, s3_secret (for thumbnail storage)
+
+<pre>
+<code>
+rake user:add
+
+git add .
+git commit
+
+git push heroku master
+
+heroku rake db:migrate
+</code>
+</pre>
 
 h1. Updating
 

@@ -225,11 +225,7 @@ namespace :css do
 
     unless config['css_compressed'] == compressed_url
       config['css_compressed'] = compressed_url
-      config.extend(Murlsh::YamlOrderedHash)
-      config.each_value do |v|
-        v.extend(Murlsh::YamlOrderedHash)  if v.is_a?(Hash)
-      end
-      open('config.yaml', 'w') { |f| YAML.dump(config, f) }
+      Murlsh.write_ordered_hash config, 'config.yaml'
       puts "updated config with css_compressed = #{compressed_url}"
     end
   end
@@ -268,11 +264,7 @@ namespace :js do
 
     unless config['js_compressed'] == compressed_url
       config['js_compressed'] = compressed_url
-      config.extend(Murlsh::YamlOrderedHash)
-      config.each_value do |v|
-        v.extend(Murlsh::YamlOrderedHash)  if v.is_a?(Hash)
-      end
-      open('config.yaml', 'w') { |f| YAML.dump(config, f) }
+      Murlsh.write_ordered_hash config, 'config.yaml'
       puts "updated config with js_compressed = #{compressed_url}"
     end
   end
@@ -376,6 +368,18 @@ EOS
     end
   end
 
+end
+
+namespace :heroku do
+
+  desc 'Set config options for deployment on Heroku.'
+  task :config => %w{compress} do
+    config.delete 'cache_entitystore'
+    config.delete 'cache_metastore'
+
+    Murlsh.write_ordered_hash config, 'config.yaml'
+    puts 'removed Rack::Cache cache_entitystore and cache_metastore from config'
+  end
 end
 
 begin

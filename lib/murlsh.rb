@@ -40,6 +40,7 @@ require 'murlsh/url'
 require 'murlsh/url_result_set'
 require 'murlsh/url_server'
 require 'murlsh/validate_html'
+require 'murlsh/write_ordered_hash'
 require 'murlsh/yaml_ordered_hash'
 
 require 'murlsh/atom_body'

@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
     activerecord >= 2.3.4
     aws-s3 ~> 0.6
     bcrypt-ruby >= 2.1.2
-    builder >= 2.1.2
+    builder > 0
     htmlentities >= 4.2.0
     json >= 1.2.3
     nokogiri ~> 1.0

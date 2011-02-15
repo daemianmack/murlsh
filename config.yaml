@@ -31,9 +31,9 @@ quick_search:
   video: hulu.com vimeo.com www.ted.com youtube.com
   wikipedia: wikipedia.org
 root_url: http://urls.matthewm.boedicker.org/
+s3_bucket: 
 s3_id: 
 s3_secret: 
-s3_bucket: 
 show_names: true
 thumbnail_max_side: 90
 user_agent: murlsh (http://github.com/mmb/murlsh)

@@ -12,6 +12,12 @@ require 'murlsh'
 
 config = YAML.load_file('config.yaml')
 
+# for Heroku
+db_config_file = File.join(File.dirname(__FILE__), 'config', 'database.yml')
+if File.exist?(db_config_file)
+  config['db'] = YAML.load_file(db_config_file)['production']
+end
+
 # use Rack::ShowExceptions
 # no more than 1024 requests per day per ip
 use Rack::Throttle::Daily, :max => 1024

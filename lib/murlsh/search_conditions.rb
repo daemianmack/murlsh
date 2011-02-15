@@ -17,8 +17,8 @@ module Murlsh
         likes = []
         params = []
         search_cols.product(tokens).each do |col,tok|
-          likes << "#{col} LIKE ?"
-          params << "%#{tok}%"
+          likes << "LOWER(#{col}) LIKE ?"
+          params << "%#{tok.downcase}%"
         end
         [likes.join(' OR ')].push(*params)
       else

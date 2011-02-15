@@ -61,7 +61,7 @@ git clone git@github.com:mmb/murlsh.git
 cd murlsh
 rake heroku:config
 
-heroku create
+heroku create <choose a name>
 </code>
 </pre>
 

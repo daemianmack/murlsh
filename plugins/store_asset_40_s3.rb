@@ -12,7 +12,9 @@ module Murlsh
     @hook = 'store_asset'
 
     def self.run(name, data, config)
-      if config['s3_id'] and config['s3_secret'] and config['s3_bucket']
+      if !config['s3_id'].to_s.empty? and
+        !config['s3_secret'].to_s.empty? and
+        !config['s3_bucket'].to_s.empty?
         AWS::S3::Base.establish_connection!(
           :access_key_id => config['s3_id'],
           :secret_access_key => config['s3_secret']

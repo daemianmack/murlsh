@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew M. Boedicker"]
-  s.date = %q{2011-02-13}
+  s.date = %q{2011-02-14}
   s.default_executable = %q{murlsh}
   s.description = %q{Host your bookmarks or maintain a link blog}
   s.email = %q{matthewm@boedicker.org}
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.files = [
     ".htaccess",
     "COPYING",
+    "Gemfile",
     "README.textile",
     "Rakefile",
     "VERSION",
@@ -71,6 +72,7 @@ Gem::Specification.new do |s|
     "lib/murlsh/url_result_set.rb",
     "lib/murlsh/url_server.rb",
     "lib/murlsh/validate_html.rb",
+    "lib/murlsh/write_ordered_hash.rb",
     "lib/murlsh/yaml_ordered_hash.rb",
     "murlsh.gemspec",
     "plugins/add_post_60_notify_hubs.rb",
@@ -116,7 +118,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/mmb/murlsh}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.0}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Host your bookmarks or maintain a link blog}
   s.test_files = [
     "spec/auth_spec.rb",
@@ -132,9 +134,19 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<murlsh>, [">= 0"])
+      s.add_development_dependency(%q<fakeweb>, ["~> 1.3"])
+      s.add_development_dependency(%q<flog>, [">= 2.5.0"])
+      s.add_development_dependency(%q<rack-test>, ["~> 0.5"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.0"])
+      s.add_development_dependency(%q<fakeweb>, ["~> 1.3"])
+      s.add_development_dependency(%q<flog>, [">= 2.5.0"])
+      s.add_development_dependency(%q<rack-test>, ["~> 0.5"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.0"])
       s.add_runtime_dependency(%q<activerecord>, [">= 2.3.4"])
       s.add_runtime_dependency(%q<aws-s3>, ["~> 0.6"])
       s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
@@ -153,7 +165,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<rmagick>, [">= 1.15.14"])
       s.add_runtime_dependency(%q<rmail>, ["~> 1.0"])
       s.add_runtime_dependency(%q<sqlite3>, ["~> 1.3"])
-      s.add_runtime_dependency(%q<tinyatom>, [">= 0.3.3"])
+      s.add_runtime_dependency(%q<tinyatom>, [">= 0.3.4"])
       s.add_runtime_dependency(%q<treetop>, ["~> 1.4"])
       s.add_runtime_dependency(%q<twitter>, [">= 0.9.12"])
       s.add_development_dependency(%q<fakeweb>, ["~> 1.3"])
@@ -161,6 +173,15 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rack-test>, ["~> 0.5"])
       s.add_development_dependency(%q<rspec>, ["~> 2.0"])
     else
+      s.add_dependency(%q<murlsh>, [">= 0"])
+      s.add_dependency(%q<fakeweb>, ["~> 1.3"])
+      s.add_dependency(%q<flog>, [">= 2.5.0"])
+      s.add_dependency(%q<rack-test>, ["~> 0.5"])
+      s.add_dependency(%q<rspec>, ["~> 2.0"])
+      s.add_dependency(%q<fakeweb>, ["~> 1.3"])
+      s.add_dependency(%q<flog>, [">= 2.5.0"])
+      s.add_dependency(%q<rack-test>, ["~> 0.5"])
+      s.add_dependency(%q<rspec>, ["~> 2.0"])
       s.add_dependency(%q<activerecord>, [">= 2.3.4"])
       s.add_dependency(%q<aws-s3>, ["~> 0.6"])
       s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
@@ -179,7 +200,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rmagick>, [">= 1.15.14"])
       s.add_dependency(%q<rmail>, ["~> 1.0"])
       s.add_dependency(%q<sqlite3>, ["~> 1.3"])
-      s.add_dependency(%q<tinyatom>, [">= 0.3.3"])
+      s.add_dependency(%q<tinyatom>, [">= 0.3.4"])
       s.add_dependency(%q<treetop>, ["~> 1.4"])
       s.add_dependency(%q<twitter>, [">= 0.9.12"])
       s.add_dependency(%q<fakeweb>, ["~> 1.3"])
@@ -188,6 +209,15 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, ["~> 2.0"])
     end
   else
+    s.add_dependency(%q<murlsh>, [">= 0"])
+    s.add_dependency(%q<fakeweb>, ["~> 1.3"])
+    s.add_dependency(%q<flog>, [">= 2.5.0"])
+    s.add_dependency(%q<rack-test>, ["~> 0.5"])
+    s.add_dependency(%q<rspec>, ["~> 2.0"])
+    s.add_dependency(%q<fakeweb>, ["~> 1.3"])
+    s.add_dependency(%q<flog>, [">= 2.5.0"])
+    s.add_dependency(%q<rack-test>, ["~> 0.5"])
+    s.add_dependency(%q<rspec>, ["~> 2.0"])
     s.add_dependency(%q<activerecord>, [">= 2.3.4"])
     s.add_dependency(%q<aws-s3>, ["~> 0.6"])
     s.add_dependency(%q<bcrypt-ruby>, [">= 2.1.2"])
@@ -206,7 +236,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rmagick>, [">= 1.15.14"])
     s.add_dependency(%q<rmail>, ["~> 1.0"])
     s.add_dependency(%q<sqlite3>, ["~> 1.3"])
-    s.add_dependency(%q<tinyatom>, [">= 0.3.3"])
+    s.add_dependency(%q<tinyatom>, [">= 0.3.4"])
     s.add_dependency(%q<treetop>, ["~> 1.4"])
     s.add_dependency(%q<twitter>, [">= 0.9.12"])
     s.add_dependency(%q<fakeweb>, ["~> 1.3"])

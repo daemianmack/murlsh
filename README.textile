@@ -52,7 +52,7 @@ heroku keys:add
 </code>
 </pre>
 
-Create a fork on github and check it out or
+Create a fork on github and clone it out or clone public url:
 
 <pre>
 <code>

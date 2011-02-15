@@ -20,6 +20,12 @@ end
 
 config = YAML.load_file('config.yaml')
 
+# for Heroku
+db_config_file = File.join(File.dirname(__FILE__), 'config', 'database.yml')
+if File.exist?(db_config_file)
+  config['db'] = YAML.load_file(db_config_file)['production']
+end
+
 desc 'Initialize a new installation.'
 task :init => %w{db:migrate user:add compress} do
   puts <<-eos

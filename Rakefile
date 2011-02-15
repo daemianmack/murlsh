@@ -421,7 +421,7 @@ begin
       rmagick >= 1.15.14
       rmail ~> 1.0
       sqlite3 ~> 1.3
-      tinyatom >= 0.3.3
+      tinyatom >= 0.3.4
       treetop ~> 1.4
       twitter >= 0.9.12
       }.each_slice(3) { |g,o,v| gemspec.add_dependency(g, "#{o} #{v}") }

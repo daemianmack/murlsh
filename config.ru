@@ -21,12 +21,15 @@ end
 # use Rack::ShowExceptions
 # no more than 1024 requests per day per ip
 use Rack::Throttle::Daily, :max => 1024
-if config.key?('cache_metastore') and config.key?('cache_entitystore')
+
+if !config['cache_metastore'].to_s.empty? and
+  !config['cache_entitystore'].to_s.empty?
   use Rack::Cache,
     :verbose => true,
     :metastore => config['cache_metastore'],
     :entitystore => config['cache_entitystore']
 end
+
 use Rack::ConditionalGet
 use Murlsh::EtagAddEncoding
 use Rack::Deflater

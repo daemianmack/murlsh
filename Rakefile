@@ -386,4 +386,5 @@ namespace :heroku do
     Murlsh.write_ordered_hash config, 'config.yaml'
     puts 'removed Rack::Cache cache_entitystore and cache_metastore from config'
   end
+
 end

@@ -57,30 +57,21 @@ Create a fork on github and clone it out or clone public url:
 <pre>
 <code>
 git clone git@github.com:mmb/murlsh.git
-
 cd murlsh
-rake heroku:config
-
 heroku create <choose a name>
+rake heroku:config
 </code>
 </pre>
 
-Edit config.yaml, change:
-
-* meta_tag_description
-* page_title
-* root_url
-* s3_bucket, s3_id, s3_secret (for thumbnail storage)
+Edit config.yaml, set 'root_url', 's3_bucket', 's3_id', and 's3_secret'
+(for thumbnail storage). Other config is optional.
 
 <pre>
 <code>
 rake user:add
-
 git add .
 git commit
-
 git push heroku master
-
 heroku rake db:migrate
 </code>
 </pre>

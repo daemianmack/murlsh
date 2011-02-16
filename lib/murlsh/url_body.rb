@@ -202,7 +202,7 @@ module Murlsh
     def powered_by
       self.p {
         text! 'Powered by '
-        a 'murlsh', :href => 'http://github.com/mmb/murlsh/'
+        a 'murlsh', :href => 'https://github.com/mmb/murlsh'
       }
     end
 

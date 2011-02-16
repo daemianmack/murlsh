@@ -56,7 +56,7 @@ Create a fork on github and clone it or clone public url:
 
 <pre>
 <code>
-git clone git@github.com:mmb/murlsh.git
+git clone git://github.com/mmb/murlsh.git
 cd murlsh
 heroku create <choose a name>
 rake heroku:config

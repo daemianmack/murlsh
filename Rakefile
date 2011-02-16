@@ -384,7 +384,7 @@ namespace :heroku do
     config.delete 'cache_metastore'
 
     Murlsh.write_ordered_hash config, 'config.yaml'
-    puts 'removed Rack::Cache cache_entitystore and cache_metastore from config'
+    puts 'removed cache_entitystore and cache_metastore from config, Rack::Cache disabled'
   end
 
 end

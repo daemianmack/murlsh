@@ -44,5 +44,5 @@ Gem::Specification.new do |s|
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files spec/*`.split("\n")
-  s.executables = %w(murlsh)
+  s.executables = %w{murlsh}
 end

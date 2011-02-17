@@ -292,7 +292,7 @@ namespace :thumb do
     ActiveRecord::Base.establish_connection config.fetch('db')
     used_thumbnails = Set.new
     Murlsh::Url.all(
-      :conditions => "thumbnail_url like 'img/thumb/%'").each do |u|
+      :conditions => "thumbnail_url LIKE 'img/thumb/%'").each do |u|
       identity = "url #{u.id} (#{u.url})"
 
       path = File.join(%w{public}.concat(File.split(u.thumbnail_url)))

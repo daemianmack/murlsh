@@ -36,4 +36,4 @@ s3_id:
 s3_secret: 
 show_names: true
 thumbnail_max_side: 90
-user_agent: murlsh (http://github.com/mmb/murlsh)
+user_agent: murlsh (https://github.com/mmb/murlsh)

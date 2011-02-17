@@ -360,6 +360,18 @@ EOS
 
 end
 
+desc 'Set options in config.yaml.'
+task :config, :key, :value do |t, args|
+  orig_value = config[args.key]
+  if args.value != orig_value
+    config[args.key] = args.value
+    Murlsh.write_ordered_hash config, 'config.yaml'
+    puts "updated '#{args.key}' '#{orig_value}' => '#{args.value}'"
+  else
+    puts "'#{args.key}' is already set to '#{args.value}'"
+  end
+end
+
 namespace :heroku do
 
   desc 'Set config options for deployment on Heroku.'

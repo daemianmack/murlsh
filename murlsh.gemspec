@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
     htmlentities >= 4.2.0
     json >= 1.2.3
     nokogiri ~> 1.0
-    plumnailer >= 0.1.0
+    plumnailer >= 0.1.2
     postrank-uri ~> 1.0
     public_suffix_service ~> 0.0
     push-notify >= 0.1.0

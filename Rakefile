@@ -176,22 +176,6 @@ namespace :user do
 
 end
 
-namespace :validate do
-
-  desc 'Validate HTML.'
-  task :html do
-    check_url = config['root_url']
-    print "validating #{check_url} : "
-    result = Murlsh.validate_html(check_url)
-    if Net::HTTPSuccess === result[:response]
-      puts "#{result[:status]} (#{result[:errors]} errors, #{result[:warnings]} warnings)"
-    else
-      puts result[:response]
-    end
-  end
-
-end
-
 desc 'Generate a shell script that will post a new url.'
 task :post_sh do
   puts <<EOS

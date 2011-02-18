@@ -21,7 +21,7 @@ module Murlsh
 
         urls.each do |mu|
           Murlsh::Plugin.hooks('url_display_pre') do |p|
-            p.run mu, req, cconfig
+            p.run mu, req, config
           end
 
           options = {

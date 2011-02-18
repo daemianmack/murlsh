@@ -134,6 +134,7 @@ Plugin hooks
 |avatar|called to get an avatar url from an email md5 sum|avatar url, url, config hash|avatar url|
 |store_asset|store an asset somewhere where it can be loaded by url|name, data, config hash|asset url if successfully stored|
 |url_display_add|called to display additional information after urls|markup builder, url, config hash|undefined|
+|url_display_pre|called to modify a url on-the-fly before display, does not change database|url, rack request, config hash|undefined|
 
 h1. PubSubHubbub
 

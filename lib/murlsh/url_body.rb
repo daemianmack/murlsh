@@ -50,6 +50,10 @@ module Murlsh
               last = nil
 
               @result_set.results.each do |mu|
+                Murlsh::Plugin.hooks('url_display_pre') do |p|
+                  p.run mu, @req, @config
+                end
+
                 li {
                   unless mu.same_author?(last)
                     avatar_url = Murlsh::Plugin.hooks('avatar').inject(

@@ -18,6 +18,10 @@ module Murlsh
         @body
       else
         urls = @result_set.results.map do |mu|
+          Murlsh::Plugin.hooks('url_display_pre') do |p|
+            p.run mu, @req, @config
+          end
+
           h = mu.attributes
 
           h['title'] = mu.title_stripped

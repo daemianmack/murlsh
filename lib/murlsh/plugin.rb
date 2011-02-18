@@ -13,6 +13,9 @@ module Murlsh
   #   run arguments (name, data, config hash)
   # * url_display_add - called to display additional information after urls
   #   run arguments (markup builder, url, config hash)
+  # * url_display_pre - called to modify a url on-the-fly before display, does
+  #   not change database
+  #   run arguments (url, rack request, config hash)
   class Plugin
 
     # Called when a plugin class inherits from this class (the way plugins

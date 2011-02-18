@@ -20,6 +20,10 @@ module Murlsh
           map { |x| x['subscribe_url'] })
 
         urls.each do |mu|
+          Murlsh::Plugin.hooks('url_display_pre') do |p|
+            p.run mu, req, cconfig
+          end
+
           options = {
             :author_name => mu.name,
             :summary => mu.title_stripped

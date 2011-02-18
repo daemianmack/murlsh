@@ -20,6 +20,10 @@ module Murlsh
           f.items.do_sort = true
 
           urls.each do |mu|
+            Murlsh::Plugin.hooks('url_display_pre') do |p|
+              p.run mu, req, config
+            end
+
             i = f.items.new_item
             i.title = mu.title_stripped
             i.link = mu.url

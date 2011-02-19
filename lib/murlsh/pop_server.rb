@@ -17,7 +17,7 @@ module Murlsh
       response_body = []
 
       if req['secret'] == config['pop_secret']
-        Net::POP3.enable_ssl OpenSSL::SSL::VERIFY_NONE
+        Net::POP3.enable_ssl
         Net::POP3.start(config.fetch('pop_server'), config.fetch('pop_port'),
           config.fetch('pop_user'), config.fetch('pop_password')) do |pop|
           pop.each_mail do |mail|

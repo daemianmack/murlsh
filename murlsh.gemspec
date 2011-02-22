@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = 'murlsh'
-  s.version = '1.4.1'
+  s.version = '1.5.0'
   s.summary = 'Host your bookmarks or maintain a link blog'
   s.description = s.summary
   s.homepage = 'https://github.com/mmb/murlsh'

@@ -18,6 +18,7 @@ module Murlsh
         Rakefile
         config.ru
         config.yaml
+        db/
         plugins/
         public/
       }.map { |x| File.join(MurlshRoot, x) }, dest_dir, :verbose => true)

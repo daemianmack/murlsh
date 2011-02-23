@@ -26,30 +26,29 @@ DESTINATION_DIRECTORY is the web directory to install the murlsh site to.
 
 <pre>
 <code>
-gem sources -a http://gemcutter.org/
 gem install murlsh
 murlsh DESTINATION_DIRECTORY
 cd DESTINATION_DIRECTORY
-edit config.yaml
+rake config[root_url,<site root url>]
+change anything else you want in config.yaml
 rake init
 </code>
 </pre>
 
 h2. Heroku
 
+S3 is used for thumbnail storage because Heroku cannot write local files.
+
 <pre>
 <code>
 gem install heroku
 heroku keys:add
-</code>
-</pre>
 
-Create a fork on github and clone it or clone public url:
-
-<pre>
-<code>
-git clone git://github.com/mmb/murlsh.git
-cd murlsh
+gem install murlsh
+mkdir murlsh_deploy <or any other name>
+cd murlsh_deploy
+murlsh .
+git init
 bundle install
 heroku create <choose a name>
 rake heroku:config
@@ -58,15 +57,7 @@ rake config[root_url,<your app's Heroku url>]
 rake config[s3_bucket,<your S3 bucket name>]
 rake config[s3_id,<your S3 id>]
 rake config[s3_secret,<your S3 secret>]
-</code>
-</pre>
-
-S3 is used for thumbnail storage because Heroku cannot write local files.
-
-Other config in config.yaml is optional.
-
-<pre>
-<code>
+change anything else you want in config.yaml
 rake user:add
 git add .
 git commit

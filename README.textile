@@ -49,8 +49,11 @@ mkdir murlsh_deploy <or any other name>
 cd murlsh_deploy
 murlsh .
 git init
-bundle install
 heroku create <choose a name>
+
+rake app:gemfile
+bundle install
+
 rake heroku:config
 heroku info
 rake config[root_url,<your app's Heroku url>]
@@ -58,10 +61,13 @@ rake config[s3_bucket,<your S3 bucket name>]
 rake config[s3_id,<your S3 id>]
 rake config[s3_secret,<your S3 secret>]
 change anything else you want in config.yaml
+
 rake user:add
+
 git add .
 git commit
 git push heroku master
+
 heroku rake db:migrate
 </code>
 </pre>

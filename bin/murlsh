@@ -16,12 +16,3 @@ if ARGV.empty?; usage; exit 1; end
 dest_dir = ARGV[0]
 
 Murlsh.install(dest_dir)
-
-cd_command = File.expand_path(dest_dir) == Dir.pwd ? '' : "cd #{dest_dir}\n"
-
-puts <<eos
-Next steps:
-
-#{cd_command}edit config.yaml
-rake init
-eos

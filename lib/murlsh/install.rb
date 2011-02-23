@@ -21,7 +21,12 @@ module Murlsh
         db/
         plugins/
         public/
+        Gemfile.app
       }.map { |x| File.join(MurlshRoot, x) }, dest_dir, :verbose => true)
+
+    File.rename(
+      File.join(dest_dir, 'Gemfile.app'),
+      File.join(dest_dir, 'Gemfile'))
 
     FileUtils.mkdir_p(File.join(dest_dir, 'tmp'), :verbose => true)
   end

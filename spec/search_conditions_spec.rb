@@ -13,7 +13,7 @@ describe Murlsh::SearchConditions do
     let(:search_conditions) { Murlsh::SearchConditions.new('') }
     subject { search_conditions }
 
-    its(:conditions) { should == [''] }
+    its(:conditions) { should == [] }
   end
 
   context 'when query is a single term' do

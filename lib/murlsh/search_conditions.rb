@@ -9,7 +9,7 @@ module Murlsh
 
     # Search conditions builder for ActiveRecord conditions.
     def conditions
-      if q
+      unless q.to_s.empty?
         parser = Murlsh::SearchGrammarParser.new
         tokens = parser.parse(q).content
         search_cols = %w{name title url}

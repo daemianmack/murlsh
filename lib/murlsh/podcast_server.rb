@@ -13,21 +13,14 @@ module Murlsh
 
     # Respond to a GET request for podcast RSS feed.
     def get(req)
-      conditions = ['content_type = ?', 'audio/mpeg']
-      search_conditions = Murlsh::SearchConditions.new(req['q']).conditions
-      unless search_conditions.empty?
-        conditions[0] << " AND (#{search_conditions[0]})"
-        conditions.push(*search_conditions[1..-1])
-      end
-
       page = 1
       per_page = config.fetch('num_posts_feed', 25)
 
-      result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
-      urls = result_set.results
+      result_set = Murlsh::UrlResultSet.new(req['q'], page, per_page,
+        :content_type => 'audio/mpeg')
 
       feed_url = URI.join(config.fetch('root_url'), 'podcast.rss')
-      body = Murlsh::RssBody.new(config, req, feed_url, urls)
+      body = Murlsh::RssBody.new(config, req, feed_url, result_set.results)
 
       resp = Rack::Response.new(body, 200,
         'Cache-Control' => 'must-revalidate, max-age=0',

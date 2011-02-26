@@ -10,11 +10,10 @@ module Murlsh
     # Respond to a GET request. Return json of recent urls or jsonp if
     # if callback parameter is sent.
     def get(req)
-      conditions = Murlsh::SearchConditions.new(req['q']).conditions
       page = 1
       per_page = config.fetch('num_posts_feed', 25)
 
-      result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
+      result_set = Murlsh::UrlResultSet.new(req['q'], page, per_page)
 
       if req['callback']
         content_type = 'application/javascript'

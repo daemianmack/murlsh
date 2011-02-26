@@ -11,13 +11,12 @@ module Murlsh
     # Respond to a GET request. Return a page of urls based on the query
     # string parameters.
     def get(req)
-      conditions = Murlsh::SearchConditions.new(req['q']).conditions
       page = [req['p'].to_i, 1].max
       per_page = req['pp'] ? req['pp'].to_i :
         config.fetch('num_posts_page', 25)
 
       content_type = 'text/html; charset=utf-8'
-      result_set = Murlsh::UrlResultSet.new(conditions, page, per_page)
+      result_set = Murlsh::UrlResultSet.new(req['q'], page, per_page)
 
       body = Murlsh::UrlBody.new(config, req, result_set, content_type)
 

@@ -1,10 +1,34 @@
+require 'murlsh'
+
 module Murlsh
 
   class UrlResultSet
 
-    def initialize(conditions, page, per_page)
-      @conditions, @page, @per_page = conditions, page, per_page
+    def initialize(query, page, per_page, filters={})
+      @query, @page, @per_page, @filters = query, page, per_page, filters
       @order = 'time DESC'
+    end
+
+    def search_conditions
+      @search_conditions ||= Murlsh::SearchConditions.new(query).conditions
+    end
+
+    def conditions
+      @conditions ||= if filters[:content_type]
+        result = if filters[:content_type].is_a?(String)
+          ['content_type = ?', filters[:content_type]]
+        else
+          ['content_type IN (?)', filters[:content_type]]
+        end
+
+        unless search_conditions.empty?
+          result[0] << " AND (#{search_conditions[0]})"
+          result.push(*search_conditions[1..-1])
+        end
+        result
+      else
+        search_conditions
+      end
     end
 
     def total_entries
@@ -36,9 +60,10 @@ module Murlsh
       @next_page
     end
 
-    attr_reader :conditions
+    attr_reader :query
     attr_reader :page
     attr_reader :per_page
+    attr_reader :filters
     attr_reader :order
   end
 

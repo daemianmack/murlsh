@@ -5,6 +5,7 @@ require 'yaml'
 
 require 'rack'
 require 'rack/cache'
+require 'rack/contrib/jsonp'
 require 'rack/rewrite'
 require 'rack/throttle'
 
@@ -43,6 +44,7 @@ use Murlsh::FarFutureExpires, :patterns => [
 feed_url = URI.join(config.fetch('root_url'), config.fetch('feed_file'))
 use Murlsh::MustRevalidate, :patterns => %r{^#{Regexp.escape(feed_url.path)}$}
 
+use Rack::JSONP
 use Rack::Static, :urls => %w{/css/ /img/ /js/}, :root => 'public'
 
 use Rack::Rewrite do

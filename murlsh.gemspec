@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
     push-notify
     rack
     rack-cache
+    rack-contrib
     rack-rewrite
     rack-throttle
     rmagick

@@ -7,15 +7,13 @@ require 'murlsh'
 module Murlsh
 
   # Serve m3u file of audio urls.
-  class M3uServer
+  class M3uServer < Server
 
     AudioContentTypes = %w{
       application/ogg
       audio/mpeg
       audio/ogg
       }
-
-    def initialize(config); @config = config; end
 
     # Respond to a GET request for m3u file.
     def get(req)
@@ -35,7 +33,6 @@ module Murlsh
       resp
     end
 
-    attr_reader :config
   end
 
 end

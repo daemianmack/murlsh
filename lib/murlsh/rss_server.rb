@@ -7,9 +7,7 @@ require 'murlsh'
 module Murlsh
 
   # Serve RSS feed.
-  class RssServer
-
-    def initialize(config); @config = config; end
+  class RssServer < Server
 
     # Respond to a GET request for RSS feed.
     def get(req)
@@ -29,7 +27,6 @@ module Murlsh
       resp
     end
 
-    attr_reader :config
   end
 
 end

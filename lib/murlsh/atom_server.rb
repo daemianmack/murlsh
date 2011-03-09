@@ -7,9 +7,7 @@ require 'murlsh'
 module Murlsh
 
   # Serve Atom feed.
-  class AtomServer
-
-    def initialize(config); @config = config; end
+  class AtomServer < Server
 
     # Respond to a GET request for Atom feed.
     def get(req)
@@ -29,7 +27,6 @@ module Murlsh
       resp
     end
 
-    attr_reader :config
   end
 
 end

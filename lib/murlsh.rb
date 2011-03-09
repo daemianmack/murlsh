@@ -1,4 +1,5 @@
 require 'murlsh/search_conditions'
+require 'murlsh/server'
 
 require 'murlsh/atom_server'
 require 'murlsh/ask'

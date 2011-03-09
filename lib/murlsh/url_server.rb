@@ -4,9 +4,7 @@ require 'rack'
 module Murlsh
 
   # Build responses for HTTP requests.
-  class UrlServer
-
-    def initialize(config); @config = config; end
+  class UrlServer < Server
 
     # Respond to a GET request. Return a page of urls based on the query
     # string parameters.
@@ -84,7 +82,6 @@ module Murlsh
         config.fetch('auth_file')).auth(secret)
     end
 
-    attr_reader :config
   end
 
 end

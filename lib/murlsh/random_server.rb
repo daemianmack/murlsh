@@ -5,9 +5,7 @@ require 'murlsh'
 module Murlsh
 
   # Redirect to a random url from the database.
-  class RandomServer
-
-    def initialize(config); @config = config; end
+  class RandomServer < Server
 
     # Redirect to a random url from the database optionally matching a query.
     #
@@ -28,7 +26,6 @@ module Murlsh
       resp
     end
 
-    attr_reader :config
   end
 
 end

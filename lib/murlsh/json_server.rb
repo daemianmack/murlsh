@@ -3,9 +3,7 @@ require 'rack'
 module Murlsh
 
   # Serve most recent urls in json.
-  class JsonServer
-
-    def initialize(config); @config = config; end
+  class JsonServer < Server
 
     # Respond to a GET request with json of recent urls.
     def get(req)
@@ -19,7 +17,6 @@ module Murlsh
       Rack::Response.new body, 200, 'Content-Type' => 'application/json'
     end
 
-    attr_reader :config
   end
 
 end

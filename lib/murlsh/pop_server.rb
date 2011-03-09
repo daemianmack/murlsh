@@ -9,9 +9,7 @@ require 'rmail'
 module Murlsh
 
   # Pop mail from a pop3 server and add all urls in messages from murlsh users.
-  class PopServer
-
-    def initialize(config); @config = config; end
+  class PopServer < Server
 
     def post(req)
       response_body = []
@@ -72,7 +70,6 @@ module Murlsh
       }    
     end
 
-    attr_reader :config
   end
 
 end

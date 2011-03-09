@@ -16,9 +16,7 @@ module Murlsh
 
       body = Murlsh::JsonBody.new(config, req, result_set)
 
-      Rack::Response.new body, 200,
-        'Cache-Control' => 'must-revalidate, max-age=0',
-        'Content-Type' => 'application/json'
+      Rack::Response.new body, 200, 'Content-Type' => 'application/json'
     end
 
     attr_reader :config

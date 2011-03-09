@@ -42,7 +42,14 @@ use Murlsh::FarFutureExpires, :patterns => [
 ]
 
 feed_url = URI.join(config.fetch('root_url'), config.fetch('feed_file'))
-use Murlsh::MustRevalidate, :patterns => %r{^#{Regexp.escape(feed_url.path)}$}
+use Murlsh::MustRevalidate, :patterns => [
+  %r{^#{Regexp.escape(feed_url.path)}$},
+  %r{^/(url)?$},
+  %r{^/json\.json$},
+  %r{^/m3u\.m3u$},
+  %r{^/podcast\.rss$},
+  %r{^/rss\.rss$},
+  ]
 
 use Rack::JSONP
 use Rack::Static, :urls => %w{/css/ /img/ /js/}, :root => 'public'

@@ -22,7 +22,6 @@ module Murlsh
       body = Murlsh::AtomBody.new(config, req, feed_url, result_set.results)
 
       resp = Rack::Response.new(body, 200,
-        'Cache-Control' => 'must-revalidate, max-age=0',
         'Content-Type' => 'application/atom+xml')
       if u = body.updated
         resp['Last-Modified'] = u.httpdate

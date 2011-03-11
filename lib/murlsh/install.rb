@@ -16,6 +16,7 @@ module Murlsh
       %w{
         .htaccess
         Rakefile
+        config/
         config.ru
         config.yaml
         db/

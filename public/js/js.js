@@ -9,6 +9,8 @@ var Murlsh = function ($, navigator, window, twtter) {
                 /^http:\/\/img\d+\.imageshack\.us\/img\d+\/\d+\/\w+\.(?:jpe?g|gif|png)$/i,
             imgur :
                 /^http:\/\/(?:i\.)?imgur\.com\/[a-z\d]+\.(?:jpe?g|gif|png)$/i,
+            minus :
+                /^http:\/\/i\.min\.us\/[a-z]+\.(?:jpe?g|gif|png)$/i,
             twitter :
                 /^https?:\/\/twitter\.com\/\w+\/status(?:es)?\/\d+$/i,
             vimeo :
@@ -115,7 +117,7 @@ var Murlsh = function ($, navigator, window, twtter) {
             return !(match[x] = re.exec(href));
         });
 
-        if (match.imageshack || match.imgur) {
+        if (match.imageshack || match.imgur || match.minus) {
             setupClickHandler(thisA.siblings('img'), 'href', href, imgClick);
         } else if (match.twitter) {
             thisA.siblings('img').addClass('twitter');

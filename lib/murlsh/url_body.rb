@@ -165,7 +165,7 @@ module Murlsh
     def search_form
       form(:action => @config.fetch('root_url'), :method => 'get') {
         fieldset {
-          form_input :id => 'q', :size => 32, :value => @req['q']
+          form_input :id => 'q', :size => 32
           form_input :type => 'submit', :value => 'Search'
         }
       }

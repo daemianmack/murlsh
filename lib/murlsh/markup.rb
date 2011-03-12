@@ -77,9 +77,15 @@ module Murlsh
 
       options.delete :label
 
-      input({
-        :type => 'text',
-        }.merge(options))
+      options[:type] ||= 'text'
+
+      if %w{text password}.include?(options[:type]) and
+        instance_variable_defined?(:@req) and
+        not @req[options[:name]].to_s.empty?
+        options[:value] = @req[options[:name]]
+      end
+
+      input options
     end
 
     private

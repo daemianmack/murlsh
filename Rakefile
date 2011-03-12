@@ -176,6 +176,14 @@ namespace :user do
 
 end
 
+desc 'Generate code for a bookmarklet that will post a new url.'
+task :post_bookmarklet do
+  password = Murlsh.ask('Password:')
+  puts <<EOS
+javascript:u=location.href;t=document.title;t=t.replace(/\%22/g,%22'%22);s=%22%22+(window.getSelection?window.getSelection():document.getSelection?document.getSelection():document.selection.createRange().text);s=s.replace(/\%22/g,%22'%22);void(window.open(%22#{config.fetch('root_url')}submit?title=%22+encodeURIComponent(t)+'&title='+encodeURIComponent(s)+'&url='+encodeURIComponent(u)+'&auth=#{password}'));
+EOS
+end
+
 desc 'Generate a shell script that will post a new url.'
 task :post_sh do
   puts <<EOS

@@ -1,5 +1,6 @@
 Host your bookmarks or maintain a link blog.
 
+* post from a command-line, a bookmarklet, or directly from your murlsh
 * fetches url titles and generates thumbnails from page
 * jGrowls embedded versions of Imageshack, Imgur, Vimeo and YouTube urls
 * converts Twitter status urls to their full text and adds user thumbnail
@@ -93,6 +94,32 @@ If you are using the gem and it gets updated to a new version you should run
 the murlsh command again from your web directory to update plugins, javascript
 and css. It will prompt before overwriting anything in case you have made
 modifications.
+
+h1. Posting
+
+h2. Bookmarklet
+
+<pre>
+rake post_bookmarklet
+</pre>
+
+This will produce a bookmarklet link customized with your murlsh's URL
+and your password. Create a link in your bookmarks toolbar with the
+output; the resulting bookmarklet will let you post to your murlsh
+from whatever page you're currently viewing.
+
+If you select text on the page before hitting the bookmarklet, your
+selection will be used as the title; otherwise, the page's title will
+be used.
+
+h2. Shell script
+
+<pre>
+rake post_sh
+</pre>
+
+will produce a customized shell script that will take command-line
+arguments for URL, etc, and post to your murlsh using curl.
 
 h1. API
 

@@ -184,14 +184,14 @@ javascript:u=location.href;t=document.title;t=t.replace(/\%22/g,%22'%22);s=%22%2
 EOS
 end
 
-desc 'Generate a shell script that will post a new url.'
-task :post_sh do
+desc 'Generate a shell script that will post a new url (saved password optional).'
+task :post_sh, :password do |t,args|
   puts <<EOS
 #!/bin/sh
 
 URL="$1"
 VIA="$2"
-AUTH="$3" # password can be passed as third parameter or hardcoded here
+AUTH="#{args.password || '$3'}"
 
 curl \\
   --data-urlencode "url=${URL}" \\

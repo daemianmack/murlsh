@@ -9,7 +9,7 @@ module Murlsh
 
     def initialize(app, options={})
       @app = app
-      @patterns = options[:patterns] ? [*options[:patterns]] : []
+      @patterns = Array(options[:patterns])
     end
 
     def call(env)

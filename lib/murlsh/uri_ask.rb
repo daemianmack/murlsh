@@ -119,8 +119,8 @@ module Murlsh
     # * :failproof - if true hide all exceptions and return empty string on failure
     # * :headers - hash of headers to send in request
     def header(header_name, options={})
-      result = [*head_headers(options)[header_name]][0]
-      result = get_headers(options)[header_name]  if not result or result.empty?
+      result = Array(head_headers(options)[header_name]).first
+      result = get_headers(options)[header_name]  if result.to_s.empty?
       result.to_s
     end
 

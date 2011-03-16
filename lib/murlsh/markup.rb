@@ -8,7 +8,7 @@ module Murlsh
     # Options:
     # * :prefix - prefix to append to all script urls
     def javascript(sources, options={})
-      [*sources].each do |src|
+      Array(sources).each do |src|
         script '', :type => 'text/javascript',
           :src => "#{options[:prefix]}#{src}"
       end
@@ -50,7 +50,7 @@ module Murlsh
     # * :media - optional media attribute
     # * :prefix - prepended to all CSS urls
     def css(hrefs, options={})
-      [*hrefs].each do |href|
+      Array(hrefs).each do |href|
         attrs = {
           :href => "#{options[:prefix]}#{href}",
           :rel => 'stylesheet',

@@ -6,7 +6,7 @@ module Murlsh
     # Check a list of xpaths in order and yield and return the node matching
     # the first one that is not nil
     def xpath_search(xpaths)
-      [*xpaths].each do |xpath|
+      Array(xpaths).each do |xpath|
         selection = (self/xpath).first
         if selection; return (yield selection); end
       end

@@ -12,7 +12,7 @@ module Murlsh
     def self.run(url, config)
       if not url.thumbnail_url and url.ask.doc
         url.ask.doc.xpath_search("//meta[@property='og:image']") do |node|
-          if node and not node['content'].to_s.empty?
+          unless node['content'].to_s.empty?
             og_image_url = node['content']
             Murlsh::failproof do
               # youtube leaves out scheme: for some reason

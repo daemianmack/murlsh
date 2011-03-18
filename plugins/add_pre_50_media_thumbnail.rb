@@ -13,7 +13,7 @@ module Murlsh
           //meta[@rel='media:thumbnail']
           //link[@rel='media:thumbnail']
           }) do |node|
-          if node and not node['href'].to_s.empty?
+          unless node['href'].to_s.empty?
             Murlsh::failproof do
               thumb_storage = Murlsh::ImgStore.new(config)
 

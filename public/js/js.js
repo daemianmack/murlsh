@@ -17,7 +17,8 @@ var Murlsh = function ($, navigator, window, twtter) {
                 /^http:\/\/(?:www\.)?vimeo\.com\/(\d+)$/i,
             youtube :
                 /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
-        };
+        },
+        vimeoEmbedCount = 0;
 
     function setupClickHandler(jQueryObject, dataKey, dataValue, handler) {
         if (!my.isIphone()) {
@@ -35,13 +36,16 @@ var Murlsh = function ($, navigator, window, twtter) {
         return result;
     }
 
-    function makeIframe(src) {
-        return $('<iframe />', {
+    function makeIframe(src, extraAttrs) {
+        var allAttrs = {
             src: src,
             width: 640,
             height: 385,
             frameborder: 0
-        });
+        };
+        $.extend(allAttrs, extraAttrs);
+
+        return $('<iframe />', allAttrs);
     }
 
     function img(src, text) {
@@ -89,18 +93,20 @@ var Murlsh = function ($, navigator, window, twtter) {
     }
 
     function vimeoClick(event) {
-        var iframe = makeIframe(
-            'http://player.vimeo.com/video/' + $(event.target).data('id'));
+        var iframeId = 'vimeoEmbed' + vimeoEmbedCount++,
+            iframe = makeIframe(
+                'http://player.vimeo.com/video/' + $(event.target).data('id') +
+                '?js_api=1&js_swf=' + iframeId, { id : iframeId });
 
         closerAdd(iframe);
     }
 
     function youtubeClick(event) {
         var iframe = makeIframe(
-            'http://www.youtube.com/embed/' + $(event.target).data('id')).attr({
-            'class': 'youtube-player',
-            type: 'text/html'
-        });
+            'http://www.youtube.com/embed/' + $(event.target).data('id'), {
+                'class': 'youtube-player',
+                type: 'text/html'
+            });
 
         closerAdd(iframe);
     }

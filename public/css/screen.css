@@ -88,6 +88,14 @@ fieldset#add label {
   width : 100px;
 }
 
+label.required:after {
+  content : ":";
+}
+
+label.optional:after {
+  content : "?";
+}
+
 span.date {
   color : #808080;
   font-size : 0.75em;
@@ -123,7 +131,7 @@ div.jGrowl div.jGrowl-closer {
     width : 110px;
   }
 
-  input#url, input#via {
+  input#url, input#title, input#via {
     width : 160px;
   }
 

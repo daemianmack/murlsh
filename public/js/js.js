@@ -210,6 +210,7 @@ $(function () {
     $('#submit').click(function () {
         $.post('url', {
             url : $('#url').val(),
+            title : $('#title').val(),
             via : $('#via').val(),
             auth : $('#auth').val()
         }, function (d) {
@@ -218,8 +219,7 @@ $(function () {
                 $('#urls').prepend(li);
                 $(li).children('a:first').each(murlsh.addExtra);
             });
-            $('#url').val('');
-            $('#via').val('');
+            $('#url,#title,#via').val('');
         }, 'json');
     });
 

@@ -69,8 +69,8 @@ module Murlsh
     def form_input(options)
       if options[:id]
         if options[:label]
-          label_suffix = options[:label_suffix] || ':'
-          label "#{options[:label]}#{label_suffix}", :for => options[:id]
+          label_class = options[:optional] ? 'optional' : 'required'
+          label options[:label], :for => options[:id], :class => label_class
         end
         options[:name] ||= options[:id]
       end
@@ -79,8 +79,7 @@ module Murlsh
 
       options[:type] ||= 'text'
 
-      if %w{text password}.include?(options[:type]) and
-        instance_variable_defined?(:@req) and
+      if %w{text password}.include?(options[:type]) and @req and
         not @req[options[:name]].to_s.empty?
         options[:value] = @req[options[:name]]
       end

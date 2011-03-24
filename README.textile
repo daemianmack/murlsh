@@ -16,6 +16,7 @@ Host your bookmarks or maintain a link blog.
 * Gravatar support
 * generates import scripts from delicious api exports
 * optionally store thumbnails in S3
+* experimental support for posting by email via POP
 
 See "http://urls.matthewm.boedicker.org/":http://urls.matthewm.boedicker.org/ for example.
 

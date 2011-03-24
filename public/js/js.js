@@ -18,7 +18,9 @@ var Murlsh = function ($, navigator, window, twtter) {
             youtube :
                 /^http:\/\/(?:(?:www|uk)\.)?youtube\.com\/watch\?v=([\w\-]+)(?:&|$)/i
         },
-        vimeoEmbedCount = 0;
+        vimeoEmbedCount = 0,
+        // SHA1 and MD5 sums
+        sumRe = /(^|\s)([\da-f]{4})(?:[\da-f]{36}|[\da-f]{28})(?=$|\s)/i;
 
     function setupClickHandler(jQueryObject, dataKey, dataValue, handler) {
         if (!my.isIphone()) {
@@ -147,6 +149,9 @@ var Murlsh = function ($, navigator, window, twtter) {
             setupClickHandler(thisA.siblings('img'), 'id', match.youtube[1],
                 youtubeClick);
         }
+
+        // shorten SHA1 and MD5 sums to their first 4 characters
+        thisA.text(thisA.text().replace(sumRe, '$1$2...'));
     };
 
     my.formatLi = function (d) {

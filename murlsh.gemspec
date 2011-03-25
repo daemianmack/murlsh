@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
     bcrypt-ruby
     builder
     htmlentities
-    json
     nokogiri
     plumnailer
     postrank-uri

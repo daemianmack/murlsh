@@ -1,7 +1,6 @@
 require 'net/pop'
 
 require 'active_record'
-require 'json'
 require 'postrank-uri'
 require 'rack'
 require 'rmail'

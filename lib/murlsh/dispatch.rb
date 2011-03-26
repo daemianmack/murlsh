@@ -34,7 +34,7 @@ module Murlsh
         [%r{^(?:HEAD|GET) #{root_path}random$}, random_server.method(:get)],
         [%r{^(?:HEAD|GET) #{root_path}rss\.rss$}, rss_server.method(:get)],
         [%r{^(?:HEAD|GET) #{root_path}(url)?$}, url_server.method(:get)],
-        [%r{^(?:HEAD|GET) #{root_path}submit$}, url_server.method(:post)],
+        [%r{^GET #{root_path}bookmarklet$}, url_server.method(:post)],
         [%r{^POST #{root_path}(url)?$}, url_server.method(:post)],
       ]
 

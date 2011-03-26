@@ -180,7 +180,7 @@ desc 'Generate code for a bookmarklet that will post a new url.'
 task :post_bookmarklet do
   password = Murlsh.ask('Password:')
   puts <<EOS
-javascript:u=location.href;t=document.title;t=t.replace(/\%22/g,%22'%22);s=%22%22+(window.getSelection?window.getSelection():document.getSelection?document.getSelection():document.selection.createRange().text);s=s.replace(/\%22/g,%22'%22);void(window.open(%22#{config.fetch('root_url')}submit?title=%22+encodeURIComponent(t)+'&title='+encodeURIComponent(s)+'&url='+encodeURIComponent(u)+'&auth=#{password}'));
+javascript:var%20d=document,dgs=d.getSelection,enc=encodeURIComponent,w=window,wgs=w.getSelection,s=''+(wgs?wgs():dgs?dgs():d.selection.createRange().text),t=s===''?d.title:s;void(window.open('#{config.fetch('root_url')}bookmarklet?title='+enc(t)+'&url='+enc(location.href)+'&auth=#{password}'));
 EOS
 end
 

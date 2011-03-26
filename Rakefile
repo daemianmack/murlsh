@@ -182,7 +182,7 @@ task :post_bookmarklet do
   password = Murlsh.ask('Password:')
   password = CGI.escape(CGI.escape(password))
   puts <<EOS
-javascript:var%20d=document,dgs=d.getSelection,enc=encodeURIComponent,w=window,wgs=w.getSelection,s=''+(wgs?wgs():dgs?dgs():d.selection.createRange().text),t=s===''?d.title:s;void(window.open('#{config.fetch('root_url')}bookmarklet?title='+enc(t)+'&url='+enc(location.href)+'&auth=#{password}'));
+javascript:var%20d=document,dgs=d.getSelection,enc=encodeURIComponent,w=window,wgs=w.getSelection,s=''+(wgs?wgs():dgs?dgs():d.selection.createRange().text);void(window.open('#{config.fetch('root_url')}bookmarklet?title='+enc(s)+'&url='+enc(location.href)+'&auth=#{password}'));
 EOS
 end
 

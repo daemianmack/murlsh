@@ -29,6 +29,11 @@ module Murlsh
         email and name and email == other.email and name == other.name
     end
 
+    # Return true if this url has the same thumbnail url as another url.
+    def same_thumbnail?(other)
+      other and thumbnail_url == other.thumbnail_url
+    end
+
     def ask
       if !defined?(@ask) or @ask.to_s != url
         @ask = URI(url).extend(Murlsh::UriAsk)

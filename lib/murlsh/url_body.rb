@@ -67,7 +67,7 @@ module Murlsh
                       @config.fetch('show_names', false) and mu.name
                   end
 
-                  if mu.thumbnail_url
+                  if mu.thumbnail_url and not mu.same_thumbnail?(last)
                     murlsh_img :src => mu.thumbnail_url,
                       :text => mu.title_stripped, :class => 'thumb'
                   end

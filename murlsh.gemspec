@@ -30,7 +30,6 @@ Gem::Specification.new do |s|
     rack-cache
     rack-contrib
     rack-rewrite
-    rack-throttle
     rmagick
     rmail
     sqlite3

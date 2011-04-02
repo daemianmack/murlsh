@@ -8,7 +8,6 @@ require 'rack'
 require 'rack/cache'
 require 'rack/contrib/jsonp'
 require 'rack/rewrite'
-require 'rack/throttle'
 
 require 'murlsh'
 
@@ -21,8 +20,6 @@ if File.exist?(db_config_file)
 end
 
 # use Rack::ShowExceptions
-# no more than 1024 requests per day per ip
-use Rack::Throttle::Daily, :max => 1024
 
 if !config['cache_metastore'].to_s.empty? and
   !config['cache_entitystore'].to_s.empty?

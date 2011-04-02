@@ -3,6 +3,7 @@ $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 require 'uri'
 require 'yaml'
 
+require 'active_record'
 require 'rack'
 require 'rack/cache'
 require 'rack/contrib/jsonp'
@@ -58,6 +59,8 @@ use Rack::Rewrite do
   r301 '/atom.xml', feed_url.to_s
   r301 '/rss.xml', URI.join(config.fetch('root_url'), 'rss.rss').to_s
 end
+
+use ActiveRecord::ConnectionAdapters::ConnectionManagement
 
 # use Rack::Lint
 

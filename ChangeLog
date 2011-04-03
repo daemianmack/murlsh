@@ -1,0 +1,25 @@
+1.7.1
+	2011-04-03
+
+	Remove Rack::Throttle. It was added because the site used to load
+	content from other sites on every page hit which is no longer the case.
+
+	Use ActiveRecord ConnectionManagement middleware to free database
+	connections. Database connections were never being returned to the
+	connection pool causing a major performance issue.
+
+	Only run PostRank::URI.clean on http and https urls. It was corrupting
+	other types such as ftp.
+
+	Update to jQuery 1.5.2.
+
+	Do not show the same thumbnail for two consecutive urls.
+
+	If there is no text selection on the current page, send an empty title
+	when adding from the bookmarklet. This will cause the server side to
+	fetch the title and run it through plugins.
+
+	Escape password in bookmarklet javascript.
+
+1.7.0
+	2011-03-25

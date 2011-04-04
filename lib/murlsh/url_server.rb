@@ -74,6 +74,27 @@ module Murlsh
         'Content-Type' => 'application/json' })
     end
 
+    # Delete a url.
+    def delete(req)
+      response_body, response_code = '', 403
+
+      url_id = req.path[%r{/url/(\d+)$}, 1]
+      begin
+        url = Murlsh::Url.find(url_id)
+        if user = auth_from_req(req)
+          if url[:email] == user[:email] or url[:name] == user[:name]
+            url.destroy
+            response_body, response_code = url.to_json, 200
+          end
+        end
+      rescue ActiveRecord::RecordNotFound
+        response_code = 404
+      end
+
+      Rack::Response.new response_body, response_code,
+        'Content-Type' => 'application/json'
+    end
+
     # Authorize a user from a request.
     def auth_from_req(req)
       secret = req['auth']

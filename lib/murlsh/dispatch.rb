@@ -36,6 +36,7 @@ module Murlsh
         [%r{^(?:HEAD|GET) #{root_path}(url)?$}, url_server.method(:get)],
         [%r{^GET #{root_path}bookmarklet$}, url_server.method(:post)],
         [%r{^POST #{root_path}(url)?$}, url_server.method(:post)],
+        [%r{^DELETE #{root_path}url/\d+$}, url_server.method(:delete)],
       ]
 
       db_init

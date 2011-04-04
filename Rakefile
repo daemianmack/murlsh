@@ -58,13 +58,24 @@ end
 
 namespace :db do
 
-  desc 'Delete the last url added.'
-  task :delete_last_url do
+  desc 'Delete a url from the database.'
+  task :delete_url, :url_id, :force do |t,args|
     use_db(config.fetch('db')) {
-      last = Murlsh::Url.find(:last, :order => 'time')
-      pp last
-      response = Murlsh.ask('Delete this url?', 'n')
-      last.destroy  if %w{y yes}.include?(response.downcase)
+      url_to_delete = unless args.url_id.to_s.empty?
+        Murlsh::Url.find(args.url_id)
+      else
+        puts 'No id specified, defaulting to most recently added url.'
+        Murlsh::Url.find(:last, :order => 'time')
+      end
+
+      pp url_to_delete
+
+      if args.force == 'force'
+        url_to_delete.destroy
+      else
+        response = Murlsh.ask('Delete this url?', 'n')
+        url_to_delete.destroy  if %w{y yes}.include?(response.downcase)
+      end
     }
   end
 

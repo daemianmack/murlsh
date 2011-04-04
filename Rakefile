@@ -27,6 +27,14 @@ if File.exist?(db_config_file)
   config['db'] = YAML.load_file(db_config_file)['production']
 end
 
+# Wrapper for database connection and cleanup from a Rake task.
+def use_db(db_config)
+  ActiveRecord::Base.establish_connection db_config
+  yield
+ensure
+  ActiveRecord::Base.clear_active_connections!
+end
+
 desc 'Initialize a new installation.'
 task :init => %w{db:migrate user:add compress} do
   puts <<-eos
@@ -52,22 +60,22 @@ namespace :db do
 
   desc 'Delete the last url added.'
   task :delete_last_url do
-    ActiveRecord::Base.establish_connection config.fetch('db')
-
-    last = Murlsh::Url.find(:last, :order => 'time')
-    pp last
-    response = Murlsh.ask('Delete this url?', 'n')
-    last.destroy  if %w{y yes}.include?(response.downcase)
+    use_db(config.fetch('db')) {
+      last = Murlsh::Url.find(:last, :order => 'time')
+      pp last
+      response = Murlsh.ask('Delete this url?', 'n')
+      last.destroy  if %w{y yes}.include?(response.downcase)
+    }
   end
 
   desc 'Check for duplicate URLs.'
   task :dupcheck do
-    ActiveRecord::Base.establish_connection config.fetch('db')
-
     h = {}
-    Murlsh::Url.all.each do |mu|
-      h[mu.url] = h.fetch(mu.url, []).push([mu.id, mu.time])
-    end
+    use_db(config.fetch('db')) {
+      Murlsh::Url.all.each do |mu|
+        h[mu.url] = h.fetch(mu.url, []).push([mu.id, mu.time])
+      end
+    }
     h.find_all { |k,v| v.size > 1 }.each do |k,v|
       puts k
       v.each { |id,time| puts "  id #{id} (#{time})" }
@@ -76,10 +84,11 @@ namespace :db do
 
   desc 'Migrate the database.'
   task :migrate do
-    ActiveRecord::Base.establish_connection config.fetch('db')
-    ActiveRecord::Base.logger = Logger.new($stdout)
-    ActiveRecord::Migration.verbose = true
-    ActiveRecord::Migrator.migrate 'db/migrate'
+    use_db(config.fetch('db')) {
+      ActiveRecord::Base.logger = Logger.new($stdout)
+      ActiveRecord::Migration.verbose = true
+      ActiveRecord::Migrator.migrate 'db/migrate'
+    }
   end
 
   desc 'Interact with the database.'
@@ -98,13 +107,13 @@ namespace :db do
 
   desc 'Search urls and titles in the database.'
   task :grep, :search do |t,args|
-    ActiveRecord::Base.establish_connection config.fetch('db')
-
     like = "%#{args.search}%"
-    Murlsh::Url.all(:conditions =>
-      ['title LIKE ? OR url LIKE ?', like, like]).each do |url|
-      puts "#{url.id} #{url.url} #{url.title}"
-    end
+    use_db(config.fetch('db')) {
+      Murlsh::Url.all(:conditions =>
+        ['title LIKE ? OR url LIKE ?', like, like]).each do |url|
+        puts "#{url.id} #{url.url} #{url.title}"
+      end
+    }
   end
 end
 
@@ -153,12 +162,13 @@ end
 
 desc 'Try to fetch the title for a url and update it in the database.'
 task :title_fetch, :url_id do |t, args|
-  ActiveRecord::Base.establish_connection config.fetch('db')
-  url = Murlsh::Url.find(args.url_id)
-  puts "Url: #{url.url}"
-  puts "Previous title: #{url.title}"
-  url.title = URI(url.url).extend(Murlsh::UriAsk).title(:failproof => false)
-  url.save
+  use_db(config.fetch('db')) {
+    url = Murlsh::Url.find(args.url_id)
+    puts "Url: #{url.url}"
+    puts "Previous title: #{url.title}"
+    url.title = URI(url.url).extend(Murlsh::UriAsk).title(:failproof => false)
+    url.save
+  }
   puts "\nNew title: #{url.title}"
 end
 
@@ -299,39 +309,39 @@ namespace :thumb do
 
   desc 'Check that local thumbnails in database are consistent with filesystem.'
   task :check do
-    ActiveRecord::Base.establish_connection config.fetch('db')
     used_thumbnails = Set.new
-    Murlsh::Url.all(
-      :conditions => "thumbnail_url LIKE 'img/thumb/%'").each do |u|
-      identity = "url #{u.id} (#{u.url})"
+    use_db(config.fetch('db')) {
+      Murlsh::Url.all(
+        :conditions => "thumbnail_url LIKE 'img/thumb/%'").each do |u|
+        identity = "url #{u.id} (#{u.url})"
 
-      path = File.join(%w{public}.concat(File.split(u.thumbnail_url)))
-      used_thumbnails.add(path)
-      if File.readable?(path)
-        img_data = open(path) { |f| f.read }
+        path = File.join(%w{public}.concat(File.split(u.thumbnail_url)))
+        used_thumbnails.add(path)
+        if File.readable?(path)
+          img_data = open(path) { |f| f.read }
 
-        unless img_data.empty?
-          img = Magick::ImageList.new.from_blob(img_data).extend(
-            Murlsh::ImageList)
+          unless img_data.empty?
+            img = Magick::ImageList.new.from_blob(img_data).extend(
+              Murlsh::ImageList)
 
-          ext = File.extname(path)
-          expected_ext = img.preferred_extension
-          if ext != expected_ext
-            puts "#{identity} thumbnail #{path} has an extension of '#{ext}' but is actually a '#{expected_ext}'"
+            ext = File.extname(path)
+            expected_ext = img.preferred_extension
+            if ext != expected_ext
+              puts "#{identity} thumbnail #{path} has an extension of '#{ext}' but is actually a '#{expected_ext}'"
+            end
 
-          end
-
-          md5 = Digest::MD5.hexdigest(img_data)
-          if File.basename(path, ext) != md5
-            puts "#{identity} thumbnail #{path} filename does not match file content md5 (#{md5})"
+            md5 = Digest::MD5.hexdigest(img_data)
+            if File.basename(path, ext) != md5
+              puts "#{identity} thumbnail #{path} filename does not match file content md5 (#{md5})"
+            end
+          else
+            puts "#{identity} thumbnail #{path} is empty"
           end
         else
-          puts "#{identity} thumbnail #{path} is empty"
+          puts "#{identity} thumbnail #{path} does not exist or is not readable"
         end
-      else
-        puts "#{identity} thumbnail #{path} does not exist or is not readable"
       end
-    end
+    }
     # check if all thumbnail files that exist are in the database
     (Dir['public/img/thumb/*'] - used_thumbnails.to_a).each do |t|
       puts "thumbnail #{t} is not used"

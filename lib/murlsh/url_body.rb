@@ -54,7 +54,7 @@ module Murlsh
                   p.run mu, @req, @config
                 end
 
-                li {
+                li(:id => "liu#{mu.id}") {
                   unless mu.same_author?(last)
                     avatar_url = Murlsh::Plugin.hooks('avatar').inject(
                       nil) do |url_so_far,plugin|

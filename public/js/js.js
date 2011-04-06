@@ -201,6 +201,19 @@ var Murlsh = function ($, navigator, window, twtter) {
         return navigator.userAgent.match(/i(phone|pod)/i);
     };
 
+    my.liClick = function liClick(event) {
+        var target = $(event.target),
+            // target could be the li or any child of it, find self or parent
+            // li with id starting with liu
+            li = target.add(target.parents('li')).filter('[id^="liu"]').first(),
+            urlId = li.attr('id').substring(3);
+
+        if (!li.hasClass('selected')) {
+            $('li.selected').removeClass('selected');
+            li.addClass('selected');
+        }
+    };
+
     return my;
 };
 
@@ -228,7 +241,8 @@ $(function () {
         }, 'json');
     });
 
-    urls = $('a.m');
+    $('li').click(murlsh.liClick);
 
+    urls = $('a.m');
     urls.each(murlsh.addExtra);
 });

@@ -24,6 +24,15 @@ li {
   width : 100%;
 }
 
+li.selected {
+  background-color : #f9f9f9;
+  border-top : 1px solid #fcfcfc;
+  border-right : 1px solid #f3f3f3;
+  border-bottom : 1px solid #f3f3f3;
+  border-left : 1px solid #fcfcfc;
+  padding : 9px 19px 9px 9px;
+}
+
 div.icon {
   float : left;
   margin : 0 0.5em 0 0;
@@ -125,6 +134,13 @@ div.jGrowl div.jGrowl-closer {
   #urls>li {
     overflow : hidden;
     border-bottom : 1px solid #ccc;
+  }
+
+  #urls>li.selected {
+    border-top : 0;
+    border-right : 0;
+    border-left : 0;
+    padding : 10px 20px 10px 10px;
   }
 
   input#q {

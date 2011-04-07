@@ -179,8 +179,8 @@ task :title_fetch, :url_id do |t, args|
     puts "Previous title: #{url.title}"
     url.title = URI(url.url).extend(Murlsh::UriAsk).title(:failproof => false)
     url.save
+    puts "\nNew title: #{url.title}"
   }
-  puts "\nNew title: #{url.title}"
 end
 
 namespace :user do

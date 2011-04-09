@@ -38,6 +38,24 @@ var Murlsh = function ($, navigator, window, twtter) {
         return result;
     }
 
+    function bindKeyClick(input, key, clickTarget) {
+        input.keyup(function (event) {
+            if (event.keyCode == key) {
+                clickTarget.click();
+            }
+        });
+    }
+
+    function hoverAddClass(jQueryObject, klass) {
+        jQueryObject.hover(
+            function () {
+                $(this).addClass(klass);
+            },
+            function () {
+                $(this).removeClass(klass);
+            });
+    }
+
     function makeIframe(src, extraAttrs) {
         var allAttrs = {
             src: src,
@@ -206,11 +224,52 @@ var Murlsh = function ($, navigator, window, twtter) {
             // target could be the li or any child of it, find self or parent
             // li with id starting with liu
             li = target.add(target.parents('li')).filter('[id^="liu"]').first(),
-            urlId = li.attr('id').substring(3);
+            deleteButton;
 
         if (!li.hasClass('selected')) {
+            $('#deleteButton,#deletePassword').remove();
             $('li.selected').removeClass('selected');
             li.addClass('selected');
+
+            deleteButton = $('<span />').attr('id', 'deleteButton').text(
+                'Delete');
+            hoverAddClass(deleteButton, 'deleteButtonHover');
+
+            deleteButton.click(function (event) {
+                deleteButton.unbind('click');
+                var deletePassword = $('<input />').attr({
+                    id : 'deletePassword',
+                    size : 12,
+                    type : 'password'
+                });
+                $(event.target).before(deletePassword).before(' ');
+                deletePassword.focus();
+
+                deleteButton.click(function (event) {
+                    if (deletePassword.val()) {
+                        var urlId = li.attr('id').substring(3);
+
+                        $.ajax('url/' + urlId, {
+                            data : { auth : deletePassword.val() },
+                            type : 'DELETE',
+                            success : function () {
+                                li.remove();
+                            },
+                            error : function (jqXHR, textStatus, errorThrown) {
+                                var message = 'Delete failed';
+                                if (jqXHR.status === 403) {
+                                    message = 'Invalid password'; 
+                                }
+                                deletePassword.val('');
+                                $.jGrowl(message);
+                            }
+                        });
+                    }
+                });
+                bindKeyClick(deletePassword, 13, deleteButton);
+            });
+
+            li.append(' ').append(deleteButton);
         }
     };
 

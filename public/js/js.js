@@ -40,7 +40,7 @@ var Murlsh = function ($, navigator, window, twtter) {
 
     function bindKeyClick(input, key, clickTarget) {
         input.keyup(function (event) {
-            if (event.keyCode == key) {
+            if (event.keyCode === key) {
                 clickTarget.click();
             }
         });

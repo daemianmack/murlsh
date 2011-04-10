@@ -219,7 +219,7 @@ var Murlsh = function ($, navigator, window, twtter) {
         return navigator.userAgent.match(/i(phone|pod)/i);
     };
 
-    my.liClick = function liClick(event) {
+    my.liClick = function (event) {
         var target = $(event.target),
             // target could be the li or any child of it, find self or parent
             // li with id starting with liu

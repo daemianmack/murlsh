@@ -82,10 +82,15 @@ var Murlsh = function ($, navigator, window, twtter) {
             scale,
             width = e.width();
 
-        if (width > maxWidth || height > maxHeight) {
-            scale = Math.min(maxWidth / width, maxHeight / height);
-            e.width(Math.round(width * scale));
-            e.height(Math.round(height * scale));
+        // sometimes in Chrome this fires when height and width are still 0
+        if (height > 0 && width > 0) {
+            if (width > maxWidth || height > maxHeight) {
+                scale = Math.min(maxWidth / width, maxHeight / height);
+                e.width(Math.round(width * scale));
+                e.height(Math.round(height * scale));
+            }
+        } else {
+            setTimeout(function() { makeFit(e, maxWidth, maxHeight) }, 1000);
         }
     }
 

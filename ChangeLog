@@ -1,3 +1,18 @@
+1.8.0
+	2011-06-22
+
+	Update to jQuery 1.6.1.
+
+	Fix bug in Chrome with embedded images not resizing correctly.
+
+	Can now delete urls from the user interface by click on their list
+	item, clicking on Delete and then entering your password. Implemented
+	using new url delete API call using HTTP DELETE.
+
+	Get page titles from og:title if there is no title tag.
+
+	Release database connections in Rake tasks.
+
 1.7.1
 	2011-04-03
 
